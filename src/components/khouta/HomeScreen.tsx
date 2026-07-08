@@ -8,18 +8,48 @@ import { ReportsTab } from "./tabs/ReportsTab";
 import { NoorChat } from "./NoorChat";
 import { BankConnect } from "./BankConnect";
 import { InterceptModal } from "./InterceptModal";
+import {
+  TransferScreen,
+  PayBillsScreen,
+  QrPayScreen,
+  MoreServicesScreen,
+  StatementScreen,
+  GoalDetailScreen,
+  NewGoalScreen,
+  CalendarScreen,
+} from "./ActionScreens";
 
-type SubScreen = "none" | "noor" | "bank";
+type SubScreen =
+  | "none"
+  | "noor"
+  | "bank"
+  | "transfer"
+  | "pay"
+  | "qr"
+  | "more"
+  | "statement"
+  | "goal"
+  | "new-goal"
+  | "calendar";
 
 export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
   const [sub, setSub] = useState<SubScreen>("none");
   const [interceptOpen, setInterceptOpen] = useState(false);
 
-  // Sub-screens take over the entire phone body (nav hidden)
-  if (sub === "noor") return <NoorChat onBack={() => setSub("none")} />;
+  const close = () => setSub("none");
+
+  if (sub === "noor") return <NoorChat onBack={close} />;
   if (sub === "bank")
-    return <BankConnect onBack={() => setSub("none")} onConnected={() => setSub("none")} />;
+    return <BankConnect onBack={close} onConnected={close} />;
+  if (sub === "transfer") return <TransferScreen onBack={close} />;
+  if (sub === "pay") return <PayBillsScreen onBack={close} />;
+  if (sub === "qr") return <QrPayScreen onBack={close} />;
+  if (sub === "more") return <MoreServicesScreen onBack={close} />;
+  if (sub === "statement") return <StatementScreen onBack={close} />;
+  if (sub === "goal") return <GoalDetailScreen onBack={close} />;
+  if (sub === "new-goal") return <NewGoalScreen onBack={close} />;
+  if (sub === "calendar") return <CalendarScreen onBack={close} />;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden relative">
@@ -28,6 +58,17 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
           <HomeTab
             onOpenNoor={() => setSub("noor")}
             onOpenBank={() => setSub("bank")}
+            onOpenTransfer={() => setSub("transfer")}
+            onOpenPay={() => setSub("pay")}
+            onOpenQr={() => setSub("qr")}
+            onOpenMore={() => setSub("more")}
+            onOpenStatement={() => setSub("statement")}
+            onOpenGoal={() => setSub("goal")}
+            onOpenNewGoal={() => setSub("new-goal")}
+            onOpenCalendar={() => setSub("calendar")}
+            onOpenNotifications={() => setTab("notifications")}
+            onOpenReports={() => setTab("reports")}
+            onOpenRewards={() => setTab("rewards")}
             onSimulateIntercept={() => setInterceptOpen(true)}
           />
         )}
