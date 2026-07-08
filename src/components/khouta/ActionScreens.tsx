@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
   ChevronRight,
   ArrowLeftRight,
@@ -24,6 +24,9 @@ import {
   Calendar as CalIcon,
 } from "lucide-react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
+import { useSession } from "@/hooks/use-session";
+import { useGoals, type Goal } from "@/hooks/use-khouta-data";
 
 /* ---------- Shared Chrome ---------- */
 
