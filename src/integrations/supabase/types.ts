@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      intercept_events: {
+        Row: {
+          amount: number
+          created_at: string
+          decision: string
+          id: string
+          merchant: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          decision: string
+          id?: string
+          merchant: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          decision?: string
+          id?: string
+          merchant?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          commitment_score: number
+          created_at: string
+          full_name: string | null
+          id: string
+          linked_bank: string | null
+          monthly_income: number | null
+          updated_at: string
+        }
+        Insert: {
+          commitment_score?: number
+          created_at?: string
+          full_name?: string | null
+          id: string
+          linked_bank?: string | null
+          monthly_income?: number | null
+          updated_at?: string
+        }
+        Update: {
+          commitment_score?: number
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          linked_bank?: string | null
+          monthly_income?: number | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      savings_goals: {
+        Row: {
+          created_at: string
+          deadline: string | null
+          icon: string | null
+          id: string
+          saved_amount: number
+          target_amount: number
+          title: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          deadline?: string | null
+          icon?: string | null
+          id?: string
+          saved_amount?: number
+          target_amount: number
+          title: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          deadline?: string | null
+          icon?: string | null
+          id?: string
+          saved_amount?: number
+          target_amount?: number
+          title?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
