@@ -1,134 +1,189 @@
-import { Bell, User, ChevronLeft, Star, Check } from "lucide-react";
+import {
+  Bell,
+  ArrowLeftRight,
+  Receipt,
+  QrCode,
+  LayoutGrid,
+  ShoppingBag,
+  ArrowDownLeft,
+  ChevronLeft,
+} from "lucide-react";
 
 export function HomeTab() {
   return (
-    <div className="bg-card">
-      {/* Top bar */}
-      <div className="flex items-center justify-between px-5 pt-5">
-        <button className="relative h-11 w-11 rounded-full bg-accent flex items-center justify-center">
-          <Bell className="h-5 w-5 text-primary" />
-          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
-            3
-          </span>
-        </button>
-        <div className="text-center">
-          <h1 className="text-lg font-black text-foreground flex items-center gap-1.5 justify-center">
-            صباح الخير، سارة <span>👋</span>
-          </h1>
-          <p className="text-xs text-muted-foreground mt-0.5">كل خطوة ذكية تقربك من هدفك</p>
+    <div className="bg-background">
+      {/* Header */}
+      <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card">
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-black text-lg shadow-sm">
+              س
+            </div>
+            <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-mint border-2 border-card rounded-full" />
+          </div>
+          <div>
+            <p className="text-muted-foreground text-xs font-medium">صباح الخير،</p>
+            <h2 className="text-foreground font-black text-base leading-none mt-1">
+              سارة أحمد
+            </h2>
+          </div>
         </div>
-        <button className="h-11 w-11 rounded-full bg-accent flex items-center justify-center">
-          <User className="h-5 w-5 text-primary" />
+        <button className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative">
+          <Bell className="w-5 h-5" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-card" />
         </button>
       </div>
 
-      <div className="px-5 pb-4 space-y-4 mt-5">
-        {/* Goal card */}
+      {/* Wallet Card */}
+      <div className="px-5 pt-3 bg-card">
         <div
-          className="rounded-3xl p-5 text-primary-foreground shadow-xl"
+          className="w-full rounded-[28px] p-5 text-primary-foreground relative overflow-hidden shadow-xl"
           style={{
-            background: "linear-gradient(160deg, oklch(0.28 0.05 155), oklch(0.18 0.04 155))",
+            background:
+              "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.15 0.04 155) 100%)",
+            boxShadow: "0 20px 40px -20px oklch(0.28 0.05 155 / 0.5)",
           }}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-mint text-xs font-bold flex items-center gap-1">
-              🎯 هدفك الحالي
-            </span>
-            <span className="text-[11px] opacity-70">موعد الإنجاز: ديسمبر 2026</span>
-          </div>
-          <div className="flex items-center gap-3 mt-4">
-            <div className="h-16 w-16 rounded-2xl bg-white/10 flex items-center justify-center text-3xl shrink-0">
-              🚗
-            </div>
-            <div className="flex-1 text-right">
-              <h2 className="text-2xl font-black">شراء سيارة 🚗</h2>
-              <div className="mt-2 flex gap-1 justify-end" dir="ltr">
-                {Array.from({ length: 15 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className={`h-1.5 flex-1 rounded-full ${
-                      i < 10 ? "bg-mint" : "bg-white/20"
-                    }`}
-                  />
-                ))}
-              </div>
-              <p className="text-xs font-bold text-mint mt-2">68% من الهدف</p>
-            </div>
-          </div>
-          <div className="border-t border-white/10 mt-4 pt-4 grid grid-cols-2 divide-x divide-white/15 divide-x-reverse">
-            <div className="text-center">
-              <p className="text-[11px] opacity-70">يتبقى</p>
-              <p className="font-black mt-1">8,000 <span className="text-xs">ر.س</span></p>
-            </div>
-            <div className="text-center">
-              <p className="text-[11px] opacity-70">الهدف الكلي</p>
-              <p className="font-black mt-1">25,000 <span className="text-xs">ر.س</span></p>
-            </div>
-          </div>
-          <button className="mt-4 w-full rounded-2xl border border-white/20 py-3 text-sm font-bold flex items-center justify-center gap-1">
-            عرض التفاصيل <ChevronLeft className="h-4 w-4" />
-          </button>
-        </div>
+          <div className="absolute -top-12 -right-12 w-48 h-48 bg-mint/15 rounded-full blur-3xl" />
+          <div className="absolute -bottom-16 -left-10 w-40 h-40 bg-white/5 rounded-full blur-2xl" />
 
-        {/* Features grid */}
-        <div className="grid grid-cols-2 gap-3">
-          <FeatureCard icon="📅" title="التقويم المالي" desc="مناسبة بعد 5 أيام" bg="oklch(0.9 0.05 250)" />
-          <FeatureCard icon="🤖" title="المستشار المالي" desc="اسألني أي شيء" bg="oklch(0.9 0.05 320)" />
-          <FeatureCard icon="📊" title="التقارير" desc="أداء هذا الشهر" bg="oklch(0.9 0.05 155)" />
-          <FeatureCard icon="🎁" title="المكافآت" desc="كوبون جديد بانتظارك" bg="oklch(0.92 0.08 85)" />
-        </div>
-
-        {/* Today summary */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div className="h-10 w-10 rounded-full bg-accent flex items-center justify-center text-lg">
-              💼
+          <div className="relative flex justify-between items-start mb-6">
+            <div>
+              <p className="text-white/60 text-xs font-medium">الرصيد المتاح</p>
+              <h3 className="text-[2rem] font-black mt-1 tracking-tight leading-none">
+                12,450<span className="text-lg font-bold text-white/70">.00</span>
+                <span className="text-sm font-medium mr-2 text-white/70">ر.س</span>
+              </h3>
             </div>
-            <h3 className="text-lg font-black text-foreground">ملخص اليوم</h3>
+            <div className="text-left">
+              <p className="text-[9px] font-bold tracking-widest text-white/50 uppercase">
+                mada
+              </p>
+              <p className="text-mint text-xs font-black mt-0.5">خُطى</p>
+            </div>
           </div>
-          <div className="grid grid-cols-3 mt-4 text-center">
-            <SummaryStat value="10" label="المتبقي" color="text-mint" />
-            <SummaryStat value="35" label="تم إنفاقه" color="text-destructive" />
-            <SummaryStat value="45" label="المسموح" color="text-foreground" />
-          </div>
-          <div className="mt-3 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
-            <div className="h-full bg-mint" style={{ width: "78%" }} />
-          </div>
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-sm font-bold text-mint">
-            <Check className="h-4 w-4" strokeWidth={3} /> أنت ضمن ميزانيتك اليومية
-          </p>
-        </div>
 
-        {/* Latest alerts */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
-          <div className="flex items-center justify-between mb-3">
-            <button className="text-mint text-xs font-bold flex items-center gap-1">
-              عرض الكل <ChevronLeft className="h-3 w-3" />
+          <div className="relative flex justify-between items-center">
+            <div>
+              <p className="text-[9px] text-white/40 uppercase tracking-widest">
+                الحساب الجاري
+              </p>
+              <p className="text-sm font-bold mt-0.5" dir="ltr">
+                •••• 9284
+              </p>
+            </div>
+            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-bold transition border border-white/15">
+              كشف الحساب
             </button>
-            <h3 className="text-base font-black text-foreground flex items-center gap-1.5">
-              آخر التنبيهات <span>🔔</span>
-            </h3>
           </div>
-          <div className="space-y-3">
-            <AlertRow color="bg-destructive" text="اقتربتِ من ميزانية المطاعم هذا الأسبوع." time="منذ 20 دقيقة" />
-            <AlertRow color="bg-mint" text="وفرت 120 ريال هذا الأسبوع! استمري ♥" time="منذ 3 ساعات" />
-            <AlertRow color="bg-blue-500" text="غداً ينزل الراتب. خطتك جاهزة." time="منذ 5 ساعات" />
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="px-5 py-6 grid grid-cols-4 gap-2 bg-card">
+        <QuickAction
+          icon={<ArrowLeftRight className="w-5 h-5" />}
+          label="تحويل"
+          tint="bg-mint/15 text-primary"
+        />
+        <QuickAction
+          icon={<Receipt className="w-5 h-5" />}
+          label="سداد"
+          tint="bg-blue-50 text-blue-700"
+        />
+        <QuickAction
+          icon={<QrCode className="w-5 h-5" />}
+          label="باركود"
+          tint="bg-amber-50 text-amber-700"
+        />
+        <QuickAction
+          icon={<LayoutGrid className="w-5 h-5" />}
+          label="المزيد"
+          tint="bg-secondary text-muted-foreground"
+        />
+      </div>
+
+      {/* Body */}
+      <div className="px-5 pb-6 pt-1 space-y-5 bg-background">
+        {/* Goal Card */}
+        <div className="bg-card rounded-[24px] p-4 border border-border">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="text-sm font-black text-foreground">أهداف الادخار</h4>
+            <button className="text-primary text-[10px] font-bold px-2.5 py-1 bg-accent rounded-lg">
+              إضافة هدف
+            </button>
+          </div>
+          <div className="flex items-center gap-4">
+            <ProgressRing percent={68} />
+            <div className="flex-1 text-right">
+              <p className="text-sm font-bold text-foreground">
+                توفير لشراء سيارة 🚗
+              </p>
+              <p className="text-[11px] text-muted-foreground mt-0.5">
+                متبقي 8,000 ر.س من إجمالي 25,000 ر.س
+              </p>
+            </div>
           </div>
         </div>
 
-        {/* Commitment bar */}
-        <div className="rounded-3xl bg-card border border-border p-4 shadow-sm flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-gold/20 flex items-center justify-center">
-            <Star className="h-5 w-5 text-gold fill-gold" />
+        {/* Today Budget */}
+        <div className="bg-card rounded-[24px] p-4 border border-border">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-[11px] font-bold text-mint bg-mint/10 px-2 py-1 rounded-lg">
+              ضمن الميزانية
+            </span>
+            <h4 className="text-sm font-black text-foreground">ميزانية اليوم</h4>
           </div>
-          <div className="flex-1">
-            <div className="flex justify-between items-center mb-1.5">
-              <span className="text-xs font-bold text-foreground">أنتِ ملتزمة بالخطة</span>
-              <span className="text-xs font-black text-mint">84%</span>
+          <div className="flex items-baseline justify-between mb-2">
+            <span className="text-xs text-muted-foreground">
+              المتبقي <span className="text-mint font-bold">10 ر.س</span>
+            </span>
+            <div className="text-right">
+              <span className="text-2xl font-black text-foreground">35</span>
+              <span className="text-xs text-muted-foreground"> / 45 ر.س</span>
             </div>
-            <div className="h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
-              <div className="h-full bg-mint rounded-full" style={{ width: "84%" }} />
-            </div>
+          </div>
+          <div className="h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
+            <div
+              className="h-full rounded-full bg-gradient-to-l from-mint to-primary"
+              style={{ width: "78%" }}
+            />
+          </div>
+        </div>
+
+        {/* Recent Activity */}
+        <div>
+          <div className="flex justify-between items-center mb-3">
+            <button className="text-primary text-xs font-bold flex items-center gap-0.5">
+              الكل <ChevronLeft className="w-3 h-3" />
+            </button>
+            <h4 className="text-sm font-black text-foreground">العمليات الأخيرة</h4>
+          </div>
+          <div className="bg-card rounded-[24px] border border-border divide-y divide-border">
+            <TransactionRow
+              icon={<ShoppingBag className="w-5 h-5" />}
+              iconBg="bg-secondary text-muted-foreground"
+              title="سوبر ماركت لولو"
+              time="اليوم، 09:24 ص"
+              amount="-124.50"
+              positive={false}
+            />
+            <TransactionRow
+              icon={<ArrowDownLeft className="w-5 h-5" />}
+              iconBg="bg-mint/15 text-primary"
+              title="تحويل من خالد فهد"
+              time="أمس، 02:15 م"
+              amount="+500.00"
+              positive={true}
+            />
+            <TransactionRow
+              icon={<Receipt className="w-5 h-5" />}
+              iconBg="bg-blue-50 text-blue-700"
+              title="فاتورة الكهرباء"
+              time="أمس، 10:02 ص"
+              amount="-182.00"
+              positive={false}
+            />
           </div>
         </div>
       </div>
@@ -136,40 +191,97 @@ export function HomeTab() {
   );
 }
 
-function FeatureCard({ icon, title, desc, bg }: { icon: string; title: string; desc: string; bg: string }) {
+function QuickAction({
+  icon,
+  label,
+  tint,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  tint: string;
+}) {
   return (
-    <button className="rounded-3xl bg-card border border-border p-4 text-right shadow-sm relative overflow-hidden">
+    <button className="flex flex-col items-center gap-2 active:scale-95 transition">
       <div
-        className="h-11 w-11 rounded-full flex items-center justify-center text-xl mb-3 mr-auto"
-        style={{ backgroundColor: bg }}
+        className={`w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm ${tint}`}
       >
         {icon}
       </div>
-      <h4 className="font-black text-foreground text-sm">{title}</h4>
-      <p className="text-[11px] text-muted-foreground mt-0.5">{desc}</p>
-      <ChevronLeft className="h-3 w-3 text-muted-foreground absolute bottom-3 left-3" />
+      <span className="text-[11px] font-bold text-foreground">{label}</span>
     </button>
   );
 }
 
-function SummaryStat({ value, label, color }: { value: string; label: string; color: string }) {
+function ProgressRing({ percent }: { percent: number }) {
+  const r = 22;
+  const c = 2 * Math.PI * r;
+  const off = c - (percent / 100) * c;
   return (
-    <div>
-      <p className={`text-3xl font-black ${color}`}>{value}</p>
-      <p className="text-[10px] text-muted-foreground mt-0.5">ريال</p>
-      <p className="text-[10px] text-muted-foreground">{label}</p>
+    <div className="relative w-14 h-14 shrink-0">
+      <svg className="w-14 h-14 -rotate-90" viewBox="0 0 56 56">
+        <circle
+          cx="28"
+          cy="28"
+          r={r}
+          fill="none"
+          stroke="oklch(0.93 0.015 150)"
+          strokeWidth="5"
+        />
+        <circle
+          cx="28"
+          cy="28"
+          r={r}
+          fill="none"
+          stroke="oklch(0.28 0.05 155)"
+          strokeWidth="5"
+          strokeLinecap="round"
+          strokeDasharray={c}
+          strokeDashoffset={off}
+        />
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-[11px] font-black text-primary">
+        {percent}%
+      </span>
     </div>
   );
 }
 
-function AlertRow({ color, text, time }: { color: string; text: string; time: string }) {
+function TransactionRow({
+  icon,
+  iconBg,
+  title,
+  time,
+  amount,
+  positive,
+}: {
+  icon: React.ReactNode;
+  iconBg: string;
+  title: string;
+  time: string;
+  amount: string;
+  positive: boolean;
+}) {
   return (
-    <div className="flex items-start gap-3">
-      <div className={`h-2.5 w-2.5 rounded-full mt-1.5 ${color} shrink-0`} />
-      <div className="flex-1 text-right">
-        <p className="text-sm text-foreground">{text}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5">{time}</p>
+    <div className="flex justify-between items-center p-3.5">
+      <div className="flex items-center gap-3">
+        <div
+          className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg}`}
+        >
+          {icon}
+        </div>
+        <div className="text-right">
+          <p className="text-xs font-bold text-foreground">{title}</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5">{time}</p>
+        </div>
       </div>
+      <span
+        className={`text-sm font-black ${
+          positive ? "text-mint" : "text-foreground"
+        }`}
+        dir="ltr"
+      >
+        {amount}
+      </span>
     </div>
   );
 }
