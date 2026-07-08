@@ -1,21 +1,23 @@
-import { KhoutaLogo } from "./Logo";
+import { useState } from "react";
+import { BottomNav, type Tab } from "./BottomNav";
+import { HomeTab } from "./tabs/HomeTab";
+import { RewardsTab } from "./tabs/RewardsTab";
+import { ProfileTab } from "./tabs/ProfileTab";
+import { NotificationsTab } from "./tabs/NotificationsTab";
+import { ReportsTab } from "./tabs/ReportsTab";
 
-export function HomeScreen({ onReset }: { onReset: () => void }) {
+export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
+  const [tab, setTab] = useState<Tab>("home");
   return (
-    <div className="bg-card p-6 text-center">
-      <div className="flex justify-center mb-4">
-        <KhoutaLogo size={80} />
+    <div className="bg-card min-h-[700px] flex flex-col">
+      <div className="flex-1">
+        {tab === "home" && <HomeTab />}
+        {tab === "rewards" && <RewardsTab />}
+        {tab === "profile" && <ProfileTab />}
+        {tab === "notifications" && <NotificationsTab />}
+        {tab === "reports" && <ReportsTab />}
       </div>
-      <h1 className="text-2xl font-black text-foreground">مرحباً بك في خُطى!</h1>
-      <p className="text-sm text-muted-foreground mt-2">
-        الشاشة الرئيسية قيد الإعداد — أرسل الصور التالية لإكمالها.
-      </p>
-      <button
-        onClick={onReset}
-        className="mt-6 rounded-2xl bg-primary text-primary-foreground font-bold px-6 py-3"
-      >
-        إعادة تشغيل الرحلة
-      </button>
+      <BottomNav active={tab} onChange={setTab} />
     </div>
   );
 }
