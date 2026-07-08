@@ -1,4 +1,8 @@
 import { User, Camera, Edit, Star, Bell, Globe, Lock, DollarSign, Sun, HelpCircle, Info, Share2, ShieldCheck, LogOut, ChevronLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { useSession } from "@/hooks/use-session";
+import { toast } from "sonner";
 
 const SETTINGS = [
   { icon: Globe, label: "اللغة", value: "العربية", bg: "bg-blue-100" },
