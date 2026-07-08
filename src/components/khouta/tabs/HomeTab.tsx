@@ -51,6 +51,13 @@ export function HomeTab({
   onOpenRewards: () => void;
   onSimulateIntercept: () => void;
 }) {
+  const profile = useProfile();
+  const { goals } = useGoals();
+  const displayName = profile?.full_name?.trim() || "بكِ";
+  const firstName = displayName.split(" ")[0];
+  const initial = firstName.charAt(0) || "خ";
+  const topGoal = goals[0];
+
   return (
     <div className="bg-background pb-4">
       {/* Header */}
@@ -58,14 +65,14 @@ export function HomeTab({
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold text-base shadow-sm">
-              س
+              {initial}
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-mint border-2 border-card rounded-full" />
           </div>
           <div>
-            <p className="text-muted-foreground text-xs">صباح الخير،</p>
+            <p className="text-muted-foreground text-xs">أهلاً،</p>
             <h2 className="text-foreground font-bold text-base leading-tight">
-              سارة أحمد
+              {displayName}
             </h2>
           </div>
         </div>
