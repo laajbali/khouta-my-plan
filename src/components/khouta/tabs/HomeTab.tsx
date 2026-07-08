@@ -14,15 +14,39 @@ import {
   Car,
   Building2,
   ShieldAlert,
+  Plus,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export function HomeTab({
   onOpenNoor,
   onOpenBank,
+  onOpenTransfer,
+  onOpenPay,
+  onOpenQr,
+  onOpenMore,
+  onOpenStatement,
+  onOpenGoal,
+  onOpenNewGoal,
+  onOpenCalendar,
+  onOpenNotifications,
+  onOpenReports,
+  onOpenRewards,
   onSimulateIntercept,
 }: {
   onOpenNoor: () => void;
   onOpenBank: () => void;
+  onOpenTransfer: () => void;
+  onOpenPay: () => void;
+  onOpenQr: () => void;
+  onOpenMore: () => void;
+  onOpenStatement: () => void;
+  onOpenGoal: () => void;
+  onOpenNewGoal: () => void;
+  onOpenCalendar: () => void;
+  onOpenNotifications: () => void;
+  onOpenReports: () => void;
+  onOpenRewards: () => void;
   onSimulateIntercept: () => void;
 }) {
   return (
@@ -43,7 +67,11 @@ export function HomeTab({
             </h2>
           </div>
         </div>
-        <button className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative">
+        <button
+          onClick={onOpenNotifications}
+          className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative"
+          aria-label="التنبيهات"
+        >
           <Bell className="w-5 h-5" strokeWidth={1.8} />
           <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-card" />
         </button>
@@ -51,8 +79,9 @@ export function HomeTab({
 
       {/* Wallet Card */}
       <div className="px-5 pt-3 bg-card">
-        <div
-          className="w-full rounded-[24px] p-5 text-primary-foreground relative overflow-hidden"
+        <button
+          onClick={onOpenStatement}
+          className="w-full text-right rounded-[24px] p-5 text-primary-foreground relative overflow-hidden active:scale-[0.99] transition"
           style={{
             background:
               "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.15 0.04 155) 100%)",
@@ -85,19 +114,19 @@ export function HomeTab({
                 •••• 9284
               </p>
             </div>
-            <button className="bg-white/10 hover:bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-semibold transition border border-white/15">
+            <span className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-semibold border border-white/15">
               كشف الحساب
-            </button>
+            </span>
           </div>
-        </div>
+        </button>
       </div>
 
       {/* Quick Actions */}
       <div className="px-5 py-6 grid grid-cols-4 gap-2 bg-card">
-        <QuickAction icon={<ArrowLeftRight strokeWidth={1.7} className="w-5 h-5" />} label="تحويل" tint="bg-mint/15 text-primary" />
-        <QuickAction icon={<Receipt strokeWidth={1.7} className="w-5 h-5" />} label="سداد" tint="bg-blue-50 text-blue-700" />
-        <QuickAction icon={<QrCode strokeWidth={1.7} className="w-5 h-5" />} label="باركود" tint="bg-amber-50 text-amber-700" />
-        <QuickAction icon={<LayoutGrid strokeWidth={1.7} className="w-5 h-5" />} label="المزيد" tint="bg-secondary text-muted-foreground" />
+        <QuickAction onClick={onOpenTransfer} icon={<ArrowLeftRight strokeWidth={1.7} className="w-5 h-5" />} label="تحويل" tint="bg-mint/15 text-primary" />
+        <QuickAction onClick={onOpenPay} icon={<Receipt strokeWidth={1.7} className="w-5 h-5" />} label="سداد" tint="bg-blue-50 text-blue-700" />
+        <QuickAction onClick={onOpenQr} icon={<QrCode strokeWidth={1.7} className="w-5 h-5" />} label="باركود" tint="bg-amber-50 text-amber-700" />
+        <QuickAction onClick={onOpenMore} icon={<LayoutGrid strokeWidth={1.7} className="w-5 h-5" />} label="المزيد" tint="bg-secondary text-muted-foreground" />
       </div>
 
       {/* Body */}
@@ -133,30 +162,39 @@ export function HomeTab({
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
             tint="bg-blue-50 text-blue-700"
+            onClick={onOpenCalendar}
           />
           <FeatureCard
             icon={<BarChart3 className="h-5 w-5" strokeWidth={1.8} />}
             title="التقارير"
             desc="أداء هذا الشهر"
             tint="bg-mint/15 text-primary"
+            onClick={onOpenReports}
           />
           <FeatureCard
             icon={<Gift className="h-5 w-5" strokeWidth={1.8} />}
             title="المكافآت"
             desc="كوبون جديد بانتظارك"
             tint="bg-amber-50 text-amber-700"
+            onClick={onOpenRewards}
           />
         </div>
 
         {/* Goal Card */}
         <div className="bg-card rounded-[24px] p-4 border border-border">
           <div className="flex justify-between items-center mb-4">
-            <button className="text-primary text-[11px] font-semibold px-2.5 py-1 bg-accent rounded-lg">
+            <button
+              onClick={onOpenGoal}
+              className="text-primary text-[11px] font-semibold px-2.5 py-1 bg-accent rounded-lg"
+            >
               التفاصيل
             </button>
             <h4 className="text-sm font-bold text-foreground">هدف الادخار</h4>
           </div>
-          <div className="flex items-center gap-4">
+          <button
+            onClick={onOpenGoal}
+            className="w-full flex items-center gap-4 text-right"
+          >
             <ProgressRing percent={68} />
             <div className="flex-1 text-right">
               <div className="flex items-center gap-1.5 justify-end">
@@ -170,11 +208,20 @@ export function HomeTab({
                 متبقٍ 8,000 ر.س من إجمالي 25,000 ر.س
               </p>
             </div>
-          </div>
+          </button>
+          <button
+            onClick={onOpenNewGoal}
+            className="mt-3 w-full py-2 rounded-xl border border-dashed border-border text-xs font-semibold text-muted-foreground flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"
+          >
+            <Plus className="h-3.5 w-3.5" /> إضافة هدف جديد
+          </button>
         </div>
 
         {/* Today Budget */}
-        <div className="bg-card rounded-[24px] p-4 border border-border">
+        <button
+          onClick={() => toast("ميزانية اليوم — 10 ر.س متبقية")}
+          className="w-full text-right bg-card rounded-[24px] p-4 border border-border active:scale-[0.99] transition"
+        >
           <div className="flex items-center justify-between mb-3">
             <span className="text-[11px] font-semibold text-mint bg-mint/10 px-2 py-1 rounded-lg">
               ضمن الميزانية
@@ -196,7 +243,7 @@ export function HomeTab({
               style={{ width: "78%" }}
             />
           </div>
-        </div>
+        </button>
 
         {/* Shein simulator */}
         <button
@@ -215,13 +262,17 @@ export function HomeTab({
         {/* Recent Activity */}
         <div>
           <div className="flex justify-between items-center mb-3">
-            <button className="text-primary text-xs font-semibold flex items-center gap-0.5">
+            <button
+              onClick={onOpenStatement}
+              className="text-primary text-xs font-semibold flex items-center gap-0.5"
+            >
               الكل <ChevronLeft className="w-3 h-3" />
             </button>
             <h4 className="text-sm font-bold text-foreground">العمليات الأخيرة</h4>
           </div>
           <div className="bg-card rounded-[24px] border border-border divide-y divide-border">
             <TransactionRow
+              onClick={onOpenStatement}
               icon={<ShoppingBag className="w-5 h-5" strokeWidth={1.7} />}
               iconBg="bg-secondary text-muted-foreground"
               title="سوبر ماركت لولو"
@@ -230,6 +281,7 @@ export function HomeTab({
               positive={false}
             />
             <TransactionRow
+              onClick={onOpenStatement}
               icon={<ArrowDownLeft className="w-5 h-5" strokeWidth={1.7} />}
               iconBg="bg-mint/15 text-primary"
               title="تحويل من خالد فهد"
@@ -238,6 +290,7 @@ export function HomeTab({
               positive={true}
             />
             <TransactionRow
+              onClick={onOpenStatement}
               icon={<Receipt className="w-5 h-5" strokeWidth={1.7} />}
               iconBg="bg-blue-50 text-blue-700"
               title="فاتورة الكهرباء"
@@ -256,13 +309,18 @@ function QuickAction({
   icon,
   label,
   tint,
+  onClick,
 }: {
   icon: React.ReactNode;
   label: string;
   tint: string;
+  onClick?: () => void;
 }) {
   return (
-    <button className="flex flex-col items-center gap-2 active:scale-95 transition">
+    <button
+      onClick={onClick}
+      className="flex flex-col items-center gap-2 active:scale-95 transition"
+    >
       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center ${tint}`}>
         {icon}
       </div>
@@ -336,6 +394,7 @@ function TransactionRow({
   time,
   amount,
   positive,
+  onClick,
 }: {
   icon: React.ReactNode;
   iconBg: string;
@@ -343,9 +402,13 @@ function TransactionRow({
   time: string;
   amount: string;
   positive: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <div className="flex justify-between items-center p-3.5">
+    <button
+      onClick={onClick}
+      className="w-full flex justify-between items-center p-3.5 text-right hover:bg-secondary/40 transition"
+    >
       <div className="flex items-center gap-3">
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg}`}>
           {icon}
@@ -362,6 +425,6 @@ function TransactionRow({
       >
         {amount}
       </span>
-    </div>
+    </button>
   );
 }
