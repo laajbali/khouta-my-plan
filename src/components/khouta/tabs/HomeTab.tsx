@@ -17,6 +17,8 @@ import {
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+
 
 export function HomeTab({
   onOpenNoor,
@@ -49,6 +51,13 @@ export function HomeTab({
   onOpenRewards: () => void;
   onSimulateIntercept: () => void;
 }) {
+  const profile = useProfile();
+  const { goals } = useGoals();
+  const displayName = profile?.full_name?.trim() || "بكِ";
+  const firstName = displayName.split(" ")[0];
+  const initial = firstName.charAt(0) || "خ";
+  const topGoal = goals[0];
+
   return (
     <div className="bg-background pb-4">
       {/* Header */}
@@ -56,14 +65,14 @@ export function HomeTab({
         <div className="flex items-center gap-3">
           <div className="relative">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold text-base shadow-sm">
-              س
+              {initial}
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-mint border-2 border-card rounded-full" />
           </div>
           <div>
-            <p className="text-muted-foreground text-xs">صباح الخير،</p>
+            <p className="text-muted-foreground text-xs">أهلاً،</p>
             <h2 className="text-foreground font-bold text-base leading-tight">
-              سارة أحمد
+              {displayName}
             </h2>
           </div>
         </div>
@@ -183,32 +192,52 @@ export function HomeTab({
         {/* Goal Card */}
         <div className="bg-card rounded-[24px] p-4 border border-border">
           <div className="flex justify-between items-center mb-4">
-            <button
-              onClick={onOpenGoal}
-              className="text-primary text-[11px] font-semibold px-2.5 py-1 bg-accent rounded-lg"
-            >
-              التفاصيل
-            </button>
+            {topGoal && (
+              <button
+                onClick={onOpenGoal}
+                className="text-primary text-[11px] font-semibold px-2.5 py-1 bg-accent rounded-lg"
+              >
+                التفاصيل
+              </button>
+            )}
             <h4 className="text-sm font-bold text-foreground">هدف الادخار</h4>
           </div>
-          <button
-            onClick={onOpenGoal}
-            className="w-full flex items-center gap-4 text-right"
-          >
-            <ProgressRing percent={68} />
-            <div className="flex-1 text-right">
-              <div className="flex items-center gap-1.5 justify-end">
-                <p className="text-sm font-bold text-foreground">شراء سيارة</p>
-                <Car className="h-4 w-4 text-primary" strokeWidth={1.8} />
+          {topGoal ? (
+            <button
+              onClick={onOpenGoal}
+              className="w-full flex items-center gap-4 text-right"
+            >
+              <ProgressRing
+                percent={Math.min(
+                  100,
+                  Math.round(
+                    (Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100,
+                  ),
+                )}
+              />
+              <div className="flex-1 text-right">
+                <div className="flex items-center gap-1.5 justify-end">
+                  <p className="text-sm font-bold text-foreground">{topGoal.title}</p>
+                  <Car className="h-4 w-4 text-primary" strokeWidth={1.8} />
+                </div>
+                <p
+                  className="text-[11px] text-muted-foreground mt-0.5"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  متبقٍ{" "}
+                  {Math.max(
+                    0,
+                    Number(topGoal.target_amount) - Number(topGoal.saved_amount),
+                  ).toLocaleString()}{" "}
+                  ر.س من إجمالي {Number(topGoal.target_amount).toLocaleString()} ر.س
+                </p>
               </div>
-              <p
-                className="text-[11px] text-muted-foreground mt-0.5"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                متبقٍ 8,000 ر.س من إجمالي 25,000 ر.س
-              </p>
-            </div>
-          </button>
+            </button>
+          ) : (
+            <p className="text-xs text-muted-foreground text-right py-2">
+              لا يوجد هدف بعد — ابدئي بإنشاء أول هدف لك
+            </p>
+          )}
           <button
             onClick={onOpenNewGoal}
             className="mt-3 w-full py-2 rounded-xl border border-dashed border-border text-xs font-semibold text-muted-foreground flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"

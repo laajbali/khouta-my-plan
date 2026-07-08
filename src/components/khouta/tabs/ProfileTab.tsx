@@ -1,4 +1,8 @@
 import { User, Camera, Edit, Star, Bell, Globe, Lock, DollarSign, Sun, HelpCircle, Info, Share2, ShieldCheck, LogOut, ChevronLeft } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { useSession } from "@/hooks/use-session";
+import { toast } from "sonner";
 
 const SETTINGS = [
   { icon: Globe, label: "اللغة", value: "العربية", bg: "bg-blue-100" },
@@ -12,6 +16,18 @@ const SETTINGS = [
 ];
 
 export function ProfileTab() {
+  const profile = useProfile();
+  const { user } = useSession();
+  const { goals } = useGoals();
+  const topGoal = goals[0];
+  const displayName = profile?.full_name?.trim() || user?.email?.split("@")[0] || "مستخدم خُطى";
+  const commitment = profile?.commitment_score ?? 0;
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    toast.success("تم تسجيل الخروج");
+  }
+
   return (
     <div className="bg-card">
       <div className="flex items-center justify-between px-5 pt-5">
@@ -38,18 +54,18 @@ export function ProfileTab() {
             <div className="flex-1 text-right">
               <div className="flex items-center gap-2 justify-end">
                 <Edit className="h-4 w-4 text-primary" />
-                <h2 className="text-xl font-black text-foreground">سارة محمد</h2>
+                <h2 className="text-xl font-black text-foreground">{displayName}</h2>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">🌱 مستقبلك المالي بين يديك</p>
+              <p className="text-xs text-muted-foreground mt-1">{user?.email ?? "🌱 مستقبلك المالي بين يديك"}</p>
               <div className="mt-3 rounded-2xl bg-accent/50 p-3">
                 <p className="text-[10px] text-muted-foreground text-right">مستوى الالتزام</p>
-                <p className="text-2xl font-black text-foreground text-right">84%</p>
+                <p className="text-2xl font-black text-foreground text-right" style={{ fontVariantNumeric: "tabular-nums" }}>{commitment}%</p>
                 <div className="flex items-center gap-1 justify-end mt-1">
                   <Star className="h-3.5 w-3.5 text-gold fill-gold" />
-                  <span className="text-xs font-bold text-gold">ممتاز</span>
+                  <span className="text-xs font-bold text-gold">{commitment >= 70 ? "ممتاز" : commitment >= 40 ? "جيد" : "ابدئي رحلتك"}</span>
                 </div>
                 <div className="mt-2 h-1.5 bg-white rounded-full overflow-hidden" dir="ltr">
-                  <div className="h-full bg-mint rounded-full" style={{ width: "84%" }} />
+                  <div className="h-full bg-mint rounded-full" style={{ width: `${commitment}%` }} />
                 </div>
               </div>
             </div>
@@ -57,32 +73,39 @@ export function ProfileTab() {
         </div>
 
         {/* Current plan */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
-          <h3 className="text-right font-black text-foreground text-lg mb-3">الخطة الحالية</h3>
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-2xl bg-accent flex items-center justify-center text-2xl">
-              🚗
-            </div>
-            <div className="flex-1 flex justify-between items-center">
-              <div>
-                <p className="text-xs text-muted-foreground">الهدف</p>
-                <p className="font-black text-foreground">شراء سيارة</p>
+        {topGoal ? (
+          <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+            <h3 className="text-right font-black text-foreground text-lg mb-3">الخطة الحالية</h3>
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-2xl bg-accent flex items-center justify-center">
+                <Star className="h-5 w-5 text-primary" />
               </div>
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground">المبلغ المستهدف</p>
-                <p className="font-black text-foreground">25,000 <span className="text-xs">ريال</span></p>
-                <p className="text-[10px] text-muted-foreground">المتبقي 8,000 ريال</p>
+              <div className="flex-1 flex justify-between items-center">
+                <div>
+                  <p className="text-xs text-muted-foreground">الهدف</p>
+                  <p className="font-black text-foreground">{topGoal.title}</p>
+                </div>
+                <div className="text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <p className="text-xs text-muted-foreground">المستهدف</p>
+                  <p className="font-black text-foreground">
+                    {Number(topGoal.target_amount).toLocaleString()} <span className="text-xs">ريال</span>
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                    المتبقي {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ريال
+                  </p>
+                </div>
               </div>
             </div>
+            <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
+              <div
+                className="h-full bg-mint rounded-full"
+                style={{
+                  width: `${Math.min(100, Math.round((Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100))}%`,
+                }}
+              />
+            </div>
           </div>
-          <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
-            <div className="h-full bg-mint rounded-full" style={{ width: "68%" }} />
-          </div>
-          <div className="flex justify-between text-xs mt-2">
-            <span className="text-mint font-bold">68% منجز</span>
-            <span className="text-muted-foreground">ينتهي ديسمبر 2026</span>
-          </div>
-        </div>
+        ) : null}
 
         <h3 className="text-right font-black text-foreground text-lg mt-2">الإعدادات والتفضيلات</h3>
 
@@ -114,7 +137,10 @@ export function ProfileTab() {
           </div>
         </div>
 
-        <button className="w-full rounded-2xl border-2 border-destructive/40 bg-destructive/5 text-destructive font-black py-4 flex items-center justify-center gap-2">
+        <button
+          onClick={signOut}
+          className="w-full rounded-2xl border-2 border-destructive/40 bg-destructive/5 text-destructive font-black py-4 flex items-center justify-center gap-2"
+        >
           <LogOut className="h-5 w-5" />
           تسجيل الخروج
         </button>
