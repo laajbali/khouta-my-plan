@@ -137,7 +137,10 @@ export function ProfileTab() {
           </div>
         </div>
 
-        <button className="w-full rounded-2xl border-2 border-destructive/40 bg-destructive/5 text-destructive font-black py-4 flex items-center justify-center gap-2">
+        <button
+          onClick={signOut}
+          className="w-full rounded-2xl border-2 border-destructive/40 bg-destructive/5 text-destructive font-black py-4 flex items-center justify-center gap-2"
+        >
           <LogOut className="h-5 w-5" />
           تسجيل الخروج
         </button>
