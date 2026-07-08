@@ -54,18 +54,18 @@ export function ProfileTab() {
             <div className="flex-1 text-right">
               <div className="flex items-center gap-2 justify-end">
                 <Edit className="h-4 w-4 text-primary" />
-                <h2 className="text-xl font-black text-foreground">سارة محمد</h2>
+                <h2 className="text-xl font-black text-foreground">{displayName}</h2>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">🌱 مستقبلك المالي بين يديك</p>
+              <p className="text-xs text-muted-foreground mt-1">{user?.email ?? "🌱 مستقبلك المالي بين يديك"}</p>
               <div className="mt-3 rounded-2xl bg-accent/50 p-3">
                 <p className="text-[10px] text-muted-foreground text-right">مستوى الالتزام</p>
-                <p className="text-2xl font-black text-foreground text-right">84%</p>
+                <p className="text-2xl font-black text-foreground text-right" style={{ fontVariantNumeric: "tabular-nums" }}>{commitment}%</p>
                 <div className="flex items-center gap-1 justify-end mt-1">
                   <Star className="h-3.5 w-3.5 text-gold fill-gold" />
-                  <span className="text-xs font-bold text-gold">ممتاز</span>
+                  <span className="text-xs font-bold text-gold">{commitment >= 70 ? "ممتاز" : commitment >= 40 ? "جيد" : "ابدئي رحلتك"}</span>
                 </div>
                 <div className="mt-2 h-1.5 bg-white rounded-full overflow-hidden" dir="ltr">
-                  <div className="h-full bg-mint rounded-full" style={{ width: "84%" }} />
+                  <div className="h-full bg-mint rounded-full" style={{ width: `${commitment}%` }} />
                 </div>
               </div>
             </div>
