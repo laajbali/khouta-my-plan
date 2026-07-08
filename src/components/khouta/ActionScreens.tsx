@@ -424,21 +424,78 @@ export function StatementScreen({ onBack }: { onBack: () => void }) {
 
 /* ---------- Goal Detail + Deposit ---------- */
 
-export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
-  const [saved, setSaved] = useState(17000);
-  const target = 25000;
-  const percent = Math.min(100, Math.round((saved / target) * 100));
-  const [amount, setAmount] = useState("");
+const ICON_MAP: Record<string, typeof Car> = {
+  car: Car,
+  travel: Plane,
+  home: HomeIcon,
+  edu: GraduationCap,
+  wedding: Heart,
+  custom: Target,
+};
 
-  function deposit() {
+function iconFor(key: string | null) {
+  return ICON_MAP[key ?? "custom"] ?? Target;
+}
+
+export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
+  const { goals, loading, refresh } = useGoals();
+  const goal: Goal | undefined = goals[0];
+  const [amount, setAmount] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col h-full bg-background">
+        <ScreenHeader title="تفاصيل الهدف" onBack={onBack} />
+        <div className="flex-1 flex items-center justify-center text-sm text-muted-foreground">
+          جارٍ التحميل...
+        </div>
+      </div>
+    );
+  }
+
+  if (!goal) {
+    return (
+      <div className="flex flex-col h-full bg-background">
+        <ScreenHeader title="تفاصيل الهدف" onBack={onBack} />
+        <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 text-center">
+          <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
+            <Target className="h-7 w-7 text-primary" />
+          </div>
+          <p className="text-sm font-bold text-foreground">لا يوجد هدف حالياً</p>
+          <p className="text-xs text-muted-foreground">ابدئي بإنشاء هدف جديد من الشاشة الرئيسية</p>
+        </div>
+      </div>
+    );
+  }
+
+  const percent = Math.min(
+    100,
+    Math.round((Number(goal.saved_amount) / Number(goal.target_amount)) * 100),
+  );
+  const Icon = iconFor(goal.icon);
+
+  async function deposit() {
     const n = Number(amount);
     if (!n || n <= 0) {
       toast.error("أدخلي مبلغاً صحيحاً");
       return;
     }
-    setSaved((s) => Math.min(target, s + n));
+    if (!goal) return;
+    setSaving(true);
+    const newAmount = Math.min(Number(goal.target_amount), Number(goal.saved_amount) + n);
+    const { error } = await supabase
+      .from("savings_goals")
+      .update({ saved_amount: newAmount })
+      .eq("id", goal.id);
+    setSaving(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     setAmount("");
-    toast.success(`تم إيداع ${n} ر.س في هدف السيارة`);
+    toast.success(`تم إيداع ${n} ر.س في ${goal.title}`);
+    refresh();
   }
 
   return (
@@ -454,17 +511,20 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
         >
           <div className="flex items-center gap-3 mb-4">
             <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center">
-              <Car className="h-6 w-6" />
+              <Icon className="h-6 w-6" />
             </div>
             <div>
               <p className="text-white/70 text-xs">هدفك</p>
-              <h3 className="font-bold text-lg">شراء سيارة</h3>
+              <h3 className="font-bold text-lg">{goal.title}</h3>
             </div>
           </div>
           <div className="flex justify-between items-end mb-2" style={{ fontVariantNumeric: "tabular-nums" }}>
-            <span className="text-xs text-white/60">من {target.toLocaleString()} ر.س</span>
+            <span className="text-xs text-white/60">
+              من {Number(goal.target_amount).toLocaleString()} ر.س
+            </span>
             <span className="text-2xl font-bold">
-              {saved.toLocaleString()} <span className="text-sm text-white/70">ر.س</span>
+              {Number(goal.saved_amount).toLocaleString()}{" "}
+              <span className="text-sm text-white/70">ر.س</span>
             </span>
           </div>
           <div className="h-2 bg-white/15 rounded-full overflow-hidden" dir="ltr">
@@ -473,9 +533,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-white/70 text-right">
-            أنجزتِ {percent}% من الهدف
-          </p>
+          <p className="mt-2 text-xs text-white/70 text-right">أنجزتِ {percent}% من الهدف</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
@@ -500,7 +558,9 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             placeholder="أدخلي المبلغ"
             style={{ fontVariantNumeric: "tabular-nums" }}
           />
-          <PrimaryButton onClick={deposit}>إيداع في الهدف</PrimaryButton>
+          <PrimaryButton onClick={deposit} disabled={saving}>
+            {saving ? "جارٍ الحفظ..." : "إيداع في الهدف"}
+          </PrimaryButton>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
@@ -508,7 +568,9 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
           <div className="flex items-start gap-3 text-right">
             <Check className="h-4 w-4 text-mint mt-0.5 shrink-0" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              لو ادّخرتِ 1,000 ر.س شهرياً ستصلين للهدف خلال 8 أشهر تقريباً.
+              لو ادّخرتِ 1,000 ر.س شهرياً ستصلين للهدف خلال{" "}
+              {Math.max(1, Math.ceil((Number(goal.target_amount) - Number(goal.saved_amount)) / 1000))}{" "}
+              شهراً تقريباً.
             </p>
           </div>
         </div>
@@ -520,28 +582,47 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
 /* ---------- New Goal ---------- */
 
 const GOAL_TYPES = [
-  { icon: Car, label: "سيارة" },
-  { icon: Plane, label: "سفر" },
-  { icon: HomeIcon, label: "منزل" },
-  { icon: GraduationCap, label: "تعليم" },
-  { icon: Heart, label: "زواج" },
-  { icon: Target, label: "مخصص" },
+  { icon: Car, label: "سيارة", key: "car" },
+  { icon: Plane, label: "سفر", key: "travel" },
+  { icon: HomeIcon, label: "منزل", key: "home" },
+  { icon: GraduationCap, label: "تعليم", key: "edu" },
+  { icon: Heart, label: "زواج", key: "wedding" },
+  { icon: Target, label: "مخصص", key: "custom" },
 ];
 
 export function NewGoalScreen({ onBack }: { onBack: () => void }) {
-  const [type, setType] = useState<string | null>(null);
+  const { user } = useSession();
+  const [typeKey, setTypeKey] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [months, setMonths] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  function save(e: React.FormEvent) {
+  async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!type || !name || !amount) {
+    if (!user) {
+      toast.error("سجّلي الدخول أولاً");
+      return;
+    }
+    if (!typeKey || !name || !amount) {
       toast.error("الرجاء إكمال البيانات");
       return;
     }
-    toast.success(`تم إنشاء هدف "${name}" بمبلغ ${amount} ر.س`);
-    setTimeout(onBack, 600);
+    setSaving(true);
+    const { error } = await supabase.from("savings_goals").insert({
+      user_id: user.id,
+      title: name,
+      icon: typeKey,
+      target_amount: Number(amount),
+      saved_amount: 0,
+    });
+    setSaving(false);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success(`تم إنشاء هدف "${name}"`);
+    setTimeout(onBack, 500);
   }
 
   return (
@@ -553,12 +634,12 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
           <div className="grid grid-cols-3 gap-2">
             {GOAL_TYPES.map((g) => {
               const Icon = g.icon;
-              const active = type === g.label;
+              const active = typeKey === g.key;
               return (
                 <button
                   type="button"
-                  key={g.label}
-                  onClick={() => setType(g.label)}
+                  key={g.key}
+                  onClick={() => setTypeKey(g.key)}
                   className={`rounded-2xl p-3 flex flex-col items-center gap-1.5 border transition ${
                     active
                       ? "bg-primary/10 border-primary text-primary"
@@ -602,9 +683,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
         </Field>
         {amount && months && (
           <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4 text-right">
-            <p className="text-xs text-muted-foreground">
-              للوصول للهدف تحتاجين لادخار
-            </p>
+            <p className="text-xs text-muted-foreground">للوصول للهدف تحتاجين لادخار</p>
             <p
               className="text-lg font-bold text-primary mt-1"
               style={{ fontVariantNumeric: "tabular-nums" }}
@@ -613,7 +692,9 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
             </p>
           </div>
         )}
-        <PrimaryButton type="submit">حفظ الهدف</PrimaryButton>
+        <PrimaryButton type="submit" disabled={saving}>
+          {saving ? "جارٍ الحفظ..." : "حفظ الهدف"}
+        </PrimaryButton>
       </form>
     </div>
   );
