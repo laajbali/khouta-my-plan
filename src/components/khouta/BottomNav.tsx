@@ -12,8 +12,9 @@ const TABS: { key: Tab; label: string; icon: typeof Home }[] = [
 
 export function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <div className="sticky bottom-0 bg-card border-t border-border px-3 pt-2 pb-3">
+    <div className="sticky bottom-0 z-40 bg-card/95 backdrop-blur border-t border-border px-3 pt-2 pb-3 shrink-0">
       <div className="flex items-end justify-between">
+
         {TABS.map((t) => {
           const isHome = t.key === "home";
           const isActive = active === t.key;
