@@ -16,6 +16,18 @@ const SETTINGS = [
 ];
 
 export function ProfileTab() {
+  const profile = useProfile();
+  const { user } = useSession();
+  const { goals } = useGoals();
+  const topGoal = goals[0];
+  const displayName = profile?.full_name?.trim() || user?.email?.split("@")[0] || "مستخدم خُطى";
+  const commitment = profile?.commitment_score ?? 0;
+
+  async function signOut() {
+    await supabase.auth.signOut();
+    toast.success("تم تسجيل الخروج");
+  }
+
   return (
     <div className="bg-card">
       <div className="flex items-center justify-between px-5 pt-5">
