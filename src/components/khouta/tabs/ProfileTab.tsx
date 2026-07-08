@@ -73,32 +73,39 @@ export function ProfileTab() {
         </div>
 
         {/* Current plan */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
-          <h3 className="text-right font-black text-foreground text-lg mb-3">الخطة الحالية</h3>
-          <div className="flex items-center gap-3">
-            <div className="h-12 w-12 rounded-2xl bg-accent flex items-center justify-center text-2xl">
-              🚗
-            </div>
-            <div className="flex-1 flex justify-between items-center">
-              <div>
-                <p className="text-xs text-muted-foreground">الهدف</p>
-                <p className="font-black text-foreground">شراء سيارة</p>
+        {topGoal ? (
+          <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+            <h3 className="text-right font-black text-foreground text-lg mb-3">الخطة الحالية</h3>
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 rounded-2xl bg-accent flex items-center justify-center">
+                <Star className="h-5 w-5 text-primary" />
               </div>
-              <div className="text-right">
-                <p className="text-xs text-muted-foreground">المبلغ المستهدف</p>
-                <p className="font-black text-foreground">25,000 <span className="text-xs">ريال</span></p>
-                <p className="text-[10px] text-muted-foreground">المتبقي 8,000 ريال</p>
+              <div className="flex-1 flex justify-between items-center">
+                <div>
+                  <p className="text-xs text-muted-foreground">الهدف</p>
+                  <p className="font-black text-foreground">{topGoal.title}</p>
+                </div>
+                <div className="text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <p className="text-xs text-muted-foreground">المستهدف</p>
+                  <p className="font-black text-foreground">
+                    {Number(topGoal.target_amount).toLocaleString()} <span className="text-xs">ريال</span>
+                  </p>
+                  <p className="text-[10px] text-muted-foreground">
+                    المتبقي {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ريال
+                  </p>
+                </div>
               </div>
             </div>
+            <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
+              <div
+                className="h-full bg-mint rounded-full"
+                style={{
+                  width: `${Math.min(100, Math.round((Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100))}%`,
+                }}
+              />
+            </div>
           </div>
-          <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
-            <div className="h-full bg-mint rounded-full" style={{ width: "68%" }} />
-          </div>
-          <div className="flex justify-between text-xs mt-2">
-            <span className="text-mint font-bold">68% منجز</span>
-            <span className="text-muted-foreground">ينتهي ديسمبر 2026</span>
-          </div>
-        </div>
+        ) : null}
 
         <h3 className="text-right font-black text-foreground text-lg mt-2">الإعدادات والتفضيلات</h3>
 
