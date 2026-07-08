@@ -16,7 +16,9 @@ import {
   ShieldAlert,
   Plus,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+
 
 export function HomeTab({
   onOpenNoor,
