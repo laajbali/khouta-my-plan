@@ -71,12 +71,18 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
         </Field>
 
         <Field label="المدينة" icon={<MapPin className="h-4 w-4" strokeWidth={1.8} />}>
-          <input
+          <ChevronDown className="h-3.5 w-3.5 text-muted-foreground shrink-0 pointer-events-none" strokeWidth={2} />
+          <select
             value={data.city}
             onChange={(e) => update({ city: e.target.value })}
-            placeholder="الرياض"
-            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
-          />
+            className={`flex-1 bg-transparent outline-none text-[13px] font-medium text-right appearance-none cursor-pointer ${data.city ? "text-foreground" : "text-muted-foreground/60"}`}
+            dir="rtl"
+          >
+            <option value="" disabled>اختاري المدينة</option>
+            {SAUDI_CITIES.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
         </Field>
 
         <Field label="البريد الإلكتروني" icon={<Mail className="h-4 w-4" strokeWidth={1.8} />}>
