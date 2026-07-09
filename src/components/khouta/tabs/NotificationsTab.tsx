@@ -4,7 +4,7 @@ import {
   ShoppingBag,
   UtensilsCrossed,
   Sparkles,
-  Bell,
+  // Bell removed from header
   ChevronLeft,
   ChevronRight,
   Heart,
