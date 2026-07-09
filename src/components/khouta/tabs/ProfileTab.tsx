@@ -1,18 +1,35 @@
-import { User, Camera, Edit, Star, Bell, Globe, Lock, DollarSign, Sun, HelpCircle, Info, Share2, ShieldCheck, LogOut, ChevronLeft } from "lucide-react";
+import {
+  User,
+  Camera,
+  Edit,
+  Star,
+  Bell,
+  Globe,
+  Lock,
+  DollarSign,
+  Sun,
+  HelpCircle,
+  Info,
+  Share2,
+  ShieldCheck,
+  LogOut,
+  ChevronLeft,
+  Target,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 import { useSession } from "@/hooks/use-session";
 import { toast } from "sonner";
 
 const SETTINGS = [
-  { icon: Globe, label: "اللغة", value: "العربية", bg: "bg-blue-100" },
-  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", bg: "bg-yellow-100" },
-  { icon: DollarSign, label: "العملة", value: "ريال سعودي", bg: "bg-emerald-100" },
-  { icon: Lock, label: "الأمان", value: "إعدادات الأمان", bg: "bg-pink-100" },
-  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", bg: "bg-orange-100" },
-  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", bg: "bg-gray-100" },
-  { icon: Info, label: "عن خُطى", value: "معلومات التطبيق", bg: "bg-blue-100" },
-  { icon: Share2, label: "شارك التطبيق", value: "ادعُ أصدقاءك", bg: "bg-purple-100" },
+  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700" },
+  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-amber-50 text-amber-700" },
+  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-mint/15 text-primary" },
+  { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-destructive/10 text-destructive" },
+  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-amber-50 text-amber-700" },
+  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-secondary text-muted-foreground" },
+  { icon: Info, label: "عن خُطى", value: "معلومات التطبيق", tint: "bg-blue-50 text-blue-700" },
+  { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-primary/10 text-primary" },
 ];
 
 export function ProfileTab() {
@@ -29,43 +46,54 @@ export function ProfileTab() {
   }
 
   return (
-    <div className="bg-card">
-      <div className="flex items-center justify-between px-5 pt-5">
+    <div className="bg-background pb-4">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
         <div className="w-11" />
-        <h1 className="text-2xl font-black text-foreground">الحساب</h1>
-        <button className="relative h-11 w-11 rounded-full bg-accent flex items-center justify-center">
-          <Bell className="h-5 w-5 text-primary" />
-          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">3</span>
+        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
+        <button className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
+          <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
+            3
+          </span>
         </button>
       </div>
 
-      <div className="px-5 pb-4 space-y-4 mt-5">
+      <div className="px-5 pt-4 space-y-4">
         {/* Profile card */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-start gap-4">
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full bg-accent flex items-center justify-center">
-                <User className="h-12 w-12 text-primary" />
+            <div className="relative shrink-0">
+              <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground">
+                <User className="h-9 w-9" strokeWidth={1.8} />
               </div>
-              <button className="absolute -bottom-1 right-0 h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                <Camera className="h-4 w-4" />
+              <button className="absolute -bottom-1 -left-1 h-7 w-7 rounded-xl bg-card border border-border text-foreground flex items-center justify-center shadow-sm">
+                <Camera className="h-3.5 w-3.5" strokeWidth={2} />
               </button>
             </div>
-            <div className="flex-1 text-right">
+            <div className="flex-1 text-right min-w-0">
               <div className="flex items-center gap-2 justify-end">
-                <Edit className="h-4 w-4 text-primary" />
-                <h2 className="text-xl font-black text-foreground">{displayName}</h2>
+                <Edit className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
+                <h2 className="text-[15px] font-extrabold text-foreground tracking-tight truncate">{displayName}</h2>
               </div>
-              <p className="text-xs text-muted-foreground mt-1">{user?.email ?? "🌱 مستقبلك المالي بين يديك"}</p>
-              <div className="mt-3 rounded-2xl bg-accent/50 p-3">
-                <p className="text-[10px] text-muted-foreground text-right">مستوى الالتزام</p>
-                <p className="text-2xl font-black text-foreground text-right" style={{ fontVariantNumeric: "tabular-nums" }}>{commitment}%</p>
-                <div className="flex items-center gap-1 justify-end mt-1">
-                  <Star className="h-3.5 w-3.5 text-gold fill-gold" />
-                  <span className="text-xs font-bold text-gold">{commitment >= 70 ? "ممتاز" : commitment >= 40 ? "جيد" : "ابدئي رحلتك"}</span>
+              <p className="text-[11px] text-muted-foreground mt-1 truncate font-medium">
+                {user?.email ?? "مستقبلك المالي بين يديك"}
+              </p>
+              <div className="mt-3 rounded-2xl bg-secondary/60 border border-border p-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1">
+                    <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
+                    <span className="text-[10px] font-bold text-amber-700">
+                      {commitment >= 70 ? "ممتاز" : commitment >= 40 ? "جيد" : "ابدئي رحلتك"}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-muted-foreground font-medium text-right">مستوى الالتزام</p>
                 </div>
-                <div className="mt-2 h-1.5 bg-white rounded-full overflow-hidden" dir="ltr">
-                  <div className="h-full bg-mint rounded-full" style={{ width: `${commitment}%` }} />
+                <p className="text-[22px] font-bold text-foreground text-right leading-none mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  {commitment}<span className="text-[13px] text-muted-foreground font-semibold">%</span>
+                </p>
+                <div className="mt-2 h-1.5 bg-card rounded-full overflow-hidden" dir="ltr">
+                  <div className="h-full bg-gradient-to-l from-mint to-primary rounded-full" style={{ width: `${commitment}%` }} />
                 </div>
               </div>
             </div>
@@ -74,31 +102,35 @@ export function ProfileTab() {
 
         {/* Current plan */}
         {topGoal ? (
-          <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
-            <h3 className="text-right font-black text-foreground text-lg mb-3">الخطة الحالية</h3>
+          <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-[10px] font-bold text-mint bg-mint/10 px-2 py-1 rounded-lg">نشط</span>
+              <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight">الخطة الحالية</h3>
+            </div>
             <div className="flex items-center gap-3">
-              <div className="h-12 w-12 rounded-2xl bg-accent flex items-center justify-center">
-                <Star className="h-5 w-5 text-primary" />
+              <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                <Target className="h-5 w-5" strokeWidth={1.8} />
               </div>
-              <div className="flex-1 flex justify-between items-center">
-                <div>
-                  <p className="text-xs text-muted-foreground">الهدف</p>
-                  <p className="font-black text-foreground">{topGoal.title}</p>
+              <div className="flex-1 flex justify-between items-center min-w-0">
+                <div className="min-w-0">
+                  <p className="text-[10px] text-muted-foreground font-medium">الهدف</p>
+                  <p className="font-extrabold text-foreground text-[13px] truncate tracking-tight">{topGoal.title}</p>
                 </div>
-                <div className="text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  <p className="text-xs text-muted-foreground">المستهدف</p>
-                  <p className="font-black text-foreground">
-                    {Number(topGoal.target_amount).toLocaleString()} <span className="text-xs">ريال</span>
-                  </p>
-                  <p className="text-[10px] text-muted-foreground">
-                    المتبقي {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ريال
+                <div className="text-right shrink-0" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <p className="text-[10px] text-muted-foreground font-medium">المستهدف</p>
+                  <p className="font-bold text-foreground text-[14px] tracking-tight">
+                    {Number(topGoal.target_amount).toLocaleString()}
+                    <span className="text-[10px] text-muted-foreground mr-1 font-semibold">ر.س</span>
                   </p>
                 </div>
               </div>
             </div>
-            <div className="mt-4 h-2 bg-secondary rounded-full overflow-hidden" dir="ltr">
+            <p className="text-[11px] text-muted-foreground mt-3 text-right font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+              المتبقي {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ر.س
+            </p>
+            <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
               <div
-                className="h-full bg-mint rounded-full"
+                className="h-full bg-gradient-to-l from-mint to-primary rounded-full"
                 style={{
                   width: `${Math.min(100, Math.round((Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100))}%`,
                 }}
@@ -107,41 +139,44 @@ export function ProfileTab() {
           </div>
         ) : null}
 
-        <h3 className="text-right font-black text-foreground text-lg mt-2">الإعدادات والتفضيلات</h3>
+        <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight mt-2">الإعدادات والتفضيلات</h3>
 
         <div className="grid grid-cols-2 gap-3">
           {SETTINGS.map((s) => {
             const Icon = s.icon;
             return (
-              <button key={s.label} className="rounded-2xl bg-card border border-border p-3 shadow-sm flex items-center gap-2">
-                <ChevronLeft className="h-4 w-4 text-muted-foreground shrink-0" />
-                <div className="flex-1 text-right">
-                  <p className="font-black text-foreground text-sm">{s.label}</p>
-                  <p className="text-[11px] text-muted-foreground">{s.value}</p>
+              <button
+                key={s.label}
+                className="rounded-2xl bg-card border border-border p-3 shadow-sm flex items-center gap-2 active:scale-[0.98] transition hover:border-primary/30"
+              >
+                <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
+                <div className="flex-1 text-right min-w-0">
+                  <p className="font-extrabold text-foreground text-[12px] tracking-tight truncate">{s.label}</p>
+                  <p className="text-[10px] text-muted-foreground truncate font-medium">{s.value}</p>
                 </div>
-                <div className={`h-9 w-9 rounded-full ${s.bg} flex items-center justify-center`}>
-                  <Icon className="h-4 w-4 text-foreground" />
+                <div className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${s.tint}`}>
+                  <Icon className="h-4 w-4" strokeWidth={2} />
                 </div>
               </button>
             );
           })}
         </div>
 
-        <div className="rounded-3xl bg-accent/40 border border-mint/30 p-4 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-mint flex items-center justify-center">
-            <ShieldCheck className="h-5 w-5 text-mint-foreground" />
+        <div className="rounded-[20px] bg-mint/10 border border-mint/25 p-4 flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-mint/20 text-primary flex items-center justify-center shrink-0">
+            <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
-            <p className="font-black text-foreground text-sm">أمان بياناتك أولويتنا</p>
-            <p className="text-xs text-muted-foreground">نستخدم أعلى معايير الأمان لحماية خصوصيتك</p>
+            <p className="font-extrabold text-foreground text-[13px] tracking-tight">أمان بياناتك أولويتنا</p>
+            <p className="text-[11px] text-muted-foreground font-medium">تشفير كامل ومعايير حماية بنكية</p>
           </div>
         </div>
 
         <button
           onClick={signOut}
-          className="w-full rounded-2xl border-2 border-destructive/40 bg-destructive/5 text-destructive font-black py-4 flex items-center justify-center gap-2"
+          className="w-full rounded-2xl border border-destructive/30 bg-destructive/5 text-destructive font-extrabold py-3.5 flex items-center justify-center gap-2 text-[13px] tracking-tight active:scale-[0.99] transition"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-4 w-4" strokeWidth={2} />
           تسجيل الخروج
         </button>
       </div>
