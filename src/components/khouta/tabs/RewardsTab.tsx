@@ -189,6 +189,76 @@ export function RewardsTab() {
           <ChevronLeft className="relative h-4 w-4 text-white/70 shrink-0" strokeWidth={2.5} />
         </div>
       </div>
+
+      {activeCoupon && (
+        <div className="absolute inset-0 z-50 flex items-end justify-center animate-fade-in">
+          <div
+            className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
+            onClick={() => setActiveCoupon(null)}
+          />
+          <div className="relative w-full bg-card rounded-t-[28px] p-5 pb-6 shadow-2xl animate-slide-in-right">
+            <div className="flex items-center justify-between mb-4">
+              <button
+                onClick={() => setActiveCoupon(null)}
+                className="h-9 w-9 rounded-xl bg-secondary flex items-center justify-center"
+              >
+                <X className="h-4 w-4 text-foreground" strokeWidth={2.5} />
+              </button>
+              <h3 className="text-[15px] font-extrabold text-foreground tracking-tight">كوبونك جاهز</h3>
+              <div className="w-9" />
+            </div>
+
+            <div
+              className={`rounded-[24px] p-5 ${activeCoupon.accent} ${activeCoupon.accentText} relative overflow-hidden`}
+            >
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+              <div className="relative flex items-center justify-between">
+                <span className="text-[11px] font-bold opacity-70">خصم على {activeCoupon.target}</span>
+                <span className="text-[16px] font-black tracking-tight">{activeCoupon.brand}</span>
+              </div>
+              <p
+                className="relative mt-3 text-[52px] font-black leading-none text-center"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                {activeCoupon.pct}%
+              </p>
+              <p className="relative text-center text-[11px] font-semibold opacity-80 mt-1">
+                حد أدنى {activeCoupon.min} ر.س • صالح {activeCoupon.days} أيام
+              </p>
+            </div>
+
+            <div className="mt-4 rounded-2xl border-2 border-dashed border-border bg-secondary/40 p-4">
+              <p className="text-[10px] font-bold text-muted-foreground text-right mb-2">كود الخصم</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => copyCode(activeCoupon.code)}
+                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-bold text-[12px] flex items-center gap-1.5 shrink-0"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5" strokeWidth={2.5} /> نُسخ
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5" strokeWidth={2.5} /> نسخ
+                    </>
+                  )}
+                </button>
+                <span
+                  className="flex-1 text-center text-[18px] font-black text-foreground tracking-[0.2em] font-mono"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {activeCoupon.code}
+                </span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-muted-foreground text-center mt-3 font-medium">
+              انسخي الكود واستخدميه عند إتمام الطلب في تطبيق {activeCoupon.brand}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
