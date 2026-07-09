@@ -79,7 +79,9 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
               <input
                 value={data.monthlyIncome}
                 onChange={(e) => update({ monthlyIncome: e.target.value.replace(/[^\d]/g, "") })}
-                className="flex-1 bg-transparent outline-none text-[16px] font-bold text-foreground text-right"
+                placeholder="9,000"
+                inputMode="numeric"
+                className="flex-1 bg-transparent outline-none text-[16px] font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-medium text-right"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               />
             </div>
