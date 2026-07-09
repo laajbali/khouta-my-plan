@@ -112,6 +112,12 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
             <p className="text-[10px] text-white/50 font-semibold">المبلغ المستهدف</p>
             <div className="flex items-center gap-2 mt-1">
               <input
+                type="text"
+                name="goal-amount"
+                inputMode="numeric"
+                autoComplete="off"
+                data-lpignore="true"
+                data-1p-ignore="true"
                 value={data.goalAmount.toLocaleString()}
                 onChange={(e) => {
                   const n = Number(e.target.value.replace(/[^\d]/g, ""));
