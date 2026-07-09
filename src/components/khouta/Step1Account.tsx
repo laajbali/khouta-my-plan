@@ -1,84 +1,121 @@
-import { useState } from "react";
-import { ChevronLeft, User, Phone, MapPin, ChevronDown, Star, Briefcase, GraduationCap, Monitor, MoreHorizontal } from "lucide-react";
+import {
+  ChevronRight,
+  User,
+  Phone,
+  MapPin,
+  Mail,
+  Lock,
+  Briefcase,
+  GraduationCap,
+  Building2,
+  MoreHorizontal,
+} from "lucide-react";
 import { Stepper } from "./Stepper";
 import { ChoiceCard } from "./ChoiceCard";
+import { useOnboarding } from "./onboarding-context";
 
 const CATEGORIES = [
-  { key: "student", label: "طالب", icon: <GraduationCap className="h-6 w-6 text-primary" /> },
-  { key: "employee", label: "موظف", icon: <Briefcase className="h-6 w-6 text-primary" /> },
-  { key: "owner", label: "صاحب عمل", icon: <Monitor className="h-6 w-6 text-primary" /> },
-  { key: "other", label: "أخرى", icon: <MoreHorizontal className="h-6 w-6 text-primary" /> },
+  { key: "student", label: "طالب", icon: <GraduationCap className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "employee", label: "موظف", icon: <Briefcase className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "owner", label: "صاحب عمل", icon: <Building2 className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "other", label: "أخرى", icon: <MoreHorizontal className="h-5 w-5" strokeWidth={1.8} /> },
 ];
 
 export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const [category, setCategory] = useState("student");
+  const { data, update } = useOnboarding();
+
+  function next() {
+    if (!data.fullName || !data.email || !data.password) return;
+    onNext();
+  }
 
   return (
-    <div className="bg-card">
-      <Header title="إنشاء الحساب" onBack={onBack} />
-      <div className="px-5 py-4">
+    <div className="bg-background pb-6">
+      <Header title="البيانات الأساسية" onBack={onBack} />
+      <div className="px-5 pt-3 pb-4 bg-card">
         <Stepper current={1} />
       </div>
 
-      <div className="px-5 pb-8">
-        <div className="flex justify-center mt-4 mb-2 relative">
-          <Star className="absolute top-2 right-24 h-4 w-4 text-gold fill-gold" />
-          <Star className="absolute top-6 left-24 h-4 w-4 text-gold fill-gold" />
-          <div className="h-24 w-24 rounded-full bg-accent/60 flex items-center justify-center border-4 border-card shadow relative">
-            <User className="h-10 w-10 text-primary" />
-            <div className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-lg font-bold">
-              +
-            </div>
-          </div>
+      <div className="px-5 pt-5 space-y-4">
+        <div className="text-right">
+          <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">لنبدأ رحلتك المالية</h2>
+          <p className="text-[11px] text-muted-foreground mt-1 font-medium">أدخلي بياناتك الأساسية للبدء</p>
         </div>
 
-        <div className="text-right mt-6">
-          <div className="flex items-center gap-2 justify-end">
-            <h2 className="text-xl font-black text-foreground">لنبدأ رحلتك المالية</h2>
-            <Star className="h-5 w-5 text-gold fill-gold" />
-          </div>
-          <p className="text-sm text-muted-foreground mt-1">أدخل بياناتك الأساسية للبدء</p>
-        </div>
+        <Field label="الاسم الكامل" icon={<User className="h-4 w-4" strokeWidth={1.8} />}>
+          <input
+            value={data.fullName}
+            onChange={(e) => update({ fullName: e.target.value })}
+            placeholder="مثال: سارة محمد"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+          />
+        </Field>
 
-        <div className="space-y-4 mt-5">
-          <Labeled label="الاسم الكامل">
-            <TextField icon={<User className="h-4 w-4" />} placeholder="مثال: سارة محمد" />
-          </Labeled>
-          <Labeled label="رقم الجوال">
-            <TextField icon={<Phone className="h-4 w-4" />} placeholder="05XXXXXXXX" />
-          </Labeled>
-          <Labeled label="المدينة">
-            <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3.5">
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
-              <span className="flex-1 text-right text-sm text-muted-foreground">اختر مدينتك</span>
-              <MapPin className="h-4 w-4 text-muted-foreground" />
-            </div>
-          </Labeled>
+        <Field label="رقم الجوال" icon={<Phone className="h-4 w-4" strokeWidth={1.8} />}>
+          <input
+            value={data.phone}
+            onChange={(e) => update({ phone: e.target.value })}
+            placeholder="05XXXXXXXX"
+            dir="ltr"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          />
+        </Field>
 
-          <div>
-            <p className="text-right text-sm font-bold text-foreground mb-2">من أنت؟</p>
-            <div className="grid grid-cols-4 gap-2">
-              {CATEGORIES.map((c) => (
-                <ChoiceCard
-                  key={c.key}
-                  active={category === c.key}
-                  onClick={() => setCategory(c.key)}
-                  icon={c.icon}
-                  label={c.label}
-                />
-              ))}
-            </div>
+        <Field label="المدينة" icon={<MapPin className="h-4 w-4" strokeWidth={1.8} />}>
+          <input
+            value={data.city}
+            onChange={(e) => update({ city: e.target.value })}
+            placeholder="الرياض"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+          />
+        </Field>
+
+        <Field label="البريد الإلكتروني" icon={<Mail className="h-4 w-4" strokeWidth={1.8} />}>
+          <input
+            type="email"
+            value={data.email}
+            onChange={(e) => update({ email: e.target.value })}
+            placeholder="you@example.com"
+            dir="ltr"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+          />
+        </Field>
+
+        <Field label="كلمة المرور" icon={<Lock className="h-4 w-4" strokeWidth={1.8} />}>
+          <input
+            type="password"
+            value={data.password}
+            onChange={(e) => update({ password: e.target.value })}
+            placeholder="6 أحرف على الأقل"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+          />
+        </Field>
+
+        <div className="pt-1">
+          <p className="text-right text-[12px] font-bold text-foreground mb-2 tracking-tight">من أنت؟</p>
+          <div className="grid grid-cols-4 gap-2">
+            {CATEGORIES.map((c) => (
+              <ChoiceCard
+                key={c.key}
+                active={data.userType === c.key}
+                onClick={() => update({ userType: c.key })}
+                icon={c.icon}
+                label={c.label}
+              />
+            ))}
           </div>
         </div>
 
         <button
-          onClick={onNext}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-4 mt-6 shadow-lg shadow-primary/20"
+          onClick={next}
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 mt-2 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition"
         >
           التالي
+          <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
         </button>
-        <p className="text-center text-xs text-muted-foreground mt-3 flex items-center justify-center gap-1">
-          🛡️ بياناتك آمنة ولن يتم مشاركتها مع أي طرف ثالث
+        <p className="text-center text-[10px] text-muted-foreground font-medium">
+          بياناتك محمية بتشفير كامل ولن تتم مشاركتها
         </p>
       </div>
     </div>
@@ -87,36 +124,27 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
 
 function Header({ title, onBack }: { title: string; onBack: () => void }) {
   return (
-    <div className="flex items-center justify-between px-5 pt-4">
+    <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
       <button
         onClick={onBack}
-        className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"
+        className="h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition"
       >
-        <ChevronLeft className="h-5 w-5 text-primary" />
+        <ChevronRight className="h-5 w-5 text-foreground" strokeWidth={2} />
       </button>
-      <h1 className="text-xl font-black text-foreground">{title}</h1>
-      <div className="w-10" />
+      <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">{title}</h1>
+      <div className="w-11" />
     </div>
   );
 }
 
-function Labeled({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, icon, children }: { label: string; icon: React.ReactNode; children: React.ReactNode }) {
   return (
     <div>
-      <p className="text-right text-sm font-bold text-foreground mb-1.5">{label}</p>
-      {children}
-    </div>
-  );
-}
-
-function TextField({ icon, placeholder }: { icon: React.ReactNode; placeholder: string }) {
-  return (
-    <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3.5 focus-within:border-primary">
-      <input
-        placeholder={placeholder}
-        className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground text-right"
-      />
-      <span className="text-muted-foreground">{icon}</span>
+      <p className="text-right text-[11px] font-semibold text-foreground/80 mb-1.5 tracking-tight">{label}</p>
+      <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-sm focus-within:border-primary/50 transition">
+        {children}
+        <span className="text-muted-foreground shrink-0">{icon}</span>
+      </div>
     </div>
   );
 }
