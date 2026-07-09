@@ -1,5 +1,6 @@
-import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag } from "lucide-react";
+import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag, X, Copy, Check } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
@@ -11,17 +12,32 @@ type Coupon = {
   min: number;
   days: number;
   target: string;
+  code: string;
 };
 
 const COUPONS: Coupon[] = [
-  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات" },
-  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات" },
-  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات" },
-  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات" },
+  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات", code: "KHUTA20SH" },
+  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات", code: "KHUTA15JZ" },
+  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات", code: "KHUTA10NN" },
+  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL" },
 ];
 
 export function RewardsTab() {
   const [filter, setFilter] = useState("الكل");
+  const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  async function copyCode(code: string) {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      toast.success("تم نسخ الكود");
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      toast.error("تعذر النسخ");
+    }
+  }
+
 
   return (
     <div className="bg-background pb-4">
