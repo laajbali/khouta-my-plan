@@ -9,21 +9,30 @@ export function InterceptModal({
   onProceed,
   merchant = "SHEIN",
   amount = 450,
+  userName = "",
+  goalTitle = "هدفك",
+  goalTarget = 25000,
+  goalSaved = 0,
 }: {
   open: boolean;
   onCancel: () => void;
   onProceed: () => void;
   merchant?: string;
   amount?: number;
+  userName?: string;
+  goalTitle?: string;
+  goalTarget?: number;
+  goalSaved?: number;
 }) {
   const [stage, setStage] = useState<"warn" | "reward">("warn");
   const [copied, setCopied] = useState(false);
   const code = `KHUTA${amount}${merchant.slice(0, 2).toUpperCase()}`;
   const delayDays = Math.max(1, Math.round(amount / 38));
-  const target = 25000;
-  const savedBase = 17000;
+  const target = goalTarget;
+  const savedBase = goalSaved;
   const savedAfter = savedBase + amount;
-  const percentAfter = Math.min(100, Math.round((savedAfter / target) * 100));
+  const percentAfter = target > 0 ? Math.min(100, Math.round((savedAfter / target) * 100)) : 0;
+  const firstName = (userName || "").split(" ")[0];
 
   useEffect(() => {
     if (open) {
