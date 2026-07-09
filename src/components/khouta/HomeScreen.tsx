@@ -18,6 +18,7 @@ import {
   NewGoalScreen,
   CalendarScreen,
 } from "./ActionScreens";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 
 type SubScreen =
   | "none"
@@ -38,6 +39,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [interceptOpen, setInterceptOpen] = useState(false);
   const [interceptMerchant, setInterceptMerchant] = useState<string>("SHEIN");
   const [interceptAmount, setInterceptAmount] = useState(240);
+  const profile = useProfile();
+  const { goals } = useGoals();
+  const topGoal = goals[0];
 
   const close = () => setSub("none");
 
@@ -94,6 +98,10 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         onProceed={() => setInterceptOpen(false)}
         merchant={interceptMerchant}
         amount={interceptAmount}
+        userName={profile?.full_name ?? ""}
+        goalTitle={topGoal?.title ?? "هدفك"}
+        goalTarget={Number(topGoal?.target_amount ?? 25000)}
+        goalSaved={Number(topGoal?.saved_amount ?? 0)}
       />
     </div>
   );

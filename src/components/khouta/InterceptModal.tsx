@@ -9,21 +9,30 @@ export function InterceptModal({
   onProceed,
   merchant = "SHEIN",
   amount = 450,
+  userName = "",
+  goalTitle = "هدفك",
+  goalTarget = 25000,
+  goalSaved = 0,
 }: {
   open: boolean;
   onCancel: () => void;
   onProceed: () => void;
   merchant?: string;
   amount?: number;
+  userName?: string;
+  goalTitle?: string;
+  goalTarget?: number;
+  goalSaved?: number;
 }) {
   const [stage, setStage] = useState<"warn" | "reward">("warn");
   const [copied, setCopied] = useState(false);
   const code = `KHUTA${amount}${merchant.slice(0, 2).toUpperCase()}`;
   const delayDays = Math.max(1, Math.round(amount / 38));
-  const target = 25000;
-  const savedBase = 17000;
+  const target = goalTarget;
+  const savedBase = goalSaved;
   const savedAfter = savedBase + amount;
-  const percentAfter = Math.min(100, Math.round((savedAfter / target) * 100));
+  const percentAfter = target > 0 ? Math.min(100, Math.round((savedAfter / target) * 100)) : 0;
+  const firstName = (userName || "").split(" ")[0];
 
   useEffect(() => {
     if (open) {
@@ -83,7 +92,7 @@ export function InterceptModal({
               </p>
             </div>
             <h2 className="mt-1 text-[22px] font-black tracking-tight">
-              لحظة يا سارة! 🛑
+              لحظة{firstName ? " يا " + firstName : ""}! 🛑
             </h2>
           </div>
 
@@ -119,7 +128,7 @@ export function InterceptModal({
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[12px] font-black text-foreground">🚗 شراء سيارة</span>
+                <span className="text-[12px] font-black text-foreground">🎯 {goalTitle}</span>
               </div>
               <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
@@ -167,7 +176,7 @@ export function InterceptModal({
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
-              أحسنتِ يا سارة! 🎁
+              أحسنتِ{firstName ? " يا " + firstName : ""}! 🎁
             </h2>
             <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
@@ -206,11 +215,17 @@ export function InterceptModal({
             </div>
 
             <button
-              onClick={onCancel}
+              onClick={() => {
+                toast.success(`🎉 تم توفير ${amount} ر.س`, {
+                  description: `قرارك الذكي قرّبك ${percentAfter}% من ${goalTitle}. الكود ${code} في المكافآت.`,
+                  duration: 5000,
+                });
+                onCancel();
+              }}
               className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px]"
             >
               <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
-              عرض المكافآت
+              رائع، أكملي
             </button>
           </div>
         </div>

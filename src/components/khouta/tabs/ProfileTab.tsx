@@ -60,34 +60,42 @@ export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () =
       </div>
 
       <div className="px-5 pt-4 space-y-4">
-        {/* Calm, minimal profile card */}
-        <div className="rounded-[26px] bg-card border border-border shadow-sm p-6 flex flex-col items-center text-center">
-          <div className="relative">
-            <div className="h-[88px] w-[88px] rounded-full bg-gradient-to-br from-primary/15 to-mint/25 border border-border flex items-center justify-center text-primary">
-              <User className="h-11 w-11" strokeWidth={1.5} />
+        {/* Premium dark green profile card */}
+        <div
+          className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex items-center gap-4"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.30 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.13 0.04 155) 100%)",
+          }}
+        >
+          <div className="absolute -top-16 -right-16 w-48 h-48 bg-mint/20 rounded-full blur-3xl" />
+          <div className="relative shrink-0">
+            <div className="h-[76px] w-[76px] rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white">
+              <User className="h-9 w-9" strokeWidth={1.5} />
             </div>
             <button
               onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
-              className="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-primary text-primary-foreground border-[3px] border-card flex items-center justify-center shadow-md active:scale-95 transition"
+              className="absolute bottom-0 right-0 h-7 w-7 rounded-full bg-mint text-primary border-[3px] border-[oklch(0.20_0.05_155)] flex items-center justify-center shadow-md active:scale-95 transition"
               aria-label="تغيير الصورة"
             >
-              <Camera className="h-3.5 w-3.5" strokeWidth={2.2} />
+              <Camera className="h-3 w-3" strokeWidth={2.4} />
             </button>
           </div>
-
-          <button
-            onClick={() => toast("قريباً: تعديل الاسم")}
-            className="mt-5 flex items-center gap-1.5"
-          >
-            <h2 className="text-[20px] font-black text-foreground tracking-tight">{displayName}</h2>
-            <Edit className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-          </button>
-          <p className="text-[12px] text-muted-foreground mt-1 font-medium" dir="ltr">
-            {user?.email ?? "dina@khouta.app"}
-          </p>
-          <p className="text-[12px] text-primary/80 mt-3 font-semibold tracking-tight">
-            مستقبلك المالي بين يديك
-          </p>
+          <div className="relative flex-1 text-right min-w-0">
+            <button
+              onClick={() => toast("قريباً: تعديل الاسم")}
+              className="flex items-center gap-1.5 justify-end w-full"
+            >
+              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
+              <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
+            </button>
+            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate" dir="ltr">
+              {user?.email ?? "dina@khouta.app"}
+            </p>
+            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight">
+              مستقبلك المالي بين يديك
+            </p>
+          </div>
         </div>
 
         <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight mt-2">الإعدادات والتفضيلات</h3>
