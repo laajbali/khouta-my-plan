@@ -104,7 +104,9 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
                   <input
                     value={e.amount}
                     onChange={(ev) => updateExpense(e.key, ev.target.value.replace(/[^\d]/g, ""))}
-                    className="w-16 bg-transparent outline-none text-[13px] font-bold text-foreground"
+                    placeholder={e.key === "housing" ? "2,000" : e.key === "transport" ? "400" : e.key === "internet" ? "100" : "0"}
+                    inputMode="numeric"
+                    className="w-20 bg-transparent outline-none text-[13px] font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-medium"
                     style={{ fontVariantNumeric: "tabular-nums" }}
                   />
                   <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
