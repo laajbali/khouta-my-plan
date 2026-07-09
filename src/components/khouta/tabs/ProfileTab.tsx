@@ -31,14 +31,24 @@ const SETTINGS = [
   { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-primary/10 text-primary", action: "تم نسخ رابط الدعوة" },
 ];
 
-export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () => void }) {
+export function ProfileTab({
+  onOpenNotifications,
+  onSignOut,
+}: {
+  onOpenNotifications?: () => void;
+  onSignOut?: () => void | Promise<void>;
+}) {
   const profile = useProfile();
   const { user } = useSession();
   const displayName = profile?.full_name?.trim() || user?.email?.split("@")[0] || "دينا";
 
   async function signOut() {
-    await supabase.auth.signOut();
     toast.success("تم تسجيل الخروج");
+    if (onSignOut) {
+      await onSignOut();
+    } else {
+      await supabase.auth.signOut();
+    }
   }
 
   return (
