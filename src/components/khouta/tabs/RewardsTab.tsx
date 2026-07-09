@@ -121,7 +121,10 @@ export function RewardsTab() {
                     {c.pct}%
                   </p>
                   <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
-                  <button className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground">
+                  <button
+                    onClick={() => setActiveCoupon(c)}
+                    className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground active:scale-95 transition"
+                  >
                     استخدم
                   </button>
                 </div>
