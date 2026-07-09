@@ -79,7 +79,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
           />
         )}
         {tab === "rewards" && <RewardsTab onOpenNotifications={() => setTab("notifications")} />}
-        {tab === "profile" && <ProfileTab onOpenNotifications={() => setTab("notifications")} />}
+        {tab === "profile" && <ProfileTab onOpenNotifications={() => setTab("notifications")} onSignOut={_onReset} />}
         {tab === "notifications" && (
           <NotificationsTab
             onSimulateIntercept={(merchant, amount) => {
