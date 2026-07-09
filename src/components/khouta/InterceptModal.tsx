@@ -215,11 +215,17 @@ export function InterceptModal({
             </div>
 
             <button
-              onClick={onCancel}
+              onClick={() => {
+                toast.success(`🎉 تم توفير ${amount} ر.س`, {
+                  description: `قرارك الذكي قرّبك ${percentAfter}% من ${goalTitle}. الكود ${code} في المكافآت.`,
+                  duration: 5000,
+                });
+                onCancel();
+              }}
               className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px]"
             >
               <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
-              عرض المكافآت
+              رائع، أكملي
             </button>
           </div>
         </div>
