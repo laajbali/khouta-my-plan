@@ -61,20 +61,24 @@ export function HomeTab({
     <div className="bg-background pb-4">
       {/* Header */}
       <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card">
-        <div className="flex items-center gap-3">
+        <button
+          onClick={onOpenProfile}
+          className="flex items-center gap-3 active:scale-95 transition"
+          aria-label="الحساب"
+        >
           <div className="relative">
             <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm">
               {initial}
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-mint border-2 border-card rounded-full" />
           </div>
-          <div>
+          <div className="text-right">
             <p className="text-muted-foreground text-[11px] font-medium tracking-tight">أهلاً،</p>
             <h2 className="text-foreground font-extrabold text-[15px] leading-tight tracking-tight">
               {displayName}
             </h2>
           </div>
-        </div>
+        </button>
         <button
           onClick={onOpenNotifications}
           className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative active:scale-95 transition"
