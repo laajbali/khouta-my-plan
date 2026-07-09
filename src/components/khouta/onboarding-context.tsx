@@ -65,6 +65,8 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
     }
     setLoading(true);
     try {
+      let userId: string | undefined;
+
       const { data: auth, error } = await supabase.auth.signUp({
         email: data.email,
         password: data.password,
@@ -73,13 +75,37 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           data: { full_name: data.fullName },
         },
       });
-      if (error) throw error;
-      const userId = auth.user?.id;
+
+      if (error) {
+        // Account already exists → try signing in seamlessly with same credentials
+        if (/already|registered|exists/i.test(error.message)) {
+          const { data: signIn, error: signInErr } =
+            await supabase.auth.signInWithPassword({
+              email: data.email,
+              password: data.password,
+            });
+          if (signInErr) throw signInErr;
+          userId = signIn.user?.id;
+        } else {
+          throw error;
+        }
+      } else {
+        userId = auth.user?.id;
+        // If auto-confirm is off, session may be null — try sign-in
+        if (!auth.session && userId) {
+          await supabase.auth.signInWithPassword({
+            email: data.email,
+            password: data.password,
+          });
+        }
+      }
+
       if (userId) {
-        await supabase.from("profiles").update({
+        await supabase.from("profiles").upsert({
+          id: userId,
           full_name: data.fullName,
           monthly_income: Number(data.monthlyIncome) || 0,
-        }).eq("id", userId);
+        });
         await supabase.from("savings_goals").insert({
           user_id: userId,
           title: data.goalLabel,
@@ -87,12 +113,12 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           saved_amount: 0,
         });
       }
-      toast.success(`أهلاً ${data.fullName}، تم إنشاء حسابك`);
+      toast.success(`أهلاً ${data.fullName}`);
       return true;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "حدث خطأ";
       toast.error(
-        /already registered/i.test(msg) ? "هذا الحساب مسجل — سجّلي الدخول" :
+        /Invalid login credentials/i.test(msg) ? "البريد أو كلمة المرور غير صحيحة" :
         /Password should be/i.test(msg) ? "كلمة المرور قصيرة (6 أحرف على الأقل)" :
         msg
       );
