@@ -209,62 +209,101 @@ export function HomeTab({
         </div>
 
 
-        {/* Goal Card */}
-        <div className="bg-card rounded-[24px] p-4 border border-border">
-          <div className="flex justify-between items-center mb-4">
-            {topGoal && (
-              <button
-                onClick={onOpenGoal}
-                className="text-primary text-[11px] font-semibold px-2.5 py-1 bg-accent rounded-lg"
+        {/* Goal Card — gold + white balanced */}
+        <div
+          className="relative rounded-[26px] overflow-hidden border border-border shadow-[0_20px_40px_-24px_rgb(0_0_0/0.15)]"
+          style={{
+            background:
+              "linear-gradient(135deg, oklch(0.99 0.01 90) 0%, oklch(0.97 0.03 85) 55%, oklch(0.94 0.06 82) 100%)",
+          }}
+        >
+          {/* Gold shimmer accent */}
+          <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full blur-3xl" style={{ background: "oklch(0.85 0.14 85 / 0.35)" }} />
+          <div className="absolute top-0 left-0 w-full h-1" style={{ background: "linear-gradient(90deg, transparent, var(--gold), transparent)" }} />
+
+          <div className="relative p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span
+                className="text-[10px] font-black tracking-[0.15em] uppercase px-2.5 py-1 rounded-lg text-primary-foreground"
+                style={{ background: "linear-gradient(135deg, oklch(0.28 0.05 155), oklch(0.20 0.05 155))" }}
               >
-                التفاصيل
-              </button>
-            )}
-            <h4 className="text-sm font-bold text-foreground">هدف الادخار</h4>
-          </div>
-          {topGoal ? (
-            <button
-              onClick={onOpenGoal}
-              className="w-full flex items-center gap-4 text-right"
-            >
-              <ProgressRing
-                percent={Math.min(
-                  100,
-                  Math.round(
-                    (Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100,
-                  ),
-                )}
-              />
-              <div className="flex-1 text-right">
-                <div className="flex items-center gap-1.5 justify-end">
-                  <p className="text-sm font-bold text-foreground">{topGoal.title}</p>
-                  <Car className="h-4 w-4 text-primary" strokeWidth={1.8} />
+                هدفك الحالي
+              </span>
+              <h4 className="text-[13px] font-extrabold text-foreground tracking-tight flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: "var(--gold)" }} />
+                هدف الادخار
+              </h4>
+            </div>
+
+            {topGoal ? (
+              <>
+                <button onClick={onOpenGoal} className="w-full flex items-center gap-4 text-right">
+                  <ProgressRing
+                    percent={Math.min(
+                      100,
+                      Math.round((Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100),
+                    )}
+                  />
+                  <div className="flex-1 text-right min-w-0">
+                    <div className="flex items-center gap-1.5 justify-end">
+                      <p className="text-[15px] font-black text-foreground tracking-tight truncate">{topGoal.title}</p>
+                      <Car className="h-4 w-4 text-primary" strokeWidth={1.8} />
+                    </div>
+                    <p
+                      className="text-[11px] text-muted-foreground mt-1 font-medium truncate"
+                      style={{ fontVariantNumeric: "tabular-nums" }}
+                    >
+                      متبقٍ{" "}
+                      <span className="text-foreground font-bold">
+                        {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ر.س
+                      </span>
+                    </p>
+                  </div>
+                </button>
+
+                {/* White stat pills */}
+                <div className="mt-4 grid grid-cols-2 gap-2">
+                  <div className="rounded-2xl bg-card/90 border border-white/60 p-2.5 text-right shadow-sm">
+                    <p className="text-[9.5px] text-muted-foreground font-semibold uppercase tracking-wider">المستهدف</p>
+                    <p className="text-[15px] font-black text-foreground mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
+                      {Number(topGoal.target_amount).toLocaleString()}
+                      <span className="text-[10px] text-muted-foreground mr-1 font-bold">ر.س</span>
+                    </p>
+                  </div>
+                  <div className="rounded-2xl bg-card/90 border border-white/60 p-2.5 text-right shadow-sm">
+                    <p className="text-[9.5px] font-semibold uppercase tracking-wider" style={{ color: "oklch(0.55 0.15 85)" }}>
+                      المدخر
+                    </p>
+                    <p className="text-[15px] font-black mt-0.5" style={{ color: "oklch(0.45 0.15 85)", fontVariantNumeric: "tabular-nums" }}>
+                      {Number(topGoal.saved_amount).toLocaleString()}
+                      <span className="text-[10px] mr-1 font-bold" style={{ color: "oklch(0.55 0.15 85)" }}>ر.س</span>
+                    </p>
+                  </div>
                 </div>
-                <p
-                  className="text-[11px] text-muted-foreground mt-0.5"
-                  style={{ fontVariantNumeric: "tabular-nums" }}
+
+                <button
+                  onClick={onOpenGoal}
+                  className="mt-3 w-full py-2.5 rounded-xl bg-primary text-primary-foreground text-[12px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
                 >
-                  متبقٍ{" "}
-                  {Math.max(
-                    0,
-                    Number(topGoal.target_amount) - Number(topGoal.saved_amount),
-                  ).toLocaleString()}{" "}
-                  ر.س من إجمالي {Number(topGoal.target_amount).toLocaleString()} ر.س
-                </p>
-              </div>
+                  عرض التفاصيل
+                  <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2.5} />
+                </button>
+              </>
+            ) : (
+              <p className="text-xs text-muted-foreground text-right py-2 font-medium">
+                لا يوجد هدف بعد — ابدئي بإنشاء أول هدف لك
+              </p>
+            )}
+
+            <button
+              onClick={onOpenNewGoal}
+              className="mt-2.5 w-full py-2 rounded-xl border border-dashed border-foreground/15 text-[11px] font-bold text-foreground/70 flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"
+            >
+              <Plus className="h-3.5 w-3.5" /> إضافة هدف جديد
             </button>
-          ) : (
-            <p className="text-xs text-muted-foreground text-right py-2">
-              لا يوجد هدف بعد — ابدئي بإنشاء أول هدف لك
-            </p>
-          )}
-          <button
-            onClick={onOpenNewGoal}
-            className="mt-3 w-full py-2 rounded-xl border border-dashed border-border text-xs font-semibold text-muted-foreground flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"
-          >
-            <Plus className="h-3.5 w-3.5" /> إضافة هدف جديد
-          </button>
+          </div>
         </div>
+
 
         {/* Today Budget */}
         <button
