@@ -8,7 +8,7 @@ export function PhoneFrame({ children }: { children: ReactNode }) {
         <div className="h-6 flex justify-center items-start pt-2 shrink-0">
           <div className="w-28 h-5 bg-foreground rounded-full" />
         </div>
-        <div className="flex-1 flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-y-auto overflow-x-hidden overscroll-contain">
           {children}
         </div>
       </div>
