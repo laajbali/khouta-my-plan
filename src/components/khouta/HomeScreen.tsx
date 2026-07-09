@@ -15,6 +15,7 @@ import {
   MoreServicesScreen,
   StatementScreen,
   GoalDetailScreen,
+  GoalsListScreen,
   NewGoalScreen,
   CalendarScreen,
 } from "./ActionScreens";
@@ -30,6 +31,7 @@ type SubScreen =
   | "more"
   | "statement"
   | "goal"
+  | "goals-list"
   | "new-goal"
   | "calendar";
 
