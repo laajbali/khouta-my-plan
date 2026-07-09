@@ -128,7 +128,7 @@ export function InterceptModal({
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[12px] font-black text-foreground">🚗 شراء سيارة</span>
+                <span className="text-[12px] font-black text-foreground">🎯 {goalTitle}</span>
               </div>
               <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
