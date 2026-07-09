@@ -13,7 +13,6 @@ import {
   Gift,
   Car,
   Building2,
-  ShieldAlert,
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";
