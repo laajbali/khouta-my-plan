@@ -1,178 +1,164 @@
-import { useState } from "react";
-import { ChevronLeft, Star, Plus, CreditCard, Home, Car, BarChart3, MoreHorizontal } from "lucide-react";
+import {
+  ChevronRight,
+  Plus,
+  Trash2,
+  Wallet,
+  Gift,
+  Laptop,
+  MoreHorizontal,
+  Home,
+  Car,
+  Wifi,
+} from "lucide-react";
 import { Stepper } from "./Stepper";
 import { ChoiceCard } from "./ChoiceCard";
+import { useOnboarding } from "./onboarding-context";
 
 const INCOME_SOURCES = [
-  { key: "salary", label: "راتب شهري", icon: "💼" },
-  { key: "bonus", label: "مكافأة", icon: "🎁" },
-  { key: "freelance", label: "عمل حر", icon: "💻" },
-  { key: "other", label: "أخرى", icon: "•••" },
+  { key: "salary", label: "راتب شهري", icon: <Wallet className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "bonus", label: "مكافأة", icon: <Gift className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "freelance", label: "عمل حر", icon: <Laptop className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "other", label: "أخرى", icon: <MoreHorizontal className="h-5 w-5" strokeWidth={1.8} /> },
 ];
 
-const VARIABLE = [
-  { key: "restaurants", label: "المطاعم", icon: "🍽️", amount: 800 },
-  { key: "shopping", label: "التسوق", icon: "🛍️", amount: 600 },
-  { key: "entertainment", label: "الترفيه", icon: "🎮", amount: 400 },
-  { key: "other", label: "أخرى", icon: "•••", amount: 300 },
-];
+const EXPENSE_ICONS: Record<string, React.ReactNode> = {
+  housing: <Home className="h-4 w-4" strokeWidth={1.8} />,
+  transport: <Car className="h-4 w-4" strokeWidth={1.8} />,
+  internet: <Wifi className="h-4 w-4" strokeWidth={1.8} />,
+};
 
 export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
-  const [income, setIncome] = useState("bonus");
-  const [variable, setVariable] = useState("restaurants");
+  const { data, update } = useOnboarding();
+
+  function updateExpense(key: string, amount: string) {
+    update({ expenses: data.expenses.map((e) => (e.key === key ? { ...e, amount } : e)) });
+  }
+
+  function addExpense() {
+    update({
+      expenses: [...data.expenses, { key: `custom-${Date.now()}`, label: "مصروف آخر", amount: "0" }],
+    });
+  }
+
+  function removeExpense(key: string) {
+    update({ expenses: data.expenses.filter((e) => e.key !== key) });
+  }
 
   return (
-    <div className="bg-card">
+    <div className="bg-background pb-6">
       <Header title="البيانات المالية" onBack={onBack} />
-      <div className="px-5 py-4">
+      <div className="px-5 pt-3 pb-4 bg-card">
         <Stepper current={2} />
       </div>
 
-      <div className="px-5 pb-8 space-y-5">
+      <div className="px-5 pt-5 space-y-5">
         <div className="text-right">
-          <div className="flex items-center gap-2 justify-end">
-            <h2 className="text-lg font-black text-foreground">ساعدنا نفهم وضعك المالي</h2>
-            <Star className="h-5 w-5 text-gold fill-gold" />
-          </div>
-          <p className="text-sm text-muted-foreground mt-1">
-            كلما كانت بياناتك أدق، كانت خطتك أفضل
-          </p>
+          <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">ساعدينا نفهم وضعك المالي</h2>
+          <p className="text-[11px] text-muted-foreground mt-1 font-medium">كلما كانت البيانات أدق، كانت خطتك أفضل</p>
         </div>
 
-        {/* 1. مصدر دخلك */}
-        <Section title="١. مصدر دخلك">
+        {/* Income sources */}
+        <Section title="مصدر الدخل">
           <div className="grid grid-cols-4 gap-2">
             {INCOME_SOURCES.map((s) => (
               <ChoiceCard
                 key={s.key}
-                active={income === s.key}
-                onClick={() => setIncome(s.key)}
-                icon={<span>{s.icon}</span>}
+                active={data.incomeSource === s.key}
+                onClick={() => update({ incomeSource: s.key })}
+                icon={s.icon}
                 label={s.label}
               />
             ))}
           </div>
-          <div>
-            <p className="text-right text-xs text-muted-foreground mt-3 mb-1.5">
-              الدخل الشهري (ريال)
+          <div className="mt-3">
+            <p className="text-right text-[11px] font-semibold text-foreground/80 mb-1.5 tracking-tight">
+              الدخل الشهري
             </p>
-            <AmountField defaultValue="9000" icon={<CreditCard className="h-4 w-4" />} />
-          </div>
-        </Section>
-
-        {/* 2. المصاريف الثابتة */}
-        <Section title="٢. المصاريف الثابتة (شهرياً)">
-          <p className="text-right text-xs text-muted-foreground -mt-2 mb-2">
-            أدخل مبالغ المصاريف الشهرية الثابتة
-          </p>
-          <ExpenseRow label="السكن" icon="🏠" defaultValue="0" />
-          <ExpenseRow label="المواصلات" icon="🚗" defaultValue="200" />
-          <ExpenseRow label="الإنترنت" icon="📊" defaultValue="100" />
-          <ExpenseRow label="أخرى" icon="•••" defaultValue="0" />
-          <button className="w-full rounded-2xl border-2 border-dashed border-primary/40 text-primary font-bold py-3 flex items-center justify-center gap-2">
-            <Plus className="h-4 w-4" /> إضافة مصروف آخر
-          </button>
-        </Section>
-
-        {/* 3. المصاريف المتغيرة */}
-        <Section title="٣. المصاريف المتغيرة">
-          <div className="grid grid-cols-4 gap-2">
-            {VARIABLE.map((v) => (
-              <ChoiceCard
-                key={v.key}
-                active={variable === v.key}
-                onClick={() => setVariable(v.key)}
-                icon={<span>{v.icon}</span>}
-                label={v.label}
-                extra={
-                  <span className="text-xs font-bold text-foreground mt-1">
-                    {v.amount} <span className="text-muted-foreground font-normal">ريال</span>
-                  </span>
-                }
+            <div className="flex items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 shadow-sm focus-within:border-primary/50 transition">
+              <span className="text-[11px] text-muted-foreground font-semibold">ر.س</span>
+              <input
+                value={data.monthlyIncome}
+                onChange={(e) => update({ monthlyIncome: e.target.value.replace(/[^\d]/g, "") })}
+                className="flex-1 bg-transparent outline-none text-[16px] font-bold text-foreground text-right"
+                style={{ fontVariantNumeric: "tabular-nums" }}
               />
-            ))}
+            </div>
           </div>
         </Section>
 
-        {/* 4. هدف الادخار */}
-        <Section title="٤. هدف الادخار">
-          <div>
-            <p className="text-right text-xs text-muted-foreground mb-1.5">
-              مبلغ الادخار الحالي (اختياري)
-            </p>
-            <AmountField defaultValue="0" />
-          </div>
-          <div>
-            <p className="text-right text-xs text-muted-foreground mb-1.5">
-              المبلغ الذي ترغب بالوصول له
-            </p>
-            <AmountField defaultValue="50,000" />
+        {/* Fixed expenses */}
+        <Section title="المصاريف الشهرية">
+          <div className="space-y-2">
+            {data.expenses.map((e, i) => (
+              <div
+                key={e.key}
+                className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2.5 shadow-sm"
+              >
+                <div className="h-8 w-8 rounded-xl bg-secondary text-muted-foreground flex items-center justify-center shrink-0">
+                  {EXPENSE_ICONS[e.key] ?? <MoreHorizontal className="h-4 w-4" strokeWidth={1.8} />}
+                </div>
+                <div className="flex-1 flex items-center gap-2">
+                  <span className="text-[10px] text-muted-foreground font-semibold">ر.س</span>
+                  <input
+                    value={e.amount}
+                    onChange={(ev) => updateExpense(e.key, ev.target.value.replace(/[^\d]/g, ""))}
+                    className="w-16 bg-transparent outline-none text-[13px] font-bold text-foreground"
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                  />
+                  <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
+                </div>
+                {i >= 3 && (
+                  <button
+                    onClick={() => removeExpense(e.key)}
+                    className="h-7 w-7 rounded-lg text-destructive/70 hover:bg-destructive/10 flex items-center justify-center shrink-0"
+                  >
+                    <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              onClick={addExpense}
+              className="w-full rounded-2xl border border-dashed border-border py-2.5 text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"
+            >
+              <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
+              إضافة مصروف آخر
+            </button>
           </div>
         </Section>
 
         <button
           onClick={onNext}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-4 shadow-lg shadow-primary/20"
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition"
         >
           التالي
+          <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
         </button>
-        <p className="text-center text-xs text-muted-foreground flex items-center justify-center gap-1">
-          🛡️ بياناتك آمنة ولن يتم مشاركتها
-        </p>
       </div>
-    </div>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="rounded-3xl border border-border bg-card p-4 space-y-3 shadow-sm">
-      <h3 className="text-right text-base font-black text-foreground">{title}</h3>
-      {children}
-    </div>
-  );
-}
-
-function ExpenseRow({ label, icon, defaultValue }: { label: string; icon: string; defaultValue: string }) {
-  return (
-    <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-surface px-4 py-3">
-      <span className="text-xs text-muted-foreground">ريال</span>
-      <input
-        defaultValue={defaultValue}
-        className="w-16 bg-transparent outline-none text-sm font-bold text-foreground"
-      />
-      <div className="flex-1 flex items-center justify-end gap-2">
-        <span className="text-sm font-semibold text-foreground">{label}</span>
-        <span className="text-lg">{icon}</span>
-      </div>
-    </div>
-  );
-}
-
-function AmountField({ defaultValue, icon }: { defaultValue: string; icon?: React.ReactNode }) {
-  return (
-    <div className="flex items-center gap-3 rounded-2xl border-2 border-border bg-card px-4 py-3.5">
-      <span className="text-xs text-muted-foreground">ريال</span>
-      <input
-        defaultValue={defaultValue}
-        className="flex-1 bg-transparent outline-none text-lg font-bold text-foreground"
-      />
-      <span className="text-muted-foreground">{icon}</span>
     </div>
   );
 }
 
 function Header({ title, onBack }: { title: string; onBack: () => void }) {
   return (
-    <div className="flex items-center justify-between px-5 pt-4">
+    <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
       <button
         onClick={onBack}
-        className="h-10 w-10 rounded-full bg-accent flex items-center justify-center"
+        className="h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition"
       >
-        <ChevronLeft className="h-5 w-5 text-primary" />
+        <ChevronRight className="h-5 w-5 text-foreground" strokeWidth={2} />
       </button>
-      <h1 className="text-xl font-black text-foreground">{title}</h1>
-      <div className="w-10" />
+      <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">{title}</h1>
+      <div className="w-11" />
+    </div>
+  );
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-[24px] border border-border bg-card p-4 shadow-sm">
+      <h3 className="text-right text-[14px] font-extrabold text-foreground tracking-tight mb-3">{title}</h3>
+      {children}
     </div>
   );
 }
