@@ -1,68 +1,83 @@
-import { Bell, Clock } from "lucide-react";
+import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag } from "lucide-react";
 import { useState } from "react";
 
-const FILTERS = ["منتهية", "قيد الإستخدام", "متاحة الآن", "الكل"];
+const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
-const COUPONS = [
-  { brand: "SHEIN", brandBg: "bg-black", brandColor: "text-white", pct: 20, min: 150, days: 7, btn: "bg-pink-200 text-pink-900" },
-  { brand: "جاهز\nJahez", brandBg: "bg-red-500", brandColor: "text-white", pct: 15, min: 60, days: 10, btn: "bg-red-200 text-red-900" },
-  { brand: "نون\nnoon", brandBg: "bg-yellow-400", brandColor: "text-black", pct: 10, min: 200, days: 12, btn: "bg-yellow-200 text-yellow-900" },
-  { brand: "FLOWARD\nفلورارد", brandBg: "bg-emerald-700", brandColor: "text-white", pct: 25, min: 120, days: 14, btn: "bg-emerald-200 text-emerald-900" },
+type Coupon = {
+  brand: string;
+  accent: string;
+  accentText: string;
+  pct: number;
+  min: number;
+  days: number;
+  target: string;
+};
+
+const COUPONS: Coupon[] = [
+  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات" },
+  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات" },
+  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات" },
+  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات" },
 ];
 
 export function RewardsTab() {
   const [filter, setFilter] = useState("الكل");
 
   return (
-    <div className="bg-card">
-      <div className="flex items-center justify-between px-5 pt-5">
+    <div className="bg-background pb-4">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
         <div className="w-11" />
         <div className="text-center">
-          <h1 className="text-2xl font-black text-foreground">المكافآت</h1>
-          <p className="text-xs text-muted-foreground mt-1 flex items-center justify-center gap-1">
-            🌱 كل مكافأة هي خطوة نحو هدفك
-          </p>
+          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">المكافآت</h1>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">كل مكافأة خطوة نحو هدفك</p>
         </div>
-        <button className="relative h-11 w-11 rounded-full bg-accent flex items-center justify-center">
-          <Bell className="h-5 w-5 text-primary" />
-          <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-destructive text-destructive-foreground text-[10px] font-bold flex items-center justify-center">
+        <button className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
+          <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
             3
           </span>
         </button>
       </div>
 
-      <div className="px-5 pb-4 space-y-4 mt-5">
+      <div className="px-5 pt-4 space-y-4">
         {/* Achievement card */}
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm flex items-center gap-4">
-          <div className="text-5xl">🎁</div>
-          <div className="flex-1 text-right">
-            <h3 className="font-black text-foreground">أحسنتِ! التزامك يحقق مكافآت رائعة</h3>
-            <p className="text-xs text-muted-foreground mt-1">إجمالي ما وفرته حتى الآن</p>
-            <p className="text-2xl font-black text-foreground mt-1">
-              2,870 <span className="text-sm text-muted-foreground">ريال</span>
-            </p>
-            <p className="text-xs text-mint font-bold mt-1">🎁 مكافآت مكتسبة: 8</p>
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm flex items-center gap-4">
+          <div className="h-12 w-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+            <Gift className="h-6 w-6" strokeWidth={1.8} />
           </div>
-          <div className="relative h-16 w-16">
+          <div className="flex-1 text-right">
+            <p className="text-[11px] text-muted-foreground font-medium">إجمالي ما وفرتِه</p>
+            <p className="text-[22px] font-bold text-foreground mt-0.5 leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+              2,870<span className="text-[13px] font-semibold text-mint mr-2">ر.س</span>
+            </p>
+            <p className="text-[11px] text-mint font-semibold mt-1.5 flex items-center gap-1 justify-end">
+              8 مكافآت مكتسبة
+              <Gift className="h-3 w-3" strokeWidth={2} />
+            </p>
+          </div>
+          <div className="relative h-16 w-16 shrink-0">
             <svg viewBox="0 0 40 40" className="h-16 w-16 -rotate-90">
               <circle cx="20" cy="20" r="16" fill="none" stroke="var(--border)" strokeWidth="4" />
-              <circle cx="20" cy="20" r="16" fill="none" stroke="var(--mint)" strokeWidth="4" strokeLinecap="round" strokeDasharray={`${0.28 * 100} 100`} pathLength={100} />
+              <circle cx="20" cy="20" r="16" fill="none" stroke="var(--mint)" strokeWidth="4" strokeLinecap="round" strokeDasharray="28 100" pathLength={100} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-              <span className="text-sm font-black text-foreground">28%</span>
-              <span className="text-[8px] text-muted-foreground">من هدفك</span>
+              <span className="text-[13px] font-bold text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>28%</span>
+              <span className="text-[8px] text-muted-foreground font-medium">من هدفك</span>
             </div>
           </div>
         </div>
 
         {/* Filter tabs */}
-        <div className="flex gap-2 bg-accent rounded-full p-1.5 justify-end">
+        <div className="flex gap-1 bg-secondary rounded-2xl p-1 justify-end">
           {FILTERS.map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-full text-xs font-bold ${
-                filter === f ? "bg-primary text-primary-foreground" : "text-muted-foreground"
+              className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
+                filter === f
+                  ? "bg-card text-foreground shadow-sm border border-border"
+                  : "text-muted-foreground"
               }`}
             >
               {f}
@@ -71,31 +86,39 @@ export function RewardsTab() {
         </div>
 
         <div className="flex items-center justify-between">
-          <button className="text-xs text-muted-foreground">الأحدث ↓</button>
-          <h3 className="font-black text-foreground flex items-center gap-1">
-            الكوبونات المتاحة 🏷️
+          <button className="text-[11px] text-muted-foreground font-semibold">الأحدث</button>
+          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight flex items-center gap-1.5">
+            <Tag className="h-4 w-4 text-primary" strokeWidth={2} />
+            الكوبونات المتاحة
           </h3>
         </div>
 
         <div className="space-y-3">
           {COUPONS.map((c, i) => (
-            <div key={i} className="rounded-2xl bg-card border border-border shadow-sm overflow-hidden flex">
-              <div className={`w-16 ${c.brandBg} ${c.brandColor} flex items-center justify-center text-xs font-bold text-center whitespace-pre-line`}>
-                {c.brand}
+            <div key={i} className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex">
+              <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[12px] font-extrabold tracking-tight`}>
+                <span>{c.brand}</span>
               </div>
               <div className="flex-1 p-3 flex justify-between items-center gap-3">
-                <div className="text-center">
-                  <p className="text-2xl font-black text-foreground">{c.pct}%</p>
-                  <p className="text-[10px] text-muted-foreground">خصم</p>
-                  <button className={`mt-1.5 rounded-full px-3 py-1 text-[10px] font-bold ${c.btn}`}>
-                    استخدم الآن
+                <div className="text-center shrink-0">
+                  <p className="text-[24px] font-bold text-foreground leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    {c.pct}%
+                  </p>
+                  <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
+                  <button className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground">
+                    استخدم
                   </button>
                 </div>
-                <div className="flex-1 text-right">
-                  <p className="font-bold text-foreground text-sm">خصم على {i === 1 || i === 3 ? "طلباتك" : "مشترياتك"} في {c.brand.split("\n")[0]}</p>
-                  <p className="text-xs text-mint mt-1">الحد الأدنى {c.min} ريال</p>
-                  <p className="text-[10px] text-muted-foreground mt-1.5 flex items-center gap-1 justify-end">
-                    صالح {c.days} أيام <Clock className="h-3 w-3" />
+                <div className="flex-1 text-right min-w-0">
+                  <p className="font-extrabold text-foreground text-[12px] tracking-tight">
+                    خصم على {c.target} في {c.brand}
+                  </p>
+                  <p className="text-[11px] text-mint font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    حد أدنى {c.min} ر.س
+                  </p>
+                  <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    صالح {c.days} أيام
+                    <Clock className="h-3 w-3" strokeWidth={2} />
                   </p>
                 </div>
               </div>
@@ -103,44 +126,48 @@ export function RewardsTab() {
           ))}
         </div>
 
-        <h3 className="font-black text-foreground flex items-center gap-1 pt-2">
-          مكافآت تم استخدامها 🔒
+        <h3 className="font-extrabold text-foreground text-[14px] tracking-tight flex items-center gap-1.5 pt-2">
+          <CheckCircle2 className="h-4 w-4 text-muted-foreground" strokeWidth={2} />
+          مكافآت مستخدمة
         </h3>
 
-        <div className="rounded-2xl bg-card border border-border shadow-sm overflow-hidden flex opacity-70">
-          <div className="w-16 bg-gray-500 text-white flex items-center justify-center text-xs font-bold text-center whitespace-pre-line">
-            HUNGER{"\n"}STATION
+        <div className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex opacity-70">
+          <div className="w-20 bg-neutral-500 text-white flex items-center justify-center text-[11px] font-extrabold text-center">
+            هنقر
           </div>
           <div className="flex-1 p-3 flex justify-between items-center gap-3">
-            <div className="text-center">
-              <p className="text-2xl font-black text-muted-foreground">10%</p>
-              <div className="mt-1.5 rounded-full px-3 py-1 text-[10px] font-bold bg-secondary text-muted-foreground">
-                ✓ تم
+            <div className="text-center shrink-0">
+              <p className="text-[22px] font-bold text-muted-foreground leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>10%</p>
+              <div className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-secondary text-muted-foreground flex items-center gap-1">
+                <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
+                تم
               </div>
             </div>
-            <div className="flex-1 text-right">
-              <p className="font-bold text-muted-foreground text-sm">خصم على طلباتك في هنقرستيشن</p>
-              <p className="text-xs text-muted-foreground mt-1">الحد الأدنى 50 ريال</p>
-              <p className="text-[10px] text-muted-foreground mt-1.5">🕐 تم استخدامه 20 يونيو</p>
+            <div className="flex-1 text-right min-w-0">
+              <p className="font-extrabold text-muted-foreground text-[12px] tracking-tight">خصم على الطلبات في هنقرستيشن</p>
+              <p className="text-[11px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>حد أدنى 50 ر.س</p>
+              <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>استُخدم 20 يونيو</p>
             </div>
           </div>
         </div>
 
         <div
-          className="rounded-3xl p-4 text-primary-foreground text-center flex items-center gap-3"
-          style={{ background: "linear-gradient(160deg, oklch(0.28 0.05 155), oklch(0.18 0.04 155))" }}
+          className="rounded-[24px] p-4 text-primary-foreground flex items-center gap-3 relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.34 0.07 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.12 0.03 155) 100%)",
+            boxShadow: "0 20px 40px -20px oklch(0.20 0.05 155 / 0.6)",
+          }}
         >
-          <div className="h-10 w-10 rounded-full bg-mint/20 flex items-center justify-center">
-            🛡️
+          <div className="absolute -top-10 -right-10 w-32 h-32 bg-mint/20 rounded-full blur-3xl" />
+          <div className="relative h-11 w-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+            <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
           </div>
-          <div className="flex-1 text-right">
-            <p className="font-black text-sm flex items-center justify-end gap-1">
-              كل قرار ذكي يقربك من هدفك 💎
-            </p>
-            <p className="text-xs opacity-80 mt-1">
-              استمر للحصول على المزيد من المكافآت الحصرية 🎁
-            </p>
+          <div className="relative flex-1 text-right">
+            <p className="font-extrabold text-[13px] tracking-tight">كل قرار ذكي يقرّبك من هدفك</p>
+            <p className="text-[11px] text-white/70 mt-1 font-medium">استمري للحصول على مكافآت حصرية</p>
           </div>
+          <ChevronLeft className="relative h-4 w-4 text-white/70 shrink-0" strokeWidth={2.5} />
         </div>
       </div>
     </div>
