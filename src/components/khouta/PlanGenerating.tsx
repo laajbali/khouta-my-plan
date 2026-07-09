@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Check, Loader2, Briefcase, BarChart3, Building2, Calculator, Calendar, Sparkles, Target } from "lucide-react";
-import { Logo } from "./Logo";
+import { KhoutaLogo } from "./Logo";
 import { Stepper } from "./Stepper";
 import { useOnboarding } from "./onboarding-context";
 
