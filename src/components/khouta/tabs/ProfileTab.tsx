@@ -211,3 +211,29 @@ export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () =
     </div>
   );
 }
+
+function StatPill({
+  icon,
+  value,
+  suffix,
+  label,
+}: {
+  icon?: React.ReactNode;
+  value: string;
+  suffix?: string;
+  label: string;
+}) {
+  return (
+    <div className="rounded-xl bg-white/10 border border-white/12 backdrop-blur px-2.5 py-2 text-right">
+      <div className="flex items-center gap-1 justify-end text-mint">
+        {icon}
+        <span className="text-[13px] font-black text-white leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
+          {value}
+          {suffix && <span className="text-[9px] text-white/70 font-bold mr-1">{suffix}</span>}
+        </span>
+      </div>
+      <p className="text-[9.5px] text-white/60 font-semibold mt-1 tracking-tight">{label}</p>
+    </div>
+  );
+}
+
