@@ -104,7 +104,17 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
             </div>
             <div className="flex-1 text-right">
               <p className="text-[10px] text-white/50 font-semibold tracking-[0.15em] uppercase">هدفك المختار</p>
-              <p className="text-[15px] font-extrabold tracking-tight mt-0.5">{selected.label}</p>
+              {data.goalKey === "custom" ? (
+                <input
+                  type="text"
+                  value={data.goalLabel}
+                  onChange={(e) => update({ goalLabel: e.target.value })}
+                  placeholder="اكتبي اسم هدفك"
+                  className="mt-0.5 w-full bg-transparent outline-none text-[15px] font-extrabold text-white text-right tracking-tight placeholder:text-white/40 border-b border-white/20 focus:border-mint pb-0.5"
+                />
+              ) : (
+                <p className="text-[15px] font-extrabold tracking-tight mt-0.5">{selected.label}</p>
+              )}
             </div>
           </div>
 
