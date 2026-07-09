@@ -2,7 +2,6 @@ import {
   User,
   Camera,
   Edit,
-  Star,
   Bell,
   Globe,
   Lock,
@@ -14,12 +13,15 @@ import {
   ShieldCheck,
   LogOut,
   ChevronLeft,
-  Target,
+  TrendingUp,
+  Award,
+  Trophy,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { useProfile } from "@/hooks/use-khouta-data";
 import { useSession } from "@/hooks/use-session";
 import { toast } from "sonner";
+
 
 const SETTINGS = [
   { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700", action: "تغيير لغة التطبيق قريباً" },
