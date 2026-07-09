@@ -216,7 +216,18 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         /* ============ Logo stage ============ */
         .splash-stage {
           transform-origin: center;
-          animation: splash-float-idle 4s ease-in-out 3400ms infinite;
+          /* After assembly, the logo gently scales down ~8% to find its
+             final resting position, then the inner layer takes over float. */
+          animation: splash-stage-settle 600ms cubic-bezier(0.22, 1, 0.36, 1) 3600ms forwards;
+        }
+        @keyframes splash-stage-settle {
+          from { transform: scale(1); }
+          to   { transform: scale(0.92); }
+        }
+
+        .splash-stage-inner {
+          /* Subtle floating motion during the 4s hold. */
+          animation: splash-float-idle 4s ease-in-out 4200ms infinite;
         }
         @keyframes splash-float-idle {
           0%, 100% { transform: translateY(0); }
