@@ -20,17 +20,22 @@ export const Route = createFileRoute("/")({
 type Screen = "splash" | "login" | "s1" | "s2" | "s3" | "s4" | "generating" | "home";
 const ONBOARDING: Screen[] = ["s1", "s2", "s3", "s4", "generating"];
 
+// Duration of the crossfade overlay after the splash animation finishes.
+const SPLASH_FADE_MS = 500;
+
 function Index() {
   const { session, ready } = useSession();
   const [screen, setScreen] = useState<Screen>("splash");
   // While true, splash's onDone must land on "login" regardless of any lingering session.
   const [forceLoginAfterSplash, setForceLoginAfterSplash] = useState(false);
+  // Keep splash mounted as a fading overlay after the next screen renders underneath.
+  const [splashFading, setSplashFading] = useState(false);
 
-  // Whenever the session ends (logout), replay the splash, then land on login.
   useEffect(() => {
     const { data: sub } = supabase.auth.onAuthStateChange((event) => {
       if (event === "SIGNED_OUT") {
         setForceLoginAfterSplash(true);
+        setSplashFading(false);
         setScreen("splash");
       }
     });
@@ -46,52 +51,71 @@ function Index() {
         : screen;
 
   async function handleReset() {
-    // Kick off splash immediately so the user sees Logout → Splash → Login.
     setForceLoginAfterSplash(true);
+    setSplashFading(false);
     setScreen("splash");
     await supabase.auth.signOut();
   }
 
   function handleSplashDone() {
-    if (forceLoginAfterSplash) {
-      setForceLoginAfterSplash(false);
-      setScreen("login");
-      return;
-    }
-    setScreen(session ? "home" : "login");
+    // Swap to the destination screen underneath, then fade the splash overlay out.
+    const next: Screen = forceLoginAfterSplash ? "login" : session ? "home" : "login";
+    if (forceLoginAfterSplash) setForceLoginAfterSplash(false);
+    setScreen(next);
+    setSplashFading(true);
+    window.setTimeout(() => setSplashFading(false), SPLASH_FADE_MS);
   }
+
+  const showSplashOverlay = active === "splash" || splashFading;
 
   return (
     <PhoneFrame>
-      {active === "splash" ? (
-        <SplashScreen onDone={handleSplashDone} />
-      ) : !ready ? (
-        <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-          جارٍ التحميل...
-        </div>
-      ) : (
-        <OnboardingProvider>
-          {active === "login" && (
-            <LoginScreen onCreate={() => setScreen("s1")} onLogin={() => setScreen("home")} />
-          )}
-          {active === "s1" && (
-            <Step1Account onBack={() => setScreen("login")} onNext={() => setScreen("s2")} />
-          )}
-          {active === "s2" && (
-            <Step2Financial onBack={() => setScreen("s1")} onNext={() => setScreen("s3")} />
-          )}
-          {active === "s3" && (
-            <Step3Goal onBack={() => setScreen("s2")} onFinish={() => setScreen("s4")} />
-          )}
-          {active === "s4" && (
-            <Step4Card onBack={() => setScreen("s3")} onNext={() => setScreen("generating")} />
-          )}
-          {active === "generating" && (
-            <PlanGenerating onDone={() => setScreen("home")} />
-          )}
-          {active === "home" && <HomeScreen onReset={handleReset} />}
-        </OnboardingProvider>
-      )}
+      <div className="relative flex-1 flex flex-col">
+        {active === "splash" ? (
+          // Reserve layout space while the very first splash plays.
+          <div className="flex-1" />
+        ) : !ready ? (
+          <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
+            جارٍ التحميل...
+          </div>
+        ) : (
+          <OnboardingProvider>
+            {active === "login" && (
+              <LoginScreen onCreate={() => setScreen("s1")} onLogin={() => setScreen("home")} />
+            )}
+            {active === "s1" && (
+              <Step1Account onBack={() => setScreen("login")} onNext={() => setScreen("s2")} />
+            )}
+            {active === "s2" && (
+              <Step2Financial onBack={() => setScreen("s1")} onNext={() => setScreen("s3")} />
+            )}
+            {active === "s3" && (
+              <Step3Goal onBack={() => setScreen("s2")} onFinish={() => setScreen("s4")} />
+            )}
+            {active === "s4" && (
+              <Step4Card onBack={() => setScreen("s3")} onNext={() => setScreen("generating")} />
+            )}
+            {active === "generating" && (
+              <PlanGenerating onDone={() => setScreen("home")} />
+            )}
+            {active === "home" && <HomeScreen onReset={handleReset} />}
+          </OnboardingProvider>
+        )}
+
+        {showSplashOverlay && (
+          <div
+            aria-hidden={splashFading}
+            className="absolute inset-0 z-50"
+            style={{
+              opacity: splashFading ? 0 : 1,
+              transition: `opacity ${SPLASH_FADE_MS}ms ease-out`,
+              pointerEvents: splashFading ? "none" : "auto",
+            }}
+          >
+            <SplashScreen onDone={handleSplashDone} />
+          </div>
+        )}
+      </div>
     </PhoneFrame>
   );
 }
