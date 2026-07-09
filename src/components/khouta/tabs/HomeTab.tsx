@@ -64,25 +64,30 @@ export function HomeTab({
       <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card">
         <div className="flex items-center gap-3">
           <div className="relative">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-bold text-base shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm">
               {initial}
             </div>
             <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-mint border-2 border-card rounded-full" />
           </div>
           <div>
-            <p className="text-muted-foreground text-xs">أهلاً،</p>
-            <h2 className="text-foreground font-bold text-base leading-tight">
+            <p className="text-muted-foreground text-[11px] font-medium tracking-tight">أهلاً،</p>
+            <h2 className="text-foreground font-extrabold text-[15px] leading-tight tracking-tight">
               {displayName}
             </h2>
           </div>
         </div>
         <button
           onClick={onOpenNotifications}
-          className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative"
+          className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative active:scale-95 transition"
           aria-label="التنبيهات"
         >
-          <Bell className="w-5 h-5" strokeWidth={1.8} />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-destructive rounded-full border-2 border-card" />
+          <Bell className="w-5 h-5" strokeWidth={2} />
+          <span
+            className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-destructive rounded-full border-2 border-card flex items-center justify-center text-[9px] font-bold text-white"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            3
+          </span>
         </button>
       </div>
 
@@ -90,45 +95,48 @@ export function HomeTab({
       <div className="px-5 pt-3 bg-card">
         <button
           onClick={onOpenStatement}
-          className="w-full text-right rounded-[24px] p-5 text-primary-foreground relative overflow-hidden active:scale-[0.99] transition"
+          className="w-full text-right rounded-[28px] p-5 text-primary-foreground relative overflow-hidden active:scale-[0.99] transition"
           style={{
             background:
-              "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.15 0.04 155) 100%)",
-            boxShadow: "0 20px 40px -20px oklch(0.28 0.05 155 / 0.5)",
+              "linear-gradient(140deg, oklch(0.34 0.07 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.12 0.03 155) 100%)",
+            boxShadow: "0 24px 48px -22px oklch(0.20 0.05 155 / 0.65)",
           }}
         >
-          <div className="absolute -top-12 -right-12 w-48 h-48 bg-mint/15 rounded-full blur-3xl" />
+          <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-10 w-48 h-48 bg-primary/25 rounded-full blur-3xl" />
 
-          <div className="relative flex justify-between items-start mb-6">
+          <div className="relative flex justify-between items-start mb-7">
             <div>
-              <p className="text-white/60 text-xs">الرصيد المتاح</p>
+              <p className="text-white/55 text-[10px] font-semibold tracking-[0.15em] uppercase">الرصيد المتاح</p>
               <h3
-                className="text-[1.75rem] font-semibold mt-1 tracking-tight leading-none"
+                className="text-[2.15rem] font-bold mt-1.5 tracking-tight leading-none text-white"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
-                12,450<span className="text-lg text-white/70">.00</span>
-                <span className="text-xs font-medium mr-2 text-white/70">ر.س</span>
+                12,450<span className="text-xl text-white/60 font-semibold">.00</span>
+                <span className="text-[11px] font-bold mr-2 text-mint tracking-wider">ر.س</span>
               </h3>
             </div>
             <div className="text-left">
-              <p className="text-[9px] font-bold tracking-widest text-white/50 uppercase">mada</p>
-              <p className="text-mint text-xs font-bold mt-0.5">خُطى</p>
+              <p className="text-[9px] font-black tracking-[0.2em] text-white/60 uppercase">mada</p>
+              <p className="text-mint text-xs font-extrabold mt-0.5 tracking-tight">خُطى</p>
             </div>
           </div>
 
           <div className="relative flex justify-between items-center">
             <div>
-              <p className="text-[9px] text-white/40 uppercase tracking-widest">الحساب الجاري</p>
-              <p className="text-sm font-semibold mt-0.5" dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <p className="text-[9px] text-white/45 uppercase tracking-[0.2em] font-semibold">الحساب الجاري</p>
+              <p className="text-sm font-bold mt-1 text-white/95" dir="ltr" style={{ fontVariantNumeric: "tabular-nums", letterSpacing: "0.05em" }}>
                 •••• 9284
               </p>
             </div>
-            <span className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-semibold border border-white/15">
+            <span className="bg-white/12 backdrop-blur-md px-4 py-2 rounded-xl text-[11px] font-bold border border-white/20 text-white flex items-center gap-1">
               كشف الحساب
+              <ChevronLeft className="w-3 h-3" strokeWidth={2.5} />
             </span>
           </div>
         </button>
       </div>
+
 
       {/* Quick Actions */}
       <div className="px-5 py-6 grid grid-cols-4 gap-2 bg-card">
@@ -160,34 +168,43 @@ export function HomeTab({
         {/* Feature grid */}
         <div className="grid grid-cols-2 gap-3">
           <FeatureCard
-            icon={<Sparkles className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Sparkles className="h-5 w-5" strokeWidth={2} />}
             title="المستشار نور"
             desc="اسألي أي شيء مالي"
+            metric="جديد"
+            metricTone="text-primary bg-primary/10"
             tint="bg-primary/10 text-primary"
             onClick={onOpenNoor}
           />
           <FeatureCard
-            icon={<Calendar className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Calendar className="h-5 w-5" strokeWidth={2} />}
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
+            metric="5 أيام"
+            metricTone="text-blue-700 bg-blue-50"
             tint="bg-blue-50 text-blue-700"
             onClick={onOpenCalendar}
           />
           <FeatureCard
-            icon={<BarChart3 className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<BarChart3 className="h-5 w-5" strokeWidth={2} />}
             title="التقارير"
-            desc="أداء هذا الشهر"
+            desc="وفرتِ هذا الشهر"
+            metric="+18%"
+            metricTone="text-mint bg-mint/15"
             tint="bg-mint/15 text-primary"
             onClick={onOpenReports}
           />
           <FeatureCard
-            icon={<Gift className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Gift className="h-5 w-5" strokeWidth={2} />}
             title="المكافآت"
-            desc="كوبون جديد بانتظارك"
+            desc="كوبون بانتظارك"
+            metric="2 جديدة"
+            metricTone="text-amber-700 bg-amber-100"
             tint="bg-amber-50 text-amber-700"
             onClick={onOpenRewards}
           />
         </div>
+
 
         {/* Goal Card */}
         <div className="bg-card rounded-[24px] p-4 border border-border">
@@ -363,28 +380,43 @@ function FeatureCard({
   title,
   desc,
   tint,
+  metric,
+  metricTone,
   onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   desc: string;
   tint: string;
+  metric?: string;
+  metricTone?: string;
   onClick?: () => void;
 }) {
   return (
     <button
       onClick={onClick}
-      className="rounded-2xl bg-card border border-border p-4 text-right relative overflow-hidden active:scale-[0.98] transition hover:border-primary/30"
+      className="rounded-2xl bg-card border border-border p-4 text-right relative overflow-hidden active:scale-[0.98] transition hover:border-primary/40 hover:shadow-sm"
     >
-      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${tint} mb-3 mr-auto`}>
-        {icon}
+      <div className="flex items-start justify-between mb-3">
+        <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${tint}`}>
+          {icon}
+        </div>
+        {metric && (
+          <span
+            className={`text-[10px] font-bold px-2 py-1 rounded-lg ${metricTone ?? "text-primary bg-primary/10"}`}
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            {metric}
+          </span>
+        )}
       </div>
-      <h4 className="font-bold text-foreground text-sm">{title}</h4>
-      <p className="text-[11px] text-muted-foreground mt-0.5">{desc}</p>
-      <ChevronLeft className="h-3 w-3 text-muted-foreground absolute bottom-3 left-3" />
+      <h4 className="font-extrabold text-foreground text-[14px] tracking-tight">{title}</h4>
+      <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">{desc}</p>
+      <ChevronLeft className="h-3 w-3 text-muted-foreground/70 absolute bottom-3 left-3" strokeWidth={2.5} />
     </button>
   );
 }
+
 
 function ProgressRing({ percent }: { percent: number }) {
   const r = 22;
