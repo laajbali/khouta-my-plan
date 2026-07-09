@@ -113,6 +113,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
 
           {/* Soft golden glow pulse */}
           <div className="splash-glow absolute inset-0 pointer-events-none" />
+          </div>
         </div>
       </div>
 
