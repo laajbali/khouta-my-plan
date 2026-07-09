@@ -53,12 +53,11 @@ function Index() {
   }
 
   function handleSplashDone() {
-    if (forceLoginAfterSplash) {
-      setForceLoginAfterSplash(false);
-      setScreen("login");
-      return;
-    }
-    setScreen(session ? "home" : "login");
+    // DEV: always land on the Login screen after the splash animation so the
+    // full onboarding flow can be replayed on every preview reload. Restore
+    // `setScreen(session ? "home" : "login")` when going to production.
+    setForceLoginAfterSplash(false);
+    setScreen("login");
   }
 
   return (

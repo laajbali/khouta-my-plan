@@ -2,24 +2,46 @@ import { useEffect } from "react";
 import logo from "@/assets/khouta-logo.asset.json";
 
 /**
- * Khuta Splash Screen — cinematic assembly of the official logo.
+ * Khuta Splash Screen — cinematic assembly using the OFFICIAL logo image.
  *
- * The three golden steps + star are approximated as decorative shapes
- * during the assembly. Once the dark-green rounded square scales up behind
- * them, the whole composition crossfades to the UNTOUCHED official logo
- * image (`khouta-logo.asset.json`). Nothing about the real logo is
- * redesigned — the shapes are only in-flight scaffolding.
+ * No shapes are redrawn. Four clipped copies of the untouched official
+ * logo (`khouta-logo.asset.json`) slide into place — bottom step, middle
+ * step, top step, star — reconstructing the logo tile-by-tile. A final
+ * un-clipped copy then fades on top to seal any seams. The completed
+ * logo holds on screen for ~3s before the parent fades to the Login
+ * screen.
  *
- * Total duration ≈ 3400 ms → onDone().
+ * Timeline (ms):
+ *   0     background waves + particles
+ *   400   bottom step slides up
+ *   1000  middle step slides in from the right
+ *   1600  top step drops from above
+ *   2200  star sparkles in (top-right)
+ *   2900  full official logo fades on top (seals seams)
+ *   3200  shimmer sweep + soft golden glow
+ *   3400  ── HOLD ──
+ *   6400  onDone()  (parent fades to Login)
  */
 export function SplashScreen({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 3400);
+    const t = setTimeout(onDone, 6400);
     return () => clearTimeout(t);
   }, [onDone]);
 
-  // Logo box size (px). Everything inside is positioned relative to this.
-  const S = 176;
+  // Logo box size (px).
+  const S = 184;
+
+  // Clip regions for each "piece" of the official logo image.
+  // Values are inset(top right bottom left) as percentages of the image.
+  // Tuned to the Khuta logo layout: three stacked gold steps + a star
+  // in the upper-right. Each tile shows a rectangular slice of the real
+  // logo, so nothing is redrawn.
+  const tiles = [
+    { name: "step-bottom", inset: "58% 6% 6% 6%",  from: "translateY(60px)",  delay: 400  },
+    { name: "step-middle", inset: "38% 20% 42% 6%", from: "translateX(70px)", delay: 1000 },
+    { name: "step-top",    inset: "18% 34% 62% 6%", from: "translateY(-60px)", delay: 1600 },
+    { name: "star",        inset: "6% 6% 62% 60%", from: "scale(0.2) rotate(-25deg)", delay: 2200 },
+  ];
 
   return (
     <div className="splash-root absolute inset-0 overflow-hidden bg-white">
@@ -39,103 +61,32 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
 
       {/* ============ Logo stage ============ */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div
-          className="splash-stage relative"
-          style={{ width: S, height: S }}
-        >
-          {/* Dark green rounded square — grows from center at step 6 */}
-          <div
-            className="splash-square absolute inset-0"
-            style={{
-              borderRadius: "22%",
-              background:
-                "linear-gradient(140deg, oklch(0.30 0.06 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.13 0.04 155) 100%)",
-              boxShadow:
-                "0 30px 60px -24px oklch(0.20 0.05 155 / 0.55), 0 10px 24px -10px oklch(0.15 0.04 155 / 0.35)",
-            }}
-          />
-
-          {/* Assembly scaffolding — approximations of the golden parts */}
-          <div className="splash-assembly absolute inset-0" aria-hidden>
-            {/* Bottom step — rises from below */}
-            <span
-              className="splash-step splash-step-1"
+        <div className="splash-stage relative" style={{ width: S, height: S }}>
+          {/* Assembled tiles — each is a clipped copy of the REAL logo */}
+          {tiles.map((t) => (
+            <img
+              key={t.name}
+              src={logo.url}
+              alt=""
+              width={S}
+              height={S}
+              draggable={false}
+              className={`splash-tile splash-tile-${t.name} absolute inset-0 select-none`}
               style={{
-                position: "absolute",
-                left: "16%",
-                bottom: "22%",
-                width: "68%",
-                height: "12%",
-                borderRadius: "6px",
-                background:
-                  "linear-gradient(180deg, oklch(0.88 0.14 88) 0%, oklch(0.76 0.15 82) 100%)",
-                boxShadow:
-                  "0 4px 10px -4px oklch(0.60 0.15 80 / 0.55), inset 0 1px 0 oklch(1 0 0 / 0.35)",
+                width: S,
+                height: S,
+                borderRadius: "22%",
+                clipPath: `inset(${t.inset} round 22%)`,
+                WebkitClipPath: `inset(${t.inset} round 22%)`,
+                // @ts-expect-error CSS custom props
+                "--from": t.from,
+                "--delay": `${t.delay}ms`,
               }}
+              aria-hidden
             />
-            {/* Middle step — slides in from the right */}
-            <span
-              className="splash-step splash-step-2"
-              style={{
-                position: "absolute",
-                left: "22%",
-                bottom: "40%",
-                width: "56%",
-                height: "12%",
-                borderRadius: "6px",
-                background:
-                  "linear-gradient(180deg, oklch(0.88 0.14 88) 0%, oklch(0.76 0.15 82) 100%)",
-                boxShadow:
-                  "0 4px 10px -4px oklch(0.60 0.15 80 / 0.55), inset 0 1px 0 oklch(1 0 0 / 0.35)",
-              }}
-            />
-            {/* Top step — drops from above */}
-            <span
-              className="splash-step splash-step-3"
-              style={{
-                position: "absolute",
-                left: "30%",
-                bottom: "58%",
-                width: "42%",
-                height: "12%",
-                borderRadius: "6px",
-                background:
-                  "linear-gradient(180deg, oklch(0.88 0.14 88) 0%, oklch(0.76 0.15 82) 100%)",
-                boxShadow:
-                  "0 4px 10px -4px oklch(0.60 0.15 80 / 0.55), inset 0 1px 0 oklch(1 0 0 / 0.35)",
-              }}
-            />
+          ))}
 
-            {/* Sparkle → grows → becomes the star */}
-            <span
-              className="splash-star"
-              style={{
-                position: "absolute",
-                top: "14%",
-                right: "18%",
-                width: "22%",
-                height: "22%",
-              }}
-            >
-              <svg viewBox="0 0 24 24" width="100%" height="100%">
-                <defs>
-                  <linearGradient id="splash-gold" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="oklch(0.90 0.14 88)" />
-                    <stop offset="100%" stopColor="oklch(0.74 0.15 82)" />
-                  </linearGradient>
-                </defs>
-                <path
-                  d="M12 2 L14.6 8.5 L21.5 9.2 L16.3 13.7 L18 20.5 L12 16.9 L6 20.5 L7.7 13.7 L2.5 9.2 L9.4 8.5 Z"
-                  fill="url(#splash-gold)"
-                  stroke="oklch(0.65 0.14 80)"
-                  strokeWidth="0.4"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </span>
-          </div>
-
-          {/* Real official logo — crossfades in on top when square is complete */}
+          {/* Final untouched official logo — seals any seams */}
           <img
             src={logo.url}
             alt="خُطى"
@@ -172,7 +123,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
             radial-gradient(120% 80% at 20% 10%, oklch(0.97 0.03 155 / 0.9), transparent 60%),
             radial-gradient(120% 80% at 80% 90%, oklch(0.96 0.04 155 / 0.8), transparent 55%),
             linear-gradient(180deg, #ffffff 0%, oklch(0.985 0.01 155) 50%, #ffffff 100%);
-          animation: splash-wash 6s ease-in-out infinite alternate;
+          animation: splash-wash 8s ease-in-out infinite alternate;
         }
         @keyframes splash-wash {
           0% { filter: hue-rotate(0deg); }
@@ -184,29 +135,29 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           border-radius: 50%;
           filter: blur(60px);
           opacity: 0;
-          animation: splash-wave 5s ease-out forwards;
+          animation: splash-wave 3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .splash-bg-wave-1 {
-          width: 420px; height: 420px;
-          left: -120px; top: -80px;
+          width: 440px; height: 440px;
+          left: -130px; top: -90px;
           background: radial-gradient(circle, oklch(0.85 0.10 155 / 0.55), transparent 70%);
           animation-delay: 0ms;
         }
         .splash-bg-wave-2 {
-          width: 360px; height: 360px;
-          right: -100px; bottom: -60px;
+          width: 380px; height: 380px;
+          right: -110px; bottom: -70px;
           background: radial-gradient(circle, oklch(0.88 0.08 155 / 0.50), transparent 70%);
-          animation-delay: 200ms;
+          animation-delay: 250ms;
         }
         .splash-bg-wave-3 {
-          width: 300px; height: 300px;
-          right: -80px; top: 20%;
+          width: 320px; height: 320px;
+          right: -90px; top: 20%;
           background: radial-gradient(circle, oklch(0.92 0.06 155 / 0.40), transparent 70%);
-          animation-delay: 400ms;
+          animation-delay: 500ms;
         }
         @keyframes splash-wave {
-          0% { opacity: 0; transform: scale(0.85); }
-          40% { opacity: 1; }
+          0%   { opacity: 0; transform: scale(0.85); }
+          60%  { opacity: 1; }
           100% { opacity: 1; transform: scale(1.08) translate(4px, -4px); }
         }
 
@@ -216,11 +167,11 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
             oklch(0.98 0.02 155 / 0.9) 0%,
             oklch(0.96 0.03 155 / 0.5) 40%,
             transparent 75%);
-          animation: splash-glow-pulse 4s ease-in-out infinite;
+          animation: splash-glow-pulse 5s ease-in-out infinite;
         }
         @keyframes splash-glow-pulse {
           0%, 100% { opacity: 0.7; }
-          50% { opacity: 1; }
+          50%      { opacity: 1; }
         }
 
         /* ============ Golden particles ============ */
@@ -232,132 +183,75 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           background: radial-gradient(circle, oklch(0.88 0.14 88) 0%, oklch(0.80 0.15 82 / 0) 70%);
           box-shadow: 0 0 6px oklch(0.85 0.14 85 / 0.7);
           opacity: 0;
-          animation: splash-float 6s ease-in-out infinite;
+          animation: splash-float 7s ease-in-out infinite;
         }
         @keyframes splash-float {
-          0% { opacity: 0; transform: translate3d(0,20px,0) scale(0.6); }
-          20% { opacity: 0.9; }
-          80% { opacity: 0.7; }
-          100% { opacity: 0; transform: translate3d(0,-40px,0) scale(1.1); }
+          0%   { opacity: 0; transform: translate3d(0,20px,0) scale(0.6); }
+          20%  { opacity: 0.9; }
+          80%  { opacity: 0.7; }
+          100% { opacity: 0; transform: translate3d(0,-46px,0) scale(1.1); }
         }
         .p0  { left: 10%; top: 22%; animation-delay: 0ms;   width: 3px; height: 3px; }
-        .p1  { left: 22%; top: 70%; animation-delay: 400ms; }
-        .p2  { left: 35%; top: 18%; animation-delay: 800ms; width: 5px; height: 5px; }
-        .p3  { left: 48%; top: 82%; animation-delay: 200ms; }
-        .p4  { left: 62%; top: 26%; animation-delay: 1000ms; }
-        .p5  { left: 78%; top: 68%; animation-delay: 600ms; width: 3px; height: 3px; }
-        .p6  { left: 88%; top: 20%; animation-delay: 300ms; }
-        .p7  { left: 15%; top: 50%; animation-delay: 1200ms; }
-        .p8  { left: 70%; top: 15%; animation-delay: 900ms; width: 5px; height: 5px; }
-        .p9  { left: 30%; top: 88%; animation-delay: 1500ms; }
-        .p10 { left: 55%; top: 40%; animation-delay: 700ms; }
-        .p11 { left: 82%; top: 40%; animation-delay: 1100ms; }
-        .p12 { left: 8%;  top: 80%; animation-delay: 500ms; }
-        .p13 { left: 92%; top: 78%; animation-delay: 1300ms; width: 3px; height: 3px; }
+        .p1  { left: 22%; top: 70%; animation-delay: 500ms; }
+        .p2  { left: 35%; top: 18%; animation-delay: 900ms; width: 5px; height: 5px; }
+        .p3  { left: 48%; top: 82%; animation-delay: 300ms; }
+        .p4  { left: 62%; top: 26%; animation-delay: 1100ms; }
+        .p5  { left: 78%; top: 68%; animation-delay: 700ms; width: 3px; height: 3px; }
+        .p6  { left: 88%; top: 20%; animation-delay: 400ms; }
+        .p7  { left: 15%; top: 50%; animation-delay: 1400ms; }
+        .p8  { left: 70%; top: 15%; animation-delay: 1000ms; width: 5px; height: 5px; }
+        .p9  { left: 30%; top: 88%; animation-delay: 1700ms; }
+        .p10 { left: 55%; top: 40%; animation-delay: 800ms; }
+        .p11 { left: 82%; top: 40%; animation-delay: 1300ms; }
+        .p12 { left: 8%;  top: 80%; animation-delay: 600ms; }
+        .p13 { left: 92%; top: 78%; animation-delay: 1500ms; width: 3px; height: 3px; }
 
         /* ============ Logo stage ============ */
         .splash-stage {
           transform-origin: center;
-          animation: splash-finish 2400ms ease-in-out 1500ms forwards, splash-float-idle 3s ease-in-out 2400ms infinite;
-        }
-        @keyframes splash-finish {
-          0%   { transform: scale(1) translateY(0); }
-          25%  { transform: scale(1.03) translateY(-2px); }
-          60%  { transform: scale(1.0) translateY(0); }
-          100% { transform: scale(1.0) translateY(0); }
+          animation: splash-float-idle 4s ease-in-out 3400ms infinite;
         }
         @keyframes splash-float-idle {
           0%, 100% { transform: translateY(0); }
           50%      { transform: translateY(-3px); }
         }
 
-        /* Green square — grows from center at step 6 */
-        .splash-square {
-          transform: scale(0);
+        /* ============ Assembled tiles (real logo, clipped) ============ */
+        .splash-tile {
           opacity: 0;
-          animation: splash-square-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 1500ms forwards;
+          transform: var(--from);
+          filter: drop-shadow(0 12px 24px oklch(0.20 0.05 155 / 0.35));
+          will-change: transform, opacity;
+          animation: splash-tile-in 900ms cubic-bezier(0.22, 1, 0.36, 1) var(--delay) forwards;
         }
-        @keyframes splash-square-in {
-          0%   { transform: scale(0);    opacity: 0; }
-          40%  { opacity: 1; }
-          100% { transform: scale(1);    opacity: 1; }
-        }
-
-        /* Scaffolding assembly fades out as real logo takes over */
-        .splash-assembly {
-          animation: splash-assembly-out 400ms ease-out 2100ms forwards;
-        }
-        @keyframes splash-assembly-out {
-          from { opacity: 1; }
-          to   { opacity: 0; }
-        }
-
-        /* Steps — each with its own entrance */
-        .splash-step { opacity: 0; will-change: transform, opacity; }
-        .splash-step-1 {
-          transform: translateY(140%);
-          animation: splash-step1 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
-        }
-        @keyframes splash-step1 {
-          0%   { transform: translateY(140%); opacity: 0; }
+        @keyframes splash-tile-in {
+          0%   { opacity: 0; transform: var(--from); }
           60%  { opacity: 1; }
-          100% { transform: translateY(0);    opacity: 1; }
+          100% { opacity: 1; transform: translate(0,0) scale(1) rotate(0); }
         }
-        .splash-step-2 {
-          transform: translateX(160%);
-          animation: splash-step2 650ms cubic-bezier(0.22, 1, 0.36, 1) 650ms forwards;
-        }
-        @keyframes splash-step2 {
-          0%   { transform: translateX(160%); opacity: 0; }
-          50%  { opacity: 1; }
-          100% { transform: translateX(0);    opacity: 1; }
-        }
-        .splash-step-3 {
-          transform: translateY(-160%);
-          animation: splash-step3 650ms cubic-bezier(0.22, 1, 0.36, 1) 1050ms forwards;
-        }
-        @keyframes splash-step3 {
-          0%   { transform: translateY(-160%); opacity: 0; }
-          50%  { opacity: 1; }
-          100% { transform: translateY(0);     opacity: 1; }
+        .splash-tile-star {
+          animation-duration: 1100ms;
+          filter: drop-shadow(0 0 14px oklch(0.85 0.14 85 / 0.55));
         }
 
-        /* Star: sparkle → grow → settle */
-        .splash-star {
-          opacity: 0;
-          transform: scale(0.05);
-          filter: drop-shadow(0 0 8px oklch(0.85 0.14 85 / 0));
-          animation: splash-star-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 1400ms forwards;
-        }
-        @keyframes splash-star-in {
-          0%   { opacity: 0;   transform: scale(0.05) rotate(-30deg);
-                 filter: drop-shadow(0 0 2px oklch(1 0 0 / 0.9)); }
-          25%  { opacity: 1;   transform: scale(0.25) rotate(-10deg);
-                 filter: drop-shadow(0 0 12px oklch(1 0 0 / 0.9)); }
-          70%  { opacity: 1;   transform: scale(1.08) rotate(3deg);
-                 filter: drop-shadow(0 0 14px oklch(0.85 0.14 85 / 0.7)); }
-          100% { opacity: 1;   transform: scale(1) rotate(0);
-                 filter: drop-shadow(0 0 8px oklch(0.85 0.14 85 / 0.35)); }
-        }
-
-        /* Real official logo — crossfades on top exactly when scaffolding fades */
+        /* Final untouched official logo — fades on top after all tiles land */
         .splash-real {
           opacity: 0;
-          animation: splash-real-in 500ms ease-out 2100ms forwards;
+          animation: splash-real-in 700ms ease-out 2900ms forwards;
           box-shadow:
             0 30px 60px -24px oklch(0.20 0.05 155 / 0.55),
             0 10px 24px -10px oklch(0.15 0.04 155 / 0.35);
         }
         @keyframes splash-real-in {
-          from { opacity: 0; }
-          to   { opacity: 1; }
+          from { opacity: 0; transform: scale(0.985); }
+          to   { opacity: 1; transform: scale(1); }
         }
 
-        /* Golden light sweep — once */
-        .splash-sheen { opacity: 0; animation: splash-sheen-show 900ms ease-out 2700ms forwards; }
+        /* Golden light sweep — once, across the completed logo */
+        .splash-sheen { opacity: 0; animation: splash-sheen-show 1100ms ease-out 3300ms forwards; }
         @keyframes splash-sheen-show {
-          0% { opacity: 0; }
-          20% { opacity: 1; }
+          0%   { opacity: 0; }
+          20%  { opacity: 1; }
           100% { opacity: 0; }
         }
         .splash-sheen-bar {
@@ -372,19 +266,18 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
             oklch(1 0 0 / 0.0) 70%,
             transparent 100%);
           transform: skewX(-18deg);
-          animation: splash-sheen-move 900ms ease-out 2700ms forwards;
+          animation: splash-sheen-move 1100ms ease-out 3300ms forwards;
         }
         @keyframes splash-sheen-move {
           0%   { left: -60%; }
           100% { left: 140%; }
         }
 
-        /* Golden glow pulse behind the logo */
+        /* Soft golden glow pulse behind/around the completed logo */
         .splash-glow {
           border-radius: 22%;
-          box-shadow: 0 0 0 0 oklch(0.85 0.14 85 / 0.0);
           opacity: 0;
-          animation: splash-glow 1400ms ease-out 2500ms forwards;
+          animation: splash-glow 1600ms ease-out 3100ms forwards;
         }
         @keyframes splash-glow {
           0%   { opacity: 0; box-shadow: 0 0 0 0 oklch(0.85 0.14 85 / 0.0); }
@@ -392,10 +285,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           100% { opacity: 1; box-shadow: 0 0 26px 2px oklch(0.85 0.14 85 / 0.18); }
         }
 
-        /* Final white veil fade into login */
+        /* Final white veil fade — starts AFTER the 3s hold */
         .splash-veil {
           opacity: 0;
-          animation: splash-veil-in 500ms ease-in 3000ms forwards;
+          animation: splash-veil-in 700ms ease-in 5900ms forwards;
         }
         @keyframes splash-veil-in {
           from { opacity: 0; }
@@ -403,10 +296,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .splash-stage, .splash-square, .splash-step, .splash-star,
-          .splash-real, .splash-sheen, .splash-sheen-bar, .splash-glow,
+          .splash-stage, .splash-tile, .splash-real,
+          .splash-sheen, .splash-sheen-bar, .splash-glow,
           .splash-bg-wave, .splash-bg-glow, .splash-particle, .splash-veil,
-          .splash-assembly, .splash-bg-wash {
+          .splash-bg-wash {
             animation-duration: 0.01ms !important;
             animation-iteration-count: 1 !important;
           }
