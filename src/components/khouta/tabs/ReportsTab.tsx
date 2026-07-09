@@ -30,7 +30,7 @@ const MONTHS = [
   { m: "يونيو", s: 5.0, e: 5.0 },
 ];
 
-export function ReportsTab() {
+export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () => void }) {
   const [range, setRange] = useState("هذا الشهر");
 
   return (
@@ -42,13 +42,14 @@ export function ReportsTab() {
           <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">التقارير</h1>
           <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">تحليل شامل لوضعك المالي</p>
         </div>
-        <button className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
+        <button onClick={onOpenNotifications} aria-label="التنبيهات" className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
           <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
           <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
             3
           </span>
         </button>
       </div>
+
 
       <div className="px-5 pt-4 space-y-4">
         {/* Praise card */}
