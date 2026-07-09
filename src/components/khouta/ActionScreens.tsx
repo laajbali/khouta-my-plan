@@ -702,29 +702,66 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
 
 /* ---------- Financial Calendar (premium month grid) ---------- */
 
-const CAL_EVENTS = [
-  { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out" as const, icon: "🎂" },
-  { day: 10, title: "نزول المكافأة", subtitle: "الأربعاء 10 يوليو", amount: 5000, tone: "in" as const, icon: "💰" },
-  { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save" as const, icon: "🏦" },
-  { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out" as const, icon: "🎉" },
+type CalEvent = {
+  day: number;
+  title: string;
+  subtitle: string;
+  amount: number;
+  tone: "in" | "out" | "save";
+  icon: string;
+  status?: "new" | "upcoming" | "today";
+};
+
+const INITIAL_EVENTS: CalEvent[] = [
+  { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out", icon: "🎂", status: "upcoming" },
+  { day: 10, title: "نزول المكافأة", subtitle: "الأربعاء 10 يوليو", amount: 5000, tone: "in", icon: "💰", status: "today" },
+  { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save", icon: "🏦", status: "upcoming" },
+  { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out", icon: "🎉", status: "upcoming" },
 ];
 
 const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
+const EVENT_KINDS = [
+  { key: "birthday", label: "عيد ميلاد", icon: "🎂" },
+  { key: "wedding", label: "زواج", icon: "💍" },
+  { key: "travel", label: "سفر", icon: "✈️" },
+  { key: "eid", label: "عيد", icon: "🌙" },
+  { key: "study", label: "دراسة", icon: "📚" },
+  { key: "other", label: "أخرى", icon: "📅" },
+];
+
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
+  const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
   const [selected, setSelected] = useState(10);
+  const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
+  const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
+
+  if (screen === "add") {
+    return (
+      <AddEventScreen
+        onBack={() => setScreen("main")}
+        onSave={(e) => {
+          setEvents((prev) => [{ ...e, status: "new" }, ...prev]);
+          setLastAdded(e);
+          setScreen("loading");
+          setTimeout(() => setScreen("ai-done"), 1400);
+        }}
+      />
+    );
+  }
+
   const daysInMonth = 31;
-  const startWeekday = 0; // Sunday
+  const startWeekday = 0;
   const cells: (number | null)[] = [
     ...Array(startWeekday).fill(null),
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
   ];
   while (cells.length % 7 !== 0) cells.push(null);
-  const eventDays = new Map(CAL_EVENTS.map((e) => [e.day, e.tone]));
-  const upcomingCount = CAL_EVENTS.length;
+  const eventDays = new Map(events.map((e) => [e.day, e.tone]));
+  const upcomingCount = events.length;
 
   return (
-    <div className="flex flex-col h-full bg-background">
+    <div className="flex flex-col h-full bg-background relative">
       <div className="bg-card px-5 pt-5 pb-4 flex items-center justify-between border-b border-border shrink-0">
         <button
           onClick={onBack}
@@ -741,34 +778,23 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        {/* Upcoming banner */}
-        <div className="rounded-[22px] bg-card border border-border p-4 flex items-center gap-3 shadow-sm">
-          <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex flex-col items-center justify-center shrink-0">
-            <CalIcon className="h-5 w-5" strokeWidth={1.8} />
-            <span className="text-[9px] font-bold mt-0.5">يوليو</span>
+        {/* AI premium gold banner */}
+        <div className="rounded-[22px] p-4 flex items-center gap-3" style={{ background: "linear-gradient(135deg, oklch(0.97 0.04 85), oklch(0.94 0.06 82))", border: "1px solid oklch(0.85 0.14 85 / 0.35)" }}>
+          <div className="h-11 w-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "oklch(0.85 0.14 85 / 0.3)" }}>
+            <CalIcon className="h-5 w-5" strokeWidth={2} style={{ color: "oklch(0.45 0.15 85)" }} />
           </div>
           <div className="flex-1 text-right min-w-0">
-            <p className="text-[10px] font-bold text-muted-foreground tracking-wider uppercase">مناسبات قادمة</p>
-            <p className="text-[13px] font-extrabold text-foreground mt-0.5 tracking-tight">
-              خطّطي لمناسباتك المالية
+            <p className="text-[12.5px] font-extrabold text-foreground tracking-tight">
+              لديك مناسبة بعد 5 أيام
             </p>
             <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
-              أضيفي مناسباتك وستقوم خُطى بضبط خطتك تلقائياً
+              تم تعديل خطة الادخار تلقائياً • وفّرنا لك 250 ر.س قبل المناسبة
             </p>
-          </div>
-          <div className="text-center shrink-0">
-            <p
-              className="text-[28px] font-black text-primary leading-none"
-              style={{ fontVariantNumeric: "tabular-nums" }}
-            >
-              {upcomingCount}
-            </p>
-            <p className="text-[9px] text-muted-foreground font-bold mt-0.5">هذا الشهر</p>
           </div>
         </div>
 
         <button
-          onClick={() => toast("قريباً: إضافة مناسبة جديدة")}
+          onClick={() => setScreen("add")}
           className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[12.5px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
@@ -838,51 +864,49 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
           </div>
         </div>
 
-        {/* Highlight banner */}
-        <div className="rounded-[22px] p-4 flex items-center gap-3" style={{ background: "linear-gradient(135deg, oklch(0.97 0.04 85), oklch(0.94 0.06 82))", border: "1px solid oklch(0.85 0.14 85 / 0.35)" }}>
-          <div className="h-11 w-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "oklch(0.85 0.14 85 / 0.3)" }}>
-            <CalIcon className="h-5 w-5" strokeWidth={1.8} style={{ color: "oklch(0.45 0.15 85)" }} />
-          </div>
-          <div className="flex-1 text-right min-w-0">
-            <p className="text-[12.5px] font-extrabold text-foreground tracking-tight">
-              لديك مناسبة الأسبوع القادم!
-            </p>
-            <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
-              مناسبة عائلية يوم 27 يوليو
-            </p>
-          </div>
-          <button
-            onClick={() => toast("عرض الخطة المعدّلة")}
-            className="text-[11px] font-extrabold bg-primary text-primary-foreground px-3 py-2 rounded-xl shrink-0 shadow-sm"
-          >
-            الخطة المعدّلة
-          </button>
-        </div>
-
-        {/* Upcoming list */}
-        <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm">
+        {/* Upcoming events — premium cards */}
+        <div>
           <div className="flex items-center justify-between mb-3">
-            <button className="text-[11px] font-bold text-primary">عرض الجميع</button>
+            <span className="text-[10px] font-bold text-muted-foreground">{upcomingCount} مناسبات</span>
             <h3 className="text-[13px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
           </div>
-          <div className="divide-y divide-border">
-            {CAL_EVENTS.map((e, i) => (
-              <div key={i} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-                <span
-                  className={`text-[13px] font-black shrink-0 ${
-                    e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
-                  }`}
-                  style={{ fontVariantNumeric: "tabular-nums" }}
-                >
-                  {e.amount > 0 ? "+" : ""}
-                  {e.amount.toLocaleString()}
-                  <span className="text-[9px] font-bold mr-0.5">ر.س</span>
-                </span>
-                <div className="flex-1 text-right min-w-0">
-                  <p className="text-[12.5px] font-extrabold text-foreground tracking-tight truncate">{e.title}</p>
-                  <p className="text-[10.5px] text-muted-foreground font-medium">{e.subtitle}</p>
+          <div className="space-y-2.5">
+            {events.map((e, i) => (
+              <div
+                key={i}
+                className="rounded-[20px] bg-card border border-border p-3.5 flex items-center gap-3 shadow-sm"
+              >
+                <div className="text-right shrink-0">
+                  <div
+                    className={`text-[13px] font-black ${
+                      e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
+                    }`}
+                    style={{ fontVariantNumeric: "tabular-nums" }}
+                  >
+                    {e.amount > 0 ? "+" : ""}
+                    {e.amount.toLocaleString()}
+                  </div>
+                  <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
                 </div>
-                <div className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center text-lg shrink-0">
+                <div className="flex-1 text-right min-w-0">
+                  <div className="flex items-center justify-end gap-1.5">
+                    {e.status === "new" && (
+                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
+                        جديد
+                      </span>
+                    )}
+                    {e.status === "today" && (
+                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                        اليوم
+                      </span>
+                    )}
+                    <p className="text-[13px] font-extrabold text-foreground tracking-tight truncate">
+                      {e.title}
+                    </p>
+                  </div>
+                  <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
+                </div>
+                <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
                   {e.icon}
                 </div>
               </div>
@@ -890,7 +914,208 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
           </div>
         </div>
       </div>
+
+      {/* Loading overlay */}
+      {screen === "loading" && (
+        <div className="absolute inset-0 z-40 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
+          <div className="h-14 w-14 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <p className="text-[13px] font-bold text-foreground">جارٍ تحليل تأثير المناسبة...</p>
+        </div>
+      )}
+
+      {/* AI success popup */}
+      {screen === "ai-done" && lastAdded && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center px-5 animate-fade-in">
+          <div className="absolute inset-0 bg-foreground/60 backdrop-blur-md" onClick={() => setScreen("main")} />
+          <div className="relative w-full bg-card rounded-[28px] shadow-2xl animate-scale-in overflow-hidden">
+            <div
+              className="px-5 pt-5 pb-4 text-white"
+              style={{
+                background:
+                  "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.20 0.05 155) 100%)",
+              }}
+            >
+              <div className="flex items-center gap-2 justify-end">
+                <span className="text-[9px] font-black px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
+                <p className="text-[13px] font-black tracking-tight">المستشار المالي</p>
+              </div>
+              <h2 className="mt-2 text-[18px] font-black tracking-tight text-right">
+                تمت إضافة المناسبة بنجاح 🎉
+              </h2>
+            </div>
+
+            <div className="p-5">
+              <p className="text-[12.5px] text-foreground/85 text-right font-medium leading-relaxed">
+                قمنا بإعادة توزيع خطة الادخار تلقائياً حتى لا تتأثر ميزانيتك.
+              </p>
+
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                <MiniStat label="ادخار يومي" value="12" suffix="ر.س" />
+                <MiniStat label="ادخار أسبوعي" value="85" suffix="ر.س" />
+                <MiniStat label="ادخار شهري" value="340" suffix="ر.س" />
+              </div>
+
+              <div className="mt-4 flex gap-2.5">
+                <button
+                  onClick={() => setScreen("main")}
+                  className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[12.5px] active:scale-[0.98] transition"
+                >
+                  إغلاق
+                </button>
+                <button
+                  onClick={() => setScreen("main")}
+                  className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[12.5px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
+                >
+                  عرض الخطة الجديدة
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
+function MiniStat({ label, value, suffix }: { label: string; value: string; suffix?: string }) {
+  return (
+    <div className="rounded-2xl bg-mint/10 border border-mint/25 p-2.5 text-center">
+      <p className="text-[15px] font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+        {value}
+        {suffix && <span className="text-[9px] mr-1 font-bold">{suffix}</span>}
+      </p>
+      <p className="text-[9px] font-bold text-muted-foreground mt-0.5">{label}</p>
+    </div>
+  );
+}
+
+/* --------- Add Event Form --------- */
+function AddEventScreen({
+  onBack,
+  onSave,
+}: {
+  onBack: () => void;
+  onSave: (e: CalEvent) => void;
+}) {
+  const [kindKey, setKindKey] = useState<string>("birthday");
+  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [cost, setCost] = useState("");
+  const [priority, setPriority] = useState<"high" | "med" | "low">("med");
+  const [notes, setNotes] = useState("");
+
+  const kind = EVENT_KINDS.find((k) => k.key === kindKey)!;
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const label = name.trim() || kind.label;
+    if (!date || !cost) {
+      toast.error("الرجاء إكمال التاريخ والتكلفة");
+      return;
+    }
+    const dayNum = Number(date.split("-")[2] ?? date) || 20;
+    const amount = -Math.abs(Number(cost) || 0);
+    onSave({
+      day: dayNum,
+      title: label,
+      subtitle: `${date} • ${priority === "high" ? "أولوية عالية" : priority === "med" ? "متوسطة" : "منخفضة"}${notes ? " • " + notes : ""}`,
+      amount,
+      tone: "out",
+      icon: kind.icon,
+    });
+  }
+
+  return (
+    <div className="flex flex-col h-full bg-background">
+      <ScreenHeader title="إضافة مناسبة جديدة" onBack={onBack} />
+      <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4">
+        <Field label="نوع المناسبة">
+          <div className="grid grid-cols-3 gap-2">
+            {EVENT_KINDS.map((k) => {
+              const active = k.key === kindKey;
+              return (
+                <button
+                  type="button"
+                  key={k.key}
+                  onClick={() => setKindKey(k.key)}
+                  className={`rounded-2xl p-3 flex flex-col items-center gap-1 border transition ${
+                    active
+                      ? "bg-primary/10 border-primary text-primary"
+                      : "bg-card border-border text-foreground"
+                  }`}
+                >
+                  <span className="text-xl">{k.icon}</span>
+                  <span className="text-[11px] font-bold">{k.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </Field>
+
+        <Field label="اسم المناسبة">
+          <input
+            className={inputCls}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder={kind.label}
+          />
+        </Field>
+
+        <Field label="التاريخ">
+          <input
+            type="date"
+            className={inputCls + " text-right"}
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </Field>
+
+        <Field label="التكلفة المتوقعة (ر.س)">
+          <input
+            className={inputCls}
+            value={cost}
+            onChange={(e) => setCost(e.target.value.replace(/[^\d]/g, ""))}
+            inputMode="numeric"
+            placeholder="1500"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          />
+        </Field>
+
+        <Field label="الأولوية">
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { k: "high", l: "عالية", tone: "bg-destructive/10 text-destructive border-destructive/30" },
+              { k: "med", l: "متوسطة", tone: "bg-amber-50 text-amber-700 border-amber-200" },
+              { k: "low", l: "منخفضة", tone: "bg-mint/10 text-primary border-mint/30" },
+            ].map((p) => {
+              const active = priority === (p.k as typeof priority);
+              return (
+                <button
+                  type="button"
+                  key={p.k}
+                  onClick={() => setPriority(p.k as typeof priority)}
+                  className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                    active ? p.tone : "bg-card border-border text-muted-foreground"
+                  }`}
+                >
+                  {p.l}
+                </button>
+              );
+            })}
+          </div>
+        </Field>
+
+        <Field label="ملاحظات (اختياري)">
+          <input
+            className={inputCls}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder="أي تفاصيل إضافية"
+          />
+        </Field>
+
+        <PrimaryButton type="submit">إضافة المناسبة</PrimaryButton>
+      </form>
+    </div>
+  );
+}
