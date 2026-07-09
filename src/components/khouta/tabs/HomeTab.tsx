@@ -168,34 +168,43 @@ export function HomeTab({
         {/* Feature grid */}
         <div className="grid grid-cols-2 gap-3">
           <FeatureCard
-            icon={<Sparkles className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Sparkles className="h-5 w-5" strokeWidth={2} />}
             title="المستشار نور"
             desc="اسألي أي شيء مالي"
+            metric="جديد"
+            metricTone="text-primary bg-primary/10"
             tint="bg-primary/10 text-primary"
             onClick={onOpenNoor}
           />
           <FeatureCard
-            icon={<Calendar className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Calendar className="h-5 w-5" strokeWidth={2} />}
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
+            metric="5 أيام"
+            metricTone="text-blue-700 bg-blue-50"
             tint="bg-blue-50 text-blue-700"
             onClick={onOpenCalendar}
           />
           <FeatureCard
-            icon={<BarChart3 className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<BarChart3 className="h-5 w-5" strokeWidth={2} />}
             title="التقارير"
-            desc="أداء هذا الشهر"
+            desc="وفرتِ هذا الشهر"
+            metric="+18%"
+            metricTone="text-mint bg-mint/15"
             tint="bg-mint/15 text-primary"
             onClick={onOpenReports}
           />
           <FeatureCard
-            icon={<Gift className="h-5 w-5" strokeWidth={1.8} />}
+            icon={<Gift className="h-5 w-5" strokeWidth={2} />}
             title="المكافآت"
-            desc="كوبون جديد بانتظارك"
+            desc="كوبون بانتظارك"
+            metric="2 جديدة"
+            metricTone="text-amber-700 bg-amber-100"
             tint="bg-amber-50 text-amber-700"
             onClick={onOpenRewards}
           />
         </div>
+
 
         {/* Goal Card */}
         <div className="bg-card rounded-[24px] p-4 border border-border">
