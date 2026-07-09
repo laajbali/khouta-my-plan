@@ -314,7 +314,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .splash-stage, .splash-tile, .splash-real,
+          .splash-stage, .splash-stage-inner, .splash-tile, .splash-real,
           .splash-sheen, .splash-sheen-bar, .splash-glow,
           .splash-bg-wave, .splash-bg-glow, .splash-particle, .splash-veil,
           .splash-bg-wash {
