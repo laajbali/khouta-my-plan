@@ -303,10 +303,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           100% { opacity: 1; box-shadow: 0 0 26px 2px oklch(0.85 0.14 85 / 0.18); }
         }
 
-        /* Final white veil fade — starts AFTER the 3s hold */
+        /* Final white veil fade — starts AFTER the 4s hold */
         .splash-veil {
           opacity: 0;
-          animation: splash-veil-in 700ms ease-in 5900ms forwards;
+          animation: splash-veil-in 700ms ease-in 8200ms forwards;
         }
         @keyframes splash-veil-in {
           from { opacity: 0; }
