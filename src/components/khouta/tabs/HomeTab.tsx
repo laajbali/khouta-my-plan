@@ -33,7 +33,6 @@ export function HomeTab({
   onOpenNotifications,
   onOpenReports,
   onOpenRewards,
-  onSimulateIntercept,
 }: {
   onOpenNoor: () => void;
   onOpenBank: () => void;
@@ -48,7 +47,6 @@ export function HomeTab({
   onOpenNotifications: () => void;
   onOpenReports: () => void;
   onOpenRewards: () => void;
-  onSimulateIntercept: () => void;
 }) {
   const profile = useProfile();
   const { goals } = useGoals();
