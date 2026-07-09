@@ -36,6 +36,8 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
   const [sub, setSub] = useState<SubScreen>("none");
   const [interceptOpen, setInterceptOpen] = useState(false);
+  const [interceptMerchant, setInterceptMerchant] = useState<"SHEIN" | "نون" | "noon">("SHEIN");
+  const [interceptAmount, setInterceptAmount] = useState(240);
 
   const close = () => setSub("none");
 
