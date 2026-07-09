@@ -22,7 +22,7 @@ const COUPONS: Coupon[] = [
   { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL" },
 ];
 
-export function RewardsTab() {
+export function RewardsTab({ onOpenNotifications }: { onOpenNotifications?: () => void } = {}) {
   const [filter, setFilter] = useState("الكل");
   const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
   const [copied, setCopied] = useState(false);
