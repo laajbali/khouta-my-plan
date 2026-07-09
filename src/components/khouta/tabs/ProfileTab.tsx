@@ -59,7 +59,7 @@ export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () =
         </button>
       </div>
 
-      <div className="px-4 pt-4 space-y-4">
+      <div className="px-5 pt-4 space-y-4">
         {/* Premium dark green profile card */}
         <div
           className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex items-center gap-4"
