@@ -7,9 +7,10 @@ import logo from "@/assets/khouta-logo.asset.json";
  * No shapes are redrawn. Four clipped copies of the untouched official
  * logo (`khouta-logo.asset.json`) slide into place — bottom step, middle
  * step, top step, star — reconstructing the logo tile-by-tile. A final
- * un-clipped copy then fades on top to seal any seams. The completed
- * logo holds on screen for ~3s before the parent fades to the Login
- * screen.
+ * un-clipped copy then fades on top to seal any seams. After assembly the
+ * completed logo gently scales down ~8% to find its final resting place,
+ * holds for ~4s with a subtle floating motion and soft golden glow, then
+ * smoothly fades to the Login screen.
  *
  * Timeline (ms):
  *   0     background waves + particles
@@ -18,9 +19,11 @@ import logo from "@/assets/khouta-logo.asset.json";
  *   1600  top step drops from above
  *   2200  star sparkles in (top-right)
  *   2900  full official logo fades on top (seals seams)
- *   3200  shimmer sweep + soft golden glow
- *   3400  ── HOLD ──
- *   6400  onDone()  (parent fades to Login)
+ *   3300  shimmer sweep + soft golden glow
+ *   3600  logo gently scales down to 0.92 (finds its resting position)
+ *   4200  ── HOLD ── subtle float + soft glow
+ *   8200  fade-to-white veil begins
+ *   8900  onDone()  (parent fades to Login)
  */
 export function SplashScreen({ onDone }: { onDone: () => void }) {
   useEffect(() => {
