@@ -7,9 +7,10 @@ import logo from "@/assets/khouta-logo.asset.json";
  * No shapes are redrawn. Four clipped copies of the untouched official
  * logo (`khouta-logo.asset.json`) slide into place — bottom step, middle
  * step, top step, star — reconstructing the logo tile-by-tile. A final
- * un-clipped copy then fades on top to seal any seams. The completed
- * logo holds on screen for ~3s before the parent fades to the Login
- * screen.
+ * un-clipped copy then fades on top to seal any seams. After assembly the
+ * completed logo gently scales down ~8% to find its final resting place,
+ * holds for ~4s with a subtle floating motion and soft golden glow, then
+ * smoothly fades to the Login screen.
  *
  * Timeline (ms):
  *   0     background waves + particles
@@ -18,13 +19,15 @@ import logo from "@/assets/khouta-logo.asset.json";
  *   1600  top step drops from above
  *   2200  star sparkles in (top-right)
  *   2900  full official logo fades on top (seals seams)
- *   3200  shimmer sweep + soft golden glow
- *   3400  ── HOLD ──
- *   6400  onDone()  (parent fades to Login)
+ *   3300  shimmer sweep + soft golden glow
+ *   3600  logo gently scales down to 0.92 (finds its resting position)
+ *   4200  ── HOLD ── subtle float + soft glow
+ *   8200  fade-to-white veil begins
+ *   8900  onDone()  (parent fades to Login)
  */
 export function SplashScreen({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 6400);
+    const t = setTimeout(onDone, 8900);
     return () => clearTimeout(t);
   }, [onDone]);
 
@@ -62,7 +65,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
       {/* ============ Logo stage ============ */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="splash-stage relative" style={{ width: S, height: S }}>
-          {/* Assembled tiles — each is a clipped copy of the REAL logo */}
+          {/* Inner layer handles the subtle floating motion so the parent
+              can scale independently without transform conflicts. */}
+          <div className="splash-stage-inner absolute inset-0">
+            {/* Assembled tiles — each is a clipped copy of the REAL logo */}
           {tiles.map((t) => (
             <img
               key={t.name}
@@ -107,6 +113,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
 
           {/* Soft golden glow pulse */}
           <div className="splash-glow absolute inset-0 pointer-events-none" />
+          </div>
         </div>
       </div>
 
@@ -209,7 +216,18 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         /* ============ Logo stage ============ */
         .splash-stage {
           transform-origin: center;
-          animation: splash-float-idle 4s ease-in-out 3400ms infinite;
+          /* After assembly, the logo gently scales down ~8% to find its
+             final resting position, then the inner layer takes over float. */
+          animation: splash-stage-settle 600ms cubic-bezier(0.22, 1, 0.36, 1) 3600ms forwards;
+        }
+        @keyframes splash-stage-settle {
+          from { transform: scale(1); }
+          to   { transform: scale(0.92); }
+        }
+
+        .splash-stage-inner {
+          /* Subtle floating motion during the 4s hold. */
+          animation: splash-float-idle 4s ease-in-out 4200ms infinite;
         }
         @keyframes splash-float-idle {
           0%, 100% { transform: translateY(0); }
@@ -285,10 +303,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           100% { opacity: 1; box-shadow: 0 0 26px 2px oklch(0.85 0.14 85 / 0.18); }
         }
 
-        /* Final white veil fade — starts AFTER the 3s hold */
+        /* Final white veil fade — starts AFTER the 4s hold */
         .splash-veil {
           opacity: 0;
-          animation: splash-veil-in 700ms ease-in 5900ms forwards;
+          animation: splash-veil-in 700ms ease-in 8200ms forwards;
         }
         @keyframes splash-veil-in {
           from { opacity: 0; }
@@ -296,7 +314,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .splash-stage, .splash-tile, .splash-real,
+          .splash-stage, .splash-stage-inner, .splash-tile, .splash-real,
           .splash-sheen, .splash-sheen-bar, .splash-glow,
           .splash-bg-wave, .splash-bg-glow, .splash-particle, .splash-veil,
           .splash-bg-wash {
