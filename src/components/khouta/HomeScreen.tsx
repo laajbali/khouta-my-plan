@@ -56,6 +56,14 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   if (sub === "more") return <MoreServicesScreen onBack={close} />;
   if (sub === "statement") return <StatementScreen onBack={close} />;
   if (sub === "goal") return <GoalDetailScreen onBack={close} />;
+  if (sub === "goals-list")
+    return (
+      <GoalsListScreen
+        onBack={close}
+        onOpenGoal={() => setSub("goal")}
+        onOpenNewGoal={() => setSub("new-goal")}
+      />
+    );
   if (sub === "new-goal") return <NewGoalScreen onBack={close} />;
   if (sub === "calendar") return <CalendarScreen onBack={close} />;
 
