@@ -36,19 +36,19 @@ export function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab
             <button
               key={t.key}
               onClick={() => onChange(t.key)}
-              className={`relative flex flex-col items-center gap-1 flex-1 py-1 rounded-xl ${
-                isActive ? "border border-foreground/40" : ""
+              className={`relative flex flex-col items-center gap-1 flex-1 py-1.5 rounded-xl transition-colors ${
+                isActive ? "bg-primary/10" : ""
               }`}
             >
               <div className="relative">
-                <Icon className={`h-5 w-5 ${isActive ? "text-foreground" : "text-muted-foreground"}`} />
+                <Icon className={`h-5 w-5 transition-colors ${isActive ? "text-primary" : "text-muted-foreground"}`} />
                 {badge > 0 && (
                   <span className="absolute -top-1.5 -right-2 h-4 min-w-4 px-1 rounded-full bg-destructive text-destructive-foreground text-[9px] font-bold flex items-center justify-center">
                     {badge}
                   </span>
                 )}
               </div>
-              <span className={`text-[10px] font-bold ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+              <span className={`text-[10px] font-bold transition-colors ${isActive ? "text-primary" : "text-muted-foreground"}`}>
                 {t.label}
               </span>
             </button>
