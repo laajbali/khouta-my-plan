@@ -153,6 +153,7 @@ export function ProfileTab() {
             return (
               <button
                 key={s.label}
+                onClick={() => toast(s.action)}
                 className="rounded-2xl bg-card border border-border p-3 shadow-sm flex items-center gap-2 active:scale-[0.98] transition hover:border-primary/30"
               >
                 <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
