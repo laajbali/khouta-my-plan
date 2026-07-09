@@ -380,28 +380,43 @@ function FeatureCard({
   title,
   desc,
   tint,
+  metric,
+  metricTone,
   onClick,
 }: {
   icon: React.ReactNode;
   title: string;
   desc: string;
   tint: string;
+  metric?: string;
+  metricTone?: string;
   onClick?: () => void;
 }) {
   return (
     <button
       onClick={onClick}
-      className="rounded-2xl bg-card border border-border p-4 text-right relative overflow-hidden active:scale-[0.98] transition hover:border-primary/30"
+      className="rounded-2xl bg-card border border-border p-4 text-right relative overflow-hidden active:scale-[0.98] transition hover:border-primary/40 hover:shadow-sm"
     >
-      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${tint} mb-3 mr-auto`}>
-        {icon}
+      <div className="flex items-start justify-between mb-3">
+        <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${tint}`}>
+          {icon}
+        </div>
+        {metric && (
+          <span
+            className={`text-[10px] font-bold px-2 py-1 rounded-lg ${metricTone ?? "text-primary bg-primary/10"}`}
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            {metric}
+          </span>
+        )}
       </div>
-      <h4 className="font-bold text-foreground text-sm">{title}</h4>
-      <p className="text-[11px] text-muted-foreground mt-0.5">{desc}</p>
-      <ChevronLeft className="h-3 w-3 text-muted-foreground absolute bottom-3 left-3" />
+      <h4 className="font-extrabold text-foreground text-[14px] tracking-tight">{title}</h4>
+      <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">{desc}</p>
+      <ChevronLeft className="h-3 w-3 text-muted-foreground/70 absolute bottom-3 left-3" strokeWidth={2.5} />
     </button>
   );
 }
+
 
 function ProgressRing({ percent }: { percent: number }) {
   const r = 22;
