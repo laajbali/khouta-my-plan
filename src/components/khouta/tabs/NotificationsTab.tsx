@@ -3,7 +3,6 @@ import {
   Lightbulb,
   ShoppingBag,
   UtensilsCrossed,
-  Car,
   Sparkles,
   Bell,
   ChevronLeft,
@@ -15,10 +14,12 @@ import {
   Plus,
   Minus,
   ShoppingCart,
+  Coins,
+  TrendingDown,
 } from "lucide-react";
 import { useState } from "react";
 
-type MerchantKey = "SHEIN" | "نون";
+type MerchantKey = "SHEIN" | "نون" | "هنقرستيشن" | "أمازون";
 
 type Alert = {
   brand: string;
@@ -31,20 +32,43 @@ type Alert = {
 };
 
 const ALERTS: Alert[] = [
-  { brand: "SHEIN", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "تم التوفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ 20 دقيقة" },
-  { brand: "هنقرستيشن", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربتِ من ميزانية المطاعم الأسبوعية", time: "منذ 3 ساعات" },
-  { brand: "كريم", icon: <Car className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-blue-50 text-blue-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "مصروف المواصلات يتجاوز الحد الشهري", time: "منذ يوم" },
-  { brand: "تذكير ادخار", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "تم التوفير", tagTone: "text-mint bg-mint/10", text: "وفرتِ 120 ر.س هذا الأسبوع", time: "منذ يومين" },
+  { brand: "تم التوفير", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء طلب SHEIN بقيمة 450 ر.س", time: "منذ 20 دقيقة" },
+  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربتِ من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
+  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "اقتراح", tagTone: "text-primary bg-primary/10", text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
+  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-100 text-amber-800", tag: "استثمار", tagTone: "text-amber-800 bg-amber-50", text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
 
 const ALL_ALERTS: Alert[] = [
   ...ALERTS,
-  { brand: "نون", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-yellow-50 text-yellow-700", tag: "تم التوفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء طلب بقيمة 320 ر.س", time: "منذ 3 أيام" },
-  { brand: "امازون", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-orange-50 text-orange-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
-  { brand: "STC Pay", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-purple-50 text-purple-700", tag: "معلومة", tagTone: "text-blue-700 bg-blue-50", text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
-  { brand: "جرير", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-red-50 text-red-700", tag: "تم التوفير", tagTone: "text-mint bg-mint/10", text: "استخدمتِ كوبون خصم 15%", time: "منذ أسبوع" },
-  { brand: "طلبات", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-orange-50 text-orange-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "طلبات المطاعم زادت 30% هذا الأسبوع", time: "منذ أسبوع" },
-  { brand: "أهداف الادخار", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "إنجاز", tagTone: "text-mint bg-mint/10", text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوعين" },
+  { brand: "تم التوفير", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-yellow-50 text-yellow-700", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء طلب نون بقيمة 320 ر.س", time: "منذ 3 أيام" },
+  { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-orange-50 text-orange-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
+  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-purple-50 text-purple-700", tag: "معلومة", tagTone: "text-blue-700 bg-blue-50", text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
+  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "إنجاز", tagTone: "text-mint bg-mint/10", text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
+];
+
+type MerchantConfig = {
+  key: MerchantKey;
+  name: string;
+  subtitle: string;
+  category: string;
+  logoBg: string;
+  logoText: string;
+  logoLabel: string;
+  logoStyle?: "italic" | "block" | "lower";
+  price: number;
+  productTitle: string;
+  productSubtitle: string;
+  accentBg: string;
+  headerText: string;
+  ctaBg: string;
+  ctaText: string;
+};
+
+const MERCHANTS: MerchantConfig[] = [
+  { key: "SHEIN", name: "SHEIN", subtitle: "أزياء وإكسسوارات", category: "تسوق", logoBg: "bg-black", logoText: "text-white", logoLabel: "SHEIN", logoStyle: "italic", price: 450, productTitle: "فستان صيفي كاجوال — تصميم عصري", productSubtitle: "متعدد الألوان", accentBg: "from-pink-100 via-rose-50 to-neutral-100", headerText: "text-white", ctaBg: "bg-black", ctaText: "text-white" },
+  { key: "نون", name: "نون", subtitle: "تسوق كل شيء", category: "تسوق", logoBg: "bg-yellow-400", logoText: "text-neutral-900", logoLabel: "noon", logoStyle: "lower", price: 320, productTitle: "سماعات لاسلكية بلوتوث — عزل ضوضاء", productSubtitle: "شحن سريع", accentBg: "from-yellow-50 to-neutral-100", headerText: "text-neutral-900", ctaBg: "bg-yellow-400", ctaText: "text-neutral-900" },
+  { key: "هنقرستيشن", name: "هنقرستيشن", subtitle: "طلبات الطعام", category: "طعام", logoBg: "bg-orange-500", logoText: "text-white", logoLabel: "HungerStation", logoStyle: "block", price: 185, productTitle: "وجبة عائلية — دجاج مشوي مع أرز وسلطة", productSubtitle: "توصيل خلال 35 دقيقة", accentBg: "from-orange-100 via-amber-50 to-neutral-100", headerText: "text-white", ctaBg: "bg-orange-500", ctaText: "text-white" },
+  { key: "أمازون", name: "Amazon", subtitle: "تسوق كل شيء", category: "تسوق", logoBg: "bg-neutral-900", logoText: "text-yellow-400", logoLabel: "amazon", logoStyle: "lower", price: 620, productTitle: "شاشة كمبيوتر 27 بوصة — دقة عالية", productSubtitle: "شحن مجاني", accentBg: "from-neutral-100 via-neutral-50 to-white", headerText: "text-white", ctaBg: "bg-yellow-400", ctaText: "text-neutral-900" },
 ];
 
 export function NotificationsTab({
@@ -52,21 +76,16 @@ export function NotificationsTab({
 }: {
   onSimulateIntercept: (merchant: MerchantKey, amount: number) => void;
 }) {
-  const [view, setView] = useState<"main" | "shein" | "noon" | "all">("main");
+  const [simKey, setSimKey] = useState<MerchantKey | null>(null);
+  const [view, setView] = useState<"main" | "all">("main");
 
-  if (view === "shein") {
+  if (simKey) {
+    const m = MERCHANTS.find((x) => x.key === simKey)!;
     return (
-      <SheinSim
-        onBack={() => setView("main")}
-        onCheckout={(amt) => onSimulateIntercept("SHEIN", amt)}
-      />
-    );
-  }
-  if (view === "noon") {
-    return (
-      <NoonSim
-        onBack={() => setView("main")}
-        onCheckout={(amt) => onSimulateIntercept("نون", amt)}
+      <MerchantSim
+        merchant={m}
+        onBack={() => setSimKey(null)}
+        onCheckout={(amt) => onSimulateIntercept(m.key, amt)}
       />
     );
   }
@@ -79,7 +98,7 @@ export function NotificationsTab({
         <div className="w-11" />
         <div className="text-center">
           <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">التنبيهات الذكية</h1>
-          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">حماية مالية لحظية</p>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">حماية مالية في وقت التسوق</p>
         </div>
         <button className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
           <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
@@ -90,7 +109,7 @@ export function NotificationsTab({
       </div>
 
       <div className="px-5 pt-4 space-y-4">
-        {/* Hero */}
+        {/* Hero — الرادار المالي الذكي */}
         <div
           className="rounded-[28px] p-5 text-primary-foreground relative overflow-hidden"
           style={{
@@ -101,46 +120,37 @@ export function NotificationsTab({
         >
           <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
           <div className="relative flex items-center justify-between mb-3">
-            <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-mint">Open Banking</span>
+            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-1 rounded-lg bg-mint text-primary">AI</span>
             <div className="h-11 w-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center">
               <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[16px] text-right tracking-tight">الحماية المالية الفورية</h3>
+          <h3 className="font-extrabold text-[17px] text-right tracking-tight">الرادار المالي الذكي</h3>
           <p className="text-[12px] mt-2 text-right text-white/75 font-medium leading-relaxed">
-            نُنبهك فور اكتشاف عملية شراء قد تؤثر على هدفك، داخل أي تطبيق تسوق.
+            يقوم الذكاء الاصطناعي بتحليل عملية الشراء قبل إتمامها لحماية خطتك المالية.
           </p>
-          <div className="mt-4 w-full rounded-2xl border border-white/15 bg-white/10 backdrop-blur py-3 text-[12px] font-bold text-right flex items-center gap-2 px-4">
-            <Lightbulb className="h-4 w-4 text-mint shrink-0" strokeWidth={2} />
-            جرّبي الميزة من أحد التطبيقين أدناه
-            <ChevronLeft className="h-4 w-4 mr-auto" strokeWidth={2.5} />
-          </div>
+          <button
+            onClick={() => {
+              document.getElementById("khouta-sim-apps")?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="mt-4 w-full rounded-2xl bg-mint text-primary font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition"
+          >
+            <Lightbulb className="h-4 w-4" strokeWidth={2.2} />
+            ابدأ المحاكاة
+          </button>
         </div>
 
-        <div className="flex items-center justify-end gap-2">
-          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">جرّبي الميزة الآن</h3>
+        <div id="khouta-sim-apps" className="flex items-center justify-end gap-2 pt-1">
+          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">تطبيقات التسوق</h3>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <SimAppCard
-            onClick={() => setView("shein")}
-            name="SHEIN"
-            subtitle="أزياء وإكسسوارات"
-            logoBg="bg-black"
-            logoText="text-white"
-            logoLabel="SHEIN"
-          />
-          <SimAppCard
-            onClick={() => setView("noon")}
-            name="نون"
-            subtitle="تسوق كل شيء"
-            logoBg="bg-yellow-400"
-            logoText="text-neutral-900"
-            logoLabel="noon"
-          />
+          {MERCHANTS.map((m) => (
+            <SimAppCard key={m.key} m={m} onClick={() => setSimKey(m.key)} />
+          ))}
         </div>
 
-        {/* Recent alerts */}
+        {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <button
@@ -149,33 +159,13 @@ export function NotificationsTab({
             >
               عرض الكل <ChevronLeft className="h-3 w-3" strokeWidth={2.5} />
             </button>
-            <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">آخر التنبيهات</h3>
+            <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">سجل النشاط الذكي</h3>
           </div>
           <div className="divide-y divide-border">
             {ALERTS.map((a, i) => (
               <AlertRow key={i} a={a} />
             ))}
           </div>
-        </div>
-
-        {/* How it works */}
-        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm space-y-3">
-          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight text-right">كيف تعمل الحماية؟</h3>
-          {[
-            { n: "1", title: "تتسوقين من أي تطبيق", desc: "نراقب نشاطك المالي بأمان" },
-            { n: "2", title: "نكتشف الشراء فوراً", desc: "خلال ثوانٍ من التأكيد" },
-            { n: "3", title: "تنبيه ذكي فوري", desc: "يحسب الأثر على هدفك تلقائياً" },
-          ].map((s) => (
-            <div key={s.n} className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-sm" style={{ fontVariantNumeric: "tabular-nums" }}>
-                {s.n}
-              </div>
-              <div className="flex-1 text-right">
-                <p className="font-extrabold text-foreground text-[13px] tracking-tight">{s.title}</p>
-                <p className="text-[11px] text-muted-foreground font-medium">{s.desc}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </div>
@@ -200,35 +190,26 @@ function AlertRow({ a }: { a: Alert }) {
   );
 }
 
-function SimAppCard({
-  onClick,
-  name,
-  subtitle,
-  logoBg,
-  logoText,
-  logoLabel,
-}: {
-  onClick: () => void;
-  name: string;
-  subtitle: string;
-  logoBg: string;
-  logoText: string;
-  logoLabel: string;
-}) {
+function SimAppCard({ m, onClick }: { m: MerchantConfig; onClick: () => void }) {
+  const cls =
+    m.logoStyle === "italic" ? "italic" : m.logoStyle === "lower" ? "lowercase" : "";
   return (
     <button
       onClick={onClick}
-      className="rounded-[20px] bg-card border border-border overflow-hidden shadow-sm active:scale-[0.98] transition text-right"
+      className="rounded-[22px] bg-card border border-border overflow-hidden shadow-sm active:scale-[0.98] transition text-right hover:shadow-md hover:border-primary/30"
     >
-      <div className={`${logoBg} py-6 flex items-center justify-center`}>
-        <span className={`${logoText} text-[20px] font-black tracking-tight italic`}>
-          {logoLabel}
+      <div className={`${m.logoBg} py-8 flex items-center justify-center`}>
+        <span className={`${m.logoText} text-[20px] font-black tracking-tight ${cls}`}>
+          {m.logoLabel}
         </span>
       </div>
-      <div className="p-3 text-center">
-        <p className="font-extrabold text-foreground text-[13px] tracking-tight">{name}</p>
-        <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">{subtitle}</p>
-        <div className="mt-2 w-full bg-primary/10 text-primary rounded-xl py-2 text-[11px] font-bold flex items-center justify-center gap-1">
+      <div className="p-3">
+        <div className="flex items-center justify-between">
+          <span className="text-[9px] font-bold text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">{m.category}</span>
+          <p className="font-extrabold text-foreground text-[13px] tracking-tight">{m.name}</p>
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-1 font-medium text-right">{m.subtitle}</p>
+        <div className="mt-2.5 w-full bg-primary/10 text-primary rounded-xl py-2 text-[11px] font-bold flex items-center justify-center gap-1">
           محاكاة الشراء
           <ChevronLeft className="h-3 w-3" strokeWidth={2.5} />
         </div>
@@ -237,46 +218,48 @@ function SimAppCard({
   );
 }
 
-/* --------------------------- SHEIN simulator --------------------------- */
-function SheinSim({ onBack, onCheckout }: { onBack: () => void; onCheckout: (amt: number) => void }) {
+/* --------------------------- Generic merchant simulator --------------------------- */
+function MerchantSim({
+  merchant: m,
+  onBack,
+  onCheckout,
+}: {
+  merchant: MerchantConfig;
+  onBack: () => void;
+  onCheckout: (amt: number) => void;
+}) {
   const [qty, setQty] = useState(1);
-  const price = 240;
-  const total = price * qty;
+  const total = m.price * qty;
+  const cls = m.logoStyle === "italic" ? "italic" : m.logoStyle === "lower" ? "lowercase" : "";
 
   return (
     <div className="bg-white min-h-full pb-6">
-      {/* Top bar */}
-      <div className="bg-black text-white px-4 pt-6 pb-3 flex items-center justify-between">
-        <button onClick={onBack} className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center">
+      <div className={`${m.logoBg} px-4 pt-6 pb-3 flex items-center justify-between`}>
+        <button onClick={onBack} className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <ChevronRight className="h-5 w-5" strokeWidth={2} />
         </button>
-        <span className="text-[22px] font-black italic tracking-tight">SHEIN</span>
-        <button className="h-9 w-9 rounded-full bg-white/10 flex items-center justify-center">
+        <span className={`${m.logoText} text-[22px] font-black tracking-tight ${cls}`}>{m.logoLabel}</span>
+        <button className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <Menu className="h-5 w-5" strokeWidth={2} />
         </button>
       </div>
-      <div className="bg-black px-4 pb-4">
+      <div className={`${m.logoBg} px-4 pb-4`}>
         <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
           <Search className="h-4 w-4 text-neutral-400" strokeWidth={2} />
-          <span className="text-[12px] text-neutral-500 font-medium">ابحث في SHEIN</span>
+          <span className="text-[12px] text-neutral-500 font-medium">ابحث في {m.name}</span>
         </div>
       </div>
 
-      {/* Product image placeholder */}
-      <div className="relative aspect-[4/5] bg-gradient-to-br from-pink-100 via-rose-50 to-neutral-100 flex items-center justify-center">
+      <div className={`relative aspect-[4/5] bg-gradient-to-br ${m.accentBg} flex items-center justify-center`}>
         <ShoppingBag className="h-24 w-24 text-neutral-300" strokeWidth={1} />
         <button className="absolute top-3 left-3 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md">
           <Heart className="h-5 w-5 text-neutral-700" strokeWidth={2} />
         </button>
-        <div className="absolute bottom-3 right-3 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded">
-          -40%
-        </div>
       </div>
 
       <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-        <p className="text-[15px] font-bold leading-snug">
-          فستان صيفي كاجوال بأكمام قصيرة — تصميم عصري
-        </p>
+        <p className="text-[15px] font-bold leading-snug">{m.productTitle}</p>
+        <p className="text-[11px] text-neutral-500 mt-1">{m.productSubtitle}</p>
         <div className="flex items-center gap-1 mt-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <Star key={n} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
@@ -284,100 +267,8 @@ function SheinSim({ onBack, onCheckout }: { onBack: () => void; onCheckout: (amt
           <span className="text-[11px] text-neutral-500 mr-1">(1,284)</span>
         </div>
         <div className="flex items-baseline gap-2 mt-3">
-          <span className="text-[22px] font-black text-red-600" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {price} ر.س
-          </span>
-          <span className="text-[13px] text-neutral-400 line-through" style={{ fontVariantNumeric: "tabular-nums" }}>
-            400 ر.س
-          </span>
-        </div>
-
-        <div className="mt-4 flex items-center justify-between border-t border-neutral-200 pt-4">
-          <p className="text-[13px] font-bold text-neutral-800">الكمية</p>
-          <div className="flex items-center gap-3 border border-neutral-300 rounded-full px-2 py-1">
-            <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="h-7 w-7 flex items-center justify-center">
-              <Minus className="h-3 w-3 text-neutral-700" strokeWidth={2.5} />
-            </button>
-            <span className="text-[13px] font-bold min-w-[16px] text-center" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {qty}
-            </span>
-            <button onClick={() => setQty((q) => q + 1)} className="h-7 w-7 flex items-center justify-center">
-              <Plus className="h-3 w-3 text-neutral-700" strokeWidth={2.5} />
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-4 bg-neutral-50 rounded-2xl p-3 flex items-center justify-between">
-          <span className="text-[16px] font-black text-red-600" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {total} ر.س
-          </span>
-          <span className="text-[12px] font-bold text-neutral-700">الإجمالي</span>
-        </div>
-
-        <button
-          onClick={() => onCheckout(total)}
-          className="mt-4 w-full rounded-full bg-black text-white font-black py-4 text-[14px] flex items-center justify-center gap-2 active:scale-[0.99] transition"
-        >
-          <ShoppingCart className="h-4 w-4" strokeWidth={2.5} />
-          إتمام الشراء الآن
-        </button>
-      </div>
-    </div>
-  );
-}
-
-/* --------------------------- Noon simulator --------------------------- */
-function NoonSim({ onBack, onCheckout }: { onBack: () => void; onCheckout: (amt: number) => void }) {
-  const [qty, setQty] = useState(1);
-  const price = 320;
-  const total = price * qty;
-
-  return (
-    <div className="bg-white min-h-full pb-6">
-      <div className="bg-yellow-400 px-4 pt-6 pb-3 flex items-center justify-between">
-        <button onClick={onBack} className="h-9 w-9 rounded-full bg-black/10 flex items-center justify-center">
-          <ChevronRight className="h-5 w-5 text-neutral-900" strokeWidth={2} />
-        </button>
-        <span className="text-[26px] font-black italic tracking-tight text-neutral-900 lowercase">
-          noon
-        </span>
-        <button className="h-9 w-9 rounded-full bg-black/10 flex items-center justify-center">
-          <ShoppingCart className="h-5 w-5 text-neutral-900" strokeWidth={2} />
-        </button>
-      </div>
-      <div className="bg-yellow-400 px-4 pb-4">
-        <div className="flex items-center gap-2 bg-white rounded-lg px-4 py-2.5">
-          <Search className="h-4 w-4 text-neutral-400" strokeWidth={2} />
-          <span className="text-[12px] text-neutral-500 font-medium">ابحث عن كل ما تحتاجه</span>
-        </div>
-      </div>
-
-      <div className="relative aspect-square bg-gradient-to-br from-yellow-50 to-neutral-100 flex items-center justify-center">
-        <ShoppingBag className="h-24 w-24 text-neutral-300" strokeWidth={1} />
-        <button className="absolute top-3 left-3 h-10 w-10 rounded-full bg-white flex items-center justify-center shadow-md">
-          <Heart className="h-5 w-5 text-neutral-700" strokeWidth={2} />
-        </button>
-      </div>
-
-      <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-        <span className="text-[10px] bg-yellow-100 text-yellow-800 font-bold px-2 py-1 rounded">
-          توصيل مجاني
-        </span>
-        <p className="text-[15px] font-bold leading-snug mt-2">
-          سماعات لاسلكية بلوتوث — عزل ضوضاء نشط
-        </p>
-        <div className="flex items-center gap-1 mt-2">
-          {[1, 2, 3, 4, 5].map((n) => (
-            <Star key={n} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
-          ))}
-          <span className="text-[11px] text-neutral-500 mr-1">(892)</span>
-        </div>
-        <div className="flex items-baseline gap-2 mt-3">
           <span className="text-[22px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {price} ر.س
-          </span>
-          <span className="text-[13px] text-neutral-400 line-through" style={{ fontVariantNumeric: "tabular-nums" }}>
-            499 ر.س
+            {m.price} ر.س
           </span>
         </div>
 
@@ -396,19 +287,12 @@ function NoonSim({ onBack, onCheckout }: { onBack: () => void; onCheckout: (amt:
           </div>
         </div>
 
-        <div className="mt-4 bg-neutral-50 rounded-2xl p-3 flex items-center justify-between">
-          <span className="text-[16px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {total} ر.س
-          </span>
-          <span className="text-[12px] font-bold text-neutral-700">الإجمالي</span>
-        </div>
-
         <button
           onClick={() => onCheckout(total)}
-          className="mt-4 w-full rounded-lg bg-yellow-400 text-neutral-900 font-black py-4 text-[14px] flex items-center justify-center gap-2 active:scale-[0.99] transition"
+          className={`mt-5 w-full rounded-full ${m.ctaBg} ${m.ctaText} font-black py-4 text-[14px] flex items-center justify-center gap-2 active:scale-[0.99] transition shadow-lg`}
         >
           <ShoppingCart className="h-4 w-4" strokeWidth={2.5} />
-          إتمام الشراء الآن
+          إضافة للسلة — {total} ريال
         </button>
       </div>
     </div>
