@@ -102,6 +102,9 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
             value={data.password}
             onChange={(e) => update({ password: e.target.value })}
             placeholder="6 أحرف على الأقل"
+            autoComplete="new-password"
+            data-lpignore="true"
+            data-1p-ignore
             className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
           />
         </Field>
