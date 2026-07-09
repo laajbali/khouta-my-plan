@@ -64,7 +64,7 @@ function Index() {
   return (
     <PhoneFrame>
       {active === "splash" ? (
-        <SplashScreen onDone={() => setScreen(session ? "home" : "login")} />
+        <SplashScreen onDone={handleSplashDone} />
       ) : !ready ? (
         <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
           جارٍ التحميل...
