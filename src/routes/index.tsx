@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { PhoneFrame } from "@/components/khouta/PhoneFrame";
 import { LoginScreen } from "@/components/khouta/LoginScreen";
+import { SplashScreen } from "@/components/khouta/SplashScreen";
 import { Step1Account } from "@/components/khouta/Step1Account";
 import { Step2Financial } from "@/components/khouta/Step2Financial";
 import { Step3Goal } from "@/components/khouta/Step3Goal";
@@ -16,15 +17,20 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Screen = "login" | "s1" | "s2" | "s3" | "s4" | "generating" | "home";
+type Screen = "splash" | "login" | "s1" | "s2" | "s3" | "s4" | "generating" | "home";
 const ONBOARDING: Screen[] = ["s1", "s2", "s3", "s4", "generating"];
 
 function Index() {
   const { session, ready } = useSession();
-  const [screen, setScreen] = useState<Screen>("login");
+  const [screen, setScreen] = useState<Screen>("splash");
 
-  // If signed in and not currently in the onboarding wizard, go home
-  const active: Screen = session && !ONBOARDING.includes(screen) ? "home" : screen;
+  // Splash always shows first. After that, if signed in and not in onboarding, go home.
+  const active: Screen =
+    screen === "splash"
+      ? "splash"
+      : session && !ONBOARDING.includes(screen)
+        ? "home"
+        : screen;
 
   async function handleReset() {
     await supabase.auth.signOut();
