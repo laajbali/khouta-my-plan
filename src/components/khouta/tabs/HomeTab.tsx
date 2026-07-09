@@ -40,20 +40,44 @@ export function HomeTab({
 }) {
   const profile = useProfile();
   const { goals } = useGoals();
-  const displayName = profile?.full_name?.trim() || "سارة";
-  const firstName = displayName.split(" ")[0];
-  const initial = firstName.charAt(0) || "خ";
+  const displayName = profile?.full_name?.trim() || "";
+  const firstName = displayName.split(" ")[0] || "بكِ";
+  const initial = (firstName || "خ").charAt(0);
   const topGoal = goals[0];
 
+  const goalTitle = topGoal?.title ?? "هدفك الأول";
   const target = Number(topGoal?.target_amount ?? 25000);
-  const saved = Number(topGoal?.saved_amount ?? 17000);
+  const saved = Number(topGoal?.saved_amount ?? 0);
   const remaining = Math.max(0, target - saved);
-  const percent = Math.min(100, Math.round((saved / target) * 100));
+  const percent = target > 0 ? Math.min(100, Math.round((saved / target) * 100)) : 0;
+
+  // Pick an icon from the goal title keywords
+  const titleLower = goalTitle;
+  const GoalIcon =
+    /سيارة|car/i.test(titleLower) ? Car :
+    /لاب|حاسوب|laptop/i.test(titleLower) ? BarChart3 :
+    /سفر|رحلة|travel/i.test(titleLower) ? Gift :
+    Target;
 
   return (
     <div className="bg-background pb-4">
-      {/* Header */}
-      <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card">
+      {/* Header — profile on right (visual), bell on left */}
+      <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card" dir="rtl">
+        <button
+          onClick={onOpenProfile}
+          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm active:scale-95 transition"
+          aria-label="الحساب"
+        >
+          {initial}
+        </button>
+        <div className="text-center flex-1 mx-3">
+          <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
+            صباح الخير{firstName ? "، " + firstName : ""} 👋
+          </p>
+          <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
+            كل خطوة ذكية تقرّبك من هدفك
+          </p>
+        </div>
         <button
           onClick={onOpenNotifications}
           className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-border text-foreground relative active:scale-95 transition"
@@ -66,21 +90,6 @@ export function HomeTab({
           >
             3
           </span>
-        </button>
-        <div className="text-center flex-1 mx-3">
-          <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
-            صباح الخير، {firstName} 👋
-          </p>
-          <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
-            كل خطوة ذكية تقرّبك من هدفك
-          </p>
-        </div>
-        <button
-          onClick={onOpenProfile}
-          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm active:scale-95 transition"
-          aria-label="الحساب"
-        >
-          {initial}
         </button>
       </div>
 
