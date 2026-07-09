@@ -85,7 +85,7 @@ export function RewardsTab({ onOpenNotifications }: { onOpenNotifications?: () =
         </div>
 
         {/* Filter tabs */}
-        <div className="flex gap-1 bg-secondary rounded-2xl p-1 justify-end">
+        <div className="flex gap-1 bg-secondary rounded-2xl p-1 justify-center">
           {FILTERS.map((f) => (
             <button
               key={f}

@@ -77,10 +77,8 @@ export function PlanGenerating({ onDone }: { onDone: () => void }) {
         ) : (
           <>
             <div className="relative">
-              <div className="h-24 w-24 rounded-3xl bg-primary flex items-center justify-center shadow-xl shadow-primary/30">
-                <KhoutaLogo size={56} />
-              </div>
-              <div className="absolute -inset-2 rounded-[28px] border-2 border-mint/40 border-t-transparent animate-spin" />
+              <KhoutaLogo size={96} />
+              <div className="absolute -inset-2 rounded-[32px] border-2 border-mint/50 border-t-transparent animate-spin" />
             </div>
             <h2 className="text-[18px] font-extrabold text-foreground mt-5 tracking-tight">جارٍ إنشاء خطتك…</h2>
             <p className="text-[11px] text-muted-foreground mt-1">نحلّل بياناتك لنقترح لك خطة ذكية</p>
