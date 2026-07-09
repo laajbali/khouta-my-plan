@@ -1,25 +1,26 @@
 import { Check } from "lucide-react";
 
 const STEPS = [
-  { n: 1, label: "الأساسية" },
+  { n: 1, label: "الحساب" },
   { n: 2, label: "المالية" },
   { n: 3, label: "الهدف" },
+  { n: 4, label: "ربط البنك" },
 ];
 
-export function Stepper({ current }: { current: 1 | 2 | 3 }) {
+export function Stepper({ current }: { current: 1 | 2 | 3 | 4 }) {
   return (
-    <div className="flex items-center justify-between px-2" dir="ltr">
+    <div className="flex items-center justify-between px-1" dir="ltr">
       {STEPS.slice().reverse().map((s, i) => {
         const done = s.n < current;
         const active = s.n === current;
         return (
           <div key={s.n} className="flex flex-1 items-center">
             {i !== 0 && (
-              <div className={`h-[2px] flex-1 mx-1.5 rounded-full ${done || active ? "bg-primary" : "bg-border"}`} />
+              <div className={`h-[2px] flex-1 mx-1 rounded-full ${done || active ? "bg-primary" : "bg-border"}`} />
             )}
-            <div className="flex flex-col items-center gap-1.5 shrink-0">
+            <div className="flex flex-col items-center gap-1 shrink-0">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-xl text-[12px] font-bold transition ${
+                className={`flex h-7 w-7 items-center justify-center rounded-lg text-[11px] font-bold transition ${
                   done
                     ? "bg-primary text-primary-foreground"
                     : active
@@ -28,9 +29,9 @@ export function Stepper({ current }: { current: 1 | 2 | 3 }) {
                 }`}
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
-                {done ? <Check className="h-3.5 w-3.5" strokeWidth={3} /> : s.n}
+                {done ? <Check className="h-3 w-3" strokeWidth={3} /> : s.n}
               </div>
-              <span className={`text-[10px] font-semibold ${active ? "text-foreground" : "text-muted-foreground"}`}>
+              <span className={`text-[9px] font-semibold whitespace-nowrap ${active ? "text-foreground" : "text-muted-foreground"}`}>
                 {s.label}
               </span>
             </div>

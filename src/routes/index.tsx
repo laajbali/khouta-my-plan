@@ -5,6 +5,8 @@ import { LoginScreen } from "@/components/khouta/LoginScreen";
 import { Step1Account } from "@/components/khouta/Step1Account";
 import { Step2Financial } from "@/components/khouta/Step2Financial";
 import { Step3Goal } from "@/components/khouta/Step3Goal";
+import { Step4Card } from "@/components/khouta/Step4Card";
+import { PlanGenerating } from "@/components/khouta/PlanGenerating";
 import { HomeScreen } from "@/components/khouta/HomeScreen";
 import { OnboardingProvider } from "@/components/khouta/onboarding-context";
 import { useSession } from "@/hooks/use-session";
@@ -14,18 +16,15 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Screen = "login" | "s1" | "s2" | "s3" | "home";
+type Screen = "login" | "s1" | "s2" | "s3" | "s4" | "generating" | "home";
+const ONBOARDING: Screen[] = ["s1", "s2", "s3", "s4", "generating"];
 
 function Index() {
   const { session, ready } = useSession();
   const [screen, setScreen] = useState<Screen>("login");
 
-  // Once signed in from anywhere (login OR after signup), show home
-  const active: Screen = session && screen !== "s1" && screen !== "s2" && screen !== "s3"
-    ? "home"
-    : session && screen === "s3"
-      ? "home"
-      : screen;
+  // If signed in and not currently in the onboarding wizard, go home
+  const active: Screen = session && !ONBOARDING.includes(screen) ? "home" : screen;
 
   async function handleReset() {
     await supabase.auth.signOut();
@@ -50,7 +49,13 @@ function Index() {
             <Step2Financial onBack={() => setScreen("s1")} onNext={() => setScreen("s3")} />
           )}
           {active === "s3" && (
-            <Step3Goal onBack={() => setScreen("s2")} onFinish={() => setScreen("home")} />
+            <Step3Goal onBack={() => setScreen("s2")} onFinish={() => setScreen("s4")} />
+          )}
+          {active === "s4" && (
+            <Step4Card onBack={() => setScreen("s3")} onNext={() => setScreen("generating")} />
+          )}
+          {active === "generating" && (
+            <PlanGenerating onDone={() => setScreen("home")} />
           )}
           {active === "home" && <HomeScreen onReset={handleReset} />}
         </OnboardingProvider>
