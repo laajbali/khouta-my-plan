@@ -65,7 +65,10 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
       {/* ============ Logo stage ============ */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="splash-stage relative" style={{ width: S, height: S }}>
-          {/* Assembled tiles — each is a clipped copy of the REAL logo */}
+          {/* Inner layer handles the subtle floating motion so the parent
+              can scale independently without transform conflicts. */}
+          <div className="splash-stage-inner absolute inset-0">
+            {/* Assembled tiles — each is a clipped copy of the REAL logo */}
           {tiles.map((t) => (
             <img
               key={t.name}
