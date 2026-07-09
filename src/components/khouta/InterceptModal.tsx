@@ -92,7 +92,7 @@ export function InterceptModal({
               </p>
             </div>
             <h2 className="mt-1 text-[22px] font-black tracking-tight">
-              لحظة يا سارة! 🛑
+              لحظة{firstName ? " يا " + firstName : ""}! 🛑
             </h2>
           </div>
 
