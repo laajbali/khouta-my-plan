@@ -63,9 +63,9 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
               وفرتِ عن الشهر الماضي بنسبة{" "}
               <span className="text-mint font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>+18%</span>
             </p>
-            <p className="text-[11px] text-mint font-semibold mt-1 flex items-center gap-1 justify-start">
-              <TrendingUp className="h-3 w-3" strokeWidth={2} />
+            <p className="text-[11px] text-mint font-semibold mt-1 flex items-center gap-1 justify-start text-right">
               استمري على الطريق!
+              <TrendingUp className="h-3 w-3" strokeWidth={2} />
             </p>
           </div>
         </div>
