@@ -67,8 +67,6 @@ type MerchantConfig = {
 const MERCHANTS: MerchantConfig[] = [
   { key: "SHEIN", name: "SHEIN", subtitle: "أزياء وإكسسوارات", category: "تسوق", logoBg: "bg-black", logoText: "text-white", logoLabel: "SHEIN", logoStyle: "italic", price: 450, productTitle: "فستان صيفي كاجوال — تصميم عصري", productSubtitle: "متعدد الألوان", accentBg: "from-pink-100 via-rose-50 to-neutral-100", headerText: "text-white", ctaBg: "bg-black", ctaText: "text-white" },
   { key: "نون", name: "نون", subtitle: "تسوق كل شيء", category: "تسوق", logoBg: "bg-yellow-400", logoText: "text-neutral-900", logoLabel: "noon", logoStyle: "lower", price: 320, productTitle: "سماعات لاسلكية بلوتوث — عزل ضوضاء", productSubtitle: "شحن سريع", accentBg: "from-yellow-50 to-neutral-100", headerText: "text-neutral-900", ctaBg: "bg-yellow-400", ctaText: "text-neutral-900" },
-  { key: "هنقرستيشن", name: "هنقرستيشن", subtitle: "طلبات الطعام", category: "طعام", logoBg: "bg-orange-500", logoText: "text-white", logoLabel: "HungerStation", logoStyle: "block", price: 185, productTitle: "وجبة عائلية — دجاج مشوي مع أرز وسلطة", productSubtitle: "توصيل خلال 35 دقيقة", accentBg: "from-orange-100 via-amber-50 to-neutral-100", headerText: "text-white", ctaBg: "bg-orange-500", ctaText: "text-white" },
-  { key: "أمازون", name: "Amazon", subtitle: "تسوق كل شيء", category: "تسوق", logoBg: "bg-neutral-900", logoText: "text-yellow-400", logoLabel: "amazon", logoStyle: "lower", price: 620, productTitle: "شاشة كمبيوتر 27 بوصة — دقة عالية", productSubtitle: "شحن مجاني", accentBg: "from-neutral-100 via-neutral-50 to-white", headerText: "text-white", ctaBg: "bg-yellow-400", ctaText: "text-neutral-900" },
 ];
 
 export function NotificationsTab({
