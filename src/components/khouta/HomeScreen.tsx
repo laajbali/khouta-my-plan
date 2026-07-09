@@ -18,6 +18,7 @@ import {
   NewGoalScreen,
   CalendarScreen,
 } from "./ActionScreens";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 
 type SubScreen =
   | "none"
