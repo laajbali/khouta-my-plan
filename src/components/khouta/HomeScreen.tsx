@@ -98,6 +98,10 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         onProceed={() => setInterceptOpen(false)}
         merchant={interceptMerchant}
         amount={interceptAmount}
+        userName={profile?.full_name ?? ""}
+        goalTitle={topGoal?.title ?? "هدفك"}
+        goalTarget={Number(topGoal?.target_amount ?? 25000)}
+        goalSaved={Number(topGoal?.saved_amount ?? 0)}
       />
     </div>
   );
