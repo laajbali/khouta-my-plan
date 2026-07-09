@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-type MerchantKey = "SHEIN" | "نون" | "هنقرستيشن" | "أمازون";
+type MerchantKey = "SHEIN" | "نون";
 
 type Alert = {
   brand: string;
