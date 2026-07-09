@@ -18,19 +18,23 @@ export function ChoiceCard({
     <button
       type="button"
       onClick={onClick}
-      className={`relative flex flex-col items-center justify-center gap-1.5 rounded-2xl border-2 p-3 transition-all ${
+      className={`relative flex flex-col items-center justify-center gap-2 rounded-2xl border p-3 transition shadow-sm ${
         active
-          ? "border-primary bg-accent/50"
-          : "border-border bg-card hover:border-primary/40"
+          ? "border-primary bg-primary/5"
+          : "border-border bg-card hover:border-primary/30"
       }`}
     >
       {active && (
-        <span className="absolute -top-2 -left-2 flex h-6 w-6 items-center justify-center rounded-full bg-mint text-mint-foreground shadow">
-          <Check className="h-3.5 w-3.5" strokeWidth={3} />
+        <span className="absolute -top-1.5 -left-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-primary-foreground border-2 border-card">
+          <Check className="h-3 w-3" strokeWidth={3} />
         </span>
       )}
-      <div className="text-2xl">{icon}</div>
-      <span className="text-sm font-semibold text-foreground">{label}</span>
+      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${active ? "bg-primary/10 text-primary" : "bg-secondary text-muted-foreground"}`}>
+        {icon}
+      </div>
+      <span className={`text-[11px] font-semibold tracking-tight ${active ? "text-foreground" : "text-foreground/80"}`}>
+        {label}
+      </span>
       {extra}
     </button>
   );
