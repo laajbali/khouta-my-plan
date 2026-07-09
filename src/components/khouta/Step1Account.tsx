@@ -9,10 +9,18 @@ import {
   GraduationCap,
   Building2,
   MoreHorizontal,
+  ChevronDown,
 } from "lucide-react";
 import { Stepper } from "./Stepper";
 import { ChoiceCard } from "./ChoiceCard";
 import { useOnboarding } from "./onboarding-context";
+
+const SAUDI_CITIES = [
+  "الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام",
+  "الخبر", "الظهران", "الطائف", "تبوك", "بريدة", "خميس مشيط",
+  "أبها", "حائل", "نجران", "جازان", "ينبع", "الجبيل", "الأحساء",
+  "القطيف", "عرعر", "سكاكا",
+];
 
 const CATEGORIES = [
   { key: "student", label: "طالب", icon: <GraduationCap className="h-5 w-5" strokeWidth={1.8} /> },
