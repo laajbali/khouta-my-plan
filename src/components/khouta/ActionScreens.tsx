@@ -27,6 +27,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useGoals, type Goal } from "@/hooks/use-khouta-data";
+import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
 
 /* ---------- Shared Chrome ---------- */
 
@@ -604,14 +605,21 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       toast.error("سجّلي الدخول أولاً");
       return;
     }
-    if (!typeKey || !name || !amount) {
+    if (!typeKey || !amount) {
       toast.error("الرجاء إكمال البيانات");
+      return;
+    }
+    const preset = GOAL_TYPES.find((g) => g.key === typeKey);
+    const finalName =
+      typeKey === "custom" ? name.trim() : (preset?.label ?? name.trim());
+    if (typeKey === "custom" && !finalName) {
+      toast.error("الرجاء كتابة اسم الهدف");
       return;
     }
     setSaving(true);
     const { error } = await supabase.from("savings_goals").insert({
       user_id: user.id,
-      title: name,
+      title: finalName,
       icon: typeKey,
       target_amount: Number(amount),
       saved_amount: 0,
@@ -621,7 +629,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       toast.error(error.message);
       return;
     }
-    toast.success(`تم إنشاء هدف "${name}"`);
+    toast.success(`تم إنشاء هدف "${finalName}"`);
     setTimeout(onBack, 500);
   }
 
@@ -653,14 +661,16 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
             })}
           </div>
         </div>
-        <Field label="اسم الهدف">
-          <input
-            className={inputCls}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="مثال: عمرة"
-          />
-        </Field>
+        {typeKey === "custom" && (
+          <Field label="اسم الهدف">
+            <input
+              className={inputCls}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="مثال: عمرة"
+            />
+          </Field>
+        )}
         <Field label="المبلغ المستهدف (ر.س)">
           <input
             className={inputCls}
@@ -949,10 +959,13 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 قمنا بإعادة توزيع خطة الادخار تلقائياً حتى لا تتأثر ميزانيتك.
               </p>
 
-              <div className="mt-4 grid grid-cols-3 gap-2">
-                <MiniStat label="ادخار يومي" value="12" suffix="ر.س" />
-                <MiniStat label="ادخار أسبوعي" value="85" suffix="ر.س" />
-                <MiniStat label="ادخار شهري" value="340" suffix="ر.س" />
+              <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-semibold">
+                اختاري خطة الادخار المناسبة
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                <MiniStat plan="daily" label="ادخار يومي" value="12" suffix="ر.س" />
+                <MiniStat plan="weekly" label="ادخار أسبوعي" value="85" suffix="ر.س" />
+                <MiniStat plan="monthly" label="ادخار شهري" value="340" suffix="ر.س" />
               </div>
 
               <div className="mt-4 flex gap-2.5">
@@ -977,15 +990,52 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
-function MiniStat({ label, value, suffix }: { label: string; value: string; suffix?: string }) {
+function MiniStat({
+  label,
+  value,
+  suffix,
+  plan,
+}: {
+  label: string;
+  value: string;
+  suffix?: string;
+  plan?: SavingsPlan;
+}) {
+  const [selected, setSelected] = useSavingsPlan();
+  const active = plan !== undefined && selected === plan;
+  const clickable = plan !== undefined;
   return (
-    <div className="rounded-2xl bg-mint/10 border border-mint/25 p-2.5 text-center">
-      <p className="text-[15px] font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+    <button
+      type="button"
+      disabled={!clickable}
+      onClick={() => {
+        if (!plan) return;
+        setSelected(plan);
+        toast.success(
+          plan === "daily"
+            ? "تم اعتماد خطة الادخار اليومي"
+            : plan === "weekly"
+              ? "تم اعتماد خطة الادخار الأسبوعي"
+              : "تم اعتماد خطة الادخار الشهري",
+        );
+      }}
+      className={`rounded-2xl p-2.5 text-center transition ${
+        active
+          ? "bg-primary text-primary-foreground border border-primary shadow-md shadow-primary/25"
+          : "bg-mint/10 border border-mint/25 hover:border-primary/40"
+      } ${clickable ? "active:scale-[0.98]" : ""}`}
+    >
+      <p
+        className={`text-[15px] font-black ${active ? "text-primary-foreground" : "text-primary"}`}
+        style={{ fontVariantNumeric: "tabular-nums" }}
+      >
         {value}
         {suffix && <span className="text-[9px] mr-1 font-bold">{suffix}</span>}
       </p>
-      <p className="text-[9px] font-bold text-muted-foreground mt-0.5">{label}</p>
-    </div>
+      <p className={`text-[9px] font-bold mt-0.5 ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+        {label}
+      </p>
+    </button>
   );
 }
 
@@ -1116,6 +1166,77 @@ function AddEventScreen({
 
         <PrimaryButton type="submit">إضافة المناسبة</PrimaryButton>
       </form>
+    </div>
+  );
+}
+
+/* ---------- Goals List ---------- */
+
+export function GoalsListScreen({
+  onBack,
+  onOpenGoal,
+  onOpenNewGoal,
+}: {
+  onBack: () => void;
+  onOpenGoal: (id: string) => void;
+  onOpenNewGoal: () => void;
+}) {
+  const { goals, loading } = useGoals();
+
+  return (
+    <div className="flex flex-col h-full bg-background">
+      <ScreenHeader title="أهدافي" onBack={onBack} />
+      <div className="flex-1 overflow-y-auto p-5 space-y-3">
+        {loading && (
+          <p className="text-center text-sm text-muted-foreground py-10">جارٍ التحميل...</p>
+        )}
+
+        {!loading && goals.length === 0 && (
+          <div className="rounded-2xl border border-dashed border-border bg-card p-6 text-center space-y-3">
+            <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
+              <Target className="h-6 w-6 text-primary" />
+            </div>
+            <p className="text-sm font-bold text-foreground">لا توجد أهداف بعد</p>
+            <p className="text-xs text-muted-foreground">ابدئي بإضافة هدفك الأول من الأسفل</p>
+          </div>
+        )}
+
+        {goals.map((g) => {
+          const target = Number(g.target_amount);
+          const saved = Number(g.saved_amount);
+          const percent = target > 0 ? Math.min(100, Math.round((saved / target) * 100)) : 0;
+          const Icon = iconFor(g.icon);
+          return (
+            <button
+              key={g.id}
+              onClick={() => onOpenGoal(g.id)}
+              className="w-full rounded-2xl bg-card border border-border p-4 shadow-sm text-right active:scale-[0.99] transition hover:border-primary/40"
+            >
+              <div className="flex items-center gap-3">
+                <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                  <Icon className="h-5 w-5" strokeWidth={1.8} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{g.title}</p>
+                  <p className="text-[10.5px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    {saved.toLocaleString()} / {target.toLocaleString()} ر.س • {percent}%
+                  </p>
+                </div>
+              </div>
+              <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
+                <div className="h-full bg-mint rounded-full" style={{ width: `${percent}%` }} />
+              </div>
+            </button>
+          );
+        })}
+
+        <button
+          onClick={onOpenNewGoal}
+          className="w-full py-3 rounded-2xl border border-dashed border-border text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
+        >
+          <Plus className="h-4 w-4" /> إضافة هدف جديد
+        </button>
+      </div>
     </div>
   );
 }

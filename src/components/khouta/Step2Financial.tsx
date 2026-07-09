@@ -10,6 +10,7 @@ import {
   Car,
   Wifi,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Stepper } from "./Stepper";
 import { ChoiceCard } from "./ChoiceCard";
 import { useOnboarding } from "./onboarding-context";
@@ -30,18 +31,40 @@ const EXPENSE_ICONS: Record<string, React.ReactNode> = {
 export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { data, update } = useOnboarding();
 
-  function updateExpense(key: string, amount: string) {
-    update({ expenses: data.expenses.map((e) => (e.key === key ? { ...e, amount } : e)) });
+  function updateExpense(key: string, patch: Partial<{ amount: string; label: string }>) {
+    update({ expenses: data.expenses.map((e) => (e.key === key ? { ...e, ...patch } : e)) });
   }
 
   function addExpense() {
     update({
-      expenses: [...data.expenses, { key: `custom-${Date.now()}`, label: "مصروف آخر", amount: "0" }],
+      expenses: [
+        ...data.expenses,
+        { key: `custom-${Date.now()}`, label: "", amount: "0", editable: true },
+      ],
     });
   }
 
   function removeExpense(key: string) {
     update({ expenses: data.expenses.filter((e) => e.key !== key) });
+  }
+
+  function next() {
+    if (!data.incomeSource) {
+      toast.error("عذراً، الرجاء تحديد مصدر الدخل");
+      return;
+    }
+    if (data.incomeSource === "other" && !data.incomeSourceCustom.trim()) {
+      toast.error("عذراً، الرجاء كتابة مصدر الدخل");
+      return;
+    }
+    const hasExpense = data.expenses.some(
+      (e) => Number(e.amount) > 0 && (e.label?.trim().length ?? 0) > 0,
+    );
+    if (!hasExpense) {
+      toast.error("عذراً، الرجاء إدخال مصروف شهري واحد على الأقل");
+      return;
+    }
+    onNext();
   }
 
   return (
@@ -70,6 +93,16 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
               />
             ))}
           </div>
+          {data.incomeSource === "other" && (
+            <div className="mt-3 flex items-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 shadow-sm focus-within:border-primary/50 transition">
+              <input
+                value={data.incomeSourceCustom}
+                onChange={(e) => update({ incomeSourceCustom: e.target.value })}
+                placeholder="اكتبي مصدر الدخل"
+                className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
+              />
+            </div>
+          )}
           <div className="mt-3">
             <p className="text-right text-[11px] font-semibold text-foreground/80 mb-1.5 tracking-tight">
               الدخل الشهري
@@ -103,13 +136,22 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
                   <span className="text-[10px] text-muted-foreground font-semibold">ر.س</span>
                   <input
                     value={e.amount}
-                    onChange={(ev) => updateExpense(e.key, ev.target.value.replace(/[^\d]/g, ""))}
+                    onChange={(ev) => updateExpense(e.key, { amount: ev.target.value.replace(/[^\d]/g, "") })}
                     placeholder={e.key === "housing" ? "2,000" : e.key === "transport" ? "400" : e.key === "internet" ? "100" : "0"}
                     inputMode="numeric"
                     className="w-20 bg-transparent outline-none text-[13px] font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-medium"
                     style={{ fontVariantNumeric: "tabular-nums" }}
                   />
-                  <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
+                  {e.editable ? (
+                    <input
+                      value={e.label}
+                      onChange={(ev) => updateExpense(e.key, { label: ev.target.value })}
+                      placeholder="اسم المصروف"
+                      className="flex-1 bg-transparent outline-none text-right text-[12px] font-semibold text-foreground placeholder:text-muted-foreground/60"
+                    />
+                  ) : (
+                    <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
+                  )}
                 </div>
                 {i >= 3 && (
                   <button
@@ -132,7 +174,7 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
         </Section>
 
         <button
-          onClick={onNext}
+          onClick={next}
           className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition"
         >
           التالي
