@@ -78,10 +78,13 @@ export function ProfileTab() {
               </button>
             </div>
             <div className="flex-1 text-right min-w-0">
-              <div className="flex items-center gap-2 justify-end">
+              <button
+                onClick={() => toast("قريباً: تعديل الاسم")}
+                className="flex items-center gap-2 justify-end w-full active:scale-95 transition"
+              >
                 <Edit className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
                 <h2 className="text-[15px] font-extrabold text-foreground tracking-tight truncate">{displayName}</h2>
-              </div>
+              </button>
               <p className="text-[11px] text-muted-foreground mt-1 truncate font-medium">
                 {user?.email ?? "مستقبلك المالي بين يديك"}
               </p>
