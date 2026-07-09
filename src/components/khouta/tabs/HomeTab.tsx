@@ -93,10 +93,10 @@ export function HomeTab({
         </button>
       </div>
 
-      <div className="px-5 pt-4 space-y-4 bg-background">
-        {/* Premium Goal Card — main focus */}
+      <div className="px-4 pt-4 space-y-4 bg-background">
+        {/* Premium Goal Card — wider, shorter */}
         <div
-          className="relative rounded-[28px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)]"
+          className="relative rounded-[26px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)]"
           style={{
             background:
               "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.22 0.05 155) 55%, oklch(0.14 0.04 155) 100%)",
@@ -105,36 +105,39 @@ export function HomeTab({
           <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
           <div className="absolute -bottom-20 -left-10 w-48 h-48 rounded-full blur-3xl" style={{ background: "oklch(0.85 0.14 85 / 0.20)" }} />
 
-          <div className="relative p-5">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-[10px] font-bold text-white/60 tracking-[0.15em] uppercase">
+          <div className="relative px-4 py-4">
+            <div className="flex items-center justify-between mb-3">
+              <p className="text-[9.5px] font-bold text-white/60 tracking-[0.15em] uppercase">
                 موعد الإنجاز • ديسمبر 2026
               </p>
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-black px-2.5 py-1 rounded-lg bg-mint/20 text-mint border border-mint/30">
+              <span className="inline-flex items-center gap-1 text-[9.5px] font-black px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
                 <Target className="h-3 w-3" strokeWidth={2.5} />
                 هدفك الحالي
               </span>
             </div>
 
             <button onClick={onOpenGoal} className="w-full flex items-center justify-between text-right">
-              <div className="h-14 w-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
-                <Car className="h-7 w-7 text-white" strokeWidth={1.8} />
+              <div className="h-12 w-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+                <GoalIcon className="h-6 w-6 text-white" strokeWidth={1.8} />
               </div>
-              <div className="flex-1 text-right pr-3">
-                <h3 className="text-[22px] font-black tracking-tight leading-none">
-                  {topGoal?.title ?? "شراء سيارة"} 🚗
+              <div className="flex-1 text-right pr-3 min-w-0">
+                <h3 className="text-[19px] font-black tracking-tight leading-tight truncate">
+                  {goalTitle}
                 </h3>
+                <p className="text-[10.5px] text-white/60 font-semibold mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  {percent}% مكتمل
+                </p>
               </div>
             </button>
 
             {/* Segmented progress dots */}
-            <div className="mt-5 flex items-center gap-1" dir="ltr">
-              {Array.from({ length: 12 }).map((_, i) => {
-                const active = i < Math.round((percent / 100) * 12);
+            <div className="mt-3 flex items-center gap-1" dir="ltr">
+              {Array.from({ length: 14 }).map((_, i) => {
+                const active = i < Math.round((percent / 100) * 14);
                 return (
                   <span
                     key={i}
-                    className="flex-1 h-1.5 rounded-full"
+                    className="flex-1 h-1 rounded-full"
                     style={{
                       background: active ? "var(--mint)" : "oklch(1 0 0 / 0.15)",
                     }}
@@ -142,37 +145,34 @@ export function HomeTab({
                 );
               })}
             </div>
-            <p className="mt-2 text-[11px] font-bold text-mint text-left" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {percent}% من الهدف
-            </p>
 
-            {/* Amounts */}
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <div className="rounded-2xl bg-white/8 border border-white/10 p-3 text-right">
-                <p className="text-[9.5px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
-                <p className="text-[15px] font-black mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+            {/* Amounts + CTA on one row */}
+            <div className="mt-3 flex items-center gap-2">
+              <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
+                <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
+                <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
                   {remaining.toLocaleString()}
-                  <span className="text-[10px] text-white/60 font-bold mr-1">ر.س</span>
+                  <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
                 </p>
               </div>
-              <div className="rounded-2xl bg-white/8 border border-white/10 p-3 text-right">
-                <p className="text-[9.5px] text-white/60 font-bold uppercase tracking-wider">الهدف الكلي</p>
-                <p className="text-[15px] font-black mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
+                <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">الهدف</p>
+                <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
                   {target.toLocaleString()}
-                  <span className="text-[10px] text-white/60 font-bold mr-1">ر.س</span>
+                  <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
                 </p>
               </div>
+              <button
+                onClick={onOpenGoal}
+                aria-label="عرض التفاصيل"
+                className="h-[52px] w-[52px] rounded-xl bg-mint text-primary flex items-center justify-center shadow-md active:scale-95 transition"
+              >
+                <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+              </button>
             </div>
-
-            <button
-              onClick={onOpenGoal}
-              className="mt-4 w-full py-3.5 rounded-2xl bg-white/12 border border-white/20 backdrop-blur text-[13px] font-extrabold flex items-center justify-center gap-1.5 active:scale-[0.99] transition"
-            >
-              عرض التفاصيل
-              <ChevronLeft className="h-3.5 w-3.5" strokeWidth={2.5} />
-            </button>
           </div>
         </div>
+
 
         {/* 2×2 grid */}
         <div className="grid grid-cols-2 gap-3">
