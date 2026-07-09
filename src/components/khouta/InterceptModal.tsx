@@ -176,7 +176,7 @@ export function InterceptModal({
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
-              أحسنتِ يا سارة! 🎁
+              أحسنتِ{firstName ? " يا " + firstName : ""}! 🎁
             </h2>
             <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
