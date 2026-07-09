@@ -69,12 +69,13 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenNotifications={() => setTab("notifications")}
             onOpenReports={() => setTab("reports")}
             onOpenRewards={() => setTab("rewards")}
-            onSimulateIntercept={() => setInterceptOpen(true)}
           />
         )}
         {tab === "rewards" && <RewardsTab />}
         {tab === "profile" && <ProfileTab />}
-        {tab === "notifications" && <NotificationsTab />}
+        {tab === "notifications" && (
+          <NotificationsTab onSimulateIntercept={(m) => { setInterceptMerchant(m); setInterceptOpen(true); }} />
+        )}
         {tab === "reports" && <ReportsTab />}
       </div>
       <BottomNav active={tab} onChange={setTab} />
