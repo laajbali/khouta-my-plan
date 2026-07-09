@@ -90,7 +90,10 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
       <BottomNav active={tab} onChange={setTab} />
       <InterceptModal
         open={interceptOpen}
-        onCancel={() => setInterceptOpen(false)}
+        onCancel={() => {
+          setInterceptOpen(false);
+          setTab("rewards");
+        }}
         onProceed={() => setInterceptOpen(false)}
         merchant={interceptMerchant}
         amount={interceptAmount}
