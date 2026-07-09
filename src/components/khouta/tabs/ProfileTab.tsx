@@ -32,7 +32,7 @@ const SETTINGS = [
   { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-primary/10 text-primary", action: "تم نسخ رابط الدعوة" },
 ];
 
-export function ProfileTab() {
+export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () => void }) {
   const profile = useProfile();
   const { user } = useSession();
   const { goals } = useGoals();
@@ -52,7 +52,8 @@ export function ProfileTab() {
         <div className="w-11" />
         <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
         <button
-          onClick={() => toast("لا توجد تنبيهات جديدة")}
+          onClick={onOpenNotifications}
+          aria-label="التنبيهات"
           className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition"
         >
           <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
@@ -61,6 +62,7 @@ export function ProfileTab() {
           </span>
         </button>
       </div>
+
 
       <div className="px-5 pt-4 space-y-4">
         {/* Profile card */}
