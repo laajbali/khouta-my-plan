@@ -76,7 +76,13 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         {tab === "rewards" && <RewardsTab />}
         {tab === "profile" && <ProfileTab />}
         {tab === "notifications" && (
-          <NotificationsTab onSimulateIntercept={(m) => { setInterceptMerchant(m); setInterceptOpen(true); }} />
+          <NotificationsTab
+            onSimulateIntercept={(merchant, amount) => {
+              setInterceptMerchant(merchant);
+              setInterceptAmount(amount);
+              setInterceptOpen(true);
+            }}
+          />
         )}
         {tab === "reports" && <ReportsTab />}
       </div>
@@ -85,6 +91,8 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         open={interceptOpen}
         onCancel={() => setInterceptOpen(false)}
         onProceed={() => setInterceptOpen(false)}
+        merchant={interceptMerchant}
+        amount={interceptAmount}
       />
     </div>
   );
