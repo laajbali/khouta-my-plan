@@ -1,122 +1,205 @@
-import { ShieldCheck } from "lucide-react";
+import {
+  ShieldCheck,
+  Lightbulb,
+  ShoppingBag,
+  UtensilsCrossed,
+  Car,
+  Sparkles,
+  Bell,
+  ChevronLeft,
+  Lock,
+} from "lucide-react";
 
-const ALERTS = [
-  { brand: "SHEIN", icon: "🔒", tag: "وفرتِ ✓", tagColor: "text-mint", text: "تنبيه شراء 450 ريال – أُلغي الطلب ✓", time: "منذ 20 دقيقة" },
-  { brand: "هنقرستيشن", icon: "🍔", tag: "تنبيه", tagColor: "text-destructive", text: "اقتربتِ من ميزانية المطاعم الأسبوعية", time: "منذ 3 ساعات" },
-  { brand: "كريم", icon: "🚗", tag: "تنبيه", tagColor: "text-destructive", text: "مصروف مواصلات يتجاوز الحد الشهري", time: "منذ يوم" },
-  { brand: "تذكير ادخار", icon: "💚", tag: "وفرتِ ✓", tagColor: "text-mint", text: "وفرت 120 ريال هذا الأسبوع! استمري ♥", time: "منذ يومين" },
+type Alert = {
+  brand: string;
+  icon: React.ReactNode;
+  iconTint: string;
+  tag: string;
+  tagTone: string;
+  text: string;
+  time: string;
+};
+
+const ALERTS: Alert[] = [
+  {
+    brand: "SHEIN",
+    icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />,
+    iconTint: "bg-mint/15 text-primary",
+    tag: "تم التوفير",
+    tagTone: "text-mint bg-mint/10",
+    text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح",
+    time: "منذ 20 دقيقة",
+  },
+  {
+    brand: "هنقرستيشن",
+    icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />,
+    iconTint: "bg-amber-50 text-amber-700",
+    tag: "تنبيه",
+    tagTone: "text-destructive bg-destructive/10",
+    text: "اقتربتِ من ميزانية المطاعم الأسبوعية",
+    time: "منذ 3 ساعات",
+  },
+  {
+    brand: "كريم",
+    icon: <Car className="h-5 w-5" strokeWidth={1.8} />,
+    iconTint: "bg-blue-50 text-blue-700",
+    tag: "تنبيه",
+    tagTone: "text-destructive bg-destructive/10",
+    text: "مصروف المواصلات يتجاوز الحد الشهري",
+    time: "منذ يوم",
+  },
+  {
+    brand: "تذكير ادخار",
+    icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />,
+    iconTint: "bg-mint/15 text-primary",
+    tag: "تم التوفير",
+    tagTone: "text-mint bg-mint/10",
+    text: "وفرتِ 120 ر.س هذا الأسبوع",
+    time: "منذ يومين",
+  },
 ];
 
 export function NotificationsTab() {
   return (
-    <div className="bg-card">
-      <div className="text-center pt-5">
-        <h1 className="text-2xl font-black text-foreground">التنبيهات الذكية</h1>
-        <p className="text-xs text-muted-foreground mt-1">حماية مالية في وقت التسوق</p>
+    <div className="bg-background pb-4">
+      {/* Header */}
+      <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
+        <div className="w-11" />
+        <div className="text-center">
+          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">التنبيهات الذكية</h1>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">حماية مالية لحظية</p>
+        </div>
+        <button className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition">
+          <Bell className="h-5 w-5 text-foreground" strokeWidth={2} />
+          <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
+            3
+          </span>
+        </button>
       </div>
 
-      <div className="px-5 pb-4 space-y-4 mt-5">
+      <div className="px-5 pt-4 space-y-4">
+        {/* Hero */}
         <div
-          className="rounded-3xl p-5 text-primary-foreground shadow-xl"
-          style={{ background: "linear-gradient(160deg, oklch(0.28 0.05 155), oklch(0.18 0.04 155))" }}
+          className="rounded-[28px] p-5 text-primary-foreground relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.34 0.07 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.12 0.03 155) 100%)",
+            boxShadow: "0 24px 48px -22px oklch(0.20 0.05 155 / 0.65)",
+          }}
         >
-          <div className="flex items-center justify-between">
-            <div className="h-10 w-10 rounded-full bg-mint/20 flex items-center justify-center">
-              <ShieldCheck className="h-5 w-5 text-mint" />
+          <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
+          <div className="relative flex items-center justify-between mb-3">
+            <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-mint">Open Banking</span>
+            <div className="h-11 w-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center">
+              <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
             </div>
-            <h3 className="font-black text-lg">الحماية المالية الفورية</h3>
           </div>
-          <p className="text-sm mt-3 text-right opacity-90">
-            خُطى ينبهك فوراً قبل أي عملية شراء قد تؤثر على هدفك – داخل أي تطبيق تسوق.
+          <h3 className="font-extrabold text-[16px] text-right tracking-tight">الحماية المالية الفورية</h3>
+          <p className="text-[12px] mt-2 text-right text-white/75 font-medium leading-relaxed">
+            نُنبهك فور اكتشاف عملية شراء قد تؤثر على هدفك، داخل أي تطبيق تسوق.
           </p>
-          <button className="mt-4 w-full rounded-2xl border border-white/20 bg-white/5 py-3 text-sm font-bold text-right flex items-center gap-2 px-4">
-            <span>💡</span> جرّب الميزة – اضغط أحد التطبيقين أدناه
+          <button className="mt-4 w-full rounded-2xl border border-white/15 bg-white/10 backdrop-blur py-3 text-[12px] font-bold text-right flex items-center gap-2 px-4">
+            <Lightbulb className="h-4 w-4 text-mint shrink-0" strokeWidth={2} />
+            جرّبي الميزة من أحد التطبيقين أدناه
+            <ChevronLeft className="h-4 w-4 mr-auto" strokeWidth={2.5} />
           </button>
         </div>
 
         <div className="flex items-center justify-end gap-2">
-          <span>👇</span>
-          <h3 className="font-black text-foreground">جرّب الميزة الآن</h3>
+          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">جرّبي الميزة الآن</h3>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          {/* Abaya */}
-          <div className="rounded-3xl bg-card border border-border overflow-hidden shadow-sm">
-            <div className="bg-amber-900 text-white text-center py-3 font-black">
-              عباية سودا
-            </div>
-            <div className="p-4">
-              <div className="flex justify-center gap-2 mb-3">
-                <span className="h-10 w-10 rounded-full bg-blue-200 flex items-center justify-center">👗</span>
-                <span className="h-10 w-10 rounded-full bg-orange-200 flex items-center justify-center">✨</span>
-                <span className="h-10 w-10 rounded-full bg-purple-200 flex items-center justify-center">🖤</span>
-              </div>
-              <p className="text-center text-xs text-mint font-bold mb-2">عبايات • أزياء عربية</p>
-              <button className="w-full bg-amber-900 text-white rounded-2xl py-2.5 text-sm font-bold">
-                افتح التطبيق ←
-              </button>
-            </div>
-          </div>
-
-          {/* SHEIN */}
-          <div className="rounded-3xl bg-card border border-border overflow-hidden shadow-sm">
-            <div className="bg-pink-400 text-white text-center py-3 font-black text-lg italic">
-              SHEIN
-            </div>
-            <div className="p-4">
-              <div className="flex justify-center gap-2 mb-3">
-                <span className="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">👜</span>
-                <span className="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">👠</span>
-                <span className="h-10 w-10 rounded-full bg-pink-100 flex items-center justify-center">👗</span>
-              </div>
-              <p className="text-center text-xs text-pink-500 font-bold mb-2">ملابس • أحذية • إكسسوارات</p>
-              <button className="w-full bg-pink-400 text-white rounded-2xl py-2.5 text-sm font-bold">
-                افتح التطبيق ←
-              </button>
-            </div>
-          </div>
+          <SimApp
+            name="عباية سودا"
+            subtitle="أزياء عربية"
+            accent="bg-amber-900"
+            icon={<ShoppingBag className="h-6 w-6 text-white" strokeWidth={1.8} />}
+          />
+          <SimApp
+            name="SHEIN"
+            subtitle="ملابس وإكسسوارات"
+            accent="bg-pink-500"
+            icon={<ShoppingBag className="h-6 w-6 text-white" strokeWidth={1.8} />}
+          />
         </div>
 
-        <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+        {/* Recent alerts */}
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <button className="text-mint text-xs font-bold">عرض الكل ›</button>
-            <h3 className="font-black text-foreground flex items-center gap-1">
-              آخر التنبيهات 🔔
-            </h3>
+            <button className="text-primary text-[11px] font-semibold flex items-center gap-0.5">
+              عرض الكل <ChevronLeft className="h-3 w-3" strokeWidth={2.5} />
+            </button>
+            <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">آخر التنبيهات</h3>
           </div>
-          <div className="space-y-4">
+          <div className="divide-y divide-border">
             {ALERTS.map((a, i) => (
-              <div key={i} className="flex items-start gap-3 pb-4 border-b border-border last:border-0 last:pb-0">
-                <span className="text-xl shrink-0">{a.icon}</span>
-                <div className="flex-1 text-right">
-                  <p className={`text-xs font-bold ${a.tagColor}`}>{a.tag}</p>
-                  <p className="text-sm text-foreground mt-0.5">{a.text}</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">{a.time}</p>
+              <div key={i} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
+                <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${a.iconTint}`}>
+                  {a.icon}
                 </div>
-                <p className="font-black text-foreground text-sm shrink-0">{a.brand}</p>
+                <div className="flex-1 text-right min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
+                    <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{a.brand}</p>
+                  </div>
+                  <p className="text-[12px] text-foreground/80 mt-1 font-medium">{a.text}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>{a.time}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="rounded-3xl bg-accent/50 border border-border p-5 space-y-4">
-          <h3 className="font-black text-foreground text-right">كيف تعمل الحماية؟</h3>
+        {/* How it works */}
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm space-y-3">
+          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight text-right">كيف تعمل الحماية؟</h3>
           {[
-            { n: "١", title: "تتسوقين من أي تطبيق", desc: "نراقب نشاطك المالي بأمان" },
-            { n: "٢", title: "نكتشف الشراء فوراً", desc: "خلال ثوانٍ من الضغط" },
-            { n: "٣", title: "تنبيه ذكي فوري", desc: "يحسب الأثر على هدفك تلقائياً" },
+            { n: "1", title: "تتسوقين من أي تطبيق", desc: "نراقب نشاطك المالي بأمان" },
+            { n: "2", title: "نكتشف الشراء فوراً", desc: "خلال ثوانٍ من التأكيد" },
+            { n: "3", title: "تنبيه ذكي فوري", desc: "يحسب الأثر على هدفك تلقائياً" },
           ].map((s) => (
             <div key={s.n} className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-black">
+              <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-bold text-sm" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {s.n}
               </div>
               <div className="flex-1 text-right">
-                <p className="font-black text-foreground">{s.title}</p>
-                <p className="text-xs text-muted-foreground">{s.desc}</p>
+                <p className="font-extrabold text-foreground text-[13px] tracking-tight">{s.title}</p>
+                <p className="text-[11px] text-muted-foreground font-medium">{s.desc}</p>
               </div>
             </div>
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function SimApp({
+  name,
+  subtitle,
+  accent,
+  icon,
+}: {
+  name: string;
+  subtitle: string;
+  accent: string;
+  icon: React.ReactNode;
+}) {
+  return (
+    <div className="rounded-[20px] bg-card border border-border overflow-hidden shadow-sm">
+      <div className={`${accent} py-4 flex items-center justify-center`}>
+        <div className="h-12 w-12 rounded-2xl bg-white/15 backdrop-blur flex items-center justify-center">
+          {icon}
+        </div>
+      </div>
+      <div className="p-3 text-center">
+        <p className="font-extrabold text-foreground text-[13px] tracking-tight">{name}</p>
+        <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">{subtitle}</p>
+        <button className="mt-2 w-full bg-secondary text-foreground rounded-xl py-2 text-[11px] font-bold flex items-center justify-center gap-1 border border-border">
+          <Lock className="h-3 w-3" strokeWidth={2} />
+          محاكاة الشراء
+        </button>
       </div>
     </div>
   );
