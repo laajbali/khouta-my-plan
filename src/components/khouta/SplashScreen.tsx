@@ -27,7 +27,7 @@ import logo from "@/assets/khouta-logo.asset.json";
  */
 export function SplashScreen({ onDone }: { onDone: () => void }) {
   useEffect(() => {
-    const t = setTimeout(onDone, 6400);
+    const t = setTimeout(onDone, 8900);
     return () => clearTimeout(t);
   }, [onDone]);
 
