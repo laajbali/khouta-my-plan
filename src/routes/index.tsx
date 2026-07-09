@@ -39,7 +39,9 @@ function Index() {
 
   return (
     <PhoneFrame>
-      {!ready ? (
+      {active === "splash" ? (
+        <SplashScreen onDone={() => setScreen(session ? "home" : "login")} />
+      ) : !ready ? (
         <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
           جارٍ التحميل...
         </div>
