@@ -7,7 +7,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
   const [name, setName] = useState("سارة أحمد");
   const [expiry, setExpiry] = useState("08/29");
   const [cvv, setCvv] = useState("");
-  const [save, setSave] = useState(true);
+  const [save, setSave] = useState(false);
 
   const last4 = number.replace(/\D/g, "").slice(0, 4).padEnd(4, "•");
 
