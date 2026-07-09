@@ -71,6 +71,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenNotifications={() => setTab("notifications")}
             onOpenReports={() => setTab("reports")}
             onOpenRewards={() => setTab("rewards")}
+            onOpenProfile={() => setTab("profile")}
           />
         )}
         {tab === "rewards" && <RewardsTab />}
