@@ -70,7 +70,10 @@ export function ProfileTab() {
               <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground">
                 <User className="h-9 w-9" strokeWidth={1.8} />
               </div>
-              <button className="absolute -bottom-1 -left-1 h-7 w-7 rounded-xl bg-card border border-border text-foreground flex items-center justify-center shadow-sm">
+              <button
+                onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
+                className="absolute -bottom-1 -left-1 h-7 w-7 rounded-xl bg-card border border-border text-foreground flex items-center justify-center shadow-sm active:scale-95 transition"
+              >
                 <Camera className="h-3.5 w-3.5" strokeWidth={2} />
               </button>
             </div>
