@@ -2,7 +2,6 @@ import {
   User,
   Camera,
   Edit,
-  Star,
   Bell,
   Globe,
   Lock,
@@ -14,12 +13,15 @@ import {
   ShieldCheck,
   LogOut,
   ChevronLeft,
-  Target,
+  TrendingUp,
+  Award,
+  Trophy,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { useProfile } from "@/hooks/use-khouta-data";
 import { useSession } from "@/hooks/use-session";
 import { toast } from "sonner";
+
 
 const SETTINGS = [
   { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700", action: "تغيير لغة التطبيق قريباً" },
@@ -35,10 +37,15 @@ const SETTINGS = [
 export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () => void }) {
   const profile = useProfile();
   const { user } = useSession();
-  const { goals } = useGoals();
-  const topGoal = goals[0];
   const displayName = profile?.full_name?.trim() || user?.email?.split("@")[0] || "مستخدم خُطى";
   const commitment = profile?.commitment_score ?? 0;
+  const tier =
+    commitment >= 75 ? { label: "بلاتيني", color: "oklch(0.68 0.02 250)" } :
+    commitment >= 50 ? { label: "ذهبي", color: "var(--gold)" } :
+    commitment >= 25 ? { label: "فضّي", color: "oklch(0.75 0.01 240)" } :
+                       { label: "برونزي", color: "oklch(0.55 0.10 45)" };
+  const nextTier = commitment < 25 ? 25 : commitment < 50 ? 50 : commitment < 75 ? 75 : 100;
+  const toNext = Math.max(0, nextTier - commitment);
 
   async function signOut() {
     await supabase.auth.signOut();
@@ -63,92 +70,101 @@ export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () =
         </button>
       </div>
 
-
       <div className="px-5 pt-4 space-y-4">
-        {/* Profile card */}
-        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
-          <div className="flex items-start gap-4">
-            <div className="relative shrink-0">
-              <div className="h-20 w-20 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground">
-                <User className="h-9 w-9" strokeWidth={1.8} />
+        {/* Premium profile card */}
+        <div
+          className="relative rounded-[26px] overflow-hidden border border-border shadow-[0_24px_48px_-28px_oklch(0.20_0.05_155/0.45)]"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.28 0.05 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.14 0.04 155) 100%)",
+          }}
+        >
+          <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full blur-3xl" style={{ background: "oklch(0.72 0.15 155 / 0.35)" }} />
+          <div className="absolute -bottom-20 -left-10 w-40 h-40 rounded-full blur-3xl" style={{ background: "oklch(0.85 0.14 85 / 0.20)" }} />
+
+          {/* Top row: tier chip + avatar */}
+          <div className="relative p-5 pb-4">
+            <div className="flex items-start justify-between">
+              <div className="relative shrink-0">
+                <div className="h-[68px] w-[68px] rounded-2xl bg-white/10 border border-white/20 backdrop-blur flex items-center justify-center text-white">
+                  <User className="h-8 w-8" strokeWidth={1.6} />
+                </div>
+                <button
+                  onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
+                  className="absolute -bottom-1 -right-1 h-7 w-7 rounded-xl bg-card border border-border text-foreground flex items-center justify-center shadow-sm active:scale-95 transition"
+                  aria-label="تغيير الصورة"
+                >
+                  <Camera className="h-3.5 w-3.5" strokeWidth={2} />
+                </button>
               </div>
-              <button
-                onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
-                className="absolute -bottom-1 -left-1 h-7 w-7 rounded-xl bg-card border border-border text-foreground flex items-center justify-center shadow-sm active:scale-95 transition"
-              >
-                <Camera className="h-3.5 w-3.5" strokeWidth={2} />
-              </button>
+
+              <div className="flex-1 text-right pr-4 min-w-0">
+                <span
+                  className="inline-flex items-center gap-1 text-[10px] font-black px-2.5 py-1 rounded-lg text-primary"
+                  style={{ background: "linear-gradient(135deg, oklch(0.95 0.06 85), oklch(0.88 0.10 85))" }}
+                >
+                  <Trophy className="h-3 w-3" strokeWidth={2.5} style={{ color: "oklch(0.50 0.15 85)" }} />
+                  <span style={{ color: "oklch(0.35 0.10 85)" }}>عضوية {tier.label}</span>
+                </span>
+                <button
+                  onClick={() => toast("قريباً: تعديل الاسم")}
+                  className="flex items-center gap-2 justify-end w-full mt-2"
+                >
+                  <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
+                  <h2 className="text-[17px] font-black text-white tracking-tight truncate">{displayName}</h2>
+                </button>
+                <p className="text-[11px] text-white/60 mt-0.5 truncate font-medium" dir="ltr">
+                  {user?.email ?? "khouta.member"}
+                </p>
+              </div>
             </div>
-            <div className="flex-1 text-right min-w-0">
-              <button
-                onClick={() => toast("قريباً: تعديل الاسم")}
-                className="flex items-center gap-2 justify-end w-full active:scale-95 transition"
-              >
-                <Edit className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
-                <h2 className="text-[15px] font-extrabold text-foreground tracking-tight truncate">{displayName}</h2>
-              </button>
-              <p className="text-[11px] text-muted-foreground mt-1 truncate font-medium">
-                {user?.email ?? "مستقبلك المالي بين يديك"}
-              </p>
-              <div className="mt-3 rounded-2xl bg-secondary/60 border border-border p-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-3 w-3 text-amber-500 fill-amber-500" />
-                    <span className="text-[10px] font-bold text-amber-700">
-                      {commitment >= 70 ? "ممتاز" : commitment >= 40 ? "جيد" : "ابدئي رحلتك"}
+
+            {/* Progress ring — commitment level */}
+            <div className="mt-4 rounded-2xl bg-white/8 border border-white/12 backdrop-blur p-4">
+              <div className="flex items-center gap-4">
+                <div className="relative h-16 w-16 shrink-0">
+                  <svg viewBox="0 0 40 40" className="h-16 w-16 -rotate-90">
+                    <circle cx="20" cy="20" r="16" fill="none" stroke="oklch(1 0 0 / 0.15)" strokeWidth="4" />
+                    <circle
+                      cx="20"
+                      cy="20"
+                      r="16"
+                      fill="none"
+                      stroke="var(--gold)"
+                      strokeWidth="4"
+                      strokeLinecap="round"
+                      strokeDasharray={`${(commitment / 100) * 100.5} 100.5`}
+                      pathLength={100.5}
+                    />
+                  </svg>
+                  <div className="absolute inset-0 flex flex-col items-center justify-center">
+                    <span className="text-[14px] font-black text-white leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
+                      {commitment}%
                     </span>
                   </div>
-                  <p className="text-[10px] text-muted-foreground font-medium text-right">مستوى الالتزام</p>
                 </div>
-                <p className="text-[22px] font-bold text-foreground text-right leading-none mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  {commitment}<span className="text-[13px] text-muted-foreground font-semibold">%</span>
-                </p>
-                <div className="mt-2 h-1.5 bg-card rounded-full overflow-hidden" dir="ltr">
-                  <div className="h-full bg-gradient-to-l from-mint to-primary rounded-full" style={{ width: `${commitment}%` }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Current plan */}
-        {topGoal ? (
-          <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-bold text-mint bg-mint/10 px-2 py-1 rounded-lg">نشط</span>
-              <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight">الخطة الحالية</h3>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                <Target className="h-5 w-5" strokeWidth={1.8} />
-              </div>
-              <div className="flex-1 flex justify-between items-center min-w-0">
-                <div className="min-w-0">
-                  <p className="text-[10px] text-muted-foreground font-medium">الهدف</p>
-                  <p className="font-extrabold text-foreground text-[13px] truncate tracking-tight">{topGoal.title}</p>
-                </div>
-                <div className="text-right shrink-0" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  <p className="text-[10px] text-muted-foreground font-medium">المستهدف</p>
-                  <p className="font-bold text-foreground text-[14px] tracking-tight">
-                    {Number(topGoal.target_amount).toLocaleString()}
-                    <span className="text-[10px] text-muted-foreground mr-1 font-semibold">ر.س</span>
+                <div className="flex-1 text-right">
+                  <p className="text-[10px] text-mint font-bold uppercase tracking-[0.15em]">مستوى الالتزام</p>
+                  <p className="text-[13px] font-extrabold text-white mt-1 tracking-tight">
+                    {commitment >= 70 ? "أداء ممتاز، استمري!" : commitment >= 40 ? "على الطريق الصحيح" : "ابدئي رحلتك الآن"}
+                  </p>
+                  <p className="text-[10px] text-white/60 mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    {toNext > 0 ? `${toNext}% للوصول إلى المستوى التالي` : "وصلتِ للقمة"}
                   </p>
                 </div>
               </div>
             </div>
-            <p className="text-[11px] text-muted-foreground mt-3 text-right font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
-              المتبقي {Math.max(0, Number(topGoal.target_amount) - Number(topGoal.saved_amount)).toLocaleString()} ر.س
-            </p>
-            <div className="mt-2 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
-              <div
-                className="h-full bg-gradient-to-l from-mint to-primary rounded-full"
-                style={{
-                  width: `${Math.min(100, Math.round((Number(topGoal.saved_amount) / Number(topGoal.target_amount)) * 100))}%`,
-                }}
-              />
+
+            {/* Stat pills */}
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              <StatPill icon={<TrendingUp className="h-3.5 w-3.5" strokeWidth={2.2} />} value="+18%" label="التوفير" />
+              <StatPill icon={<Award className="h-3.5 w-3.5" strokeWidth={2.2} />} value="8" label="إنجازات" />
+              <StatPill value="2,870" suffix="ر.س" label="تمّ توفيره" />
             </div>
           </div>
-        ) : null}
+        </div>
+
+
 
         <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight mt-2">الإعدادات والتفضيلات</h3>
 
@@ -195,3 +211,29 @@ export function ProfileTab({ onOpenNotifications }: { onOpenNotifications?: () =
     </div>
   );
 }
+
+function StatPill({
+  icon,
+  value,
+  suffix,
+  label,
+}: {
+  icon?: React.ReactNode;
+  value: string;
+  suffix?: string;
+  label: string;
+}) {
+  return (
+    <div className="rounded-xl bg-white/10 border border-white/12 backdrop-blur px-2.5 py-2 text-right">
+      <div className="flex items-center gap-1 justify-end text-mint">
+        {icon}
+        <span className="text-[13px] font-black text-white leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
+          {value}
+          {suffix && <span className="text-[9px] text-white/70 font-bold mr-1">{suffix}</span>}
+        </span>
+      </div>
+      <p className="text-[9.5px] text-white/60 font-semibold mt-1 tracking-tight">{label}</p>
+    </div>
+  );
+}
+

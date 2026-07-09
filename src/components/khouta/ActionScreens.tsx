@@ -700,58 +700,197 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   );
 }
 
-/* ---------- Financial Calendar ---------- */
+/* ---------- Financial Calendar (premium month grid) ---------- */
 
-const EVENTS = [
-  { day: "12", month: "يوليو", title: "راتب شهري", desc: "متوقع دخول 9,000 ر.س", tone: "in" as const },
-  { day: "15", month: "يوليو", title: "فاتورة الكهرباء", desc: "استحقاق 182 ر.س", tone: "out" as const },
-  { day: "20", month: "يوليو", title: "قسط السيارة", desc: "استحقاق 1,200 ر.س", tone: "out" as const },
-  { day: "25", month: "يوليو", title: "عيد ميلاد أختك", desc: "تذكير مالي — هدية", tone: "note" as const },
+const CAL_EVENTS = [
+  { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out" as const, icon: "🎂" },
+  { day: 10, title: "نزول المكافأة", subtitle: "الأربعاء 10 يوليو", amount: 5000, tone: "in" as const, icon: "💰" },
+  { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save" as const, icon: "🏦" },
+  { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out" as const, icon: "🎉" },
 ];
 
+const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
+  const [selected, setSelected] = useState(10);
+  const daysInMonth = 31;
+  const startWeekday = 0; // Sunday
+  const cells: (number | null)[] = [
+    ...Array(startWeekday).fill(null),
+    ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+  ];
+  while (cells.length % 7 !== 0) cells.push(null);
+  const eventDays = new Map(CAL_EVENTS.map((e) => [e.day, e.tone]));
+  const upcomingCount = CAL_EVENTS.length;
+
   return (
     <div className="flex flex-col h-full bg-background">
-      <ScreenHeader title="التقويم المالي" onBack={onBack} />
-      <div className="flex-1 overflow-y-auto p-5 space-y-3">
-        {EVENTS.map((e, i) => (
-          <div
-            key={i}
-            className="bg-card rounded-2xl border border-border p-4 flex items-center gap-3"
-          >
-            <div className="h-14 w-14 rounded-2xl bg-primary/10 flex flex-col items-center justify-center text-primary shrink-0">
-              <span
-                className="text-lg font-bold leading-none"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                {e.day}
-              </span>
-              <span className="text-[10px] mt-0.5">{e.month}</span>
-            </div>
-            <div className="flex-1 text-right">
-              <p className="text-sm font-bold text-foreground">{e.title}</p>
-              <p className="text-[11px] text-muted-foreground mt-0.5">{e.desc}</p>
-            </div>
-            <span
-              className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
-                e.tone === "in"
-                  ? "bg-mint/15 text-primary"
-                  : e.tone === "out"
-                    ? "bg-destructive/10 text-destructive"
-                    : "bg-secondary text-muted-foreground"
-              }`}
-            >
-              {e.tone === "in" ? "وارد" : e.tone === "out" ? "صادر" : "تذكير"}
-            </span>
+      <div className="bg-card px-5 pt-5 pb-4 flex items-center justify-between border-b border-border shrink-0">
+        <button
+          onClick={onBack}
+          className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center"
+          aria-label="رجوع"
+        >
+          <ChevronRight className="h-5 w-5 text-foreground" />
+        </button>
+        <div className="text-center">
+          <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">التقويم المالي</h2>
+          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">خطّطي اليوم لمستقبل أفضل</p>
+        </div>
+        <div className="w-10" />
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-5 space-y-4">
+        {/* Upcoming banner */}
+        <div className="rounded-[22px] bg-card border border-border p-4 flex items-center gap-3 shadow-sm">
+          <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex flex-col items-center justify-center shrink-0">
+            <CalIcon className="h-5 w-5" strokeWidth={1.8} />
+            <span className="text-[9px] font-bold mt-0.5">يوليو</span>
           </div>
-        ))}
-        <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 flex items-center gap-3">
-          <CalIcon className="h-5 w-5 text-primary" />
-          <p className="text-xs text-foreground text-right flex-1">
-            صافي الشهر المتوقع: <span className="font-bold text-primary">+7,618 ر.س</span>
-          </p>
+          <div className="flex-1 text-right min-w-0">
+            <p className="text-[10px] font-bold text-muted-foreground tracking-wider uppercase">مناسبات قادمة</p>
+            <p className="text-[13px] font-extrabold text-foreground mt-0.5 tracking-tight">
+              خطّطي لمناسباتك المالية
+            </p>
+            <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
+              أضيفي مناسباتك وستقوم خُطى بضبط خطتك تلقائياً
+            </p>
+          </div>
+          <div className="text-center shrink-0">
+            <p
+              className="text-[28px] font-black text-primary leading-none"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            >
+              {upcomingCount}
+            </p>
+            <p className="text-[9px] text-muted-foreground font-bold mt-0.5">هذا الشهر</p>
+          </div>
+        </div>
+
+        <button
+          onClick={() => toast("قريباً: إضافة مناسبة جديدة")}
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[12.5px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
+        >
+          <Plus className="h-4 w-4" strokeWidth={2.5} />
+          إضافة مناسبة
+        </button>
+
+        {/* Month grid */}
+        <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <button className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center">
+              <ChevronRight className="h-4 w-4 text-foreground rotate-180" strokeWidth={2.5} />
+            </button>
+            <div className="flex items-center gap-2">
+              <span className="text-[13px] font-extrabold text-foreground tracking-tight">يوليو 2026</span>
+              <button className="text-[10px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
+                اليوم
+              </button>
+            </div>
+            <button className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center">
+              <ChevronRight className="h-4 w-4 text-foreground" strokeWidth={2.5} />
+            </button>
+          </div>
+
+          <div className="grid grid-cols-7 gap-1 mb-2" dir="rtl">
+            {WEEK_DAYS.map((d) => (
+              <div key={d} className="text-center text-[9.5px] font-bold text-muted-foreground py-1">
+                {d.slice(0, 3)}
+              </div>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-7 gap-1" dir="rtl">
+            {cells.map((day, i) => {
+              if (day === null) return <div key={i} />;
+              const isSelected = day === selected;
+              const isToday = day === 10;
+              const dot = eventDays.get(day);
+              return (
+                <button
+                  key={i}
+                  onClick={() => setSelected(day)}
+                  className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-[12px] font-bold transition ${
+                    isSelected
+                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
+                      : isToday
+                        ? "bg-mint/15 text-primary"
+                        : "text-foreground hover:bg-secondary/60"
+                  }`}
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {day}
+                  {dot && !isSelected && (
+                    <span
+                      className="absolute bottom-1 h-1 w-1 rounded-full"
+                      style={{
+                        background:
+                          dot === "in" ? "var(--mint)" : dot === "save" ? "var(--primary)" : "var(--destructive)",
+                      }}
+                    />
+                  )}
+                  {dot && isSelected && (
+                    <span className="absolute bottom-1 h-1 w-1 rounded-full bg-white" />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Highlight banner */}
+        <div className="rounded-[22px] p-4 flex items-center gap-3" style={{ background: "linear-gradient(135deg, oklch(0.97 0.04 85), oklch(0.94 0.06 82))", border: "1px solid oklch(0.85 0.14 85 / 0.35)" }}>
+          <div className="h-11 w-11 rounded-2xl flex items-center justify-center shrink-0" style={{ background: "oklch(0.85 0.14 85 / 0.3)" }}>
+            <CalIcon className="h-5 w-5" strokeWidth={1.8} style={{ color: "oklch(0.45 0.15 85)" }} />
+          </div>
+          <div className="flex-1 text-right min-w-0">
+            <p className="text-[12.5px] font-extrabold text-foreground tracking-tight">
+              لديك مناسبة الأسبوع القادم!
+            </p>
+            <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
+              مناسبة عائلية يوم 27 يوليو
+            </p>
+          </div>
+          <button
+            onClick={() => toast("عرض الخطة المعدّلة")}
+            className="text-[11px] font-extrabold bg-primary text-primary-foreground px-3 py-2 rounded-xl shrink-0 shadow-sm"
+          >
+            الخطة المعدّلة
+          </button>
+        </div>
+
+        {/* Upcoming list */}
+        <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <button className="text-[11px] font-bold text-primary">عرض الجميع</button>
+            <h3 className="text-[13px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
+          </div>
+          <div className="divide-y divide-border">
+            {CAL_EVENTS.map((e, i) => (
+              <div key={i} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+                <span
+                  className={`text-[13px] font-black shrink-0 ${
+                    e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
+                  }`}
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {e.amount > 0 ? "+" : ""}
+                  {e.amount.toLocaleString()}
+                  <span className="text-[9px] font-bold mr-0.5">ر.س</span>
+                </span>
+                <div className="flex-1 text-right min-w-0">
+                  <p className="text-[12.5px] font-extrabold text-foreground tracking-tight truncate">{e.title}</p>
+                  <p className="text-[10.5px] text-muted-foreground font-medium">{e.subtitle}</p>
+                </div>
+                <div className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center text-lg shrink-0">
+                  {e.icon}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
   );
 }
+
