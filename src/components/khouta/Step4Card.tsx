@@ -7,7 +7,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
   const [name, setName] = useState("سارة أحمد");
   const [expiry, setExpiry] = useState("08/29");
   const [cvv, setCvv] = useState("");
-  const [save, setSave] = useState(true);
+  const [save, setSave] = useState(false);
 
   const last4 = number.replace(/\D/g, "").slice(0, 4).padEnd(4, "•");
 
@@ -110,14 +110,18 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
 
         <button
           onClick={() => setSave((s) => !s)}
-          className="w-full rounded-2xl border border-border bg-card p-3 flex items-center justify-between shadow-sm active:scale-[0.99] transition"
+          className="w-full rounded-2xl border border-border bg-card px-4 py-3 flex items-center gap-3 shadow-sm active:scale-[0.99] transition"
         >
+          <span className="flex-1 text-right text-[12px] font-semibold text-foreground">
+            حفظ البطاقة للاستخدام مستقبلاً
+          </span>
           <div
-            className={`h-5 w-5 rounded-md flex items-center justify-center border ${save ? "bg-primary border-primary" : "bg-transparent border-border"}`}
+            className={`h-5 w-5 rounded-md flex items-center justify-center border shrink-0 transition ${
+              save ? "bg-primary border-primary" : "bg-card border-border"
+            }`}
           >
             {save && <Check className="h-3.5 w-3.5 text-primary-foreground" strokeWidth={3} />}
           </div>
-          <span className="text-[12px] font-semibold text-foreground">حفظ البطاقة للاستخدام مستقبلاً</span>
         </button>
 
         <button

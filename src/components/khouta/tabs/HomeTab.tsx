@@ -13,7 +13,6 @@ import {
   Gift,
   Car,
   Building2,
-  ShieldAlert,
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -34,7 +33,6 @@ export function HomeTab({
   onOpenNotifications,
   onOpenReports,
   onOpenRewards,
-  onSimulateIntercept,
 }: {
   onOpenNoor: () => void;
   onOpenBank: () => void;
@@ -49,7 +47,6 @@ export function HomeTab({
   onOpenNotifications: () => void;
   onOpenReports: () => void;
   onOpenRewards: () => void;
-  onSimulateIntercept: () => void;
 }) {
   const profile = useProfile();
   const { goals } = useGoals();
@@ -291,19 +288,6 @@ export function HomeTab({
           </div>
         </button>
 
-        {/* Shein simulator */}
-        <button
-          onClick={onSimulateIntercept}
-          className="w-full rounded-[20px] p-4 border-2 border-dashed border-destructive/40 bg-destructive/5 flex items-center gap-3 text-right hover:bg-destructive/10 transition"
-        >
-          <div className="h-10 w-10 rounded-xl bg-destructive/15 text-destructive flex items-center justify-center shrink-0">
-            <ShieldAlert className="h-5 w-5" strokeWidth={1.8} />
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-bold text-foreground">جرّبي الحماية الذكية</p>
-            <p className="text-[11px] text-muted-foreground">محاكاة عملية شراء SHEIN بـ 240 ر.س</p>
-          </div>
-        </button>
 
         {/* Recent Activity */}
         <div>

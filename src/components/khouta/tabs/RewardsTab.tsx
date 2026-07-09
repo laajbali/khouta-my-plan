@@ -1,5 +1,6 @@
-import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag } from "lucide-react";
+import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag, X, Copy, Check } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
@@ -11,17 +12,32 @@ type Coupon = {
   min: number;
   days: number;
   target: string;
+  code: string;
 };
 
 const COUPONS: Coupon[] = [
-  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات" },
-  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات" },
-  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات" },
-  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات" },
+  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات", code: "KHUTA20SH" },
+  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات", code: "KHUTA15JZ" },
+  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات", code: "KHUTA10NN" },
+  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL" },
 ];
 
 export function RewardsTab() {
   const [filter, setFilter] = useState("الكل");
+  const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  async function copyCode(code: string) {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      toast.success("تم نسخ الكود");
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      toast.error("تعذر النسخ");
+    }
+  }
+
 
   return (
     <div className="bg-background pb-4">
@@ -105,7 +121,10 @@ export function RewardsTab() {
                     {c.pct}%
                   </p>
                   <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
-                  <button className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground">
+                  <button
+                    onClick={() => setActiveCoupon(c)}
+                    className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground active:scale-95 transition"
+                  >
                     استخدم
                   </button>
                 </div>
@@ -170,6 +189,76 @@ export function RewardsTab() {
           <ChevronLeft className="relative h-4 w-4 text-white/70 shrink-0" strokeWidth={2.5} />
         </div>
       </div>
+
+      {activeCoupon && (
+        <div className="absolute inset-0 z-50 flex items-end justify-center animate-fade-in">
+          <div
+            className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
+            onClick={() => setActiveCoupon(null)}
+          />
+          <div className="relative w-full bg-card rounded-t-[28px] p-5 pb-6 shadow-2xl animate-slide-in-right">
+            <div className="flex items-center justify-between mb-4">
+              <button
+                onClick={() => setActiveCoupon(null)}
+                className="h-9 w-9 rounded-xl bg-secondary flex items-center justify-center"
+              >
+                <X className="h-4 w-4 text-foreground" strokeWidth={2.5} />
+              </button>
+              <h3 className="text-[15px] font-extrabold text-foreground tracking-tight">كوبونك جاهز</h3>
+              <div className="w-9" />
+            </div>
+
+            <div
+              className={`rounded-[24px] p-5 ${activeCoupon.accent} ${activeCoupon.accentText} relative overflow-hidden`}
+            >
+              <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
+              <div className="relative flex items-center justify-between">
+                <span className="text-[11px] font-bold opacity-70">خصم على {activeCoupon.target}</span>
+                <span className="text-[16px] font-black tracking-tight">{activeCoupon.brand}</span>
+              </div>
+              <p
+                className="relative mt-3 text-[52px] font-black leading-none text-center"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              >
+                {activeCoupon.pct}%
+              </p>
+              <p className="relative text-center text-[11px] font-semibold opacity-80 mt-1">
+                حد أدنى {activeCoupon.min} ر.س • صالح {activeCoupon.days} أيام
+              </p>
+            </div>
+
+            <div className="mt-4 rounded-2xl border-2 border-dashed border-border bg-secondary/40 p-4">
+              <p className="text-[10px] font-bold text-muted-foreground text-right mb-2">كود الخصم</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => copyCode(activeCoupon.code)}
+                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-bold text-[12px] flex items-center gap-1.5 shrink-0"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5" strokeWidth={2.5} /> نُسخ
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="h-3.5 w-3.5" strokeWidth={2.5} /> نسخ
+                    </>
+                  )}
+                </button>
+                <span
+                  className="flex-1 text-center text-[18px] font-black text-foreground tracking-[0.2em] font-mono"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {activeCoupon.code}
+                </span>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-muted-foreground text-center mt-3 font-medium">
+              انسخي الكود واستخدميه عند إتمام الطلب في تطبيق {activeCoupon.brand}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

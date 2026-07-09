@@ -36,6 +36,8 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
   const [sub, setSub] = useState<SubScreen>("none");
   const [interceptOpen, setInterceptOpen] = useState(false);
+  const [interceptMerchant, setInterceptMerchant] = useState<"SHEIN" | "نون" | "noon">("SHEIN");
+  const [interceptAmount, setInterceptAmount] = useState(240);
 
   const close = () => setSub("none");
 
@@ -69,12 +71,19 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenNotifications={() => setTab("notifications")}
             onOpenReports={() => setTab("reports")}
             onOpenRewards={() => setTab("rewards")}
-            onSimulateIntercept={() => setInterceptOpen(true)}
           />
         )}
         {tab === "rewards" && <RewardsTab />}
         {tab === "profile" && <ProfileTab />}
-        {tab === "notifications" && <NotificationsTab />}
+        {tab === "notifications" && (
+          <NotificationsTab
+            onSimulateIntercept={(merchant, amount) => {
+              setInterceptMerchant(merchant);
+              setInterceptAmount(amount);
+              setInterceptOpen(true);
+            }}
+          />
+        )}
         {tab === "reports" && <ReportsTab />}
       </div>
       <BottomNav active={tab} onChange={setTab} />
@@ -82,6 +91,8 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         open={interceptOpen}
         onCancel={() => setInterceptOpen(false)}
         onProceed={() => setInterceptOpen(false)}
+        merchant={interceptMerchant}
+        amount={interceptAmount}
       />
     </div>
   );
