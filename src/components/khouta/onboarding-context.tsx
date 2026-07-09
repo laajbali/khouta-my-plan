@@ -1,0 +1,116 @@
+import { createContext, useContext, useState, type ReactNode } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+export type OnboardingData = {
+  // Step 1
+  fullName: string;
+  phone: string;
+  city: string;
+  userType: string;
+  email: string;
+  password: string;
+  // Step 2
+  incomeSource: string;
+  monthlyIncome: string;
+  expenses: { key: string; label: string; amount: string }[];
+  // Step 3
+  goalKey: string;
+  goalLabel: string;
+  goalAmount: number;
+  goalMonths: number;
+};
+
+const DEFAULT: OnboardingData = {
+  fullName: "",
+  phone: "",
+  city: "",
+  userType: "employee",
+  email: "",
+  password: "",
+  incomeSource: "salary",
+  monthlyIncome: "9000",
+  expenses: [
+    { key: "housing", label: "السكن", amount: "2000" },
+    { key: "transport", label: "المواصلات", amount: "400" },
+    { key: "internet", label: "الإنترنت", amount: "100" },
+  ],
+  goalKey: "car",
+  goalLabel: "شراء سيارة",
+  goalAmount: 80000,
+  goalMonths: 6,
+};
+
+type Ctx = {
+  data: OnboardingData;
+  update: (p: Partial<OnboardingData>) => void;
+  submit: () => Promise<boolean>;
+  loading: boolean;
+};
+
+const OnboardingContext = createContext<Ctx | null>(null);
+
+export function OnboardingProvider({ children }: { children: ReactNode }) {
+  const [data, setData] = useState<OnboardingData>(DEFAULT);
+  const [loading, setLoading] = useState(false);
+
+  function update(p: Partial<OnboardingData>) {
+    setData((prev) => ({ ...prev, ...p }));
+  }
+
+  async function submit(): Promise<boolean> {
+    if (!data.email || !data.password || !data.fullName) {
+      toast.error("الرجاء إكمال البيانات الأساسية");
+      return false;
+    }
+    setLoading(true);
+    try {
+      const { data: auth, error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: {
+          emailRedirectTo: window.location.origin,
+          data: { full_name: data.fullName },
+        },
+      });
+      if (error) throw error;
+      const userId = auth.user?.id;
+      if (userId) {
+        await supabase.from("profiles").update({
+          full_name: data.fullName,
+          monthly_income: Number(data.monthlyIncome) || 0,
+        }).eq("id", userId);
+        await supabase.from("savings_goals").insert({
+          user_id: userId,
+          title: data.goalLabel,
+          target_amount: data.goalAmount,
+          saved_amount: 0,
+        });
+      }
+      toast.success(`أهلاً ${data.fullName}، تم إنشاء حسابك`);
+      return true;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "حدث خطأ";
+      toast.error(
+        /already registered/i.test(msg) ? "هذا الحساب مسجل — سجّلي الدخول" :
+        /Password should be/i.test(msg) ? "كلمة المرور قصيرة (6 أحرف على الأقل)" :
+        msg
+      );
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <OnboardingContext.Provider value={{ data, update, submit, loading }}>
+      {children}
+    </OnboardingContext.Provider>
+  );
+}
+
+export function useOnboarding() {
+  const ctx = useContext(OnboardingContext);
+  if (!ctx) throw new Error("useOnboarding must be inside OnboardingProvider");
+  return ctx;
+}
