@@ -78,7 +78,7 @@ export function PlanGenerating({ onDone }: { onDone: () => void }) {
           <>
             <div className="relative">
               <div className="h-24 w-24 rounded-3xl bg-primary flex items-center justify-center shadow-xl shadow-primary/30">
-                <Logo className="h-12 w-12" />
+                <KhoutaLogo size={56} />
               </div>
               <div className="absolute -inset-2 rounded-[28px] border-2 border-mint/40 border-t-transparent animate-spin" />
             </div>
