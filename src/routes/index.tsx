@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PhoneFrame } from "@/components/khouta/PhoneFrame";
 import { LoginScreen } from "@/components/khouta/LoginScreen";
 import { SplashScreen } from "@/components/khouta/SplashScreen";
@@ -23,6 +23,19 @@ const ONBOARDING: Screen[] = ["s1", "s2", "s3", "s4", "generating"];
 function Index() {
   const { session, ready } = useSession();
   const [screen, setScreen] = useState<Screen>("splash");
+  // While true, splash's onDone must land on "login" regardless of any lingering session.
+  const [forceLoginAfterSplash, setForceLoginAfterSplash] = useState(false);
+
+  // Whenever the session ends (logout), replay the splash, then land on login.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "SIGNED_OUT") {
+        setForceLoginAfterSplash(true);
+        setScreen("splash");
+      }
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   // Splash always shows first. After that, if signed in and not in onboarding, go home.
   const active: Screen =
@@ -33,8 +46,19 @@ function Index() {
         : screen;
 
   async function handleReset() {
+    // Kick off splash immediately so the user sees Logout → Splash → Login.
+    setForceLoginAfterSplash(true);
+    setScreen("splash");
     await supabase.auth.signOut();
-    setScreen("login");
+  }
+
+  function handleSplashDone() {
+    if (forceLoginAfterSplash) {
+      setForceLoginAfterSplash(false);
+      setScreen("login");
+      return;
+    }
+    setScreen(session ? "home" : "login");
   }
 
   return (
