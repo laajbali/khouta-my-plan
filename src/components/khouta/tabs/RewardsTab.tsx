@@ -4,6 +4,7 @@ import { toast } from "sonner";
 
 const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
+type CouponStatus = "available" | "in-use" | "expired";
 type Coupon = {
   brand: string;
   accent: string;
@@ -13,13 +14,16 @@ type Coupon = {
   days: number;
   target: string;
   code: string;
+  status: CouponStatus;
+  usedOn?: string;
 };
 
 const COUPONS: Coupon[] = [
-  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات", code: "KHUTA20SH" },
-  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات", code: "KHUTA15JZ" },
-  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات", code: "KHUTA10NN" },
-  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL" },
+  { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات", code: "KHUTA20SH", status: "available" },
+  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات", code: "KHUTA15JZ", status: "in-use" },
+  { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات", code: "KHUTA10NN", status: "available" },
+  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL", status: "in-use" },
+  { brand: "هنقر", accent: "bg-neutral-500", accentText: "text-white", pct: 10, min: 50, days: 0, target: "الطلبات", code: "KHUTA10HG", status: "expired", usedOn: "استُخدم 20 يونيو" },
 ];
 
 export function RewardsTab({ onOpenNotifications }: { onOpenNotifications?: () => void } = {}) {
@@ -101,74 +105,95 @@ export function RewardsTab({ onOpenNotifications }: { onOpenNotifications?: () =
           ))}
         </div>
 
-        <div className="flex items-center justify-between">
-          <button className="text-[11px] text-muted-foreground font-semibold">الأحدث</button>
-          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight flex items-center gap-1.5">
-            <Tag className="h-4 w-4 text-primary" strokeWidth={2} />
-            الكوبونات المتاحة
-          </h3>
-        </div>
-
-        <div className="space-y-3">
-          {COUPONS.map((c, i) => (
-            <div key={i} className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex">
-              <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[12px] font-extrabold tracking-tight`}>
-                <span>{c.brand}</span>
+        {(() => {
+          const visible = COUPONS.filter((c) =>
+            filter === "الكل"
+              ? true
+              : filter === "متاحة"
+                ? c.status === "available"
+                : filter === "قيد الاستخدام"
+                  ? c.status === "in-use"
+                  : c.status === "expired",
+          );
+          const heading =
+            filter === "منتهية"
+              ? "الكوبونات المنتهية"
+              : filter === "قيد الاستخدام"
+                ? "الكوبونات قيد الاستخدام"
+                : filter === "متاحة"
+                  ? "الكوبونات المتاحة"
+                  : "جميع الكوبونات";
+          return (
+            <>
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] text-muted-foreground font-semibold" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  {visible.length}
+                </span>
+                <h3 className="font-extrabold text-foreground text-[14px] tracking-tight flex items-center gap-1.5">
+                  <Tag className="h-4 w-4 text-primary" strokeWidth={2} />
+                  {heading}
+                </h3>
               </div>
-              <div className="flex-1 p-3 flex justify-between items-center gap-3">
-                <div className="text-center shrink-0">
-                  <p className="text-[24px] font-bold text-foreground leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    {c.pct}%
-                  </p>
-                  <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
-                  <button
-                    onClick={() => setActiveCoupon(c)}
-                    className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-primary text-primary-foreground active:scale-95 transition"
-                  >
-                    استخدم
-                  </button>
-                </div>
-                <div className="flex-1 text-right min-w-0">
-                  <p className="font-extrabold text-foreground text-[12px] tracking-tight">
-                    خصم على {c.target} في {c.brand}
-                  </p>
-                  <p className="text-[11px] text-mint font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    حد أدنى {c.min} ر.س
-                  </p>
-                  <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    صالح {c.days} أيام
-                    <Clock className="h-3 w-3" strokeWidth={2} />
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
 
-        <h3 className="font-extrabold text-foreground text-[14px] tracking-tight flex items-center gap-1.5 pt-2">
-          <CheckCircle2 className="h-4 w-4 text-muted-foreground" strokeWidth={2} />
-          مكافآت مستخدمة
-        </h3>
-
-        <div className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex opacity-70">
-          <div className="w-20 bg-neutral-500 text-white flex items-center justify-center text-[11px] font-extrabold text-center">
-            هنقر
-          </div>
-          <div className="flex-1 p-3 flex justify-between items-center gap-3">
-            <div className="text-center shrink-0">
-              <p className="text-[22px] font-bold text-muted-foreground leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>10%</p>
-              <div className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-secondary text-muted-foreground flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
-                تم
+              <div className="space-y-3">
+                {visible.length === 0 && (
+                  <div className="rounded-[20px] bg-card border border-border p-6 text-center text-[12px] font-semibold text-muted-foreground">
+                    لا توجد كوبونات ضمن هذا التصنيف
+                  </div>
+                )}
+                {visible.map((c, i) => {
+                  const expired = c.status === "expired";
+                  const inUse = c.status === "in-use";
+                  return (
+                    <div
+                      key={i}
+                      className={`rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex ${expired ? "opacity-70" : ""}`}
+                    >
+                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[12px] font-extrabold tracking-tight`}>
+                        <span>{c.brand}</span>
+                      </div>
+                      <div className="flex-1 p-3 flex justify-between items-center gap-3">
+                        <div className="text-center shrink-0">
+                          <p className={`text-[24px] font-bold leading-none tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`} style={{ fontVariantNumeric: "tabular-nums" }}>
+                            {c.pct}%
+                          </p>
+                          <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
+                          {expired ? (
+                            <div className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-secondary text-muted-foreground flex items-center gap-1">
+                              <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
+                              منتهي
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setActiveCoupon(c)}
+                              className={`mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold active:scale-95 transition ${
+                                inUse ? "bg-mint/20 text-primary" : "bg-primary text-primary-foreground"
+                              }`}
+                            >
+                              {inUse ? "قيد الاستخدام" : "استخدم"}
+                            </button>
+                          )}
+                        </div>
+                        <div className="flex-1 text-right min-w-0">
+                          <p className={`font-extrabold text-[12px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
+                            خصم على {c.target} في {c.brand}
+                          </p>
+                          <p className="text-[11px] text-mint font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                            حد أدنى {c.min} ر.س
+                          </p>
+                          <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                            {expired ? (c.usedOn ?? "منتهي الصلاحية") : `صالح ${c.days} أيام`}
+                            <Clock className="h-3 w-3" strokeWidth={2} />
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
-            <div className="flex-1 text-right min-w-0">
-              <p className="font-extrabold text-muted-foreground text-[12px] tracking-tight">خصم على الطلبات في هنقرستيشن</p>
-              <p className="text-[11px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>حد أدنى 50 ر.س</p>
-              <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>استُخدم 20 يونيو</p>
-            </div>
-          </div>
-        </div>
+            </>
+          );
+        })()}
 
         <div
           className="rounded-[24px] p-4 text-primary-foreground flex items-center gap-3 relative overflow-hidden"

@@ -15,6 +15,7 @@ import {
   MoreServicesScreen,
   StatementScreen,
   GoalDetailScreen,
+  GoalsListScreen,
   NewGoalScreen,
   CalendarScreen,
 } from "./ActionScreens";
@@ -30,6 +31,7 @@ type SubScreen =
   | "more"
   | "statement"
   | "goal"
+  | "goals-list"
   | "new-goal"
   | "calendar";
 
@@ -54,6 +56,14 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   if (sub === "more") return <MoreServicesScreen onBack={close} />;
   if (sub === "statement") return <StatementScreen onBack={close} />;
   if (sub === "goal") return <GoalDetailScreen onBack={close} />;
+  if (sub === "goals-list")
+    return (
+      <GoalsListScreen
+        onBack={close}
+        onOpenGoal={() => setSub("goal")}
+        onOpenNewGoal={() => setSub("new-goal")}
+      />
+    );
   if (sub === "new-goal") return <NewGoalScreen onBack={close} />;
   if (sub === "calendar") return <CalendarScreen onBack={close} />;
 
@@ -69,7 +79,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenQr={() => setSub("qr")}
             onOpenMore={() => setSub("more")}
             onOpenStatement={() => setSub("statement")}
-            onOpenGoal={() => setSub("goal")}
+            onOpenGoal={() => setSub(goals.length > 0 ? "goals-list" : "new-goal")}
             onOpenNewGoal={() => setSub("new-goal")}
             onOpenCalendar={() => setSub("calendar")}
             onOpenNotifications={() => setTab("notifications")}

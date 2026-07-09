@@ -8,17 +8,20 @@ export type OnboardingData = {
   phone: string;
   city: string;
   userType: string;
+  userTypeCustom: string;
   email: string;
   password: string;
   // Step 2
   incomeSource: string;
+  incomeSourceCustom: string;
   monthlyIncome: string;
-  expenses: { key: string; label: string; amount: string }[];
+  expenses: { key: string; label: string; amount: string; editable?: boolean }[];
   // Step 3
   goalKey: string;
   goalLabel: string;
   goalAmount: number;
   goalMonths: number;
+  goalMonthsCustom: string;
 };
 
 const DEFAULT: OnboardingData = {
@@ -26,9 +29,11 @@ const DEFAULT: OnboardingData = {
   phone: "",
   city: "",
   userType: "employee",
+  userTypeCustom: "",
   email: "",
   password: "",
   incomeSource: "salary",
+  incomeSourceCustom: "",
   monthlyIncome: "",
   expenses: [
     { key: "housing", label: "السكن", amount: "" },
@@ -39,6 +44,7 @@ const DEFAULT: OnboardingData = {
   goalLabel: "شراء سيارة",
   goalAmount: 80000,
   goalMonths: 6,
+  goalMonthsCustom: "",
 };
 
 type Ctx = {

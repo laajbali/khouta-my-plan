@@ -1,13 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronRight, ShieldCheck, Check, Wifi } from "lucide-react";
+import { toast } from "sonner";
 import { Stepper } from "./Stepper";
+import { useOnboarding } from "./onboarding-context";
 
 export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () => void }) {
+  const { data, submit, loading } = useOnboarding();
   const [number, setNumber] = useState("4587");
-  const [name, setName] = useState("سارة أحمد");
+  const [name, setName] = useState(data.fullName || "سارة أحمد");
   const [expiry, setExpiry] = useState("08/29");
   const [cvv, setCvv] = useState("");
   const [save, setSave] = useState(false);
+
+  useEffect(() => {
+    const who = data.fullName?.trim() || "بكِ";
+    toast.success(`أهلاً ${who}، لنربط بطاقتك الآن`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  async function finish() {
+    const ok = await submit();
+    if (ok) onNext();
+  }
 
   const last4 = number.replace(/\D/g, "").slice(0, 4).padEnd(4, "•");
 
@@ -97,17 +111,6 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
           </Field>
         </div>
 
-        {/* Safety row */}
-        <div className="rounded-2xl bg-mint/15 border border-mint/25 p-3 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-mint text-primary flex items-center justify-center shrink-0">
-            <ShieldCheck className="h-4 w-4" strokeWidth={2.5} />
-          </div>
-          <div className="flex-1 text-right">
-            <p className="text-[12px] font-extrabold text-foreground">حماية وأمان 100%</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">بياناتك مشفّرة ولن يتم تخزينها</p>
-          </div>
-        </div>
-
         <button
           onClick={() => setSave((s) => !s)}
           className="w-full rounded-2xl border border-border bg-card px-4 py-3 flex items-center gap-3 shadow-sm active:scale-[0.99] transition"
@@ -124,12 +127,24 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
           </div>
         </button>
 
+        {/* Safety row */}
+        <div className="rounded-2xl bg-mint/15 border border-mint/25 p-3 flex items-center gap-3">
+          <div className="h-9 w-9 rounded-xl bg-mint text-primary flex items-center justify-center shrink-0">
+            <ShieldCheck className="h-4 w-4" strokeWidth={2.5} />
+          </div>
+          <div className="flex-1 text-right">
+            <p className="text-[12px] font-extrabold text-foreground">حماية وأمان 100%</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5">بياناتك مشفّرة ولن يتم تخزينها</p>
+          </div>
+        </div>
+
         <button
-          onClick={onNext}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition"
+          onClick={finish}
+          disabled={loading}
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition disabled:opacity-60"
         >
-          التالي
-          <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
+          {loading ? "جارٍ الإنشاء..." : "إنشاء الحساب والبدء"}
+          {!loading && <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />}
         </button>
       </div>
     </div>

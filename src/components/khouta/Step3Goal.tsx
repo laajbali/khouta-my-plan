@@ -29,21 +29,23 @@ const DURATIONS = [
   { key: 6, label: "6 أشهر" },
   { key: 12, label: "سنة" },
   { key: 24, label: "سنتين" },
+  { key: -1, label: "أخرى" },
 ];
 
 export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: () => void }) {
-  const { data, update, submit, loading } = useOnboarding();
+  const { data, update } = useOnboarding();
   const selected = GOALS.find((g) => g.key === data.goalKey) ?? GOALS[0];
-  const monthly = Math.round(data.goalAmount / data.goalMonths);
+  const effMonths =
+    data.goalMonths === -1 ? Math.max(1, Number(data.goalMonthsCustom) || 0) : data.goalMonths;
+  const monthly = effMonths > 0 ? Math.round(data.goalAmount / effMonths) : 0;
 
   function selectGoal(key: string) {
     const g = GOALS.find((x) => x.key === key)!;
     update({ goalKey: key, goalLabel: g.label, goalAmount: g.suggested });
   }
 
-  async function finish() {
-    const ok = await submit();
-    if (ok) onFinish();
+  function finish() {
+    onFinish();
   }
 
   return (
@@ -142,7 +144,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
 
           <div className="relative mt-3">
             <p className="text-right text-[10px] text-white/50 font-semibold mb-2">المدة الزمنية</p>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div className="grid grid-cols-5 gap-1.5">
               {DURATIONS.map((d) => (
                 <button
                   key={d.key}
@@ -157,6 +159,16 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
                 </button>
               ))}
             </div>
+            {data.goalMonths === -1 && (
+              <input
+                value={data.goalMonthsCustom}
+                onChange={(e) => update({ goalMonthsCustom: e.target.value.replace(/[^\d]/g, "") })}
+                placeholder="اكتبي عدد الأشهر"
+                inputMode="numeric"
+                className="mt-2 w-full bg-white/10 border border-white/15 rounded-xl px-3 py-2 text-[12px] font-bold text-white text-right outline-none focus:border-mint placeholder:text-white/40"
+                style={{ fontVariantNumeric: "tabular-nums" }}
+              />
+            )}
           </div>
 
           <div className="relative mt-3 bg-mint/15 border border-mint/25 rounded-2xl p-3 flex items-center gap-3">
@@ -175,11 +187,10 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
 
         <button
           onClick={finish}
-          disabled={loading}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition disabled:opacity-60"
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-bold py-3.5 shadow-lg shadow-primary/25 flex items-center justify-center gap-2 text-[14px] tracking-tight active:scale-[0.99] transition"
         >
-          {loading ? "جارٍ الإنشاء..." : "إنشاء الحساب والبدء"}
-          {!loading && <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />}
+          التالي
+          <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
         </button>
       </div>
     </div>
