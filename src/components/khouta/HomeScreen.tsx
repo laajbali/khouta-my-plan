@@ -79,7 +79,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenQr={() => setSub("qr")}
             onOpenMore={() => setSub("more")}
             onOpenStatement={() => setSub("statement")}
-            onOpenGoal={() => setSub("goal")}
+            onOpenGoal={() => setSub(goals.length > 0 ? "goals-list" : "new-goal")}
             onOpenNewGoal={() => setSub("new-goal")}
             onOpenCalendar={() => setSub("calendar")}
             onOpenNotifications={() => setTab("notifications")}
