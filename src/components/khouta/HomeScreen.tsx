@@ -39,6 +39,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [interceptOpen, setInterceptOpen] = useState(false);
   const [interceptMerchant, setInterceptMerchant] = useState<string>("SHEIN");
   const [interceptAmount, setInterceptAmount] = useState(240);
+  const profile = useProfile();
+  const { goals } = useGoals();
+  const topGoal = goals[0];
 
   const close = () => setSub("none");
 
