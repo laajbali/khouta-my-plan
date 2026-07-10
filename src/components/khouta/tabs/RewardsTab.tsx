@@ -279,8 +279,18 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             </div>
 
             <p className="text-[11px] text-muted-foreground text-center mt-3 font-medium">
-              انسخي الكود واستخدميه عند إتمام الطلب في تطبيق {activeCoupon.brand}
+              انسخ الكود واستخدمه عند إتمام الطلب في تطبيق {activeCoupon.brand}
             </p>
+
+            <button
+              onClick={() => {
+                setActiveCoupon(null);
+                if (onCompleteReward) onCompleteReward();
+              }}
+              className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.98] transition"
+            >
+              رائع، أكمل
+            </button>
           </div>
         </div>
       )}
