@@ -168,33 +168,6 @@ function AlertRow({ a }: { a: Alert }) {
   );
 }
 
-function SimAppCard({ m, onClick }: { m: MerchantConfig; onClick: () => void }) {
-  const cls =
-    m.logoStyle === "italic" ? "italic" : m.logoStyle === "lower" ? "lowercase" : "";
-  return (
-    <button
-      onClick={onClick}
-      className="rounded-[22px] bg-card border border-border overflow-hidden shadow-sm active:scale-[0.98] transition text-right hover:shadow-md hover:border-primary/30"
-    >
-      <div className={`${m.logoBg} py-8 flex items-center justify-center`}>
-        <span className={`${m.logoText} text-[20px] font-black tracking-tight ${cls}`}>
-          {m.logoLabel}
-        </span>
-      </div>
-      <div className="p-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[9px] font-bold text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">{m.category}</span>
-          <p className="font-extrabold text-foreground text-[13px] tracking-tight">{m.name}</p>
-        </div>
-        <p className="text-[10px] text-muted-foreground mt-1 font-medium text-right">{m.subtitle}</p>
-        <div className="mt-2.5 w-full bg-primary/10 text-primary rounded-xl py-2 text-[11px] font-bold flex items-center justify-center gap-1">
-          محاكاة الشراء
-          <ChevronLeft className="h-3 w-3" strokeWidth={2.5} />
-        </div>
-      </div>
-    </button>
-  );
-}
 
 /* --------------------------- Generic merchant simulator --------------------------- */
 function MerchantSim({
