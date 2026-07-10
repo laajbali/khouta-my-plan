@@ -179,6 +179,55 @@ export function HomeTab({
           </div>
         </div>
 
+        {/* Radar Banner — golden yellow */}
+        <button
+          onClick={onOpenRadar}
+          className="w-full rounded-[22px] p-3.5 flex items-center gap-3 text-right shadow-sm border active:scale-[0.99] transition"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.94 0.11 90) 0%, oklch(0.88 0.14 82) 100%)",
+            borderColor: "oklch(0.80 0.12 82 / 0.6)",
+          }}
+        >
+          <span className="rounded-2xl bg-primary text-primary-foreground text-[11.5px] font-black px-4 py-2 shadow-md shrink-0">
+            افتح
+          </span>
+          <div className="flex-1 text-right min-w-0">
+            <p className="text-[13.5px] font-black text-amber-950 tracking-tight leading-tight">
+              رادار خُطى الذكي 🧠
+            </p>
+            <p className="text-[10.5px] text-amber-900/80 font-semibold mt-0.5 leading-tight">
+              تنبؤ وتحليل السلوك الاندفاعي قبل حدوثه
+            </p>
+          </div>
+          <div className="h-10 w-10 rounded-2xl bg-white/50 flex items-center justify-center text-amber-800 shrink-0">
+            <Radar className="h-5 w-5" strokeWidth={2} />
+          </div>
+        </button>
+
+        {/* Group Challenge card */}
+        <button
+          onClick={onOpenGroup}
+          className="w-full rounded-[22px] p-4 bg-card border border-border shadow-sm flex items-center gap-3 text-right active:scale-[0.99] transition hover:border-primary/40"
+        >
+          <ChevronLeft className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2.5} />
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 justify-end">
+              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-mint/15 text-primary">
+                جديد
+              </span>
+              <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
+                التحدي الجماعي 💚
+              </p>
+            </div>
+            <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight">
+              تحدّي صديقاتك وادّخرن سوياً — أنتِ 68% • ريما 45%
+            </p>
+          </div>
+          <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <Users className="h-5 w-5" strokeWidth={2} />
+          </div>
+        </button>
 
         {/* 2×2 grid */}
         <div className="grid grid-cols-2 gap-3">
