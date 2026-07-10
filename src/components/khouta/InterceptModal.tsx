@@ -150,9 +150,9 @@ export function InterceptModal({
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[12.5px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
+                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[12px] shadow-lg active:scale-[0.98] transition"
               >
-                إلغاء الطلب
+                إلغاء الطلب وتوفير {amount} ر.س
               </button>
             </div>
           </div>
