@@ -61,6 +61,8 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
       toast.error("عذراً، الرجاء كتابة الفئة");
       return;
     }
+    // Dismiss any lingering validation toasts before leaving Step 1
+    toast.dismiss();
     onNext();
   }
 
