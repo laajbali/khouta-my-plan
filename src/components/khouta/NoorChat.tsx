@@ -23,9 +23,10 @@ function noorReply(q: string): string {
   return "شكراً لسؤالك! أحلل بياناتك المالية… جرّبي أحد الأسئلة السريعة أدناه للحصول على إجابة دقيقة.";
 }
 
-export function NoorChat({ onBack }: { onBack: () => void }) {
+export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
+  const firstName = (userName || "").trim().split(" ")[0];
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "noor", text: "أهلاً سارة 👋 أنا نور، مستشارتك المالية. كيف أقدر أساعدك اليوم؟" },
+    { role: "noor", text: `أهلاً${firstName ? " " + firstName : ""} 👋 أنا نور، مستشارك المالي. كيف أقدر أساعدك اليوم؟` },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
