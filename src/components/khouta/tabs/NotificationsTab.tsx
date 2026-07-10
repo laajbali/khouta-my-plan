@@ -121,25 +121,14 @@ export function NotificationsTab({
             يقوم الذكاء الاصطناعي بتحليل عملية الشراء قبل إتمامها لحماية خطتك المالية.
           </p>
           <button
-            onClick={() => {
-              document.getElementById("khouta-sim-apps")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
+            onClick={() => setSimKey("SHEIN")}
             className="mt-4 w-full rounded-2xl bg-mint text-primary font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition"
           >
-            <Lightbulb className="h-4 w-4" strokeWidth={2.2} />
-            ابدأ المحاكاة
+            <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
+            افتح شي إن
           </button>
         </div>
 
-        <div id="khouta-sim-apps" className="flex items-center justify-end gap-2 pt-1">
-          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">تطبيقات التسوق</h3>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {MERCHANTS.map((m) => (
-            <SimAppCard key={m.key} m={m} onClick={() => setSimKey(m.key)} />
-          ))}
-        </div>
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
