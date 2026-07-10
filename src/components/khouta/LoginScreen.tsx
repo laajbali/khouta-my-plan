@@ -84,7 +84,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
           <button
             type="button"
             onClick={async () => {
-              if (!email) return toast.error("أدخلي البريد أولاً");
+              if (!email) return toast.error("أدخل البريد أولاً");
               const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: window.location.origin,
               });
@@ -158,7 +158,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
 function translateError(msg: string): string {
   if (/Invalid login credentials/i.test(msg)) return "البريد أو كلمة المرور غير صحيحة";
   if (/Password should be at least/i.test(msg)) return "كلمة المرور قصيرة جداً (6 أحرف على الأقل)";
-  if (/pwned/i.test(msg)) return "كلمة المرور مسرّبة سابقاً — اختاري كلمة أقوى";
+  if (/pwned/i.test(msg)) return "كلمة المرور مسرّبة سابقاً — اختر كلمة أقوى";
   return msg;
 }
 

@@ -64,7 +64,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
       <div className="px-5 pt-5 space-y-4">
         <div className="text-right">
           <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">ما هو هدفك المالي؟</h2>
-          <p className="text-[11px] text-muted-foreground mt-1 font-medium">اختاري هدفاً وسنبني لك خطة مخصصة</p>
+          <p className="text-[11px] text-muted-foreground mt-1 font-medium">اختر هدفاً وسنبني لك خطة مخصصة</p>
         </div>
 
         {/* Goals grid */}
@@ -117,7 +117,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
                   type="text"
                   value={data.goalLabel}
                   onChange={(e) => update({ goalLabel: e.target.value })}
-                  placeholder="اكتبي اسم هدفك"
+                  placeholder="اكتب اسم هدفك"
                   className="mt-0.5 w-full bg-transparent outline-none text-[15px] font-extrabold text-white text-right tracking-tight placeholder:text-white/40 border-b border-white/20 focus:border-mint pb-0.5"
                 />
               ) : (
@@ -169,7 +169,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
               <input
                 value={data.goalMonthsCustom}
                 onChange={(e) => update({ goalMonthsCustom: e.target.value.replace(/[^\d]/g, "") })}
-                placeholder="اكتبي عدد الأشهر"
+                placeholder="اكتب عدد الأشهر"
                 inputMode="numeric"
                 className="mt-2 w-full bg-white/10 border border-white/15 rounded-xl px-3 py-2 text-[12px] font-bold text-white text-right outline-none focus:border-mint placeholder:text-white/40"
                 style={{ fontVariantNumeric: "tabular-nums" }}

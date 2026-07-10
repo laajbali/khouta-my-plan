@@ -212,7 +212,7 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="سداد الفواتير" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        <p className="text-xs text-muted-foreground text-right">اختاري نوع الفاتورة</p>
+        <p className="text-xs text-muted-foreground text-right">اختر نوع الفاتورة</p>
         <div className="grid grid-cols-2 gap-3">
           {BILLS.map((b) => {
             const Icon = b.icon;
@@ -467,7 +467,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             <Target className="h-7 w-7 text-primary" />
           </div>
           <p className="text-sm font-bold text-foreground">لا يوجد هدف حالياً</p>
-          <p className="text-xs text-muted-foreground">ابدئي بإنشاء هدف جديد من الشاشة الرئيسية</p>
+          <p className="text-xs text-muted-foreground">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
         </div>
       </div>
     );
@@ -490,8 +490,8 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     if (!goal) return;
     const nextTitle = editTitle.trim();
     const nextTarget = Number(editTarget);
-    if (!nextTitle) return toast.error("اكتبي اسم الهدف");
-    if (!nextTarget || nextTarget <= 0) return toast.error("أدخلي مبلغاً صحيحاً");
+    if (!nextTitle) return toast.error("اكتب اسم الهدف");
+    if (!nextTarget || nextTarget <= 0) return toast.error("أدخل مبلغاً صحيحاً");
     setSavingEdit(true);
     const { error } = await supabase
       .from("savings_goals")
@@ -609,7 +609,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     if (!user) {
-      toast.error("سجّلي الدخول أولاً");
+      toast.error("سجّل الدخول أولاً");
       return;
     }
     if (!typeKey || !amount) {
@@ -967,7 +967,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               </p>
 
               <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-semibold">
-                اختاري خطة الادخار المناسبة
+                اختر خطة الادخار المناسبة
               </p>
               <div className="grid grid-cols-3 gap-2">
                 <MiniStat plan="daily" label="ادخار يومي" value="12" suffix="ر.س" />
@@ -1204,7 +1204,7 @@ export function GoalsListScreen({
               <Target className="h-6 w-6 text-primary" />
             </div>
             <p className="text-sm font-bold text-foreground">لا توجد أهداف بعد</p>
-            <p className="text-xs text-muted-foreground">ابدئي بإضافة هدفك الأول من الأسفل</p>
+            <p className="text-xs text-muted-foreground">ابدأ بإضافة هدفك الأول من الأسفل</p>
           </div>
         )}
 
