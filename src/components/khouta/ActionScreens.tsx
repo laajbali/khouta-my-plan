@@ -22,6 +22,7 @@ import {
   Camera,
   Check,
   Calendar as CalIcon,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
