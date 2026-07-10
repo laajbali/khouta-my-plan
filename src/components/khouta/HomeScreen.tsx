@@ -116,8 +116,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
               setInterceptAmount(amount);
               setInterceptOpen(true);
             }}
-            onOpenDonate={() => setSub("donate")}
+            onOpenRadar={() => setSub("radar")}
           />
+
         )}
         {tab === "reports" && <ReportsTab onOpenNotifications={() => setTab("notifications")} />}
       </div>
