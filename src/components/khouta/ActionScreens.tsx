@@ -1482,7 +1482,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
 
           {/* Quick tap bubbles */}
           <div className="flex flex-wrap gap-2 justify-end pt-1">
-            {["يلا نكمّل! 💪", "توفيري اليوم مبسوطة فيه 💚", "قربتِ من هدفكِ 🚀"].map((t) => (
+            {["يلا نكمّل! 💪", "توفيري اليوم مبسوط فيه 💚", "قربت من هدفك 🚀"].map((t) => (
               <button
                 key={t}
                 onClick={() => send(t)}
