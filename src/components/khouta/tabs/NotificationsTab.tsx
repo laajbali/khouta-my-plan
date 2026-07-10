@@ -1,10 +1,8 @@
 import {
   ShieldCheck,
-  Lightbulb,
   ShoppingBag,
   UtensilsCrossed,
   Sparkles,
-  
   ChevronLeft,
   ChevronRight,
   Heart,
