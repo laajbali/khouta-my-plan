@@ -208,25 +208,26 @@ export function HomeTab({
         {/* Group Challenge card */}
         <button
           onClick={onOpenGroup}
+          dir="rtl"
           className="w-full rounded-[22px] p-4 bg-card border border-border shadow-sm flex items-center gap-3 text-right active:scale-[0.99] transition hover:border-primary/40"
         >
-          <ChevronLeft className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2.5} />
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 justify-end">
-              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-mint/15 text-primary">
-                جديد
-              </span>
-              <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
-                التحدي الجماعي 💚
-              </p>
-            </div>
-            <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight">
-              تحدّي صديقاتك وادّخرن سوياً — أنتِ 68% • ريما 45%
-            </p>
-          </div>
           <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
             <Users className="h-5 w-5" strokeWidth={2} />
           </div>
+          <div className="flex-1 min-w-0 text-right">
+            <div className="flex items-center gap-2 justify-start">
+              <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
+                التحدي الجماعي 💚
+              </p>
+              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-mint/15 text-primary">
+                جديد
+              </span>
+            </div>
+            <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
+              تحدّي صديقاتك وادّخرن سوياً — أنتِ 68% • ريما 45%
+            </p>
+          </div>
+          <ChevronLeft className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2.5} />
         </button>
 
         {/* 2×2 grid */}
