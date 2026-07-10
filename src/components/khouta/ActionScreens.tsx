@@ -1447,7 +1447,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         <div className="px-5 pt-4">
           <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
             <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
-              ريما قريبة منكِ! باقي لها تكة وتوصل لهدفها، وش رأيك تحمسينها الحين؟ 🚀
+              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟ 🚀
             </p>
           </div>
         </div>
