@@ -98,7 +98,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenProfile={() => setTab("profile")}
             onOpenRadar={() => setSub("radar")}
             onOpenGroup={() => setSub("group")}
+            onOpenDonate={() => setSub("donate")}
           />
+
         )}
         {tab === "rewards" && (
           <RewardsTab
@@ -114,8 +116,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
               setInterceptAmount(amount);
               setInterceptOpen(true);
             }}
-            onOpenDonate={() => setSub("donate")}
+            onOpenRadar={() => setSub("radar")}
           />
+
         )}
         {tab === "reports" && <ReportsTab onOpenNotifications={() => setTab("notifications")} />}
       </div>
