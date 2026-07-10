@@ -36,6 +36,10 @@ const DURATIONS = [
 
 export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: () => void }) {
   const { data, update } = useOnboarding();
+  // Clear any lingering password/validation toasts from Step 1
+  useEffect(() => {
+    toast.dismiss();
+  }, []);
   const selected = GOALS.find((g) => g.key === data.goalKey) ?? GOALS[0];
   const effMonths =
     data.goalMonths === -1 ? Math.max(1, Number(data.goalMonthsCustom) || 0) : data.goalMonths;
