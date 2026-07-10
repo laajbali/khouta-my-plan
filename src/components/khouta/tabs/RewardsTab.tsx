@@ -26,7 +26,7 @@ const COUPONS: Coupon[] = [
   { brand: "هنقر", accent: "bg-neutral-500", accentText: "text-white", pct: 10, min: 50, days: 0, target: "الطلبات", code: "KHUTA10HG", status: "expired", usedOn: "استُخدم 20 يونيو" },
 ];
 
-export function RewardsTab({ onOpenNotifications }: { onOpenNotifications?: () => void } = {}) {
+export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNotifications?: () => void; onCompleteReward?: () => void } = {}) {
   const [filter, setFilter] = useState("الكل");
   const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
   const [copied, setCopied] = useState(false);
