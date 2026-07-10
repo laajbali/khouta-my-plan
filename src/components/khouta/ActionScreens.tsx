@@ -504,28 +504,6 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     refresh();
   }
 
-  async function deposit() {
-    const n = Number(amount);
-    if (!n || n <= 0) {
-      toast.error("أدخلي مبلغاً صحيحاً");
-      return;
-    }
-    if (!goal) return;
-    setSaving(true);
-    const newAmount = Math.min(Number(goal.target_amount), Number(goal.saved_amount) + n);
-    const { error } = await supabase
-      .from("savings_goals")
-      .update({ saved_amount: newAmount })
-      .eq("id", goal.id);
-    setSaving(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    setAmount("");
-    toast.success(`تم إيداع ${n} ر.س في ${goal.title}`);
-    refresh();
-  }
 
   return (
     <div className="flex flex-col h-full bg-background">
