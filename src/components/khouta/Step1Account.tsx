@@ -18,10 +18,11 @@ import { ChoiceCard } from "./ChoiceCard";
 import { useOnboarding } from "./onboarding-context";
 
 const SAUDI_CITIES = [
-  "الرياض", "جدة", "مكة المكرمة", "المدينة المنورة", "الدمام",
-  "الخبر", "الظهران", "الطائف", "تبوك", "بريدة", "خميس مشيط",
-  "أبها", "حائل", "نجران", "جازان", "ينبع", "الجبيل", "الأحساء",
-  "القطيف", "عرعر", "سكاكا",
+  "الرياض",
+  "جدة",
+  "الدمام",
+  "مكة المكرمة",
+  "المدينة المنورة",
 ];
 
 const CATEGORIES = [
@@ -60,6 +61,8 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
       toast.error("عذراً، الرجاء كتابة الفئة");
       return;
     }
+    // Dismiss any lingering validation toasts before leaving Step 1
+    toast.dismiss();
     onNext();
   }
 

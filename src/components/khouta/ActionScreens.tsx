@@ -22,6 +22,7 @@ import {
   Camera,
   Check,
   Calendar as CalIcon,
+  Sparkles,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -443,6 +444,10 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
   const goal: Goal | undefined = goals[0];
   const [amount, setAmount] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editTarget, setEditTarget] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
 
   if (loading) {
     return (
@@ -475,6 +480,31 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     Math.round((Number(goal.saved_amount) / Number(goal.target_amount)) * 100),
   );
   const Icon = iconFor(goal.icon);
+
+  function startEdit() {
+    if (!goal) return;
+    setEditTitle(goal.title);
+    setEditTarget(String(goal.target_amount));
+    setEditing(true);
+  }
+
+  async function saveEdit() {
+    if (!goal) return;
+    const nextTitle = editTitle.trim();
+    const nextTarget = Number(editTarget);
+    if (!nextTitle) return toast.error("اكتبي اسم الهدف");
+    if (!nextTarget || nextTarget <= 0) return toast.error("أدخلي مبلغاً صحيحاً");
+    setSavingEdit(true);
+    const { error } = await supabase
+      .from("savings_goals")
+      .update({ title: nextTitle, target_amount: nextTarget })
+      .eq("id", goal.id);
+    setSavingEdit(false);
+    if (error) return toast.error(error.message);
+    toast.success("تم تحديث الهدف");
+    setEditing(false);
+    refresh();
+  }
 
   async function deposit() {
     const n = Number(amount);
@@ -514,15 +544,43 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center">
               <Icon className="h-6 w-6" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="text-white/70 text-xs">هدفك</p>
-              <h3 className="font-bold text-lg">{goal.title}</h3>
+              {editing ? (
+                <input
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-1.5 mt-1 text-white text-[14px] font-bold outline-none"
+                  placeholder="اسم الهدف"
+                />
+              ) : (
+                <h3 className="font-bold text-lg truncate">{goal.title}</h3>
+              )}
             </div>
+            <button
+              onClick={editing ? saveEdit : startEdit}
+              disabled={savingEdit}
+              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-black active:scale-95 transition disabled:opacity-60"
+            >
+              {editing ? (savingEdit ? "..." : "حفظ") : "تعديل"}
+            </button>
           </div>
           <div className="flex justify-between items-end mb-2" style={{ fontVariantNumeric: "tabular-nums" }}>
-            <span className="text-xs text-white/60">
-              من {Number(goal.target_amount).toLocaleString()} ر.س
-            </span>
+            {editing ? (
+              <div className="flex items-center gap-1 bg-white/10 border border-white/20 rounded-xl px-2 py-1">
+                <input
+                  value={editTarget}
+                  onChange={(e) => setEditTarget(e.target.value.replace(/[^\d]/g, ""))}
+                  inputMode="numeric"
+                  className="w-24 bg-transparent text-white text-[13px] font-bold outline-none text-right"
+                />
+                <span className="text-[11px] text-white/70">ر.س</span>
+              </div>
+            ) : (
+              <span className="text-xs text-white/60">
+                من {Number(goal.target_amount).toLocaleString()} ر.س
+              </span>
+            )}
             <span className="text-2xl font-bold">
               {Number(goal.saved_amount).toLocaleString()}{" "}
               <span className="text-sm text-white/70">ر.س</span>
@@ -1236,6 +1294,303 @@ export function GoalsListScreen({
         >
           <Plus className="h-4 w-4" /> إضافة هدف جديد
         </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- رادار خُطى الذكي (Predictive Radar) ---------- */
+
+export function RadarScreen({ onBack }: { onBack: () => void }) {
+  const [activated, setActivated] = useState(false);
+  return (
+    <div className="flex flex-col h-full bg-background">
+      <ScreenHeader title="رادار خُطى الذكي" onBack={onBack} />
+      <div className="flex-1 overflow-y-auto p-5 space-y-5">
+        {/* Pulsing radar */}
+        <div className="rounded-[28px] bg-card border border-border p-6 flex flex-col items-center gap-3 shadow-sm relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-56 w-56 rounded-full bg-mint/10 blur-3xl" />
+          </div>
+          <div className="relative h-40 w-40 flex items-center justify-center">
+            <span className="absolute inset-0 rounded-full border-2 border-mint/40 animate-ping" />
+            <span className="absolute inset-4 rounded-full border border-mint/50 animate-pulse" />
+            <span className="absolute inset-10 rounded-full border border-amber-300/60" />
+            <div
+              className="relative h-20 w-20 rounded-full flex items-center justify-center text-white shadow-xl"
+              style={{
+                background:
+                  "conic-gradient(from 0deg, oklch(0.85 0.14 85), oklch(0.32 0.06 155), oklch(0.85 0.14 85))",
+              }}
+            >
+              <Sparkles className="h-8 w-8" strokeWidth={2} />
+            </div>
+          </div>
+          <p className="text-[11px] font-bold text-mint tracking-[0.2em] uppercase">
+            الرادار يعمل الآن
+          </p>
+          <h3 className="text-[18px] font-black text-foreground tracking-tight">
+            تحليل السلوك الاندفاعي 🧠
+          </h3>
+        </div>
+
+        {/* Insight */}
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm text-right space-y-2">
+          <div className="flex items-center gap-2 justify-end">
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
+            <span className="inline-flex items-center gap-1 text-[10px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-0.5">
+              رادار
+            </span>
+          </div>
+          <p className="text-[12px] text-foreground/85 leading-relaxed font-medium">
+            تم ملاحظة زيادة بنسبة{" "}
+            <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+              85%
+            </span>{" "}
+            في محاولات التسوق الاندفاعي يوم{" "}
+            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>27</span>{" "}
+            من كل شهر (يوم المكافأة) بين{" "}
+            <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>11:00 PM</span> و{" "}
+            <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>1:00 AM</span>.
+          </p>
+        </div>
+
+        {/* Challenge */}
+        <div
+          className="rounded-[24px] p-4 text-right shadow-sm border"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.97 0.06 85) 0%, oklch(0.99 0.02 85) 100%)",
+            borderColor: "oklch(0.85 0.10 85 / 0.5)",
+          }}
+        >
+          <div className="flex items-center gap-2 justify-end mb-2">
+            <p className="text-[13px] font-black text-amber-900 tracking-tight">تحدي الليلة</p>
+            <span className="text-lg">🌙</span>
+          </div>
+          <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
+            متبقي{" "}
+            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>ساعتان</span>{" "}
+            على وقت الإغراء المعتاد. قاومي فتح تطبيقات التسوق الليلة واكسبي{" "}
+            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>50 نقطة</span>{" "}
+            فورية لهدف السيارة، وكود توفير حصري من نون!
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setActivated(true);
+            toast.success("تم تفعيل الحماية الاستباقية الليلة 🛡️");
+          }}
+          disabled={activated}
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-4 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.99] transition disabled:opacity-70"
+        >
+          {activated ? "الحماية مُفعّلة الليلة ✓" : "تفعيل الحماية الاستباقية"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- التحدي الجماعي + شات ريما ---------- */
+
+type ChatMsg = { from: "me" | "her" | "system"; text: string; emoji?: string };
+
+export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
+  const [showAdd, setShowAdd] = useState(false);
+  const [newFriend, setNewFriend] = useState("");
+  const [draft, setDraft] = useState("");
+  const [msgs, setMsgs] = useState<ChatMsg[]>([
+    { from: "me", text: "أنا وفرت اليوم 240 ريال من شي إن، وين وصلتِ؟", emoji: "📉" },
+    { from: "her", text: "كفو! أنا باقي لي 10% وأقفل ميزانية هذا الأسبوع!", emoji: "💪" },
+  ]);
+
+  function send(text?: string) {
+    const value = (text ?? draft).trim();
+    if (!value) return;
+    setMsgs((m) => [...m, { from: "me", text: value }]);
+    setDraft("");
+    setTimeout(() => {
+      setMsgs((m) => [
+        ...m,
+        { from: "her", text: "يعطيكِ العافية يا سارة، محفزّة صح 💚" },
+      ]);
+    }, 900);
+  }
+
+  return (
+    <div className="flex flex-col h-full bg-background">
+      <ScreenHeader title="التحدي الجماعي" onBack={onBack} />
+
+      <div className="flex-1 overflow-y-auto">
+        {/* Top: add friend + progress bars */}
+        <div className="p-5 space-y-4 bg-card border-b border-border">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setShowAdd(true)}
+              className="text-primary text-[12px] font-extrabold flex items-center gap-1 active:scale-95 transition"
+            >
+              <Plus className="h-4 w-4" strokeWidth={2.5} />
+              إضافة صديق آخر
+            </button>
+            <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">
+              أنتِ وريما في تحدي واحد 💚
+            </h3>
+          </div>
+
+          <ProgressBar name="أنتِ (سارة)" percent={68} tone="primary" />
+          <ProgressBar name="الصديقة (ريما)" percent={45} tone="amber" />
+        </div>
+
+        {/* Motivational reminder */}
+        <div className="px-5 pt-4">
+          <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
+            <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
+              ريما قريبة منكِ! باقي لها تكة وتوصل لهدفها، وش رأيك تحمسينها الحين؟ 🚀
+            </p>
+          </div>
+        </div>
+
+        {/* Chat */}
+        <div className="px-5 pt-4 pb-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-[10px] font-bold text-muted-foreground">مباشر</span>
+            <h4 className="text-[13px] font-extrabold text-foreground tracking-tight">
+              محادثة ريما المالية
+            </h4>
+          </div>
+
+          <div className="space-y-2">
+            {msgs.map((m, i) => (
+              <div
+                key={i}
+                className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+                    m.from === "me"
+                      ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
+                      : "bg-secondary text-foreground rounded-bl-sm font-medium border border-border"
+                  }`}
+                >
+                  {m.text} {m.emoji ?? ""}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Quick tap bubbles */}
+          <div className="flex flex-wrap gap-2 justify-end pt-1">
+            {["يلا نكمّل! 💪", "توفيري اليوم مبسوطة فيه 💚", "قربتِ من هدفكِ 🚀"].map((t) => (
+              <button
+                key={t}
+                onClick={() => send(t)}
+                className="text-[11px] font-bold text-primary bg-mint/10 border border-mint/30 rounded-full px-3 py-1.5 active:scale-95 transition"
+              >
+                {t}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Composer */}
+      <div className="border-t border-border bg-card px-4 py-3 flex items-center gap-2">
+        <button
+          onClick={() => send()}
+          aria-label="إرسال"
+          className="h-10 w-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center shadow-md active:scale-95 transition"
+        >
+          <ChevronRight className="h-5 w-5 rotate-180" strokeWidth={2.5} />
+        </button>
+        <input
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") send();
+          }}
+          placeholder="اكتبي رسالة تحفيزية..."
+          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[12.5px] font-medium text-right"
+        />
+      </div>
+
+      {showAdd && (
+        <div className="absolute inset-0 z-50 flex items-center justify-center px-6">
+          <div
+            className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
+            onClick={() => setShowAdd(false)}
+          />
+          <div className="relative w-full rounded-3xl bg-card shadow-2xl p-5 space-y-3 animate-scale-in">
+            <h4 className="text-[15px] font-extrabold text-foreground text-right tracking-tight">
+              إضافة صديق للتحدي
+            </h4>
+            <input
+              value={newFriend}
+              onChange={(e) => setNewFriend(e.target.value.replace(/[^\d]/g, "").slice(0, 10))}
+              placeholder="05XXXXXXXX"
+              inputMode="numeric"
+              dir="ltr"
+              className="w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-bold text-right"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            />
+            <div className="flex gap-2 pt-1">
+              <button
+                onClick={() => setShowAdd(false)}
+                className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3 text-[12px]"
+              >
+                إلغاء
+              </button>
+              <button
+                onClick={() => {
+                  if (!/^05\d{8}$/.test(newFriend)) {
+                    toast.error("رقم الجوال يجب أن يتكون من 10 خانات ويبدأ بـ 05");
+                    return;
+                  }
+                  toast.success("تمت دعوة صديقتك للتحدي 🎉");
+                  setNewFriend("");
+                  setShowAdd(false);
+                }}
+                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[12px]"
+              >
+                إرسال الدعوة
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ProgressBar({
+  name,
+  percent,
+  tone,
+}: {
+  name: string;
+  percent: number;
+  tone: "primary" | "amber";
+}) {
+  const barColor =
+    tone === "primary"
+      ? "linear-gradient(to left, oklch(0.55 0.14 155), oklch(0.32 0.06 155))"
+      : "linear-gradient(to left, oklch(0.85 0.14 85), oklch(0.72 0.16 65))";
+  return (
+    <div className="text-right">
+      <div className="flex items-center justify-between mb-1.5">
+        <span
+          className="text-[11px] font-black text-foreground"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {percent}%
+        </span>
+        <span className="text-[12px] font-extrabold text-foreground tracking-tight">{name}</span>
+      </div>
+      <div className="h-2.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
+        <div
+          className="h-full rounded-full transition-all"
+          style={{ width: `${percent}%`, background: barColor }}
+        />
       </div>
     </div>
   );
