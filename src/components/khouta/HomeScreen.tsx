@@ -98,7 +98,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenProfile={() => setTab("profile")}
             onOpenRadar={() => setSub("radar")}
             onOpenGroup={() => setSub("group")}
+            onOpenDonate={() => setSub("donate")}
           />
+
         )}
         {tab === "rewards" && (
           <RewardsTab
