@@ -176,7 +176,7 @@ export function InterceptModal({
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
-              أحسنتِ{firstName ? " يا " + firstName : ""}! 🎁
+              أحسنت{firstName ? " يا " + firstName : ""}! 🎁
             </h2>
             <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
@@ -185,8 +185,8 @@ export function InterceptModal({
 
           <div className="p-5 -mt-3">
             <div className="grid grid-cols-2 gap-2.5">
-              <RewardStat label="وفّرتِ اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
-              <RewardStat label="اقتربتِ من هدفك" value={`${percentAfter}%`} tone="text-amber-700 bg-amber-50" />
+              <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
+              <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-700 bg-amber-50" />
             </div>
 
             <div className="mt-3 rounded-2xl border-2 border-dashed border-primary/40 bg-mint/5 p-3.5">
