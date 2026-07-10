@@ -32,7 +32,7 @@ type Alert = {
 
 const ALERTS: Alert[] = [
   { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
-  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربتِ من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
+  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
   { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "اقتراح", tagTone: "text-primary bg-primary/10", text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
   { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-100 text-amber-800", tag: "استثمار", tagTone: "text-amber-800 bg-amber-50", text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
