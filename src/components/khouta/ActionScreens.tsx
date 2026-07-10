@@ -1510,7 +1510,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
           onKeyDown={(e) => {
             if (e.key === "Enter") send();
           }}
-          placeholder="اكتبي رسالة تحفيزية..."
+          placeholder="اكتب رسالة تحفيزية..."
           className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[12.5px] font-medium text-right"
         />
       </div>
