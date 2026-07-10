@@ -14,9 +14,11 @@ import {
   ShoppingCart,
   Coins,
   TrendingDown,
+  Radar,
+  Zap,
 } from "lucide-react";
 import { useState } from "react";
-import ihsanLogo from "@/assets/ihsan-logo.asset.json";
+
 
 type MerchantKey = "SHEIN" | "نون";
 
