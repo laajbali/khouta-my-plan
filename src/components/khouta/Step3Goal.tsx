@@ -10,6 +10,8 @@ import {
   Sparkles,
   Target,
 } from "lucide-react";
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { Stepper } from "./Stepper";
 import { useOnboarding } from "./onboarding-context";
 
