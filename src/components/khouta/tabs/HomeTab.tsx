@@ -10,6 +10,8 @@ import {
   TrendingDown,
   TrendingUp,
   Target,
+  Radar,
+  Users,
 } from "lucide-react";
 import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 
@@ -22,6 +24,8 @@ export function HomeTab({
   onOpenReports,
   onOpenRewards,
   onOpenProfile,
+  onOpenRadar,
+  onOpenGroup,
 }: {
   onOpenNoor: () => void;
   onOpenBank: () => void;
@@ -37,6 +41,8 @@ export function HomeTab({
   onOpenReports: () => void;
   onOpenRewards: () => void;
   onOpenProfile: () => void;
+  onOpenRadar: () => void;
+  onOpenGroup: () => void;
 }) {
   const profile = useProfile();
   const { goals } = useGoals();
