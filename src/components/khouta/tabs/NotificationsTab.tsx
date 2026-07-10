@@ -69,8 +69,10 @@ const MERCHANTS: MerchantConfig[] = [
 
 export function NotificationsTab({
   onSimulateIntercept,
+  onOpenDonate,
 }: {
   onSimulateIntercept: (merchant: MerchantKey, amount: number) => void;
+  onOpenDonate?: () => void;
 }) {
   const [simKey, setSimKey] = useState<MerchantKey | null>(null);
   const [view, setView] = useState<"main" | "all">("main");
