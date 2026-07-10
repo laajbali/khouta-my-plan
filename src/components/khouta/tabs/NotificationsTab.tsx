@@ -1,10 +1,8 @@
 import {
   ShieldCheck,
-  Lightbulb,
   ShoppingBag,
   UtensilsCrossed,
   Sparkles,
-  
   ChevronLeft,
   ChevronRight,
   Heart,
@@ -32,7 +30,7 @@ type Alert = {
 };
 
 const ALERTS: Alert[] = [
-  { brand: "تم التوفير", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء طلب SHEIN بقيمة 450 ر.س", time: "منذ 20 دقيقة" },
+  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
   { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربتِ من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
   { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "اقتراح", tagTone: "text-primary bg-primary/10", text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
   { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-100 text-amber-800", tag: "استثمار", tagTone: "text-amber-800 bg-amber-50", text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
@@ -40,7 +38,7 @@ const ALERTS: Alert[] = [
 
 const ALL_ALERTS: Alert[] = [
   ...ALERTS,
-  { brand: "تم التوفير", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-yellow-50 text-yellow-700", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء طلب نون بقيمة 320 ر.س", time: "منذ 3 أيام" },
+  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
   { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-orange-50 text-orange-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
   { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-purple-50 text-purple-700", tag: "معلومة", tagTone: "text-blue-700 bg-blue-50", text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
   { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "إنجاز", tagTone: "text-mint bg-mint/10", text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
@@ -121,25 +119,14 @@ export function NotificationsTab({
             يقوم الذكاء الاصطناعي بتحليل عملية الشراء قبل إتمامها لحماية خطتك المالية.
           </p>
           <button
-            onClick={() => {
-              document.getElementById("khouta-sim-apps")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}
+            onClick={() => setSimKey("SHEIN")}
             className="mt-4 w-full rounded-2xl bg-mint text-primary font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition"
           >
-            <Lightbulb className="h-4 w-4" strokeWidth={2.2} />
-            ابدأ المحاكاة
+            <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
+            افتح شي إن
           </button>
         </div>
 
-        <div id="khouta-sim-apps" className="flex items-center justify-end gap-2 pt-1">
-          <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">تطبيقات التسوق</h3>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          {MERCHANTS.map((m) => (
-            <SimAppCard key={m.key} m={m} onClick={() => setSimKey(m.key)} />
-          ))}
-        </div>
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
@@ -181,33 +168,6 @@ function AlertRow({ a }: { a: Alert }) {
   );
 }
 
-function SimAppCard({ m, onClick }: { m: MerchantConfig; onClick: () => void }) {
-  const cls =
-    m.logoStyle === "italic" ? "italic" : m.logoStyle === "lower" ? "lowercase" : "";
-  return (
-    <button
-      onClick={onClick}
-      className="rounded-[22px] bg-card border border-border overflow-hidden shadow-sm active:scale-[0.98] transition text-right hover:shadow-md hover:border-primary/30"
-    >
-      <div className={`${m.logoBg} py-8 flex items-center justify-center`}>
-        <span className={`${m.logoText} text-[20px] font-black tracking-tight ${cls}`}>
-          {m.logoLabel}
-        </span>
-      </div>
-      <div className="p-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[9px] font-bold text-muted-foreground bg-secondary px-2 py-0.5 rounded-md">{m.category}</span>
-          <p className="font-extrabold text-foreground text-[13px] tracking-tight">{m.name}</p>
-        </div>
-        <p className="text-[10px] text-muted-foreground mt-1 font-medium text-right">{m.subtitle}</p>
-        <div className="mt-2.5 w-full bg-primary/10 text-primary rounded-xl py-2 text-[11px] font-bold flex items-center justify-center gap-1">
-          محاكاة الشراء
-          <ChevronLeft className="h-3 w-3" strokeWidth={2.5} />
-        </div>
-      </div>
-    </button>
-  );
-}
 
 /* --------------------------- Generic merchant simulator --------------------------- */
 function MerchantSim({
