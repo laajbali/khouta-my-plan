@@ -123,11 +123,13 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       return true;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "حدث خطأ";
-      toast.error(
-        /Invalid login credentials/i.test(msg) ? "البريد أو كلمة المرور غير صحيحة" :
-        /Password should be/i.test(msg) ? "كلمة المرور قصيرة (6 أحرف على الأقل)" :
-        msg
-      );
+      // Suppress password/credential warnings here — password was already
+      // validated at Step 1. Show a neutral message instead of looping.
+      if (/Invalid login credentials|Password should be|password/i.test(msg)) {
+        toast.error("تعذّر إنشاء الحساب — حاولي مرة أخرى");
+      } else {
+        toast.error(msg);
+      }
       return false;
     } finally {
       setLoading(false);
