@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   User,
   Camera,
@@ -13,6 +14,9 @@ import {
   ShieldCheck,
   LogOut,
   ChevronLeft,
+  Settings as SettingsIcon,
+  ShieldAlert,
+  LifeBuoy,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/hooks/use-khouta-data";
@@ -20,15 +24,15 @@ import { useSession } from "@/hooks/use-session";
 import { toast } from "sonner";
 
 
-const SETTINGS = [
-  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700", action: "تغيير لغة التطبيق قريباً" },
+const PREFERENCES = [
   { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-amber-50 text-amber-700", action: "فتح إعدادات التنبيهات" },
-  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-mint/15 text-primary", action: "العملة الحالية: ريال سعودي" },
+  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700", action: "تغيير لغة التطبيق قريباً" },
   { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-destructive/10 text-destructive", action: "فتح إعدادات الأمان" },
+  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-mint/15 text-primary", action: "العملة الحالية: ريال سعودي" },
   { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-amber-50 text-amber-700", action: "تبديل الوضع الليلي قريباً" },
-  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-secondary text-muted-foreground", action: "فتح مركز المساعدة" },
   { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-blue-50 text-blue-700", action: "خُطى — رفيقتك المالية الذكية" },
   { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-primary/10 text-primary", action: "تم نسخ رابط الدعوة" },
+  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-secondary text-muted-foreground", action: "فتح مركز المساعدة" },
 ];
 
 export function ProfileTab({
@@ -41,6 +45,7 @@ export function ProfileTab({
   const profile = useProfile();
   const { user } = useSession();
   const displayName = profile?.full_name?.trim() || user?.email?.split("@")[0] || "دينا";
+  const [view, setView] = useState<"root" | "settings">("root");
 
   async function signOut() {
     toast.success("تم تسجيل الخروج");
@@ -50,6 +55,77 @@ export function ProfileTab({
       await supabase.auth.signOut();
     }
   }
+
+  if (view === "settings") {
+    return (
+      <div className="bg-background pb-4">
+        <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
+          <div className="w-11" />
+          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الإعدادات</h1>
+          <button
+            onClick={() => setView("root")}
+            aria-label="رجوع"
+            className="h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center active:scale-95 transition"
+          >
+            <ChevronLeft className="h-5 w-5 text-foreground rotate-180" strokeWidth={2} />
+          </button>
+        </div>
+
+        <div className="px-5 pt-4">
+          <div className="grid grid-cols-2 gap-3">
+            {PREFERENCES.map((s) => {
+              const Icon = s.icon;
+              const isNotif = s.label === "الإشعارات";
+              return (
+                <button
+                  key={s.label}
+                  onClick={() => {
+                    if (isNotif && onOpenNotifications) onOpenNotifications();
+                    else toast(s.action);
+                  }}
+                  className="rounded-2xl bg-card border border-border p-3 shadow-sm flex items-center gap-2 active:scale-[0.98] transition hover:border-primary/30"
+                  dir="rtl"
+                >
+                  <div className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${s.tint}`}>
+                    <Icon className="h-4 w-4" strokeWidth={2} />
+                  </div>
+                  <div className="flex-1 text-right min-w-0">
+                    <p className="font-extrabold text-foreground text-[12px] tracking-tight truncate">{s.label}</p>
+                    <p className="text-[10px] text-muted-foreground truncate font-medium">{s.value}</p>
+                  </div>
+                  <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const menu = [
+    {
+      icon: SettingsIcon,
+      label: "الإعدادات",
+      desc: "التنبيهات، اللغة، العملة والمزيد",
+      tint: "bg-primary/10 text-primary",
+      onClick: () => setView("settings"),
+    },
+    {
+      icon: ShieldAlert,
+      label: "الخصوصية والأمان",
+      desc: "إدارة كلمة المرور والحماية",
+      tint: "bg-destructive/10 text-destructive",
+      onClick: () => toast("فتح إعدادات الخصوصية والأمان"),
+    },
+    {
+      icon: LifeBuoy,
+      label: "المساعدة",
+      desc: "الأسئلة الشائعة وتواصل معنا",
+      tint: "bg-amber-50 text-amber-700",
+      onClick: () => toast("فتح مركز المساعدة"),
+    },
+  ];
 
   return (
     <div className="bg-background pb-4">
@@ -108,29 +184,27 @@ export function ProfileTab({
           </div>
         </div>
 
-        <h3 className="text-right font-extrabold text-foreground text-[14px] tracking-tight mt-2">الإعدادات والتفضيلات</h3>
-
-        <div className="grid grid-cols-2 gap-3">
-          {SETTINGS.map((s) => {
-            const Icon = s.icon;
-            const isNotif = s.label === "الإشعارات";
+        {/* List-style navigation blocks */}
+        <div className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden">
+          {menu.map((m, idx) => {
+            const Icon = m.icon;
             return (
               <button
-                key={s.label}
-                onClick={() => {
-                  if (isNotif && onOpenNotifications) onOpenNotifications();
-                  else toast(s.action);
-                }}
-                className="rounded-2xl bg-card border border-border p-3 shadow-sm flex items-center gap-2 active:scale-[0.98] transition hover:border-primary/30"
+                key={m.label}
+                onClick={m.onClick}
+                dir="rtl"
+                className={`w-full flex items-center gap-3 px-4 py-3.5 active:bg-secondary/60 transition ${
+                  idx !== menu.length - 1 ? "border-b border-border" : ""
+                }`}
               >
-                <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
+                <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${m.tint}`}>
+                  <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+                </div>
                 <div className="flex-1 text-right min-w-0">
-                  <p className="font-extrabold text-foreground text-[12px] tracking-tight truncate">{s.label}</p>
-                  <p className="text-[10px] text-muted-foreground truncate font-medium">{s.value}</p>
+                  <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{m.label}</p>
+                  <p className="text-[10.5px] text-muted-foreground truncate font-medium mt-0.5">{m.desc}</p>
                 </div>
-                <div className={`h-9 w-9 rounded-xl flex items-center justify-center shrink-0 ${s.tint}`}>
-                  <Icon className="h-4 w-4" strokeWidth={2} />
-                </div>
+                <ChevronLeft className="h-4 w-4 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
               </button>
             );
           })}
