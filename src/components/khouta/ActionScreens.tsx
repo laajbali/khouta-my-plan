@@ -568,34 +568,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-white/70 text-right">أنجزتِ {percent}% من الهدف</p>
-        </div>
-
-        <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="text-sm font-bold text-foreground text-right">إيداع سريع</p>
-          <div className="flex gap-2">
-            {[100, 250, 500, 1000].map((v) => (
-              <button
-                key={v}
-                onClick={() => setAmount(String(v))}
-                className="flex-1 py-2 rounded-xl bg-secondary text-xs font-bold text-foreground hover:bg-primary/10 transition"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                {v}
-              </button>
-            ))}
-          </div>
-          <input
-            className={inputCls}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ""))}
-            inputMode="decimal"
-            placeholder="أدخلي المبلغ"
-            style={{ fontVariantNumeric: "tabular-nums" }}
-          />
-          <PrimaryButton onClick={deposit} disabled={saving}>
-            {saving ? "جارٍ الحفظ..." : "إيداع في الهدف"}
-          </PrimaryButton>
+          <p className="mt-2 text-xs text-white/70 text-right">أنجزت {percent}% من الهدف</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
@@ -603,7 +576,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
           <div className="flex items-start gap-3 text-right">
             <Check className="h-4 w-4 text-mint mt-0.5 shrink-0" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              لو ادّخرتِ 1,000 ر.س شهرياً ستصلين للهدف خلال{" "}
+              لو ادّخرت 1,000 ر.س شهرياً ستصل للهدف خلال{" "}
               {Math.max(1, Math.ceil((Number(goal.target_amount) - Number(goal.saved_amount)) / 1000))}{" "}
               شهراً تقريباً.
             </p>
