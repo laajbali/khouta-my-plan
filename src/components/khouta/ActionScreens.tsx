@@ -1435,12 +1435,12 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
               إضافة صديق آخر
             </button>
             <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">
-              أنتِ وريما في تحدي واحد 💚
+              {firstName} وريما في تحدٍّ واحد 💚
             </h3>
           </div>
 
-          <ProgressBar name="أنتِ (سارة)" percent={68} tone="primary" />
-          <ProgressBar name="الصديقة (ريما)" percent={45} tone="amber" />
+          <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
+          <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
         </div>
 
         {/* Motivational reminder */}
