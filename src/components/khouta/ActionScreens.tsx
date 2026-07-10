@@ -1396,12 +1396,13 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
 
 type ChatMsg = { from: "me" | "her" | "system"; text: string; emoji?: string };
 
-export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
+export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
+  const firstName = (userName || "").trim().split(" ")[0] || "أنت";
   const [showAdd, setShowAdd] = useState(false);
   const [newFriend, setNewFriend] = useState("");
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<ChatMsg[]>([
-    { from: "me", text: "أنا وفرت اليوم 240 ريال من شي إن، وين وصلتِ؟", emoji: "📉" },
+    { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "📉" },
     { from: "her", text: "كفو! أنا باقي لي 10% وأقفل ميزانية هذا الأسبوع!", emoji: "💪" },
   ]);
 
