@@ -13,8 +13,11 @@ import {
   TrendingUp,
   Target,
   Users,
+  Heart,
 } from "lucide-react";
 import { useProfile, useGoals, type Goal } from "@/hooks/use-khouta-data";
+import ihsanLogo from "@/assets/ihsan-logo.asset.json";
+
 
 export function HomeTab({
   onOpenNoor,
