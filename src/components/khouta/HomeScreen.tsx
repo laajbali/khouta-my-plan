@@ -70,6 +70,8 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
     );
   if (sub === "new-goal") return <NewGoalScreen onBack={close} />;
   if (sub === "calendar") return <CalendarScreen onBack={close} />;
+  if (sub === "radar") return <RadarScreen onBack={close} />;
+  if (sub === "group") return <GroupChallengeScreen onBack={close} />;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden relative">
