@@ -443,6 +443,10 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
   const goal: Goal | undefined = goals[0];
   const [amount, setAmount] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState("");
+  const [editTarget, setEditTarget] = useState("");
+  const [savingEdit, setSavingEdit] = useState(false);
 
   if (loading) {
     return (
@@ -475,6 +479,31 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     Math.round((Number(goal.saved_amount) / Number(goal.target_amount)) * 100),
   );
   const Icon = iconFor(goal.icon);
+
+  function startEdit() {
+    if (!goal) return;
+    setEditTitle(goal.title);
+    setEditTarget(String(goal.target_amount));
+    setEditing(true);
+  }
+
+  async function saveEdit() {
+    if (!goal) return;
+    const nextTitle = editTitle.trim();
+    const nextTarget = Number(editTarget);
+    if (!nextTitle) return toast.error("اكتبي اسم الهدف");
+    if (!nextTarget || nextTarget <= 0) return toast.error("أدخلي مبلغاً صحيحاً");
+    setSavingEdit(true);
+    const { error } = await supabase
+      .from("savings_goals")
+      .update({ title: nextTitle, target_amount: nextTarget })
+      .eq("id", goal.id);
+    setSavingEdit(false);
+    if (error) return toast.error(error.message);
+    toast.success("تم تحديث الهدف");
+    setEditing(false);
+    refresh();
+  }
 
   async function deposit() {
     const n = Number(amount);
@@ -514,15 +543,43 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             <div className="h-12 w-12 rounded-2xl bg-white/10 flex items-center justify-center">
               <Icon className="h-6 w-6" />
             </div>
-            <div>
+            <div className="flex-1 min-w-0">
               <p className="text-white/70 text-xs">هدفك</p>
-              <h3 className="font-bold text-lg">{goal.title}</h3>
+              {editing ? (
+                <input
+                  value={editTitle}
+                  onChange={(e) => setEditTitle(e.target.value)}
+                  className="w-full bg-white/10 border border-white/20 rounded-xl px-3 py-1.5 mt-1 text-white text-[14px] font-bold outline-none"
+                  placeholder="اسم الهدف"
+                />
+              ) : (
+                <h3 className="font-bold text-lg truncate">{goal.title}</h3>
+              )}
             </div>
+            <button
+              onClick={editing ? saveEdit : startEdit}
+              disabled={savingEdit}
+              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-black active:scale-95 transition disabled:opacity-60"
+            >
+              {editing ? (savingEdit ? "..." : "حفظ") : "تعديل"}
+            </button>
           </div>
           <div className="flex justify-between items-end mb-2" style={{ fontVariantNumeric: "tabular-nums" }}>
-            <span className="text-xs text-white/60">
-              من {Number(goal.target_amount).toLocaleString()} ر.س
-            </span>
+            {editing ? (
+              <div className="flex items-center gap-1 bg-white/10 border border-white/20 rounded-xl px-2 py-1">
+                <input
+                  value={editTarget}
+                  onChange={(e) => setEditTarget(e.target.value.replace(/[^\d]/g, ""))}
+                  inputMode="numeric"
+                  className="w-24 bg-transparent text-white text-[13px] font-bold outline-none text-right"
+                />
+                <span className="text-[11px] text-white/70">ر.س</span>
+              </div>
+            ) : (
+              <span className="text-xs text-white/60">
+                من {Number(goal.target_amount).toLocaleString()} ر.س
+              </span>
+            )}
             <span className="text-2xl font-bold">
               {Number(goal.saved_amount).toLocaleString()}{" "}
               <span className="text-sm text-white/70">ر.س</span>
