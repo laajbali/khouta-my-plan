@@ -198,7 +198,7 @@ export function ProfileTab({
                 }`}
               >
                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${m.tint}`}>
-                  <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+                  <Icon className="h-5 w-5" strokeWidth={2} />
                 </div>
                 <div className="flex-1 text-right min-w-0">
                   <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{m.label}</p>
