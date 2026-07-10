@@ -130,6 +130,39 @@ export function NotificationsTab({
           </button>
         </div>
 
+        {/* Donation / خُطى Radar (yellow card — moved from Home) */}
+        <div
+          className="rounded-[24px] p-4 shadow-sm border relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.97 0.06 85) 0%, oklch(0.99 0.02 85) 100%)",
+            borderColor: "oklch(0.85 0.10 85 / 0.5)",
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <img
+              src={ihsanLogo.url}
+              alt="إحسان"
+              className="h-12 w-12 rounded-2xl object-contain bg-white/60 p-1 shrink-0"
+            />
+            <div className="flex-1 text-right min-w-0">
+              <p className="text-[14px] font-black text-foreground tracking-tight leading-snug">
+                العطاء لا يوقف رحلتك نحو هدفك..
+              </p>
+              <p className="text-[11.5px] text-foreground/70 font-medium mt-1 leading-relaxed">
+                فربما يكون سبباً في بركة ما تملك.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onOpenDonate}
+            className="mt-4 w-full rounded-2xl text-white font-extrabold py-3 text-[13px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            style={{ background: "oklch(0.24 0.05 155)" }}
+          >
+            <Heart className="h-4 w-4" strokeWidth={2.2} />
+            تبرع بجزء
+          </button>
+        </div>
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
