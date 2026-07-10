@@ -29,6 +29,7 @@ export function HomeTab({
   onOpenRewards,
   onOpenProfile,
   onOpenGroup,
+  onOpenDonate,
 }: {
   onOpenNoor: () => void;
   onOpenBank: () => void;
@@ -46,6 +47,7 @@ export function HomeTab({
   onOpenProfile: () => void;
   onOpenRadar: () => void;
   onOpenGroup: () => void;
+  onOpenDonate: () => void;
 }) {
   const profile = useProfile();
   const { goals } = useGoals();
