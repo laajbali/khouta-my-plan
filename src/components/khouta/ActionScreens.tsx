@@ -442,8 +442,6 @@ function iconFor(key: string | null) {
 export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
   const { goals, loading, refresh } = useGoals();
   const goal: Goal | undefined = goals[0];
-  const [amount, setAmount] = useState("");
-  const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editTarget, setEditTarget] = useState("");
