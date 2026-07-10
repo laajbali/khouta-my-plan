@@ -18,6 +18,8 @@ import {
   GoalsListScreen,
   NewGoalScreen,
   CalendarScreen,
+  RadarScreen,
+  GroupChallengeScreen,
 } from "./ActionScreens";
 import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 
@@ -33,7 +35,9 @@ type SubScreen =
   | "goal"
   | "goals-list"
   | "new-goal"
-  | "calendar";
+  | "calendar"
+  | "radar"
+  | "group";
 
 export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
