@@ -98,14 +98,14 @@ export function InterceptModal({
 
           <div className="p-5">
             <p className="text-[13px] text-foreground leading-relaxed text-right">
-              أنتِ الآن على وشك شراء منتجات بقيمة{" "}
+              أنت الآن على وشك شراء منتجات بقيمة{" "}
               <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
               </span>{" "}
               من <span className="font-bold">{merchant}</span>.
             </p>
             <p className="text-[12.5px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
-              إذا أكملتِ هذه العملية، ستتأخرين عن هدفك المالي لمدة:
+              إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
             {/* Delay badge */}
