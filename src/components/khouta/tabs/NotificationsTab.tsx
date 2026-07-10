@@ -133,39 +133,54 @@ export function NotificationsTab({
           </button>
         </div>
 
-        {/* Donation / خُطى Radar (yellow card — moved from Home) */}
+        {/* رادار خُطى الذكي — full card */}
         <div
-          className="rounded-[24px] p-4 shadow-sm border relative overflow-hidden"
+          className="rounded-[26px] p-5 border shadow-sm relative overflow-hidden"
           style={{
             background:
-              "linear-gradient(140deg, oklch(0.97 0.06 85) 0%, oklch(0.99 0.02 85) 100%)",
-            borderColor: "oklch(0.85 0.10 85 / 0.5)",
+              "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.96 0.04 155) 100%)",
+            borderColor: "oklch(0.82 0.08 155 / 0.4)",
           }}
         >
-          <div className="flex items-start gap-3">
-            <img
-              src={ihsanLogo.url}
-              alt="إحسان"
-              className="h-12 w-12 rounded-2xl object-contain bg-white/60 p-1 shrink-0"
-            />
-            <div className="flex-1 text-right min-w-0">
-              <p className="text-[14px] font-black text-foreground tracking-tight leading-snug">
-                العطاء لا يوقف رحلتك نحو هدفك..
-              </p>
-              <p className="text-[11.5px] text-foreground/70 font-medium mt-1 leading-relaxed">
-                فربما يكون سبباً في بركة ما تملك.
-              </p>
+          <div className="absolute -top-14 -left-14 w-48 h-48 rounded-full blur-3xl bg-mint/20" />
+          <div className="relative flex items-center justify-between mb-3">
+            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-1 rounded-lg bg-primary text-primary-foreground">
+              خُطى
+            </span>
+            <div className="h-11 w-11 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center">
+              <Radar className="h-5 w-5 text-primary" strokeWidth={1.8} />
+            </div>
+          </div>
+          <h3 className="relative font-extrabold text-[17px] text-right text-foreground tracking-tight">
+            رادار خُطى الذكي
+          </h3>
+          <p className="relative text-[12px] mt-2 text-right text-muted-foreground font-medium leading-relaxed">
+            يرصد الرادار عمليات الشراء المفاجئة ويقترح بدائل ذكية قبل أن تخصم من هدفك.
+          </p>
+          <div className="relative mt-4 grid grid-cols-3 gap-2">
+            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
+              <Zap className="h-3.5 w-3.5 text-primary mx-auto" strokeWidth={2.5} />
+              <p className="text-[9.5px] font-bold text-foreground mt-1">اعتراض فوري</p>
+            </div>
+            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
+              <ShieldCheck className="h-3.5 w-3.5 text-mint mx-auto" strokeWidth={2.5} />
+              <p className="text-[9.5px] font-bold text-foreground mt-1">حماية الهدف</p>
+            </div>
+            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
+              <Sparkles className="h-3.5 w-3.5 text-amber-600 mx-auto" strokeWidth={2.5} />
+              <p className="text-[9.5px] font-bold text-foreground mt-1">اقتراحات ذكية</p>
             </div>
           </div>
           <button
-            onClick={onOpenDonate}
-            className="mt-4 w-full rounded-2xl text-white font-extrabold py-3 text-[13px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            onClick={onOpenRadar}
+            className="relative mt-4 w-full rounded-2xl text-primary-foreground font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
             style={{ background: "oklch(0.24 0.05 155)" }}
           >
-            <Heart className="h-4 w-4" strokeWidth={2.2} />
-            تبرع بجزء
+            <Radar className="h-4 w-4" strokeWidth={2.2} />
+            افتح الرادار
           </button>
         </div>
+
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
