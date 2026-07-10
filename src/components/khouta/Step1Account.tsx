@@ -169,6 +169,11 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
             className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
           />
         </Field>
+        {data.password.length > 0 && data.password.length < 6 && (
+          <p className="text-right text-[11px] font-semibold text-destructive -mt-2">
+            كلمة المرور قصيرة — يجب أن تتكون من 6 أحرف على الأقل
+          </p>
+        )}
 
         <div className="pt-1">
           <p className="text-right text-[12px] font-bold text-foreground mb-2 tracking-tight">من أنت؟</p>
