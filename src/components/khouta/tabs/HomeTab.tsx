@@ -1,6 +1,8 @@
+import { useMemo, useState } from "react";
 import {
   Bell,
   ChevronLeft,
+  ChevronRight,
   Sparkles,
   Calendar,
   BarChart3,
@@ -10,10 +12,9 @@ import {
   TrendingDown,
   TrendingUp,
   Target,
-  Radar,
   Users,
 } from "lucide-react";
-import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { useProfile, useGoals, type Goal } from "@/hooks/use-khouta-data";
 
 export function HomeTab({
   onOpenNoor,
@@ -24,7 +25,6 @@ export function HomeTab({
   onOpenReports,
   onOpenRewards,
   onOpenProfile,
-  onOpenRadar,
   onOpenGroup,
 }: {
   onOpenNoor: () => void;
@@ -47,27 +47,24 @@ export function HomeTab({
   const profile = useProfile();
   const { goals } = useGoals();
   const displayName = profile?.full_name?.trim() || "";
-  const firstName = displayName.split(" ")[0] || "بكِ";
+  const firstName = displayName.split(" ")[0] || "بك";
   const initial = (firstName || "خ").charAt(0);
-  const topGoal = goals[0];
 
-  const goalTitle = topGoal?.title ?? "هدفك الأول";
-  const target = Number(topGoal?.target_amount ?? 25000);
-  const saved = Number(topGoal?.saved_amount ?? 0);
-  const remaining = Math.max(0, target - saved);
-  const percent = target > 0 ? Math.min(100, Math.round((saved / target) * 100)) : 0;
+  const [goalIdx, setGoalIdx] = useState(0);
+  const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
+  const current: Goal | undefined = goals[safeIdx];
 
-  // Pick an icon from the goal title keywords
-  const titleLower = goalTitle;
-  const GoalIcon =
-    /سيارة|car/i.test(titleLower) ? Car :
-    /لاب|حاسوب|laptop/i.test(titleLower) ? BarChart3 :
-    /سفر|رحلة|travel/i.test(titleLower) ? Gift :
-    Target;
+  // Dynamic today summary based on real profile budget only
+  const monthlyIncome = Number(profile?.monthly_income ?? 0);
+  const dailyLimit = monthlyIncome > 0 ? Math.round(monthlyIncome / 30) : 0;
+  const spentToday = 0; // no expense-tracking data source yet
+  const remainingToday = Math.max(0, dailyLimit - spentToday);
+  const budgetPct =
+    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 0;
 
   return (
     <div className="bg-background pb-4">
-      {/* Header — profile on right (visual), bell on left */}
+      {/* Header */}
       <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card" dir="rtl">
         <button
           onClick={onOpenProfile}
@@ -100,110 +97,31 @@ export function HomeTab({
       </div>
 
       <div className="px-4 pt-4 space-y-4 bg-background">
-        {/* Premium Goal Card — wider, shorter */}
-        <div
-          className="relative rounded-[26px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)]"
-          style={{
-            background:
-              "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.22 0.05 155) 55%, oklch(0.14 0.04 155) 100%)",
-          }}
-        >
-          <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
-          <div className="absolute -bottom-20 -left-10 w-48 h-48 rounded-full blur-3xl" style={{ background: "oklch(0.85 0.14 85 / 0.20)" }} />
-
-          <div className="relative px-4 py-4">
-            <div className="flex items-center justify-between mb-3">
-              <p className="text-[9.5px] font-bold text-white/60 tracking-[0.15em] uppercase">
-                موعد الإنجاز • ديسمبر 2026
-              </p>
-              <span className="inline-flex items-center gap-1 text-[9.5px] font-black px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
-                <Target className="h-3 w-3" strokeWidth={2.5} />
-                هدفك الحالي
-              </span>
+        {/* Goals carousel */}
+        {current ? (
+          <GoalCarouselCard
+            goal={current}
+            index={safeIdx}
+            total={goals.length}
+            onPrev={() => setGoalIdx((i) => (i - 1 + goals.length) % goals.length)}
+            onNext={() => setGoalIdx((i) => (i + 1) % goals.length)}
+            onSelect={setGoalIdx}
+            onOpenGoal={onOpenGoal}
+          />
+        ) : (
+          <button
+            onClick={onOpenNewGoal}
+            className="w-full rounded-[26px] p-6 text-center border-2 border-dashed border-border bg-card hover:border-primary/40 transition"
+          >
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
+              <Target className="h-6 w-6" strokeWidth={1.8} />
             </div>
-
-            <button onClick={onOpenGoal} className="w-full flex items-center justify-between text-right">
-              <div className="h-12 w-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
-                <GoalIcon className="h-6 w-6 text-white" strokeWidth={1.8} />
-              </div>
-              <div className="flex-1 text-right pr-3 min-w-0">
-                <h3 className="text-[19px] font-black tracking-tight leading-tight truncate">
-                  {goalTitle}
-                </h3>
-                <p className="text-[10.5px] text-white/60 font-semibold mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  {percent}% مكتمل
-                </p>
-              </div>
-            </button>
-
-            {/* Segmented progress dots */}
-            <div className="mt-3 flex items-center gap-1" dir="ltr">
-              {Array.from({ length: 14 }).map((_, i) => {
-                const active = i < Math.round((percent / 100) * 14);
-                return (
-                  <span
-                    key={i}
-                    className="flex-1 h-1 rounded-full"
-                    style={{
-                      background: active ? "var(--mint)" : "oklch(1 0 0 / 0.15)",
-                    }}
-                  />
-                );
-              })}
-            </div>
-
-            {/* Amounts + CTA on one row */}
-            <div className="mt-3 flex items-center gap-2">
-              <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-                <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
-                <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  {remaining.toLocaleString()}
-                  <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
-                </p>
-              </div>
-              <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-                <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">الهدف</p>
-                <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
-                  {target.toLocaleString()}
-                  <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
-                </p>
-              </div>
-              <button
-                onClick={onOpenGoal}
-                aria-label="عرض التفاصيل"
-                className="h-[52px] w-[52px] rounded-xl bg-mint text-primary flex items-center justify-center shadow-md active:scale-95 transition"
-              >
-                <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Radar Banner — golden yellow */}
-        <button
-          onClick={onOpenRadar}
-          className="w-full rounded-[22px] p-3.5 flex items-center gap-3 text-right shadow-sm border active:scale-[0.99] transition"
-          style={{
-            background:
-              "linear-gradient(140deg, oklch(0.94 0.11 90) 0%, oklch(0.88 0.14 82) 100%)",
-            borderColor: "oklch(0.80 0.12 82 / 0.6)",
-          }}
-        >
-          <span className="rounded-2xl bg-primary text-primary-foreground text-[11.5px] font-black px-4 py-2 shadow-md shrink-0">
-            افتح
-          </span>
-          <div className="flex-1 text-right min-w-0">
-            <p className="text-[13.5px] font-black text-amber-950 tracking-tight leading-tight">
-              رادار خُطى الذكي 🧠
+            <p className="text-[14px] font-extrabold text-foreground">أنشئ هدفك الأول</p>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
+              ابدأ رحلة الادخار الآن
             </p>
-            <p className="text-[10.5px] text-amber-900/80 font-semibold mt-0.5 leading-tight">
-              تنبؤ وتحليل السلوك الاندفاعي قبل حدوثه
-            </p>
-          </div>
-          <div className="h-10 w-10 rounded-2xl bg-white/50 flex items-center justify-center text-amber-800 shrink-0">
-            <Radar className="h-5 w-5" strokeWidth={2} />
-          </div>
-        </button>
+          </button>
+        )}
 
         {/* Group Challenge card */}
         <button
@@ -224,7 +142,7 @@ export function HomeTab({
               </span>
             </div>
             <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
-              تحدّي صديقاتك وادّخرن سوياً — أنتِ 68% • ريما 45%
+              تحدَّ أصدقاءك وادّخروا سوياً — أنت 68% • ريما 45%
             </p>
           </div>
           <ChevronLeft className="h-4 w-4 text-muted-foreground shrink-0" strokeWidth={2.5} />
@@ -242,7 +160,7 @@ export function HomeTab({
           <FeatureCard
             icon={<Sparkles className="h-5 w-5" strokeWidth={2} />}
             title="المستشار المالي"
-            desc="اسألي أي شيء"
+            desc="اسأل أي شيء"
             tint="bg-primary/10 text-primary"
             badge="AI"
             onClick={onOpenNoor}
@@ -263,7 +181,7 @@ export function HomeTab({
           />
         </div>
 
-        {/* Today's Financial Summary */}
+        {/* Today's Financial Summary — dynamic */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
@@ -273,31 +191,36 @@ export function HomeTab({
           </div>
           <div className="grid grid-cols-3 gap-2">
             <SummaryStat
-              value="10"
+              value={remainingToday.toLocaleString()}
               label="متبقٍ اليوم"
               suffix="ر.س"
               tone="text-mint"
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
             />
             <SummaryStat
-              value="35"
+              value={spentToday.toLocaleString()}
               label="أُنفق اليوم"
               suffix="ر.س"
               tone="text-destructive"
               icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
             />
             <SummaryStat
-              value="45"
+              value={dailyLimit.toLocaleString()}
               label="الحد اليومي"
               suffix="ر.س"
               tone="text-foreground"
             />
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
-            <div className="h-full rounded-full bg-gradient-to-l from-mint to-primary" style={{ width: "78%" }} />
+            <div
+              className="h-full rounded-full bg-gradient-to-l from-mint to-primary transition-all"
+              style={{ width: `${budgetPct}%` }}
+            />
           </div>
           <p className="mt-2 text-[10.5px] text-muted-foreground text-right font-medium">
-            أنتِ ضمن ميزانية اليوم • 78%
+            {dailyLimit === 0
+              ? "أضف دخلك الشهري لحساب حدك اليومي"
+              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
           </p>
         </div>
 
@@ -308,6 +231,143 @@ export function HomeTab({
         >
           <Plus className="h-4 w-4" /> إضافة هدف جديد
         </button>
+      </div>
+    </div>
+  );
+}
+
+function GoalCarouselCard({
+  goal,
+  index,
+  total,
+  onPrev,
+  onNext,
+  onSelect,
+  onOpenGoal,
+}: {
+  goal: Goal;
+  index: number;
+  total: number;
+  onPrev: () => void;
+  onNext: () => void;
+  onSelect: (i: number) => void;
+  onOpenGoal: () => void;
+}) {
+  const title = goal.title;
+  const target = Number(goal.target_amount);
+  const saved = Number(goal.saved_amount);
+  const remaining = Math.max(0, target - saved);
+  const percent = target > 0 ? Math.min(100, Math.round((saved / target) * 100)) : 0;
+
+  const GoalIcon = useMemo(() => {
+    if (/سيارة|car/i.test(title)) return Car;
+    if (/لاب|حاسوب|laptop/i.test(title)) return BarChart3;
+    if (/سفر|رحلة|travel/i.test(title)) return Gift;
+    return Target;
+  }, [title]);
+
+  return (
+    <div
+      className="relative rounded-[26px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)]"
+      style={{
+        background:
+          "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.22 0.05 155) 55%, oklch(0.14 0.04 155) 100%)",
+      }}
+    >
+      <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
+      <div className="absolute -bottom-20 -left-10 w-48 h-48 rounded-full blur-3xl" style={{ background: "oklch(0.85 0.14 85 / 0.20)" }} />
+
+      <div className="relative px-4 py-4">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-[9.5px] font-bold text-white/60 tracking-[0.15em] uppercase">
+            هدف {index + 1} من {total}
+          </p>
+          <span className="inline-flex items-center gap-1 text-[9.5px] font-black px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
+            <Target className="h-3 w-3" strokeWidth={2.5} />
+            هدفك
+          </span>
+        </div>
+
+        <button onClick={onOpenGoal} className="w-full flex items-center justify-between text-right">
+          <div className="h-12 w-12 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shrink-0">
+            <GoalIcon className="h-6 w-6 text-white" strokeWidth={1.8} />
+          </div>
+          <div className="flex-1 text-right pr-3 min-w-0">
+            <h3 className="text-[19px] font-black tracking-tight leading-tight truncate">{title}</h3>
+            <p className="text-[10.5px] text-white/60 font-semibold mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
+              {percent}% مكتمل
+            </p>
+          </div>
+        </button>
+
+        <div className="mt-3 flex items-center gap-1" dir="ltr">
+          {Array.from({ length: 14 }).map((_, i) => {
+            const active = i < Math.round((percent / 100) * 14);
+            return (
+              <span
+                key={i}
+                className="flex-1 h-1 rounded-full"
+                style={{ background: active ? "var(--mint)" : "oklch(1 0 0 / 0.15)" }}
+              />
+            );
+          })}
+        </div>
+
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
+            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
+            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+              {remaining.toLocaleString()}
+              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+            </p>
+          </div>
+          <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
+            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">الهدف</p>
+            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+              {target.toLocaleString()}
+              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+            </p>
+          </div>
+          <button
+            onClick={onOpenGoal}
+            aria-label="عرض التفاصيل"
+            className="h-[52px] w-[52px] rounded-xl bg-mint text-primary flex items-center justify-center shadow-md active:scale-95 transition"
+          >
+            <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
+          </button>
+        </div>
+
+        {/* Carousel controls */}
+        {total > 1 && (
+          <div className="mt-4 flex items-center justify-between">
+            <button
+              onClick={onPrev}
+              aria-label="الهدف السابق"
+              className="h-8 w-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center active:scale-95 transition"
+            >
+              <ChevronRight className="h-4 w-4 text-white" strokeWidth={2.5} />
+            </button>
+            <div className="flex items-center gap-1.5">
+              {Array.from({ length: total }).map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => onSelect(i)}
+                  aria-label={`الهدف ${i + 1}`}
+                  className={`rounded-full transition-all ${
+                    i === index ? "w-5 h-1.5 bg-mint" : "w-1.5 h-1.5 bg-white/30"
+                  }`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={onNext}
+              aria-label="الهدف التالي"
+              className="h-8 w-8 rounded-full bg-white/10 border border-white/15 flex items-center justify-center active:scale-95 transition"
+            >
+              <ChevronLeft className="h-4 w-4 text-white" strokeWidth={2.5} />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

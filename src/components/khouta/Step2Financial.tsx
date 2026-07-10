@@ -98,7 +98,7 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
               <input
                 value={data.incomeSourceCustom}
                 onChange={(e) => update({ incomeSourceCustom: e.target.value })}
-                placeholder="اكتبي مصدر الدخل"
+                placeholder="اكتب مصدر الدخل"
                 className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
               />
             </div>

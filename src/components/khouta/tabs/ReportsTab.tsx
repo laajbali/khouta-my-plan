@@ -113,7 +113,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
           </div>
           <div className="flex-1 text-right">
             <h3 className="font-extrabold text-foreground text-[14px] tracking-tight">
-              أحسنتِ {displayName ? `يا ${displayName}` : ""}
+              أحسنت {displayName ? `يا ${displayName}` : ""}
             </h3>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               نسبة ادخارك خلال {range}{" "}

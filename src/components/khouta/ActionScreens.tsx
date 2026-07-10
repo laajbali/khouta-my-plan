@@ -212,7 +212,7 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="سداد الفواتير" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        <p className="text-xs text-muted-foreground text-right">اختاري نوع الفاتورة</p>
+        <p className="text-xs text-muted-foreground text-right">اختر نوع الفاتورة</p>
         <div className="grid grid-cols-2 gap-3">
           {BILLS.map((b) => {
             const Icon = b.icon;
@@ -442,8 +442,6 @@ function iconFor(key: string | null) {
 export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
   const { goals, loading, refresh } = useGoals();
   const goal: Goal | undefined = goals[0];
-  const [amount, setAmount] = useState("");
-  const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState("");
   const [editTarget, setEditTarget] = useState("");
@@ -469,7 +467,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             <Target className="h-7 w-7 text-primary" />
           </div>
           <p className="text-sm font-bold text-foreground">لا يوجد هدف حالياً</p>
-          <p className="text-xs text-muted-foreground">ابدئي بإنشاء هدف جديد من الشاشة الرئيسية</p>
+          <p className="text-xs text-muted-foreground">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
         </div>
       </div>
     );
@@ -492,8 +490,8 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     if (!goal) return;
     const nextTitle = editTitle.trim();
     const nextTarget = Number(editTarget);
-    if (!nextTitle) return toast.error("اكتبي اسم الهدف");
-    if (!nextTarget || nextTarget <= 0) return toast.error("أدخلي مبلغاً صحيحاً");
+    if (!nextTitle) return toast.error("اكتب اسم الهدف");
+    if (!nextTarget || nextTarget <= 0) return toast.error("أدخل مبلغاً صحيحاً");
     setSavingEdit(true);
     const { error } = await supabase
       .from("savings_goals")
@@ -506,28 +504,6 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
     refresh();
   }
 
-  async function deposit() {
-    const n = Number(amount);
-    if (!n || n <= 0) {
-      toast.error("أدخلي مبلغاً صحيحاً");
-      return;
-    }
-    if (!goal) return;
-    setSaving(true);
-    const newAmount = Math.min(Number(goal.target_amount), Number(goal.saved_amount) + n);
-    const { error } = await supabase
-      .from("savings_goals")
-      .update({ saved_amount: newAmount })
-      .eq("id", goal.id);
-    setSaving(false);
-    if (error) {
-      toast.error(error.message);
-      return;
-    }
-    setAmount("");
-    toast.success(`تم إيداع ${n} ر.س في ${goal.title}`);
-    refresh();
-  }
 
   return (
     <div className="flex flex-col h-full bg-background">
@@ -592,34 +568,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-white/70 text-right">أنجزتِ {percent}% من الهدف</p>
-        </div>
-
-        <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="text-sm font-bold text-foreground text-right">إيداع سريع</p>
-          <div className="flex gap-2">
-            {[100, 250, 500, 1000].map((v) => (
-              <button
-                key={v}
-                onClick={() => setAmount(String(v))}
-                className="flex-1 py-2 rounded-xl bg-secondary text-xs font-bold text-foreground hover:bg-primary/10 transition"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                {v}
-              </button>
-            ))}
-          </div>
-          <input
-            className={inputCls}
-            value={amount}
-            onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ""))}
-            inputMode="decimal"
-            placeholder="أدخلي المبلغ"
-            style={{ fontVariantNumeric: "tabular-nums" }}
-          />
-          <PrimaryButton onClick={deposit} disabled={saving}>
-            {saving ? "جارٍ الحفظ..." : "إيداع في الهدف"}
-          </PrimaryButton>
+          <p className="mt-2 text-xs text-white/70 text-right">أنجزت {percent}% من الهدف</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
@@ -627,7 +576,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
           <div className="flex items-start gap-3 text-right">
             <Check className="h-4 w-4 text-mint mt-0.5 shrink-0" />
             <p className="text-xs text-muted-foreground leading-relaxed">
-              لو ادّخرتِ 1,000 ر.س شهرياً ستصلين للهدف خلال{" "}
+              لو ادّخرت 1,000 ر.س شهرياً ستصل للهدف خلال{" "}
               {Math.max(1, Math.ceil((Number(goal.target_amount) - Number(goal.saved_amount)) / 1000))}{" "}
               شهراً تقريباً.
             </p>
@@ -660,7 +609,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   async function save(e: React.FormEvent) {
     e.preventDefault();
     if (!user) {
-      toast.error("سجّلي الدخول أولاً");
+      toast.error("سجّل الدخول أولاً");
       return;
     }
     if (!typeKey || !amount) {
@@ -1018,7 +967,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               </p>
 
               <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-semibold">
-                اختاري خطة الادخار المناسبة
+                اختر خطة الادخار المناسبة
               </p>
               <div className="grid grid-cols-3 gap-2">
                 <MiniStat plan="daily" label="ادخار يومي" value="12" suffix="ر.س" />
@@ -1255,7 +1204,7 @@ export function GoalsListScreen({
               <Target className="h-6 w-6 text-primary" />
             </div>
             <p className="text-sm font-bold text-foreground">لا توجد أهداف بعد</p>
-            <p className="text-xs text-muted-foreground">ابدئي بإضافة هدفك الأول من الأسفل</p>
+            <p className="text-xs text-muted-foreground">ابدأ بإضافة هدفك الأول من الأسفل</p>
           </div>
         )}
 
@@ -1371,7 +1320,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
             متبقي{" "}
             <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>ساعتان</span>{" "}
-            على وقت الإغراء المعتاد. قاومي فتح تطبيقات التسوق الليلة واكسبي{" "}
+            على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب{" "}
             <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>50 نقطة</span>{" "}
             فورية لهدف السيارة، وكود توفير حصري من نون!
           </p>
@@ -1396,12 +1345,13 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
 
 type ChatMsg = { from: "me" | "her" | "system"; text: string; emoji?: string };
 
-export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
+export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
+  const firstName = (userName || "").trim().split(" ")[0] || "أنت";
   const [showAdd, setShowAdd] = useState(false);
   const [newFriend, setNewFriend] = useState("");
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<ChatMsg[]>([
-    { from: "me", text: "أنا وفرت اليوم 240 ريال من شي إن، وين وصلتِ؟", emoji: "📉" },
+    { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "📉" },
     { from: "her", text: "كفو! أنا باقي لي 10% وأقفل ميزانية هذا الأسبوع!", emoji: "💪" },
   ]);
 
@@ -1434,19 +1384,19 @@ export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
               إضافة صديق آخر
             </button>
             <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">
-              أنتِ وريما في تحدي واحد 💚
+              {firstName} وريما في تحدٍّ واحد 💚
             </h3>
           </div>
 
-          <ProgressBar name="أنتِ (سارة)" percent={68} tone="primary" />
-          <ProgressBar name="الصديقة (ريما)" percent={45} tone="amber" />
+          <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
+          <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
         </div>
 
         {/* Motivational reminder */}
         <div className="px-5 pt-4">
           <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
             <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
-              ريما قريبة منكِ! باقي لها تكة وتوصل لهدفها، وش رأيك تحمسينها الحين؟ 🚀
+              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟ 🚀
             </p>
           </div>
         </div>
@@ -1481,7 +1431,7 @@ export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
 
           {/* Quick tap bubbles */}
           <div className="flex flex-wrap gap-2 justify-end pt-1">
-            {["يلا نكمّل! 💪", "توفيري اليوم مبسوطة فيه 💚", "قربتِ من هدفكِ 🚀"].map((t) => (
+            {["يلا نكمّل! 💪", "توفيري اليوم مبسوط فيه 💚", "قربت من هدفك 🚀"].map((t) => (
               <button
                 key={t}
                 onClick={() => send(t)}
@@ -1509,7 +1459,7 @@ export function GroupChallengeScreen({ onBack }: { onBack: () => void }) {
           onKeyDown={(e) => {
             if (e.key === "Enter") send();
           }}
-          placeholder="اكتبي رسالة تحفيزية..."
+          placeholder="اكتب رسالة تحفيزية..."
           className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[12.5px] font-medium text-right"
         />
       </div>

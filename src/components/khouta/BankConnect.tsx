@@ -66,7 +66,7 @@ export function BankConnect({
         {state === "select" && (
           <>
             <div>
-              <p className="text-sm font-bold text-foreground mb-3 text-right">اختاري بنكك</p>
+              <p className="text-sm font-bold text-foreground mb-3 text-right">اختر بنكك</p>
               <div className="grid grid-cols-2 gap-3">
                 {BANKS.map((b) => (
                   <button

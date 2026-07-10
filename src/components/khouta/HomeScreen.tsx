@@ -8,6 +8,7 @@ import { ReportsTab } from "./tabs/ReportsTab";
 import { NoorChat } from "./NoorChat";
 import { BankConnect } from "./BankConnect";
 import { InterceptModal } from "./InterceptModal";
+import { DonationScreen } from "./DonationScreen";
 import {
   TransferScreen,
   PayBillsScreen,
@@ -37,7 +38,8 @@ type SubScreen =
   | "new-goal"
   | "calendar"
   | "radar"
-  | "group";
+  | "group"
+  | "donate";
 
 export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
@@ -51,7 +53,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
 
   const close = () => setSub("none");
 
-  if (sub === "noor") return <NoorChat onBack={close} />;
+  if (sub === "noor") return <NoorChat onBack={close} userName={profile?.full_name ?? ""} />;
   if (sub === "bank")
     return <BankConnect onBack={close} onConnected={close} />;
   if (sub === "transfer") return <TransferScreen onBack={close} />;
@@ -71,7 +73,9 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   if (sub === "new-goal") return <NewGoalScreen onBack={close} />;
   if (sub === "calendar") return <CalendarScreen onBack={close} />;
   if (sub === "radar") return <RadarScreen onBack={close} />;
-  if (sub === "group") return <GroupChallengeScreen onBack={close} />;
+  if (sub === "group")
+    return <GroupChallengeScreen onBack={close} userName={profile?.full_name ?? ""} />;
+  if (sub === "donate") return <DonationScreen onBack={close} />;
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden relative">
@@ -96,7 +100,12 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
             onOpenGroup={() => setSub("group")}
           />
         )}
-        {tab === "rewards" && <RewardsTab onOpenNotifications={() => setTab("notifications")} />}
+        {tab === "rewards" && (
+          <RewardsTab
+            onOpenNotifications={() => setTab("notifications")}
+            onCompleteReward={() => setTab("notifications")}
+          />
+        )}
         {tab === "profile" && <ProfileTab onOpenNotifications={() => setTab("notifications")} onSignOut={_onReset} />}
         {tab === "notifications" && (
           <NotificationsTab
@@ -105,6 +114,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
               setInterceptAmount(amount);
               setInterceptOpen(true);
             }}
+            onOpenDonate={() => setSub("donate")}
           />
         )}
         {tab === "reports" && <ReportsTab onOpenNotifications={() => setTab("notifications")} />}

@@ -98,14 +98,14 @@ export function InterceptModal({
 
           <div className="p-5">
             <p className="text-[13px] text-foreground leading-relaxed text-right">
-              أنتِ الآن على وشك شراء منتجات بقيمة{" "}
+              أنت الآن على وشك شراء منتجات بقيمة{" "}
               <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
               </span>{" "}
               من <span className="font-bold">{merchant}</span>.
             </p>
             <p className="text-[12.5px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
-              إذا أكملتِ هذه العملية، ستتأخرين عن هدفك المالي لمدة:
+              إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
             {/* Delay badge */}
@@ -176,7 +176,7 @@ export function InterceptModal({
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
-              أحسنتِ{firstName ? " يا " + firstName : ""}! 🎁
+              أحسنت{firstName ? " يا " + firstName : ""}! 🎁
             </h2>
             <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
@@ -185,8 +185,8 @@ export function InterceptModal({
 
           <div className="p-5 -mt-3">
             <div className="grid grid-cols-2 gap-2.5">
-              <RewardStat label="وفّرتِ اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
-              <RewardStat label="اقتربتِ من هدفك" value={`${percentAfter}%`} tone="text-amber-700 bg-amber-50" />
+              <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
+              <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-700 bg-amber-50" />
             </div>
 
             <div className="mt-3 rounded-2xl border-2 border-dashed border-primary/40 bg-mint/5 p-3.5">
@@ -225,7 +225,7 @@ export function InterceptModal({
               className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px]"
             >
               <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
-              رائع، أكملي
+              رائع، أكمل
             </button>
           </div>
         </div>

@@ -112,12 +112,20 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           full_name: data.fullName,
           monthly_income: Number(data.monthlyIncome) || 0,
         });
-        await supabase.from("savings_goals").insert({
-          user_id: userId,
-          title: data.goalLabel,
-          target_amount: data.goalAmount,
-          saved_amount: 0,
-        });
+        // Only create the onboarding goal if no goal exists yet for this user
+        const { data: existing } = await supabase
+          .from("savings_goals")
+          .select("id")
+          .eq("user_id", userId)
+          .limit(1);
+        if (!existing || existing.length === 0) {
+          await supabase.from("savings_goals").insert({
+            user_id: userId,
+            title: data.goalLabel,
+            target_amount: data.goalAmount,
+            saved_amount: 0,
+          });
+        }
       }
       toast.success(`أهلاً ${data.fullName}`);
       return true;

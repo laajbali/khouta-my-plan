@@ -16,6 +16,7 @@ import {
   TrendingDown,
 } from "lucide-react";
 import { useState } from "react";
+import ihsanLogo from "@/assets/ihsan-logo.asset.json";
 
 type MerchantKey = "SHEIN" | "نون";
 
@@ -31,7 +32,7 @@ type Alert = {
 
 const ALERTS: Alert[] = [
   { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-mint/15 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
-  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربتِ من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
+  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-50 text-amber-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
   { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "اقتراح", tagTone: "text-primary bg-primary/10", text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
   { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-amber-100 text-amber-800", tag: "استثمار", tagTone: "text-amber-800 bg-amber-50", text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
@@ -69,8 +70,10 @@ const MERCHANTS: MerchantConfig[] = [
 
 export function NotificationsTab({
   onSimulateIntercept,
+  onOpenDonate,
 }: {
   onSimulateIntercept: (merchant: MerchantKey, amount: number) => void;
+  onOpenDonate?: () => void;
 }) {
   const [simKey, setSimKey] = useState<MerchantKey | null>(null);
   const [view, setView] = useState<"main" | "all">("main");
@@ -127,6 +130,39 @@ export function NotificationsTab({
           </button>
         </div>
 
+        {/* Donation / خُطى Radar (yellow card — moved from Home) */}
+        <div
+          className="rounded-[24px] p-4 shadow-sm border relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(140deg, oklch(0.97 0.06 85) 0%, oklch(0.99 0.02 85) 100%)",
+            borderColor: "oklch(0.85 0.10 85 / 0.5)",
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <img
+              src={ihsanLogo.url}
+              alt="إحسان"
+              className="h-12 w-12 rounded-2xl object-contain bg-white/60 p-1 shrink-0"
+            />
+            <div className="flex-1 text-right min-w-0">
+              <p className="text-[14px] font-black text-foreground tracking-tight leading-snug">
+                العطاء لا يوقف رحلتك نحو هدفك..
+              </p>
+              <p className="text-[11.5px] text-foreground/70 font-medium mt-1 leading-relaxed">
+                فربما يكون سبباً في بركة ما تملك.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onOpenDonate}
+            className="mt-4 w-full rounded-2xl text-white font-extrabold py-3 text-[13px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            style={{ background: "oklch(0.24 0.05 155)" }}
+          >
+            <Heart className="h-4 w-4" strokeWidth={2.2} />
+            تبرع بجزء
+          </button>
+        </div>
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">

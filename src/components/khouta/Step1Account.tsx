@@ -80,7 +80,7 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
       <div className="px-5 pt-5 space-y-4">
         <div className="text-right">
           <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">لنبدأ رحلتك المالية</h2>
-          <p className="text-[11px] text-muted-foreground mt-1 font-medium">أدخلي بياناتك الأساسية للبدء</p>
+          <p className="text-[11px] text-muted-foreground mt-1 font-medium">أدخل بياناتك الأساسية للبدء</p>
         </div>
 
         <Field label="الاسم الكامل" icon={<User className="h-4 w-4" strokeWidth={1.8} />}>
@@ -122,7 +122,7 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
                 setCityOpen(true);
               }}
               onFocus={() => setCityOpen(true)}
-              placeholder="اكتبي أو اختاري المدينة"
+              placeholder="اكتب أو اختر المدينة"
               className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
               dir="rtl"
             />
@@ -193,7 +193,7 @@ export function Step1Account({ onNext, onBack }: { onNext: () => void; onBack: (
               <input
                 value={data.userTypeCustom}
                 onChange={(e) => update({ userTypeCustom: e.target.value })}
-                placeholder="اكتبي فئتك هنا"
+                placeholder="اكتب فئتك هنا"
                 className="flex-1 bg-transparent outline-none text-[13px] font-medium text-foreground placeholder:text-muted-foreground/60 text-right"
               />
             </div>

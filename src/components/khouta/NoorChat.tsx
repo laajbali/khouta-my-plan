@@ -19,13 +19,14 @@ function noorReply(q: string): string {
   if (q.includes("جوال") || q.includes("أستطيع شراء"))
     return "نعم، لكن سيؤخر هدف السيارة بـ 3 أسابيع. لو انتظرتِ عرض نهاية الشهر ستوفرين ~450 ر.س.";
   if (q.includes("السيارة") || q.includes("هدف"))
-    return "متبقٍ 8,000 ر.س من 25,000. بمعدل ادخار 1,000 ر.س شهرياً ستصلين للهدف خلال 8 أشهر — قبل ديسمبر 2026.";
+    return "متبقٍ 8,000 ر.س من 25,000. بمعدل ادخار 1,000 ر.س شهرياً ستصل للهدف خلال 8 أشهر — قبل ديسمبر 2026.";
   return "شكراً لسؤالك! أحلل بياناتك المالية… جرّبي أحد الأسئلة السريعة أدناه للحصول على إجابة دقيقة.";
 }
 
-export function NoorChat({ onBack }: { onBack: () => void }) {
+export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
+  const firstName = (userName || "").trim().split(" ")[0];
   const [messages, setMessages] = useState<Msg[]>([
-    { role: "noor", text: "أهلاً سارة 👋 أنا نور، مستشارتك المالية. كيف أقدر أساعدك اليوم؟" },
+    { role: "noor", text: `أهلاً${firstName ? " " + firstName : ""} 👋 أنا نور، مستشارك المالي. كيف أقدر أساعدك اليوم؟` },
   ]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -130,7 +131,7 @@ export function NoorChat({ onBack }: { onBack: () => void }) {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="اكتبي سؤالك لنور..."
+            placeholder="اكتب سؤالك لنور..."
             className="flex-1 bg-transparent outline-none text-sm text-right"
           />
         </form>
