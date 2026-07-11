@@ -120,7 +120,7 @@ export function NotificationsTab({
               <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[17px] text-right tracking-tight">الرادار المالي الذكي</h3>
+          <h3 className="font-extrabold text-[17px] text-right tracking-tight">الحماية المالية الفورية</h3>
           <p className="text-[12px] mt-2 text-right text-white/75 font-medium leading-relaxed">
             يقوم الذكاء الاصطناعي بتحليل عملية الشراء قبل إتمامها لحماية خطتك المالية.
           </p>
