@@ -148,6 +148,7 @@ export function ProfileTab({
       <div className="px-5 pt-4 space-y-4">
         {/* Premium dark green profile card */}
         <div
+          dir="rtl"
           className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex items-center gap-4"
           style={{
             background:
@@ -161,24 +162,24 @@ export function ProfileTab({
             </div>
             <button
               onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
-              className="absolute bottom-0 right-0 h-7 w-7 rounded-full bg-mint text-primary border-[3px] border-[oklch(0.20_0.05_155)] flex items-center justify-center shadow-md active:scale-95 transition"
+              className="absolute bottom-0 end-0 h-7 w-7 rounded-full bg-mint text-primary border-[3px] border-[oklch(0.20_0.05_155)] flex items-center justify-center shadow-md active:scale-95 transition"
               aria-label="تغيير الصورة"
             >
               <Camera className="h-3 w-3" strokeWidth={2.4} />
             </button>
           </div>
-          <div className="relative flex-1 text-right min-w-0">
+          <div className="relative flex-1 text-start min-w-0">
             <button
               onClick={() => toast("قريباً: تعديل الاسم")}
-              className="flex items-center gap-1.5 justify-end w-full"
+              className="flex items-center gap-1.5 justify-start w-full"
             >
-              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
               <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
+              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
             </button>
             <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate" dir="ltr">
               {user?.email ?? "dina@khouta.app"}
             </p>
-            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight">
+            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-start">
               مستقبلك المالي بين يديك
             </p>
           </div>

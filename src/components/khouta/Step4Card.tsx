@@ -13,8 +13,8 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
   const [save, setSave] = useState(false);
 
   useEffect(() => {
-    const who = data.fullName?.trim() || "بكِ";
-    toast.success(`أهلاً ${who}، لنربط بطاقتك الآن`);
+    const who = data.fullName?.trim() || "بك";
+    toast.success(`أهلاً ${who}، لنربط بطاقتك الآن`, { id: "step4-welcome" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
