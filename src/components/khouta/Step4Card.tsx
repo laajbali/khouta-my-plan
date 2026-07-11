@@ -14,6 +14,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
 
   useEffect(() => {
     const who = data.fullName?.trim() || "بك";
+    toast.dismiss();
     toast.success(`أهلاً ${who}، لنربط بطاقتك الآن`, { id: "step4-welcome" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

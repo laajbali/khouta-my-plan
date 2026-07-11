@@ -1318,11 +1318,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
             <span className="text-lg">🌙</span>
           </div>
           <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
-            متبقي{" "}
-            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>ساعتان</span>{" "}
-            على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب{" "}
-            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>50 نقطة</span>{" "}
-            فورية لهدف السيارة، وكود توفير حصري من نون!
+            متبقي ساعتان على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب كود توفير حصري من نون لدعم هدفك الحالي!
           </p>
         </div>
 
