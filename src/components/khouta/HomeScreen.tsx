@@ -45,6 +45,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
   const [sub, setSub] = useState<SubScreen>("none");
   const [interceptOpen, setInterceptOpen] = useState(false);
+  const [notificationsResetKey, setNotificationsResetKey] = useState(0);
   const [interceptMerchant, setInterceptMerchant] = useState<string>("SHEIN");
   const [interceptAmount, setInterceptAmount] = useState(240);
   const profile = useProfile();
@@ -52,6 +53,12 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
   const topGoal = goals[0];
 
   const close = () => setSub("none");
+  const completeIntercept = () => {
+    setInterceptOpen(false);
+    setSub("none");
+    setNotificationsResetKey((key) => key + 1);
+    setTab("notifications");
+  };
 
   if (sub === "noor") return <NoorChat onBack={close} userName={profile?.full_name ?? ""} />;
   if (sub === "bank")
@@ -111,6 +118,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         {tab === "profile" && <ProfileTab onOpenNotifications={() => setTab("notifications")} onSignOut={_onReset} />}
         {tab === "notifications" && (
           <NotificationsTab
+            key={notificationsResetKey}
             onSimulateIntercept={(merchant, amount) => {
               setInterceptMerchant(merchant);
               setInterceptAmount(amount);
@@ -127,7 +135,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         open={interceptOpen}
         onCancel={() => setInterceptOpen(false)}
         onProceed={() => setInterceptOpen(false)}
-        onComplete={() => setTab("notifications")}
+        onComplete={completeIntercept}
         merchant={interceptMerchant}
         amount={interceptAmount}
         userName={profile?.full_name ?? ""}
