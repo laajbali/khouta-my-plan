@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ChevronRight, ShieldCheck, Check, Wifi } from "lucide-react";
-import { toast } from "sonner";
 import { Stepper } from "./Stepper";
 import { useOnboarding } from "./onboarding-context";
 
@@ -12,12 +11,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
   const [cvv, setCvv] = useState("");
   const [save, setSave] = useState(false);
 
-  useEffect(() => {
-    const who = data.fullName?.trim() || "بك";
-    toast.dismiss();
-    toast.success(`أهلاً ${who}، لنربط بطاقتك الآن`, { id: "step4-welcome" });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const who = data.fullName?.trim() || "بك";
 
   async function finish() {
     const ok = await submit();
@@ -33,10 +27,18 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
         <Stepper current={4} />
       </div>
 
+      {/* Single flat iOS-style welcome banner — no toast, no stacking */}
+      <div className="px-5 pt-4">
+        <div className="rounded-2xl bg-card px-4 py-3 text-right text-[13px] font-semibold text-foreground" style={{ boxShadow: "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 24px -12px oklch(0 0 0 / 0.10)" }}>
+          أهلاً {who}، لنربط بطاقتك الآن
+        </div>
+      </div>
+
       <div className="px-5 pt-5 space-y-5">
         <p className="text-[11px] text-muted-foreground text-right leading-relaxed">
-          أضيفي بطاقة مدى لربط حسابك البنكي وتحليل مصروفاتك بدقة.
+          أضف بطاقة مدى لربط حسابك البنكي وتحليل مصروفاتك بدقة.
         </p>
+
 
         {/* Card visual */}
         <div
