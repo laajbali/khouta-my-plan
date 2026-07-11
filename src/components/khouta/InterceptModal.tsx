@@ -7,6 +7,7 @@ export function InterceptModal({
   open,
   onCancel,
   onProceed,
+  onComplete,
   merchant = "SHEIN",
   amount = 450,
   userName = "",
@@ -17,6 +18,7 @@ export function InterceptModal({
   open: boolean;
   onCancel: () => void;
   onProceed: () => void;
+  onComplete?: () => void;
   merchant?: string;
   amount?: number;
   userName?: string;
