@@ -14,6 +14,8 @@ import {
   ShoppingCart,
   Coins,
   TrendingDown,
+  Radar,
+  Zap,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -131,6 +133,30 @@ export function NotificationsTab({
           </button>
         </div>
 
+        {/* رادار خُطى — compact row */}
+        <button
+          onClick={onOpenRadar}
+          dir="rtl"
+          className="w-full rounded-2xl border px-3 py-2.5 flex items-center gap-2 active:scale-[0.99] transition"
+          style={{
+            background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
+            borderColor: "oklch(0.82 0.08 155 / 0.45)",
+          }}
+        >
+          <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
+            <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
+          </div>
+          <div className="flex-1 min-w-0 text-right">
+            <p className="text-[12px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
+            <div className="mt-1 flex items-center gap-1.5 flex-wrap">
+              <Badge icon={<Zap className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اعتراض فوري" tint="text-primary bg-primary/10" />
+              <Badge icon={<ShieldCheck className="h-2.5 w-2.5" strokeWidth={2.5} />} label="حماية الهدف" tint="text-mint bg-mint/15" />
+              <Badge icon={<Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اقتراحات" tint="text-amber-700 bg-amber-50" />
+            </div>
+          </div>
+          <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground shrink-0" strokeWidth={2.5} />
+        </button>
+
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
@@ -170,6 +196,17 @@ function AlertRow({ a }: { a: Alert }) {
     </div>
   );
 }
+
+function Badge({ icon, label, tint }: { icon: React.ReactNode; label: string; tint: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-bold ${tint}`}>
+      {icon}
+      {label}
+    </span>
+  );
+}
+
+
 
 
 /* --------------------------- Generic merchant simulator --------------------------- */
