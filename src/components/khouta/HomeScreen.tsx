@@ -127,6 +127,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
         open={interceptOpen}
         onCancel={() => setInterceptOpen(false)}
         onProceed={() => setInterceptOpen(false)}
+        onComplete={() => setTab("rewards")}
         merchant={interceptMerchant}
         amount={interceptAmount}
         userName={profile?.full_name ?? ""}

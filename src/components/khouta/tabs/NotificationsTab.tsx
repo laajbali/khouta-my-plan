@@ -14,8 +14,6 @@ import {
   ShoppingCart,
   Coins,
   TrendingDown,
-  Radar,
-  Zap,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -104,83 +102,34 @@ export function NotificationsTab({
       </div>
 
       <div className="px-5 pt-4 space-y-4">
-        {/* Hero — الرادار المالي الذكي */}
+        {/* Hero — الحماية المالية الفورية (compact) */}
         <div
-          className="rounded-[28px] p-5 text-primary-foreground relative overflow-hidden"
+          className="rounded-[24px] px-4 py-4 text-primary-foreground relative overflow-hidden"
           style={{
             background:
               "linear-gradient(140deg, oklch(0.34 0.07 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.12 0.03 155) 100%)",
-            boxShadow: "0 24px 48px -22px oklch(0.20 0.05 155 / 0.65)",
+            boxShadow: "0 20px 40px -22px oklch(0.20 0.05 155 / 0.6)",
           }}
         >
-          <div className="absolute -top-16 -right-16 w-56 h-56 bg-mint/20 rounded-full blur-3xl" />
-          <div className="relative flex items-center justify-between mb-3">
-            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-1 rounded-lg bg-mint text-primary">AI</span>
-            <div className="h-11 w-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center">
-              <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
+          <div className="absolute -top-14 -right-14 w-44 h-44 bg-mint/20 rounded-full blur-3xl" />
+          <div className="relative flex items-center justify-between mb-2">
+            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
+            <div className="h-9 w-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
+              <ShieldCheck className="h-4 w-4 text-mint" strokeWidth={2} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[17px] text-right tracking-tight">الحماية المالية الفورية</h3>
-          <p className="text-[12px] mt-2 text-right text-white/75 font-medium leading-relaxed">
-            يقوم الذكاء الاصطناعي بتحليل عملية الشراء قبل إتمامها لحماية خطتك المالية.
+          <h3 className="font-extrabold text-[15px] text-right tracking-tight">الحماية المالية الفورية</h3>
+          <p className="text-[11px] mt-1 text-right text-white/75 font-medium leading-relaxed">
+            الذكاء الاصطناعي يحلل عملياتك قبل إتمامها لحماية خطتك.
           </p>
           <button
             onClick={() => setSimKey("SHEIN")}
-            className="mt-4 w-full rounded-2xl bg-mint text-primary font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-lg active:scale-[0.98] transition"
+            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12.5px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
             افتح شي إن
           </button>
         </div>
-
-        {/* رادار خُطى الذكي — full card */}
-        <div
-          className="rounded-[26px] p-5 border shadow-sm relative overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.96 0.04 155) 100%)",
-            borderColor: "oklch(0.82 0.08 155 / 0.4)",
-          }}
-        >
-          <div className="absolute -top-14 -left-14 w-48 h-48 rounded-full blur-3xl bg-mint/20" />
-          <div className="relative flex items-center justify-between mb-3">
-            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-1 rounded-lg bg-primary text-primary-foreground">
-              خُطى
-            </span>
-            <div className="h-11 w-11 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center">
-              <Radar className="h-5 w-5 text-primary" strokeWidth={1.8} />
-            </div>
-          </div>
-          <h3 className="relative font-extrabold text-[17px] text-right text-foreground tracking-tight">
-            رادار خُطى الذكي
-          </h3>
-          <p className="relative text-[12px] mt-2 text-right text-muted-foreground font-medium leading-relaxed">
-            يرصد الرادار عمليات الشراء المفاجئة ويقترح بدائل ذكية قبل أن تخصم من هدفك.
-          </p>
-          <div className="relative mt-4 grid grid-cols-3 gap-2">
-            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
-              <Zap className="h-3.5 w-3.5 text-primary mx-auto" strokeWidth={2.5} />
-              <p className="text-[9.5px] font-bold text-foreground mt-1">اعتراض فوري</p>
-            </div>
-            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
-              <ShieldCheck className="h-3.5 w-3.5 text-mint mx-auto" strokeWidth={2.5} />
-              <p className="text-[9.5px] font-bold text-foreground mt-1">حماية الهدف</p>
-            </div>
-            <div className="rounded-xl bg-white/70 border border-border p-2 text-center">
-              <Sparkles className="h-3.5 w-3.5 text-amber-600 mx-auto" strokeWidth={2.5} />
-              <p className="text-[9.5px] font-bold text-foreground mt-1">اقتراحات ذكية</p>
-            </div>
-          </div>
-          <button
-            onClick={onOpenRadar}
-            className="relative mt-4 w-full rounded-2xl text-primary-foreground font-extrabold py-3.5 text-[13px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
-            style={{ background: "oklch(0.24 0.05 155)" }}
-          >
-            <Radar className="h-4 w-4" strokeWidth={2.2} />
-            افتح الرادار
-          </button>
-        </div>
-
 
         {/* Smart Activity Timeline */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
