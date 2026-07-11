@@ -12,7 +12,7 @@ const TABS: { key: Tab; label: string; icon: typeof Home }[] = [
 
 export function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <div className="sticky bottom-0 z-40 bg-card/70 backdrop-blur-2xl backdrop-saturate-150 border-t border-border/60 px-3 pt-2 pb-3 shrink-0" style={{ WebkitBackdropFilter: "blur(24px) saturate(160%)" as unknown as string }}>
+    <div className="sticky bottom-0 z-40 bg-card/70 backdrop-blur-2xl backdrop-saturate-150 border-t border-border/60 px-3 pt-2 pb-3 shrink-0">
       <div className="flex items-end justify-between">
 
         {TABS.map((t) => {
