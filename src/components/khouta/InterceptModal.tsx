@@ -223,6 +223,7 @@ export function InterceptModal({
                   duration: 5000,
                 });
                 onCancel();
+                onComplete?.();
               }}
               className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px]"
             >
