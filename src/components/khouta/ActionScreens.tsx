@@ -731,7 +731,6 @@ type CalEvent = {
 
 const INITIAL_EVENTS: CalEvent[] = [
   { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out", icon: "🎂", status: "upcoming" },
-  { day: 10, title: "نزول المكافأة", subtitle: "الأربعاء 10 يوليو", amount: 5000, tone: "in", icon: "💰", status: "today" },
   { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save", icon: "🏦", status: "upcoming" },
   { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out", icon: "🎉", status: "upcoming" },
 ];
