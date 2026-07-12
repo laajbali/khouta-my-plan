@@ -149,29 +149,15 @@ export function ProfileTab({
         {/* Premium dark green profile card */}
         <div
           dir="rtl"
-          className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex items-center gap-4"
+          className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex flex-row items-center gap-4"
           style={{
             background:
               "linear-gradient(135deg, oklch(0.30 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.13 0.04 155) 100%)",
           }}
         >
-          <div className="absolute -top-16 -right-16 w-48 h-48 bg-mint/20 rounded-full blur-3xl" />
-          <div className="relative flex-1 text-right min-w-0 order-1">
-            <button
-              onClick={() => toast("قريباً: تعديل الاسم")}
-              className="flex items-center gap-1.5 justify-end w-full"
-            >
-              <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
-              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
-            </button>
-            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate text-right">
-              {user?.email ?? ""}
-            </p>
-            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-right">
-              مستقبلك المالي بين يديك
-            </p>
-          </div>
-          <div className="relative shrink-0 order-2">
+          <div className="absolute -top-16 -right-16 w-48 h-48 bg-mint/20 rounded-full blur-3xl pointer-events-none" />
+          {/* Avatar — goes to the far right in RTL, far left in LTR */}
+          <div className="relative shrink-0">
             <div className="h-[76px] w-[76px] rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white">
               <User className="h-9 w-9" strokeWidth={1.5} />
             </div>
@@ -183,7 +169,24 @@ export function ProfileTab({
               <Camera className="h-3 w-3" strokeWidth={2.4} />
             </button>
           </div>
+          {/* Text group — aligned to start (right in RTL, left in LTR) */}
+          <div className="relative flex-1 min-w-0 text-start">
+            <button
+              onClick={() => toast("قريباً: تعديل الاسم")}
+              className="flex items-center gap-1.5 w-full justify-start"
+            >
+              <h2 className="text-[18px] font-black tracking-tight break-words min-w-0">{displayName}</h2>
+              <Edit className="h-3.5 w-3.5 text-mint shrink-0" strokeWidth={2} />
+            </button>
+            <p className="text-[11.5px] text-white/70 mt-1 font-medium break-all text-start">
+              {user?.email ?? ""}
+            </p>
+            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-start">
+              مستقبلك المالي بين يديك
+            </p>
+          </div>
         </div>
+
 
 
         {/* List-style navigation blocks */}
