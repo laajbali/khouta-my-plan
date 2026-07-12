@@ -31,6 +31,11 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
   const [filter, setFilter] = useState("الكل");
   const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
   const [copied, setCopied] = useState(false);
+  const { goals } = useGoals();
+  const totalSaved = goals.reduce((s, g) => s + Number(g.saved_amount || 0), 0);
+  const totalTarget = goals.reduce((s, g) => s + Number(g.target_amount || 0), 0);
+  const goalPct = totalTarget > 0 ? Math.min(100, Math.round((totalSaved / totalTarget) * 100)) : 0;
+  const rewardsCount = COUPONS.filter((c) => c.status !== "expired").length;
 
   async function copyCode(code: string) {
     try {
