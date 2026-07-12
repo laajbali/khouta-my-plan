@@ -1359,7 +1359,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
     setTimeout(() => {
       setMsgs((m) => [
         ...m,
-        { from: "her", text: "يعطيكِ العافية يا سارة، محفزّة صح 💚" },
+        { from: "her", text: `يعطيكِ العافية${firstName && firstName !== "أنت" ? " يا " + firstName : ""}، محفزّة صح 💚` },
       ]);
     }, 900);
   }
