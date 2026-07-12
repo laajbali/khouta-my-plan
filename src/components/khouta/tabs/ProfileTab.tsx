@@ -149,7 +149,7 @@ export function ProfileTab({
         {/* Premium dark green profile card */}
         <div
           dir="rtl"
-          className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex flex-row items-center gap-4 rtl:flex-row-reverse"
+          className="relative rounded-[24px] overflow-hidden text-white shadow-[0_24px_48px_-24px_oklch(0.20_0.05_155/0.55)] px-5 py-5 flex flex-row items-center gap-4"
           style={{
             background:
               "linear-gradient(135deg, oklch(0.30 0.06 155) 0%, oklch(0.20 0.05 155) 60%, oklch(0.13 0.04 155) 100%)",
