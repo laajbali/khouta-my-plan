@@ -1574,7 +1574,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
       { from: "me", text: r },
       {
         from: "ai",
-        text: "شكراً لمشاركتك. فتحت لك جلسة تجميد 5 دقائق — خلينا نتحدث بهدوء خلالها.",
+        text: "شكراً لمشاركتك. فتحت لك جلسة تجميد 3 دقائق — خلينا نتحدث بهدوء خلالها.",
       },
     ]);
     setTyping(true);
