@@ -109,7 +109,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       if (userId) {
         const INCOME_LABELS: Record<string, string> = {
           salary: "راتب",
-          scholarship: "منحة",
+          scholarship: "مكافأة",
           bonus: "مكافأة",
           freelance: "عمل حر",
         };
