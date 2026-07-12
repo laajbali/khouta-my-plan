@@ -23,6 +23,7 @@ import {
   Check,
   Calendar as CalIcon,
   Sparkles,
+  Send,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
