@@ -21,7 +21,6 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      toast.success("مرحباً بعودتك");
       onLogin();
     } catch (err) {
       const msg = err instanceof Error ? err.message : "حدث خطأ غير متوقع";

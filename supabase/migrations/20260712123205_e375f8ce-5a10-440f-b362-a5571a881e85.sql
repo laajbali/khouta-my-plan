@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS income_source text, ADD COLUMN IF NOT EXISTS income_label text;

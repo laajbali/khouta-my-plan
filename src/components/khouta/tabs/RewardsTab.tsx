@@ -1,6 +1,7 @@
 import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag, X, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useGoals } from "@/hooks/use-khouta-data";
 
 const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
@@ -30,6 +31,11 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
   const [filter, setFilter] = useState("الكل");
   const [activeCoupon, setActiveCoupon] = useState<Coupon | null>(null);
   const [copied, setCopied] = useState(false);
+  const { goals } = useGoals();
+  const totalSaved = goals.reduce((s, g) => s + Number(g.saved_amount || 0), 0);
+  const totalTarget = goals.reduce((s, g) => s + Number(g.target_amount || 0), 0);
+  const goalPct = totalTarget > 0 ? Math.min(100, Math.round((totalSaved / totalTarget) * 100)) : 0;
+  const rewardsCount = COUPONS.filter((c) => c.status !== "expired").length;
 
   async function copyCode(code: string) {
     try {
@@ -69,20 +75,20 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
           <div className="flex-1 text-right">
             <p className="text-[11px] text-muted-foreground font-medium">إجمالي ما وفرتِه</p>
             <p className="text-[22px] font-bold text-foreground mt-0.5 leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-              2,870<span className="text-[13px] font-semibold text-mint mr-2">ر.س</span>
+              {totalSaved.toLocaleString()}<span className="text-[13px] font-semibold text-mint mr-2">ر.س</span>
             </p>
             <p className="text-[11px] text-mint font-semibold mt-1.5 flex items-center gap-1 justify-end">
-              8 مكافآت مكتسبة
+              {rewardsCount} مكافآت متاحة
               <Gift className="h-3 w-3" strokeWidth={2} />
             </p>
           </div>
           <div className="relative h-16 w-16 shrink-0">
             <svg viewBox="0 0 40 40" className="h-16 w-16 -rotate-90">
               <circle cx="20" cy="20" r="16" fill="none" stroke="var(--border)" strokeWidth="4" />
-              <circle cx="20" cy="20" r="16" fill="none" stroke="var(--mint)" strokeWidth="4" strokeLinecap="round" strokeDasharray="28 100" pathLength={100} />
+              <circle cx="20" cy="20" r="16" fill="none" stroke="var(--mint)" strokeWidth="4" strokeLinecap="round" strokeDasharray={`${goalPct} 100`} pathLength={100} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-              <span className="text-[13px] font-bold text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>28%</span>
+              <span className="text-[13px] font-bold text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>{goalPct}%</span>
               <span className="text-[8px] text-muted-foreground font-medium">من هدفك</span>
             </div>
           </div>

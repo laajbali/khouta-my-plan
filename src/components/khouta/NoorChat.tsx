@@ -1,36 +1,77 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { ChevronRight, Send, Sparkles } from "lucide-react";
+import { useProfile, useGoals } from "@/hooks/use-khouta-data";
 
 type Msg = { role: "user" | "noor"; text: string };
 
-const QUICK_REPLIES = [
-  "كم صرفت هذا الأسبوع؟",
-  "اقترحي لي ميزانية شهرية",
-  "هل أستطيع شراء جوال بـ 3,000 ر.س؟",
-  "كم يلزمني لتحقيق هدف السيارة؟",
-];
-
-function noorReply(q: string): string {
-  const lower = q.toLowerCase();
-  if (q.includes("صرفت") || q.includes("هذا الأسبوع"))
-    return "صرفتِ 1,240 ر.س هذا الأسبوع، بزيادة 12% عن معدلك. أعلى فئة: التسوق (480 ر.س).";
-  if (q.includes("ميزانية"))
-    return "بناءً على دخلك (9,000 ر.س) أقترح: 45% مصاريف ثابتة، 20% تسوق ومطاعم، 25% ادخار لهدفك، 10% ترفيه.";
-  if (q.includes("جوال") || q.includes("أستطيع شراء"))
-    return "نعم، لكن سيؤخر هدف السيارة بـ 3 أسابيع. لو انتظرتِ عرض نهاية الشهر ستوفرين ~450 ر.س.";
-  if (q.includes("السيارة") || q.includes("هدف"))
-    return "متبقٍ 8,000 ر.س من 25,000. بمعدل ادخار 1,000 ر.س شهرياً ستصل للهدف خلال 8 أشهر — قبل ديسمبر 2026.";
-  return "شكراً لسؤالك! أحلل بياناتك المالية… جرّبي أحد الأسئلة السريعة أدناه للحصول على إجابة دقيقة.";
-}
-
 export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
-  const firstName = (userName || "").trim().split(" ")[0];
-  const [messages, setMessages] = useState<Msg[]>([
-    { role: "noor", text: `أهلاً${firstName ? " " + firstName : ""} 👋 أنا نور، مستشارك المالي. كيف أقدر أساعدك اليوم؟` },
-  ]);
+  const profile = useProfile();
+  const { goals } = useGoals();
+  const displayName = (profile?.full_name || userName || "").trim();
+  const firstName = displayName.split(" ")[0];
+
+  const income = Number(profile?.monthly_income ?? 0);
+  const incomeLabel = profile?.income_label || "دخل";
+  const topGoal = goals[0];
+  const goalTitle = topGoal?.title ?? "هدفك";
+  const goalTarget = Number(topGoal?.target_amount ?? 0);
+  const goalSaved = Number(topGoal?.saved_amount ?? 0);
+  const goalRemaining = Math.max(0, goalTarget - goalSaved);
+
+  const monthlySavingSuggest = income > 0 ? Math.max(200, Math.round(income * 0.25)) : 1000;
+  const monthsToGoal =
+    monthlySavingSuggest > 0 && goalRemaining > 0
+      ? Math.max(1, Math.ceil(goalRemaining / monthlySavingSuggest))
+      : 0;
+
+  const quickReplies = useMemo(
+    () => [
+      "كم صرفت هذا الأسبوع؟",
+      "اقترحي لي ميزانية شهرية",
+      `هل أستطيع شراء جوال بـ 3,000 ر.س؟`,
+      goalTitle ? `كم يلزمني لتحقيق هدف ${goalTitle}؟` : "كم يلزمني لتحقيق هدفي؟",
+    ],
+    [goalTitle],
+  );
+
+  function noorReply(q: string): string {
+    const fmt = (n: number) => n.toLocaleString();
+    if (q.includes("صرفت") || q.includes("هذا الأسبوع"))
+      return `بحسب بياناتك، ${income > 0 ? `دخلك الشهري ${fmt(income)} ر.س (${incomeLabel}) — ` : ""}راقبي مصاريف هذا الأسبوع من شاشة التقارير للحصول على تحليل دقيق.`;
+    if (q.includes("ميزانية"))
+      return income > 0
+        ? `بناءً على ${incomeLabel} ${fmt(income)} ر.س أقترح: 45% مصاريف ثابتة، 20% تسوق ومطاعم، 25% ادخار لـ${goalTitle}، 10% ترفيه.`
+        : `أضيفي دخلك الشهري في البيانات المالية لأقترح ميزانية دقيقة تناسبك.`;
+    if (q.includes("جوال") || q.includes("أستطيع شراء"))
+      return goalRemaining > 0
+        ? `يمكن، لكن قد يؤخر ${goalTitle} بضعة أسابيع. جربي الانتظار لعرض نهاية الشهر لتوفير مبلغ إضافي يدعم هدفك.`
+        : `يمكنكِ ذلك بأمان — لا يوجد هدف نشط قد يتأثر.`;
+    if (q.includes(goalTitle) || q.includes("هدف"))
+      return goalTarget > 0
+        ? `هدفك ${goalTitle}: متبقٍ ${fmt(goalRemaining)} ر.س من ${fmt(goalTarget)} ر.س. بمعدل ادخار ${fmt(monthlySavingSuggest)} ر.س شهرياً ستصلين خلال ${monthsToGoal} شهر تقريباً.`
+        : `لم يتم إنشاء هدف بعد. أنشئي هدفك من الشاشة الرئيسية لأساعدك في التخطيط.`;
+    return `شكراً لسؤالك${firstName ? " يا " + firstName : ""}! جرّبي أحد الأسئلة السريعة أدناه للحصول على إجابة دقيقة بناءً على بياناتك.`;
+  }
+
+  const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Initialize the greeting once profile/goal are known
+  useEffect(() => {
+    setMessages([
+      {
+        role: "noor",
+        text: `أهلاً${firstName ? " " + firstName : ""} 👋 أنا نور، مستشارك المالي.${
+          goalTitle && goalTarget > 0
+            ? ` هدفك الحالي: ${goalTitle} (${goalTarget.toLocaleString()} ر.س). كيف أقدر أساعدك اليوم؟`
+            : " كيف أقدر أساعدك اليوم؟"
+        }`,
+      },
+    ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [firstName, goalTitle, goalTarget]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -102,7 +143,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
 
       {/* Quick replies */}
       <div className="px-4 pb-2 flex gap-2 overflow-x-auto shrink-0" dir="rtl">
-        {QUICK_REPLIES.map((q) => (
+        {quickReplies.map((q) => (
           <button
             key={q}
             onClick={() => send(q)}

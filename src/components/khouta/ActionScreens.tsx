@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import {
   ChevronRight,
   ArrowLeftRight,
@@ -27,7 +27,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
-import { useGoals, type Goal } from "@/hooks/use-khouta-data";
+import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
 
 /* ---------- Shared Chrome ---------- */
@@ -731,7 +731,6 @@ type CalEvent = {
 
 const INITIAL_EVENTS: CalEvent[] = [
   { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out", icon: "🎂", status: "upcoming" },
-  { day: 10, title: "نزول المكافأة", subtitle: "الأربعاء 10 يوليو", amount: 5000, tone: "in", icon: "💰", status: "today" },
   { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save", icon: "🏦", status: "upcoming" },
   { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out", icon: "🎉", status: "upcoming" },
 ];
@@ -748,7 +747,28 @@ const EVENT_KINDS = [
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
+  const profile = useProfile();
+  const incomeAmount = Number(profile?.monthly_income ?? 0);
+  const incomeLabel = profile?.income_label || "الدخل";
   const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
+  useEffect(() => {
+    if (incomeAmount <= 0) return;
+    setEvents((prev) => {
+      if (prev.some((e) => e.tone === "in" && e.day === 10)) return prev;
+      return [
+        {
+          day: 10,
+          title: `نزول ${incomeLabel}`,
+          subtitle: "الأربعاء 10 يوليو",
+          amount: incomeAmount,
+          tone: "in",
+          icon: "💰",
+          status: "today",
+        },
+        ...prev,
+      ];
+    });
+  }, [incomeAmount, incomeLabel]);
   const [selected, setSelected] = useState(10);
   const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
   const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
@@ -1252,6 +1272,25 @@ export function GoalsListScreen({
 
 export function RadarScreen({ onBack }: { onBack: () => void }) {
   const [activated, setActivated] = useState(false);
+  const [freezeStage, setFreezeStage] = useState<"idle" | "noon" | "freeze">("idle");
+
+  if (freezeStage === "noon") {
+    return (
+      <NoonFreezeSim
+        onBack={() => setFreezeStage("idle")}
+        onBuy={() => setFreezeStage("freeze")}
+      />
+    );
+  }
+  if (freezeStage === "freeze") {
+    return (
+      <FreezeModeScreen
+        onBack={() => setFreezeStage("noon")}
+        onExit={() => setFreezeStage("idle")}
+      />
+    );
+  }
+
   return (
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="رادار خُطى الذكي" onBack={onBack} />
@@ -1332,7 +1371,272 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         >
           {activated ? "الحماية مُفعّلة الليلة ✓" : "تفعيل الحماية الاستباقية"}
         </button>
+
+        {/* NEW — Freeze feature card */}
+        <div
+          className="rounded-[24px] p-4 text-right border-2 border-dashed"
+          style={{
+            borderColor: "oklch(0.82 0.08 155 / 0.55)",
+            background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
+          }}
+        >
+          <div className="flex items-start gap-3">
+            <div className="h-11 w-11 rounded-2xl bg-yellow-400 text-neutral-900 flex items-center justify-center text-[13px] font-black shrink-0 lowercase">
+              noon
+            </div>
+            <div className="flex-1 text-right min-w-0">
+              <div className="flex items-center gap-2 justify-end">
+                <p className="text-[13.5px] font-black text-foreground tracking-tight">ميزة التجميد</p>
+                <span className="inline-flex items-center gap-1 text-[9.5px] font-black text-primary bg-mint/20 border border-mint/40 rounded-md px-1.5 py-0.5">
+                  <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} />
+                  جديد
+                </span>
+              </div>
+              <p className="text-[11px] text-muted-foreground font-semibold mt-1">محاكاة نون</p>
+              <p className="text-[11.5px] text-foreground/80 mt-2 leading-relaxed font-medium">
+                جرّب كيف يتدخل خُطى قبل اتخاذ قرار شراء اندفاعي.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setFreezeStage("noon")}
+            className="mt-3 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[12.5px] flex items-center justify-center gap-1.5 active:scale-[0.99] transition"
+          >
+            <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
+            ابدأ المحاكاة
+          </button>
+        </div>
       </div>
+    </div>
+  );
+}
+
+/* ---------- Noon simulator (for Freeze feature) ---------- */
+function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => void }) {
+  return (
+    <div className="flex flex-col h-full bg-white">
+      <div className="bg-yellow-400 px-4 pt-5 pb-3 flex items-center justify-between shrink-0">
+        <button onClick={onBack} className="h-9 w-9 rounded-full bg-white/40 flex items-center justify-center text-neutral-900">
+          <ChevronRight className="h-5 w-5" strokeWidth={2} />
+        </button>
+        <span className="text-neutral-900 text-[22px] font-black tracking-tight lowercase">noon</span>
+        <div className="w-9" />
+      </div>
+      <div className="bg-yellow-400 px-4 pb-4 shrink-0">
+        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
+          <span className="text-[12px] text-neutral-500 font-medium">ابحث في نون</span>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <div className="aspect-[4/5] bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center">
+          <div className="h-40 w-40 rounded-full bg-neutral-800 shadow-2xl relative">
+            <div className="absolute -left-8 top-1/2 -translate-y-1/2 h-24 w-24 rounded-full bg-neutral-900 border-8 border-neutral-800" />
+            <div className="absolute -right-8 top-1/2 -translate-y-1/2 h-24 w-24 rounded-full bg-neutral-900 border-8 border-neutral-800" />
+          </div>
+        </div>
+        <div className="px-4 pt-4 text-neutral-900" dir="rtl">
+          <p className="text-[15px] font-bold leading-snug">سماعة سوني اللاسلكية — عزل ضوضاء</p>
+          <p className="text-[11px] text-neutral-500 mt-1">Sony Wireless Headphones</p>
+          <div className="flex items-baseline gap-2 mt-3">
+            <span className="text-[26px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
+              400 ر.س
+            </span>
+          </div>
+          <button
+            onClick={onBuy}
+            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-black py-4 text-[14px] active:scale-[0.99] transition shadow-lg"
+          >
+            شراء الآن
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Freeze Mode — AI conversation + 5-min timer ---------- */
+type FreezeMsg = { from: "ai" | "me"; text: string };
+const FREEZE_REASONS = ["احتياج فعلي", "حماس", "توتر", "ملل", "مكافأة لنفسي"];
+const FREEZE_TOTAL_SECONDS = 5 * 60;
+
+function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () => void }) {
+  const profile = useProfile();
+  const firstName = (profile?.full_name || "").trim().split(" ")[0];
+  const [reason, setReason] = useState<string | null>(null);
+  const [seconds, setSeconds] = useState(FREEZE_TOTAL_SECONDS);
+  const [msgs, setMsgs] = useState<FreezeMsg[]>([
+    {
+      from: "ai",
+      text: `مرحبًا${firstName ? " " + firstName : ""} 👋 لاحظت أنك على وشك شراء سماعة بقيمة 400 ريال من نون.`,
+    },
+    {
+      from: "ai",
+      text: "اكتشفت أن هذه ثالث مرة تحاول شراء منتج مشابه خلال الفترة الأخيرة.",
+    },
+    {
+      from: "ai",
+      text: "ما السبب الأقرب لقرار الشراء؟",
+    },
+  ]);
+
+  useEffect(() => {
+    if (!reason || seconds <= 0) return;
+    const t = setInterval(() => setSeconds((s) => Math.max(0, s - 1)), 1000);
+    return () => clearInterval(t);
+  }, [reason, seconds]);
+
+  // Supportive coach messages during countdown
+  useEffect(() => {
+    if (!reason) return;
+    const supportive: Record<string, string[]> = {
+      "احتياج فعلي": [
+        "طيب، لو الاحتياج حقيقي فقرارك سليم. لكن لنتأكد سوياً 🙂",
+        "هل يوجد بديل أرخص يغطي نفس الغرض؟",
+        "تذكّر: القرار النهائي دائماً لك، وأنا هنا لدعمك.",
+      ],
+      حماس: [
+        "الحماس شعور جميل، لكنه أحياناً يستعجل القرار 💚",
+        "خذ نفسًا عميقًا. لو كان قراراً صحيحاً بعد الوقت، فسيبقى صحيحًا.",
+        "تذكّر هدفك المالي — كل ريال يقرّبك منه.",
+      ],
+      توتر: [
+        "الشراء وقت التوتر ممتع مؤقتاً، لكنه لا يحل السبب 🌿",
+        "جرّب مشي 5 دقائق أو تنفّس عميق قبل المتابعة.",
+        "أنا معك حتى ينتهي الوقت، لا تقلق.",
+      ],
+      ملل: [
+        "الملل صديق التسوق الاندفاعي 😉",
+        "جرّب شيئاً بسيطاً: كوب قهوة، بودكاست، أو اتصال بصديق.",
+        "بعد قليل ستشعر أن الشراء لم يكن ضرورياً.",
+      ],
+      "مكافأة لنفسي": [
+        "تستحق مكافأة، لكن هل هذه هي الأفضل لهدفك؟ 💚",
+        "يمكنك مكافأة نفسك بشيء يعزز صحتك أو مهاراتك.",
+        "المكافآت الصغيرة أحياناً أجمل من الكبيرة.",
+      ],
+    };
+    const list = supportive[reason] ?? [];
+    const timers = list.map((text, i) =>
+      setTimeout(() => setMsgs((m) => [...m, { from: "ai", text }]), (i + 1) * 45_000),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [reason]);
+
+  const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
+  const ss = String(seconds % 60).padStart(2, "0");
+  const progress = ((FREEZE_TOTAL_SECONDS - seconds) / FREEZE_TOTAL_SECONDS) * 100;
+  const finished = reason !== null && seconds === 0;
+
+  return (
+    <div className="flex flex-col h-full bg-background">
+      <div className="bg-card px-5 pt-4 pb-3 flex items-center justify-between border-b border-border shrink-0">
+        <button
+          onClick={onBack}
+          className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center"
+          aria-label="رجوع"
+        >
+          <ChevronRight className="h-5 w-5 text-foreground" />
+        </button>
+        <div className="text-center">
+          <div className="flex items-center gap-1.5 justify-center">
+            <Shield className="h-4 w-4 text-primary" strokeWidth={2} />
+            <h2 className="text-[15px] font-extrabold text-foreground tracking-tight">وضع التجميد</h2>
+          </div>
+          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">نساعدك تتخذ قرارك بهدوء</p>
+        </div>
+        <div className="w-10" />
+      </div>
+
+      <div className="flex-1 overflow-y-auto p-5 space-y-3">
+        {reason && (
+          <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm text-center">
+            <p className="text-[10.5px] font-bold text-muted-foreground tracking-wider uppercase">
+              {finished ? "انتهى الوقت!" : "الجلسة ستنتهي خلال"}
+            </p>
+            <p
+              className="text-[38px] font-black text-primary mt-1 leading-none"
+              style={{ fontVariantNumeric: "tabular-nums" }}
+            >
+              {mm}:{ss}
+            </p>
+            <p className="text-[10.5px] font-semibold text-muted-foreground mt-1">
+              {finished ? "القرار النهائي لك" : "دقائق متبقية"}
+            </p>
+            <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
+              <div
+                className="h-full rounded-full bg-primary transition-all"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+          </div>
+        )}
+
+        {msgs.map((m, i) => (
+          <div key={i} className={`flex ${m.from === "me" ? "justify-start" : "justify-end"}`}>
+            <div
+              className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+                m.from === "me"
+                  ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
+                  : "bg-card border border-border text-foreground rounded-bl-sm font-medium"
+              }`}
+            >
+              <div className="flex items-center gap-1.5 mb-1 justify-end">
+                <span className="text-[9.5px] font-black text-muted-foreground">
+                  {m.from === "me" ? (firstName || "أنت") : "خُطى"}
+                </span>
+              </div>
+              {m.text}
+            </div>
+          </div>
+        ))}
+
+        {!reason && (
+          <div className="grid grid-cols-2 gap-2 pt-2" dir="rtl">
+            {FREEZE_REASONS.map((r) => (
+              <button
+                key={r}
+                onClick={() => {
+                  setReason(r);
+                  setMsgs((m) => [
+                    ...m,
+                    { from: "me", text: r },
+                    {
+                      from: "ai",
+                      text: "شكراً لمشاركتك. بناءً على نمطك سأفتح وضع التجميد لمدة 5 دقائق لمساعدتك على التفكير بهدوء.",
+                    },
+                  ]);
+                }}
+                className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-bold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {finished && (
+        <div className="border-t border-border bg-card p-4 space-y-2 shrink-0">
+          <button
+            onClick={() => {
+              toast.success("أحسنت! تم إلغاء الشراء ✓");
+              onExit();
+            }}
+            className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.99] transition"
+          >
+            إلغاء الشراء
+          </button>
+          <button
+            onClick={() => {
+              toast("متابعة الشراء — القرار لك");
+              onExit();
+            }}
+            className="w-full rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[13px] active:scale-[0.99] transition"
+          >
+            متابعة الشراء
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -1359,7 +1663,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
     setTimeout(() => {
       setMsgs((m) => [
         ...m,
-        { from: "her", text: "يعطيكِ العافية يا سارة، محفزّة صح 💚" },
+        { from: "her", text: `يعطيكِ العافية${firstName && firstName !== "أنت" ? " يا " + firstName : ""}، محفزّة صح 💚` },
       ]);
     }, 900);
   }

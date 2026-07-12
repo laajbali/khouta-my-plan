@@ -8,6 +8,8 @@ export type Profile = {
   monthly_income: number | null;
   linked_bank: string | null;
   commitment_score: number;
+  income_source: string | null;
+  income_label: string | null;
 };
 
 export type Goal = {
@@ -27,7 +29,7 @@ export function useProfile() {
     if (!user) return setProfile(null);
     supabase
       .from("profiles")
-      .select("id, full_name, monthly_income, linked_bank, commitment_score")
+      .select("id, full_name, monthly_income, linked_bank, commitment_score, income_source, income_label")
       .eq("id", user.id)
       .maybeSingle()
       .then(({ data }) => setProfile(data as Profile | null));
