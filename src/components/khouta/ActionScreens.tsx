@@ -1373,38 +1373,32 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           {activated ? "الحماية مُفعّلة الليلة ✓" : "تفعيل الحماية الاستباقية"}
         </button>
 
-        {/* NEW — Freeze feature card */}
+        {/* NEW — Freeze feature card (compact) */}
         <div
-          className="rounded-[24px] p-4 text-right border-2 border-dashed"
+          dir="rtl"
+          className="rounded-2xl px-3 py-2.5 border border-dashed flex items-center gap-2.5"
           style={{
             borderColor: "oklch(0.82 0.08 155 / 0.55)",
             background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
           }}
         >
-          <div className="flex items-start gap-3">
-            <div className="h-11 w-11 rounded-2xl bg-yellow-400 text-neutral-900 flex items-center justify-center text-[13px] font-black shrink-0 lowercase">
-              noon
+          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-black shrink-0 lowercase">
+            noon
+          </div>
+          <div className="flex-1 min-w-0 text-right">
+            <div className="flex items-center gap-1.5 justify-start">
+              <p className="text-[11.5px] font-black text-foreground tracking-tight leading-tight">ميزة التجميد</p>
+              <span className="text-[8.5px] font-black text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
             </div>
-            <div className="flex-1 text-right min-w-0">
-              <div className="flex items-center gap-2 justify-end">
-                <p className="text-[13.5px] font-black text-foreground tracking-tight">ميزة التجميد</p>
-                <span className="inline-flex items-center gap-1 text-[9.5px] font-black text-primary bg-mint/20 border border-mint/40 rounded-md px-1.5 py-0.5">
-                  <Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} />
-                  جديد
-                </span>
-              </div>
-              <p className="text-[11px] text-muted-foreground font-semibold mt-1">محاكاة نون</p>
-              <p className="text-[11.5px] text-foreground/80 mt-2 leading-relaxed font-medium">
-                جرّب كيف يتدخل خُطى قبل اتخاذ قرار شراء اندفاعي.
-              </p>
-            </div>
+            <p className="text-[9.5px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
+              محاكاة نون — جرّب تدخّل خُطى قبل شراء اندفاعي
+            </p>
           </div>
           <button
             onClick={() => setFreezeStage("noon")}
-            className="mt-3 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[12.5px] flex items-center justify-center gap-1.5 active:scale-[0.99] transition"
+            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[10.5px] active:scale-95 transition"
           >
-            <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
-            ابدأ المحاكاة
+            ابدأ
           </button>
         </div>
       </div>
