@@ -1,0 +1,1 @@
+UPDATE public.profiles SET income_label = 'مكافأة' WHERE income_label = 'منحة';
