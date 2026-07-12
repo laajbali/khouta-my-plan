@@ -1,0 +1,1 @@
+ALTER TABLE public.profiles ADD COLUMN IF NOT EXISTS fixed_expenses jsonb NOT NULL DEFAULT '[]'::jsonb;
