@@ -57,7 +57,7 @@ export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
     setInterceptOpen(false);
     setSub("none");
     setNotificationsResetKey((key) => key + 1);
-    setTab("notifications");
+    setTab("rewards");
   };
 
   if (sub === "noor") return <NoorChat onBack={close} userName={profile?.full_name ?? ""} />;
