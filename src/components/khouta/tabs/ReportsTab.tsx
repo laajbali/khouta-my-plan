@@ -43,13 +43,15 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
   const stats = useMemo(() => {
     const months = RANGE_MONTHS[range];
     const monthlyIncome = Number(profile?.monthly_income) || 0;
+    // Total expenses = sum of every fixed expense entered at onboarding
+    // plus any additional expense the user adds later (all stored in fixed_expenses)
     const monthlyExpense = (profile?.fixed_expenses ?? []).reduce(
       (s, e) => s + (Number(e?.amount) || 0),
       0,
     );
     const monthlySaving = Math.max(0, monthlyIncome - monthlyExpense);
     const income = monthlyIncome * months;
-    const expense = monthlyExpense * months;
+    const expense = monthlyExpense;
     const saving = monthlySaving * months;
     const savingRate = income > 0 ? Math.round((saving / income) * 100) : 0;
 
