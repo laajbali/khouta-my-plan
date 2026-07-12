@@ -27,7 +27,7 @@ import {
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
-import { useGoals, type Goal } from "@/hooks/use-khouta-data";
+import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
 
 /* ---------- Shared Chrome ---------- */
