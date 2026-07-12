@@ -291,7 +291,6 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             <button
               onClick={() => {
                 setActiveCoupon(null);
-                if (onCompleteReward) onCompleteReward();
               }}
               className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.98] transition"
             >
