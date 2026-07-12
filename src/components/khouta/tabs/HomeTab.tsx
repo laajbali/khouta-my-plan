@@ -102,6 +102,49 @@ export function HomeTab({
       </div>
 
       <div className="px-4 pt-4 space-y-4 bg-background">
+        {/* Today's Financial Summary — dynamic */}
+        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+              <Sparkles className="h-4 w-4" strokeWidth={2} />
+            </div>
+            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">ملخص اليوم</h4>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            <SummaryStat
+              value={remainingToday.toLocaleString()}
+              label="متبقٍ اليوم"
+              suffix="ر.س"
+              tone="text-mint"
+              icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
+            />
+            <SummaryStat
+              value={spentToday.toLocaleString()}
+              label="أُنفق اليوم"
+              suffix="ر.س"
+              tone="text-destructive"
+              icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
+            />
+            <SummaryStat
+              value={dailyLimit.toLocaleString()}
+              label="الحد اليومي"
+              suffix="ر.س"
+              tone="text-foreground"
+            />
+          </div>
+          <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
+            <div
+              className="h-full rounded-full bg-gradient-to-l from-mint to-primary transition-all"
+              style={{ width: `${budgetPct}%` }}
+            />
+          </div>
+          <p className="mt-2 text-[10.5px] text-muted-foreground text-right font-medium">
+            {dailyLimit === 0
+              ? "أضف دخلك الشهري لحساب حدك اليومي"
+              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+          </p>
+        </div>
+
         {/* Goals carousel */}
         {current ? (
           <GoalCarouselCard
@@ -218,49 +261,6 @@ export function HomeTab({
             <Heart className="h-4 w-4" strokeWidth={2.2} />
             تبرع بجزء
           </button>
-        </div>
-
-        {/* Today's Financial Summary — dynamic */}
-        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
-              <Sparkles className="h-4 w-4" strokeWidth={2} />
-            </div>
-            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">ملخص اليوم</h4>
-          </div>
-          <div className="grid grid-cols-3 gap-2">
-            <SummaryStat
-              value={remainingToday.toLocaleString()}
-              label="متبقٍ اليوم"
-              suffix="ر.س"
-              tone="text-mint"
-              icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
-            />
-            <SummaryStat
-              value={spentToday.toLocaleString()}
-              label="أُنفق اليوم"
-              suffix="ر.س"
-              tone="text-destructive"
-              icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
-            />
-            <SummaryStat
-              value={dailyLimit.toLocaleString()}
-              label="الحد اليومي"
-              suffix="ر.س"
-              tone="text-foreground"
-            />
-          </div>
-          <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
-            <div
-              className="h-full rounded-full bg-gradient-to-l from-mint to-primary transition-all"
-              style={{ width: `${budgetPct}%` }}
-            />
-          </div>
-          <p className="mt-2 text-[10.5px] text-muted-foreground text-right font-medium">
-            {dailyLimit === 0
-              ? "أضف دخلك الشهري لحساب حدك اليومي"
-              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
-          </p>
         </div>
 
         {/* Add new goal — subtle */}
