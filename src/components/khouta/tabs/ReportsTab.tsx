@@ -85,7 +85,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
       maxBar,
       months,
     };
-  }, [range, profile?.monthly_income, goals]);
+  }, [range, profile?.monthly_income, profile?.fixed_expenses, goals]);
 
   const fmt = (n: number) => Math.round(n).toLocaleString();
 
