@@ -11,7 +11,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
   const [cvv, setCvv] = useState("");
   const [save, setSave] = useState(false);
 
-  const who = data.fullName?.trim() || "بك";
+  
 
   async function finish() {
     const ok = await submit();
@@ -27,10 +27,10 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
         <Stepper current={4} />
       </div>
 
-      {/* Single flat iOS-style welcome banner — no toast, no stacking */}
+      {/* Single flat iOS-style welcome banner */}
       <div className="px-5 pt-4">
-        <div className="rounded-2xl bg-card px-4 py-3 text-right text-[13px] font-semibold text-foreground" style={{ boxShadow: "0 1px 2px oklch(0 0 0 / 0.04), 0 8px 24px -12px oklch(0 0 0 / 0.10)" }}>
-          أهلاً {who}، لنربط بطاقتك الآن
+        <div className="rounded-2xl bg-card border border-border px-4 py-3 text-right text-[13px] font-semibold text-foreground">
+          أهلاً سارة، لنربط بطاقتك الآن
         </div>
       </div>
 
