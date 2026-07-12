@@ -1457,7 +1457,7 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
 
 type FreezeMsg = { from: "ai" | "me"; text: string };
 const FREEZE_REASONS = ["احتياج فعلي", "حماس", "توتر", "ملل", "مكافأة لنفسي"];
-const FREEZE_TOTAL_SECONDS = 5 * 60;
+const FREEZE_TOTAL_SECONDS = 3 * 60;
 
 // Follow-up questions the coach cycles through per reason
 const FOLLOWUPS: Record<string, string[]> = {
