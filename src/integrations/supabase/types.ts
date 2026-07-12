@@ -47,6 +47,8 @@ export type Database = {
           created_at: string
           full_name: string | null
           id: string
+          income_label: string | null
+          income_source: string | null
           linked_bank: string | null
           monthly_income: number | null
           updated_at: string
@@ -56,6 +58,8 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id: string
+          income_label?: string | null
+          income_source?: string | null
           linked_bank?: string | null
           monthly_income?: number | null
           updated_at?: string
@@ -65,6 +69,8 @@ export type Database = {
           created_at?: string
           full_name?: string | null
           id?: string
+          income_label?: string | null
+          income_source?: string | null
           linked_bank?: string | null
           monthly_income?: number | null
           updated_at?: string
