@@ -102,6 +102,32 @@ export function HomeTab({
       </div>
 
       <div className="px-4 pt-4 space-y-4 bg-background">
+        {/* Goals carousel */}
+        {current ? (
+          <GoalCarouselCard
+            goal={current}
+            index={safeIdx}
+            total={goals.length}
+            onPrev={() => setGoalIdx((i) => (i - 1 + goals.length) % goals.length)}
+            onNext={() => setGoalIdx((i) => (i + 1) % goals.length)}
+            onSelect={setGoalIdx}
+            onOpenGoal={onOpenGoal}
+          />
+        ) : (
+          <button
+            onClick={onOpenNewGoal}
+            className="w-full rounded-[26px] p-6 text-center border-2 border-dashed border-border bg-card hover:border-primary/40 transition"
+          >
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
+              <Target className="h-6 w-6" strokeWidth={1.8} />
+            </div>
+            <p className="text-[14px] font-extrabold text-foreground">أنشئ هدفك الأول</p>
+            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
+              ابدأ رحلة الادخار الآن
+            </p>
+          </button>
+        )}
+
         {/* Today's Financial Summary — dynamic */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
@@ -144,32 +170,6 @@ export function HomeTab({
               : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
           </p>
         </div>
-
-        {/* Goals carousel */}
-        {current ? (
-          <GoalCarouselCard
-            goal={current}
-            index={safeIdx}
-            total={goals.length}
-            onPrev={() => setGoalIdx((i) => (i - 1 + goals.length) % goals.length)}
-            onNext={() => setGoalIdx((i) => (i + 1) % goals.length)}
-            onSelect={setGoalIdx}
-            onOpenGoal={onOpenGoal}
-          />
-        ) : (
-          <button
-            onClick={onOpenNewGoal}
-            className="w-full rounded-[26px] p-6 text-center border-2 border-dashed border-border bg-card hover:border-primary/40 transition"
-          >
-            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
-              <Target className="h-6 w-6" strokeWidth={1.8} />
-            </div>
-            <p className="text-[14px] font-extrabold text-foreground">أنشئ هدفك الأول</p>
-            <p className="text-[11px] text-muted-foreground mt-1 font-medium">
-              ابدأ رحلة الادخار الآن
-            </p>
-          </button>
-        )}
 
         {/* 2×2 grid */}
         <div className="grid grid-cols-2 gap-3">
