@@ -1457,7 +1457,7 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
 
 type FreezeMsg = { from: "ai" | "me"; text: string };
 const FREEZE_REASONS = ["احتياج فعلي", "حماس", "توتر", "ملل", "مكافأة لنفسي"];
-const FREEZE_TOTAL_SECONDS = 5 * 60;
+const FREEZE_TOTAL_SECONDS = 3 * 60;
 
 // Follow-up questions the coach cycles through per reason
 const FOLLOWUPS: Record<string, string[]> = {
@@ -1574,7 +1574,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
       { from: "me", text: r },
       {
         from: "ai",
-        text: "شكراً لمشاركتك. فتحت لك جلسة تجميد 5 دقائق — خلينا نتحدث بهدوء خلالها.",
+        text: "شكراً لمشاركتك. فتحت لك جلسة تجميد 3 دقائق — خلينا نتحدث بهدوء خلالها.",
       },
     ]);
     setTyping(true);
@@ -1608,13 +1608,32 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
   return (
     <div className="flex flex-col h-full bg-background">
       <div className="bg-card px-5 pt-4 pb-3 flex items-center justify-between border-b border-border shrink-0">
-        <button
-          onClick={onBack}
-          className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center"
-          aria-label="رجوع"
-        >
-          <ChevronRight className="h-5 w-5 text-foreground" />
-        </button>
+        {reason && !finished ? (
+          <button
+            onClick={() => {
+              const ok = window.confirm(
+                "هل هذه حالة طوارئ فعلية؟\nسيتم إيقاف مؤقت التجميد والخروج لإكمال الشراء.",
+              );
+              if (ok) {
+                toast("خروج طارئ — تم إيقاف التجميد");
+                onExit();
+              }
+            }}
+            className="h-10 px-3 rounded-2xl bg-rose-50 text-rose-700 text-[11.5px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
+            aria-label="خروج طارئ"
+          >
+            <Shield className="h-3.5 w-3.5" strokeWidth={2.5} />
+            طوارئ
+          </button>
+        ) : (
+          <button
+            onClick={onBack}
+            className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center"
+            aria-label="رجوع"
+          >
+            <ChevronRight className="h-5 w-5 text-foreground" />
+          </button>
+        )}
         <div className="text-center">
           <div className="flex items-center gap-1.5 justify-center">
             <Shield className="h-4 w-4 text-primary" strokeWidth={2} />
@@ -1624,6 +1643,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         </div>
         <div className="w-10" />
       </div>
+
 
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-3">
         {reason && (
