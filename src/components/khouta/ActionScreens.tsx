@@ -747,7 +747,24 @@ const EVENT_KINDS = [
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
-  const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
+  const profile = useProfile();
+  const incomeAmount = Number(profile?.monthly_income ?? 0);
+  const incomeLabel = profile?.income_label || "الدخل";
+  const [events, setEvents] = useState<CalEvent[]>(() => {
+    const base = [...INITIAL_EVENTS];
+    if (incomeAmount > 0) {
+      base.unshift({
+        day: 10,
+        title: `نزول ${incomeLabel}`,
+        subtitle: "الأربعاء 10 يوليو",
+        amount: incomeAmount,
+        tone: "in",
+        icon: "💰",
+        status: "today",
+      });
+    }
+    return base;
+  });
   const [selected, setSelected] = useState(10);
   const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
   const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
