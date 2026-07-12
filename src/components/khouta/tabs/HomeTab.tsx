@@ -104,15 +104,23 @@ export function HomeTab({
       <div className="px-4 pt-4 space-y-4 bg-background">
         {/* Goals carousel */}
         {current ? (
-          <GoalCarouselCard
-            goal={current}
-            index={safeIdx}
-            total={goals.length}
-            onPrev={() => setGoalIdx((i) => (i - 1 + goals.length) % goals.length)}
-            onNext={() => setGoalIdx((i) => (i + 1) % goals.length)}
-            onSelect={setGoalIdx}
-            onOpenGoal={onOpenGoal}
-          />
+          <>
+            <GoalCarouselCard
+              goal={current}
+              index={safeIdx}
+              total={goals.length}
+              onPrev={() => setGoalIdx((i) => (i - 1 + goals.length) % goals.length)}
+              onNext={() => setGoalIdx((i) => (i + 1) % goals.length)}
+              onSelect={setGoalIdx}
+              onOpenGoal={onOpenGoal}
+            />
+            <button
+              onClick={onOpenNewGoal}
+              className="w-full py-2.5 rounded-2xl border border-dashed border-border text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
+            >
+              <Plus className="h-4 w-4" /> إضافة هدف جديد
+            </button>
+          </>
         ) : (
           <button
             onClick={onOpenNewGoal}
@@ -127,6 +135,7 @@ export function HomeTab({
             </p>
           </button>
         )}
+
 
         {/* Today's Financial Summary — dynamic */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
