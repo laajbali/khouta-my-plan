@@ -30,7 +30,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
       {/* Single flat iOS-style welcome banner */}
       <div className="px-5 pt-4">
         <div className="rounded-2xl bg-card border border-border px-4 py-3 text-right text-[13px] font-semibold text-foreground">
-          أهلاً سارة، لنربط بطاقتك الآن
+          {`أهلاً ${(data.fullName?.trim().split(" ")[0]) || "بك"}، لنربط بطاقتك الآن`}
         </div>
       </div>
 
