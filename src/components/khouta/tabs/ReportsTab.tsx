@@ -43,8 +43,10 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
   const stats = useMemo(() => {
     const months = RANGE_MONTHS[range];
     const monthlyIncome = Number(profile?.monthly_income) || 0;
-    // rough expense estimate: 60% of income when no per-category data yet
-    const monthlyExpense = Math.round(monthlyIncome * 0.6);
+    const monthlyExpense = (profile?.fixed_expenses ?? []).reduce(
+      (s, e) => s + (Number(e?.amount) || 0),
+      0,
+    );
     const monthlySaving = Math.max(0, monthlyIncome - monthlyExpense);
     const income = monthlyIncome * months;
     const expense = monthlyExpense * months;
