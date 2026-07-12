@@ -30,7 +30,7 @@ export function useProfile() {
     if (!user) return setProfile(null);
     supabase
       .from("profiles")
-      .select("id, full_name, monthly_income, linked_bank, commitment_score, income_source, income_label")
+      .select("id, full_name, monthly_income, linked_bank, commitment_score, income_source, income_label, fixed_expenses")
       .eq("id", user.id)
       .maybeSingle()
       .then(({ data }) => setProfile(data as Profile | null));
