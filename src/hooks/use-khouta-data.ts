@@ -10,6 +10,7 @@ export type Profile = {
   commitment_score: number;
   income_source: string | null;
   income_label: string | null;
+  fixed_expenses: { key: string; label: string; amount: number }[] | null;
 };
 
 export type Goal = {
