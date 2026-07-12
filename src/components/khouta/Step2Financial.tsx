@@ -17,7 +17,7 @@ import { useOnboarding } from "./onboarding-context";
 
 const INCOME_SOURCES = [
   { key: "salary", label: "راتب شهري", icon: <Wallet className="h-5 w-5" strokeWidth={1.8} /> },
-  { key: "bonus", label: "مكافأة", icon: <Gift className="h-5 w-5" strokeWidth={1.8} /> },
+  { key: "scholarship", label: "منحة", icon: <Gift className="h-5 w-5" strokeWidth={1.8} /> },
   { key: "freelance", label: "عمل حر", icon: <Laptop className="h-5 w-5" strokeWidth={1.8} /> },
   { key: "other", label: "أخرى", icon: <MoreHorizontal className="h-5 w-5" strokeWidth={1.8} /> },
 ];
