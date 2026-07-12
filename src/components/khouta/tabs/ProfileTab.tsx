@@ -176,7 +176,7 @@ export function ProfileTab({
               <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
               <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
             </button>
-            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate text-right" dir="ltr" style={{ textAlign: "right" }}>
+            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate text-right">
               {user?.email ?? ""}
             </p>
             <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-right">
