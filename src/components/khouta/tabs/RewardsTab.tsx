@@ -1,6 +1,7 @@
 import { Bell, Clock, Gift, ShieldCheck, CheckCircle2, ChevronLeft, Tag, X, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useGoals } from "@/hooks/use-khouta-data";
 
 const FILTERS = ["منتهية", "قيد الاستخدام", "متاحة", "الكل"];
 
