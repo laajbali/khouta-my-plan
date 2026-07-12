@@ -8,6 +8,8 @@ export type Profile = {
   monthly_income: number | null;
   linked_bank: string | null;
   commitment_score: number;
+  income_source: string | null;
+  income_label: string | null;
 };
 
 export type Goal = {
