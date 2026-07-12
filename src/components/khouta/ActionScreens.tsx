@@ -1455,16 +1455,66 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
   );
 }
 
-/* ---------- Freeze Mode — AI conversation + 5-min timer ---------- */
 type FreezeMsg = { from: "ai" | "me"; text: string };
 const FREEZE_REASONS = ["احتياج فعلي", "حماس", "توتر", "ملل", "مكافأة لنفسي"];
 const FREEZE_TOTAL_SECONDS = 5 * 60;
+
+// Follow-up questions the coach cycles through per reason
+const FOLLOWUPS: Record<string, string[]> = {
+  "احتياج فعلي": [
+    "هل تحتاج هذه السماعة فعلاً اليوم، أم يمكن تأجيلها؟",
+    "هل لديك سماعة تعمل بشكل جيد حالياً؟",
+    "لو أجّلتها أسبوعاً، ما الذي سيتغيّر فعلاً؟",
+    "هل يوجد بديل أرخص يغطي نفس الغرض؟",
+    "كم يقرّبك مبلغ 400 ريال من هدفك المالي الحالي؟",
+    "لو خيّرتك: السماعة الآن أو خطوة أقرب لهدفك، أيهما تختار؟",
+  ],
+  حماس: [
+    "الحماس شعور جميل — من أين جاءك الحماس لهذا المنتج؟",
+    "لو انتظرت الحماس يهدأ، هل ستبقى قناعتك بالشراء؟",
+    "هل شعرت بهذا الحماس من قبل ثم ندمت على الشراء؟",
+    "ما الذي ستستفيده حقاً من هذه السماعة خلال شهر؟",
+    "هل يمكن توجيه هذا الحماس نحو هدفك المالي بدلاً منها؟",
+  ],
+  توتر: [
+    "أتفهم شعورك 🌿 — ما الذي يوترك الآن؟",
+    "هل تعتقد أن الشراء سيحلّ سبب التوتر أم يخفّف الشعور مؤقتاً؟",
+    "جرّبت من قبل تخفيف التوتر بطريقة أخرى؟ كيف كانت النتيجة؟",
+    "لو تنفّست دقيقة ثم عدت للقرار، هل سيتغير رأيك؟",
+    "ما الشعور الذي تريده بدل التوتر؟ يمكن نصل له بدون شراء.",
+  ],
+  ملل: [
+    "الملل صديق التسوق الاندفاعي 😉 — ما آخر شيء أمتعك حقاً؟",
+    "هل يوجد نشاط بسيط الآن يمكنه كسر الملل؟",
+    "لو اشتريت السماعة، كم يوماً ستبقى سعيداً بها فعلاً؟",
+    "هل يمكن استبدال الشراء بشيء مجاني: مشي، كتاب، مكالمة؟",
+    "لو مرّ الملل، هل ستحتاج السماعة أصلاً؟",
+  ],
+  "مكافأة لنفسي": [
+    "تستحق المكافأة 💚 — ما الإنجاز الذي تكافئ نفسك عليه؟",
+    "هل هذه المكافأة تعبّر فعلاً عن حجم الإنجاز؟",
+    "هل هناك مكافأة تعزّز صحتك أو مهاراتك بنفس المبلغ؟",
+    "لو ادّخرت المبلغ لهدفك، ألن يكون ذلك مكافأة أكبر؟",
+    "المكافآت الصغيرة أحياناً أجمل — هل جربت ذلك؟",
+  ],
+};
+
+const ACK_LINES = [
+  "شكراً لصراحتك 🙏",
+  "ملاحظة جميلة، خلينا نكمل.",
+  "أفهم قصدك تماماً.",
+  "منطقي جداً، فكرة مهمة.",
+  "جميل، هذا يساعدنا نفكر بهدوء.",
+];
 
 function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () => void }) {
   const profile = useProfile();
   const firstName = (profile?.full_name || "").trim().split(" ")[0];
   const [reason, setReason] = useState<string | null>(null);
   const [seconds, setSeconds] = useState(FREEZE_TOTAL_SECONDS);
+  const [input, setInput] = useState("");
+  const [typing, setTyping] = useState(false);
+  const [askIndex, setAskIndex] = useState(0);
   const [msgs, setMsgs] = useState<FreezeMsg[]>([
     {
       from: "ai",
@@ -1479,49 +1529,76 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
       text: "ما السبب الأقرب لقرار الشراء؟",
     },
   ]);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+  }, [msgs, typing]);
+
+  // Countdown
   useEffect(() => {
     if (!reason || seconds <= 0) return;
     const t = setInterval(() => setSeconds((s) => Math.max(0, s - 1)), 1000);
     return () => clearInterval(t);
   }, [reason, seconds]);
 
-  // Supportive coach messages during countdown
+  // Gentle nudge if user idle for a while — asks the next question
   useEffect(() => {
+    if (!reason || seconds <= 0) return;
+    const last = msgs[msgs.length - 1];
+    if (last?.from !== "ai") return;
+    const idle = setTimeout(() => {
+      askNext();
+    }, 35_000);
+    return () => clearTimeout(idle);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [msgs, reason, seconds]);
+
+  function askNext() {
     if (!reason) return;
-    const supportive: Record<string, string[]> = {
-      "احتياج فعلي": [
-        "طيب، لو الاحتياج حقيقي فقرارك سليم. لكن لنتأكد سوياً 🙂",
-        "هل يوجد بديل أرخص يغطي نفس الغرض؟",
-        "تذكّر: القرار النهائي دائماً لك، وأنا هنا لدعمك.",
-      ],
-      حماس: [
-        "الحماس شعور جميل، لكنه أحياناً يستعجل القرار 💚",
-        "خذ نفسًا عميقًا. لو كان قراراً صحيحاً بعد الوقت، فسيبقى صحيحًا.",
-        "تذكّر هدفك المالي — كل ريال يقرّبك منه.",
-      ],
-      توتر: [
-        "الشراء وقت التوتر ممتع مؤقتاً، لكنه لا يحل السبب 🌿",
-        "جرّب مشي 5 دقائق أو تنفّس عميق قبل المتابعة.",
-        "أنا معك حتى ينتهي الوقت، لا تقلق.",
-      ],
-      ملل: [
-        "الملل صديق التسوق الاندفاعي 😉",
-        "جرّب شيئاً بسيطاً: كوب قهوة، بودكاست، أو اتصال بصديق.",
-        "بعد قليل ستشعر أن الشراء لم يكن ضرورياً.",
-      ],
-      "مكافأة لنفسي": [
-        "تستحق مكافأة، لكن هل هذه هي الأفضل لهدفك؟ 💚",
-        "يمكنك مكافأة نفسك بشيء يعزز صحتك أو مهاراتك.",
-        "المكافآت الصغيرة أحياناً أجمل من الكبيرة.",
-      ],
-    };
-    const list = supportive[reason] ?? [];
-    const timers = list.map((text, i) =>
-      setTimeout(() => setMsgs((m) => [...m, { from: "ai", text }]), (i + 1) * 45_000),
-    );
-    return () => timers.forEach(clearTimeout);
-  }, [reason]);
+    const list = FOLLOWUPS[reason] ?? [];
+    if (list.length === 0) return;
+    const q = list[askIndex % list.length];
+    setAskIndex((i) => i + 1);
+    setTyping(true);
+    setTimeout(() => {
+      setMsgs((m) => [...m, { from: "ai", text: q }]);
+      setTyping(false);
+    }, 700);
+  }
+
+  function pickReason(r: string) {
+    setReason(r);
+    setMsgs((m) => [
+      ...m,
+      { from: "me", text: r },
+      {
+        from: "ai",
+        text: "شكراً لمشاركتك. فتحت لك جلسة تجميد 5 دقائق — خلينا نتحدث بهدوء خلالها.",
+      },
+    ]);
+    setTyping(true);
+    setTimeout(() => {
+      const list = FOLLOWUPS[r] ?? [];
+      setMsgs((m) => [...m, { from: "ai", text: list[0] ?? "كيف تشعر الآن تجاه القرار؟" }]);
+      setAskIndex(1);
+      setTyping(false);
+    }, 900);
+  }
+
+  function sendUser(text: string) {
+    const value = text.trim();
+    if (!value || seconds <= 0) return;
+    setMsgs((m) => [...m, { from: "me", text: value }]);
+    setInput("");
+    const ack = ACK_LINES[Math.floor(Math.random() * ACK_LINES.length)];
+    setTyping(true);
+    setTimeout(() => {
+      setMsgs((m) => [...m, { from: "ai", text: ack }]);
+      setTyping(false);
+      setTimeout(() => askNext(), 900);
+    }, 700);
+  }
 
   const mm = String(Math.floor(seconds / 60)).padStart(2, "0");
   const ss = String(seconds % 60).padStart(2, "0");
@@ -1548,7 +1625,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         <div className="w-10" />
       </div>
 
-      <div className="flex-1 overflow-y-auto p-5 space-y-3">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-3">
         {reason && (
           <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm text-center">
             <p className="text-[10.5px] font-bold text-muted-foreground tracking-wider uppercase">
@@ -1591,22 +1668,22 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
           </div>
         ))}
 
+        {typing && (
+          <div className="flex justify-end">
+            <div className="bg-card border border-border rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1">
+              <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce" />
+              <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0.15s]" />
+              <span className="w-1.5 h-1.5 bg-muted-foreground rounded-full animate-bounce [animation-delay:0.3s]" />
+            </div>
+          </div>
+        )}
+
         {!reason && (
           <div className="grid grid-cols-2 gap-2 pt-2" dir="rtl">
             {FREEZE_REASONS.map((r) => (
               <button
                 key={r}
-                onClick={() => {
-                  setReason(r);
-                  setMsgs((m) => [
-                    ...m,
-                    { from: "me", text: r },
-                    {
-                      from: "ai",
-                      text: "شكراً لمشاركتك. بناءً على نمطك سأفتح وضع التجميد لمدة 5 دقائق لمساعدتك على التفكير بهدوء.",
-                    },
-                  ]);
-                }}
+                onClick={() => pickReason(r)}
                 className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-bold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
               >
                 {r}
@@ -1615,6 +1692,32 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
           </div>
         )}
       </div>
+
+      {reason && !finished && (
+        <div className="p-3 bg-card border-t border-border shrink-0">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              sendUser(input);
+            }}
+            className="flex items-center gap-2 bg-secondary rounded-2xl px-4 py-2"
+          >
+            <button
+              type="submit"
+              className="h-9 w-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shrink-0"
+              aria-label="إرسال"
+            >
+              <Send className="h-4 w-4 -rotate-180" />
+            </button>
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="اكتب ردك..."
+              className="flex-1 bg-transparent outline-none text-sm text-right"
+            />
+          </form>
+        </div>
+      )}
 
       {finished && (
         <div className="border-t border-border bg-card p-4 space-y-2 shrink-0">
