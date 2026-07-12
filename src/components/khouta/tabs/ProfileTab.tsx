@@ -156,7 +156,22 @@ export function ProfileTab({
           }}
         >
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-mint/20 rounded-full blur-3xl" />
-          <div className="relative shrink-0">
+          <div className="relative flex-1 text-right min-w-0 order-1">
+            <button
+              onClick={() => toast("قريباً: تعديل الاسم")}
+              className="flex items-center gap-1.5 justify-end w-full"
+            >
+              <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
+              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
+            </button>
+            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate text-right">
+              {user?.email ?? ""}
+            </p>
+            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-right">
+              مستقبلك المالي بين يديك
+            </p>
+          </div>
+          <div className="relative shrink-0 order-2">
             <div className="h-[76px] w-[76px] rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white">
               <User className="h-9 w-9" strokeWidth={1.5} />
             </div>
@@ -168,22 +183,8 @@ export function ProfileTab({
               <Camera className="h-3 w-3" strokeWidth={2.4} />
             </button>
           </div>
-          <div className="relative flex-1 text-right min-w-0">
-            <button
-              onClick={() => toast("قريباً: تعديل الاسم")}
-              className="flex items-center gap-1.5 justify-end w-full"
-            >
-              <Edit className="h-3.5 w-3.5 text-mint" strokeWidth={2} />
-              <h2 className="text-[19px] font-black tracking-tight truncate">{displayName}</h2>
-            </button>
-            <p className="text-[11.5px] text-white/70 mt-1 font-medium truncate text-right">
-              {user?.email ?? ""}
-            </p>
-            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-right">
-              مستقبلك المالي بين يديك
-            </p>
-          </div>
         </div>
+
 
         {/* List-style navigation blocks */}
         <div className="rounded-[20px] bg-card border border-border shadow-sm overflow-hidden">

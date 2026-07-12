@@ -117,12 +117,16 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           data.incomeSource === "other"
             ? data.incomeSourceCustom.trim() || "دخل"
             : INCOME_LABELS[data.incomeSource] || "دخل";
+        const fixedExpenses = data.expenses
+          .map((e) => ({ key: e.key, label: e.label?.trim() || "", amount: Number(e.amount) || 0 }))
+          .filter((e) => e.amount > 0 && e.label.length > 0);
         await supabase.from("profiles").upsert({
           id: userId,
           full_name: data.fullName,
           monthly_income: Number(data.monthlyIncome) || 0,
           income_source: data.incomeSource,
           income_label: incomeLabel,
+          fixed_expenses: fixedExpenses,
         });
         // Only create the onboarding goal if no goal exists yet for this user
         const { data: existing } = await supabase

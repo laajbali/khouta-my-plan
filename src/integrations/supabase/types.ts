@@ -45,6 +45,7 @@ export type Database = {
         Row: {
           commitment_score: number
           created_at: string
+          fixed_expenses: Json
           full_name: string | null
           id: string
           income_label: string | null
@@ -56,6 +57,7 @@ export type Database = {
         Insert: {
           commitment_score?: number
           created_at?: string
+          fixed_expenses?: Json
           full_name?: string | null
           id: string
           income_label?: string | null
@@ -67,6 +69,7 @@ export type Database = {
         Update: {
           commitment_score?: number
           created_at?: string
+          fixed_expenses?: Json
           full_name?: string | null
           id?: string
           income_label?: string | null
