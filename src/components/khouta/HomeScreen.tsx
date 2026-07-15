@@ -23,6 +23,7 @@ import {
   GroupChallengeScreen,
 } from "./ActionScreens";
 import { useProfile, useGoals } from "@/hooks/use-khouta-data";
+import { BudgetProvider } from "./budget-context";
 
 type SubScreen =
   | "none"
