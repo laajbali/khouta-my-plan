@@ -62,8 +62,7 @@ export function HomeTab({
 
   const { dailyLimit, spentToday, remainingToday } = useBudget();
   const isOverBudget = spentToday > dailyLimit || remainingToday < 0;
-  const budgetPct =
-    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 100;
+  const budgetPct = isOverBudget ? 100 : 70;
 
   return (
     <div className="bg-background pb-4">
