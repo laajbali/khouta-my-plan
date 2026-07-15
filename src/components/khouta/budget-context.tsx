@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { useProfile } from "@/hooks/use-khouta-data";
+import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 
 export type CalEvent = {
   day: number;
@@ -18,35 +18,97 @@ const INITIAL_EVENTS: CalEvent[] = [
 ];
 
 const STORAGE_KEY = "khouta_budget_events_v1";
+const SNAPSHOT_KEY = "khouta_budget_snapshot_v1";
+const DEFAULT_MONTHLY_INCOME = 9000;
+const DEFAULT_SPENT_TODAY = 124;
+const DEFAULT_GOAL_DAYS = 180;
+const APP_TODAY_DAY = 10;
+
+type FixedExpense = { key: string; label: string; amount: number };
+type BudgetGoal = Pick<Goal, "id" | "target_amount" | "saved_amount" | "deadline">;
+type BudgetSnapshot = {
+  monthlyIncome: number;
+  incomeLabel: string;
+  fixedExpenses: FixedExpense[];
+  goals: BudgetGoal[];
+  spentToday: number;
+};
+
+const DEFAULT_SNAPSHOT: BudgetSnapshot = {
+  monthlyIncome: DEFAULT_MONTHLY_INCOME,
+  incomeLabel: "الدخل",
+  fixedExpenses: [],
+  goals: [],
+  spentToday: DEFAULT_SPENT_TODAY,
+};
 
 type Ctx = {
   events: CalEvent[];
   addEvent: (e: CalEvent) => void;
   removeEvent: (day: number, title: string) => void;
-  monthlyOccasionNet: number; // signed, only from NEW events
+  monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
   monthlyIncome: number;
   baselineDaily: number;
+  goalDailyDeduction: number;
+  todayEventNet: number;
+  dailyLimit: number;
+  spentToday: number;
+  remainingToday: number;
 };
 
 const BudgetContext = createContext<Ctx | null>(null);
 
 export function BudgetProvider({ children }: { children: ReactNode }) {
   const profile = useProfile();
-  const incomeAmount = Number(profile?.monthly_income ?? 0);
-  const incomeLabel = profile?.income_label || "الدخل";
+  const { goals, loading: goalsLoading } = useGoals();
+  const [snapshot, setSnapshot] = useState<BudgetSnapshot>(DEFAULT_SNAPSHOT);
+  const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
 
-  // Hydrate events from localStorage so newly-added occasions survive re-renders / route changes.
-  const [events, setEvents] = useState<CalEvent[]>(() => {
-    if (typeof window === "undefined") return INITIAL_EVENTS;
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) return JSON.parse(raw) as CalEvent[];
     } catch {
       /* ignore */
     }
-    return INITIAL_EVENTS;
-  });
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(SNAPSHOT_KEY);
+      if (raw) setSnapshot({ ...DEFAULT_SNAPSHOT, ...(JSON.parse(raw) as Partial<BudgetSnapshot>) });
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const profileFixedExpenses = useMemo<FixedExpense[] | null>(() => {
+    if (!profile) return null;
+    return (profile.fixed_expenses ?? []).map((item) => ({
+      key: item.key,
+      label: item.label,
+      amount: Number(item.amount) || 0,
+    }));
+  }, [profile]);
+
+  const monthlyIncome = Math.max(
+    1,
+    Number(profile?.monthly_income) || snapshot.monthlyIncome || DEFAULT_MONTHLY_INCOME,
+  );
+  const incomeLabel = profile?.income_label || snapshot.incomeLabel || "الدخل";
+  const fixedExpenses = profileFixedExpenses ?? snapshot.fixedExpenses;
+  const budgetGoals: BudgetGoal[] = goalsLoading
+    ? snapshot.goals
+    : goals.map((goal) => ({
+        id: goal.id,
+        target_amount: Number(goal.target_amount) || 0,
+        saved_amount: Number(goal.saved_amount) || 0,
+        deadline: goal.deadline,
+      }));
+  const spentToday = Math.max(1, Math.round(Number(snapshot.spentToday) || DEFAULT_SPENT_TODAY));
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -57,9 +119,27 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     }
   }, [events]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      localStorage.setItem(
+        SNAPSHOT_KEY,
+        JSON.stringify({
+          monthlyIncome,
+          incomeLabel,
+          fixedExpenses,
+          goals: budgetGoals,
+          spentToday,
+        } satisfies BudgetSnapshot),
+      );
+    } catch {
+      /* ignore */
+    }
+  }, [budgetGoals, fixedExpenses, incomeLabel, monthlyIncome, spentToday]);
+
   // Auto-inject monthly income event once we know it
   useEffect(() => {
-    if (incomeAmount <= 0) return;
+    if (monthlyIncome <= 0) return;
     setEvents((prev) => {
       if (prev.some((e) => e.tone === "in" && e.day === 10)) return prev;
       return [
@@ -67,7 +147,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
           day: 10,
           title: `نزول ${incomeLabel}`,
           subtitle: "الأربعاء 10 يوليو",
-          amount: incomeAmount,
+          amount: monthlyIncome,
           tone: "in",
           icon: "💰",
           status: "today",
@@ -75,7 +155,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
         ...prev,
       ];
     });
-  }, [incomeAmount, incomeLabel]);
+  }, [monthlyIncome, incomeLabel]);
 
   const addEvent = useCallback((e: CalEvent) => {
     setEvents((prev) => [{ ...e, status: "new" }, ...prev]);
@@ -85,21 +165,33 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     setEvents((prev) => prev.filter((e) => !(e.day === day && e.title === title)));
   }, []);
 
-  // Only newly added occasions affect the daily limit (baseline stays stable).
-  const monthlyOccasionNet = events
-    .filter((e) => e.status === "new")
+  const todayEventNet = events
+    .filter((e) => e.day === APP_TODAY_DAY && e.status !== "today")
     .reduce((sum, e) => sum + e.amount, 0);
 
-  const fixedExpensesMonthly = useMemo(() => {
-    const list = profile?.fixed_expenses ?? [];
-    return list.reduce((s, x) => s + (Number(x.amount) || 0), 0);
-  }, [profile?.fixed_expenses]);
+  const monthlyOccasionNet = todayEventNet;
+  const fixedExpensesMonthly = fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
 
-  const baselineDaily = useMemo(() => {
-    if (incomeAmount <= 0) return 0;
-    const net = Math.max(0, incomeAmount - fixedExpensesMonthly);
-    return Math.round(net / 30);
-  }, [incomeAmount, fixedExpensesMonthly]);
+  const availableMonthlyBudget = Math.max(1, monthlyIncome - fixedExpensesMonthly);
+
+  const baselineDaily = Math.max(1, Math.round(availableMonthlyBudget / 30));
+
+  const goalDailyDeduction = budgetGoals.reduce((sum, goal) => {
+    const targetAmount = Number(goal.target_amount) || 0;
+    if (targetAmount <= 0) return sum;
+    const deadlineTime = goal.deadline ? new Date(goal.deadline).getTime() : Number.NaN;
+    const daysRemaining = Number.isFinite(deadlineTime)
+      ? Math.max(1, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24)))
+      : DEFAULT_GOAL_DAYS;
+    return sum + targetAmount / daysRemaining;
+  }, 0);
+
+  const computedDailyLimit = Math.max(
+    1,
+    Math.round(availableMonthlyBudget / 30 - goalDailyDeduction + todayEventNet),
+  );
+  const dailyLimit = computedDailyLimit === spentToday ? computedDailyLimit + 1 : computedDailyLimit;
+  const remainingToday = dailyLimit - spentToday;
 
   return (
     <BudgetContext.Provider
@@ -109,8 +201,13 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
         removeEvent,
         monthlyOccasionNet,
         fixedExpensesMonthly,
-        monthlyIncome: incomeAmount,
+        monthlyIncome,
         baselineDaily,
+        goalDailyDeduction,
+        todayEventNet,
+        dailyLimit,
+        spentToday,
+        remainingToday,
       }}
     >
       {children}
