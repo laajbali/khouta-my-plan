@@ -16,6 +16,7 @@ import {
   Heart,
 } from "lucide-react";
 import { useProfile, useGoals, type Goal } from "@/hooks/use-khouta-data";
+import { useBudget } from "@/components/khouta/budget-context";
 import ihsanLogo from "@/assets/ihsan-logo.asset.json";
 
 
