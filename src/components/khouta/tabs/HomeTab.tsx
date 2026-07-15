@@ -61,8 +61,9 @@ export function HomeTab({
   const current: Goal | undefined = goals[safeIdx];
 
   const { dailyLimit, spentToday, remainingToday } = useBudget();
+  const isOverBudget = spentToday > dailyLimit || remainingToday < 0;
   const budgetPct =
-    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 0;
+    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 100;
 
   return (
     <div className="bg-background pb-4">
@@ -147,7 +148,7 @@ export function HomeTab({
               value={remainingToday.toLocaleString()}
               label="متبقٍ اليوم"
               suffix="ر.س"
-              tone="text-mint"
+              tone={isOverBudget ? "text-red-500" : "text-mint"}
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
             />
             <SummaryStat
@@ -166,12 +167,20 @@ export function HomeTab({
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
             <div
-              className="h-full rounded-full bg-gradient-to-l from-mint to-primary transition-all"
+              className={`h-full rounded-full transition-all ${
+                isOverBudget ? "bg-red-500" : "bg-gradient-to-l from-mint to-primary"
+              }`}
               style={{ width: `${budgetPct}%` }}
             />
           </div>
-          <p className="mt-2 text-[10.5px] text-muted-foreground text-right font-medium">
-            أنت ضمن ميزانية اليوم • {budgetPct}%
+          <p
+            className={`mt-2 text-[10.5px] text-right font-medium ${
+              isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
+            }`}
+          >
+            {isOverBudget
+              ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
+              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
           </p>
         </div>
 

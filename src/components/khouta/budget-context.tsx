@@ -201,11 +201,10 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     return sum + targetAmount / daysRemaining;
   }, 0);
 
-  const computedDailyLimit = Math.max(
-    1,
+  const dailyLimit = Math.max(
+    0,
     Math.round(availableMonthlyBudget / 30 - goalDailyDeduction + todayEventNet),
   );
-  const dailyLimit = computedDailyLimit === spentToday ? computedDailyLimit + 1 : computedDailyLimit;
   const remainingToday = dailyLimit - spentToday;
 
   return (
