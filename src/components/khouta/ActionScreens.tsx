@@ -30,6 +30,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
+import { useBudget } from "./budget-context";
 
 /* ---------- Shared Chrome ---------- */
 
@@ -730,12 +731,6 @@ type CalEvent = {
   status?: "new" | "upcoming" | "today";
 };
 
-const INITIAL_EVENTS: CalEvent[] = [
-  { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out", icon: "🎂", status: "upcoming" },
-  { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save", icon: "🏦", status: "upcoming" },
-  { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out", icon: "🎉", status: "upcoming" },
-];
-
 const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
 const EVENT_KINDS = [
@@ -748,28 +743,7 @@ const EVENT_KINDS = [
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
-  const profile = useProfile();
-  const incomeAmount = Number(profile?.monthly_income ?? 0);
-  const incomeLabel = profile?.income_label || "الدخل";
-  const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
-  useEffect(() => {
-    if (incomeAmount <= 0) return;
-    setEvents((prev) => {
-      if (prev.some((e) => e.tone === "in" && e.day === 10)) return prev;
-      return [
-        {
-          day: 10,
-          title: `نزول ${incomeLabel}`,
-          subtitle: "الأربعاء 10 يوليو",
-          amount: incomeAmount,
-          tone: "in",
-          icon: "💰",
-          status: "today",
-        },
-        ...prev,
-      ];
-    });
-  }, [incomeAmount, incomeLabel]);
+  const { events, addEvent } = useBudget();
   const [selected, setSelected] = useState(10);
   const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
   const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
@@ -779,7 +753,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
       <AddEventScreen
         onBack={() => setScreen("main")}
         onSave={(e) => {
-          setEvents((prev) => [{ ...e, status: "new" }, ...prev]);
+          addEvent(e);
           setLastAdded(e);
           setScreen("loading");
           setTimeout(() => setScreen("ai-done"), 1400);

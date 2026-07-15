@@ -124,7 +124,7 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
         {/* Fixed expenses */}
         <Section title="المصاريف الشهرية">
           <div className="space-y-2">
-            {data.expenses.map((e, i) => (
+            {data.expenses.map((e) => (
               <div
                 key={e.key}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2.5 shadow-sm"
@@ -153,14 +153,13 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
                     <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
                   )}
                 </div>
-                {i >= 3 && (
-                  <button
-                    onClick={() => removeExpense(e.key)}
-                    className="h-7 w-7 rounded-lg text-destructive/70 hover:bg-destructive/10 flex items-center justify-center shrink-0"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" strokeWidth={2} />
-                  </button>
-                )}
+                <button
+                  onClick={() => removeExpense(e.key)}
+                  aria-label="حذف المصروف"
+                  className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center justify-center shrink-0 transition"
+                >
+                  <Trash2 className="h-4 w-4" strokeWidth={2} />
+                </button>
               </div>
             ))}
             <button
