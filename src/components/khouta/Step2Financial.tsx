@@ -28,6 +28,13 @@ const EXPENSE_ICONS: Record<string, React.ReactNode> = {
   internet: <Wifi className="h-4 w-4" strokeWidth={1.8} />,
 };
 
+type ExpenseItem = {
+  key: string;
+  label: string;
+  amount: string;
+  editable?: boolean;
+};
+
 export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack: () => void }) {
   const { data, update } = useOnboarding();
 
@@ -36,10 +43,14 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
   }
 
   function addExpense() {
+    const id = typeof crypto !== "undefined" && "randomUUID" in crypto
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
     update({
       expenses: [
         ...data.expenses,
-        { key: `custom-${Date.now()}`, label: "", amount: "0", editable: true },
+        { key: `custom-${id}`, label: "", amount: "0", editable: true },
       ],
     });
   }
@@ -125,45 +136,15 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
         <Section title="المصاريف الشهرية">
           <div className="space-y-2">
             {data.expenses.map((e) => (
-              <div
+              <ExpenseRow
                 key={e.key}
-                className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2.5 shadow-sm"
-              >
-                <div className="h-8 w-8 rounded-xl bg-secondary text-muted-foreground flex items-center justify-center shrink-0">
-                  {EXPENSE_ICONS[e.key] ?? <MoreHorizontal className="h-4 w-4" strokeWidth={1.8} />}
-                </div>
-                <div className="flex-1 flex items-center gap-2">
-                  <span className="text-[10px] text-muted-foreground font-semibold">ر.س</span>
-                  <input
-                    value={e.amount}
-                    onChange={(ev) => updateExpense(e.key, { amount: ev.target.value.replace(/[^\d]/g, "") })}
-                    placeholder={e.key === "housing" ? "2,000" : e.key === "transport" ? "400" : e.key === "internet" ? "100" : "0"}
-                    inputMode="numeric"
-                    className="w-20 bg-transparent outline-none text-[13px] font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-medium"
-                    style={{ fontVariantNumeric: "tabular-nums" }}
-                  />
-                  {e.editable ? (
-                    <input
-                      value={e.label}
-                      onChange={(ev) => updateExpense(e.key, { label: ev.target.value })}
-                      placeholder="اسم المصروف"
-                      className="flex-1 bg-transparent outline-none text-right text-[12px] font-semibold text-foreground placeholder:text-muted-foreground/60"
-                    />
-                  ) : (
-                    <span className="flex-1 text-right text-[12px] font-semibold text-foreground">{e.label}</span>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeExpense(e.key)}
-                  aria-label="حذف المصروف"
-                  className="h-8 w-8 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-500/10 flex items-center justify-center shrink-0 transition"
-                >
-                  <Trash2 className="h-4 w-4" strokeWidth={2} />
-                </button>
-              </div>
+                expense={e}
+                onChange={updateExpense}
+                onRemove={removeExpense}
+              />
             ))}
             <button
+              type="button"
               onClick={addExpense}
               className="w-full rounded-2xl border border-dashed border-border py-2.5 text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1 hover:border-primary/40 hover:text-primary transition"
             >
@@ -181,6 +162,63 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
           <ChevronRight className="h-4 w-4 rotate-180" strokeWidth={2.5} />
         </button>
       </div>
+    </div>
+  );
+}
+
+function ExpenseRow({
+  expense,
+  onChange,
+  onRemove,
+}: {
+  expense: ExpenseItem;
+  onChange: (key: string, patch: Partial<{ amount: string; label: string }>) => void;
+  onRemove: (key: string) => void;
+}) {
+  const placeholder = expense.key === "housing"
+    ? "2,000"
+    : expense.key === "transport"
+      ? "400"
+      : expense.key === "internet"
+        ? "100"
+        : "0";
+
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2.5 shadow-sm">
+      <div className="h-8 w-8 rounded-xl bg-secondary text-muted-foreground flex items-center justify-center shrink-0">
+        {EXPENSE_ICONS[expense.key] ?? <MoreHorizontal className="h-4 w-4" strokeWidth={1.8} />}
+      </div>
+      <div className="flex-1 flex items-center gap-2 min-w-0">
+        <span className="text-[10px] text-muted-foreground font-semibold">ر.س</span>
+        <input
+          value={expense.amount}
+          onChange={(ev) => onChange(expense.key, { amount: ev.target.value.replace(/[^\d]/g, "") })}
+          placeholder={placeholder}
+          inputMode="numeric"
+          className="w-20 bg-transparent outline-none text-[13px] font-bold text-foreground placeholder:text-muted-foreground/50 placeholder:font-medium"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        />
+        {expense.editable ? (
+          <input
+            value={expense.label}
+            onChange={(ev) => onChange(expense.key, { label: ev.target.value })}
+            placeholder="اسم المصروف"
+            className="flex-1 min-w-0 bg-transparent outline-none text-right text-[12px] font-semibold text-foreground placeholder:text-muted-foreground/60"
+          />
+        ) : (
+          <span className="flex-1 min-w-0 text-right text-[12px] font-semibold text-foreground truncate">
+            {expense.label}
+          </span>
+        )}
+      </div>
+      <button
+        type="button"
+        onClick={() => onRemove(expense.key)}
+        aria-label="حذف المصروف"
+        className="h-8 w-8 rounded-lg text-destructive hover:text-destructive hover:bg-destructive/10 flex items-center justify-center shrink-0 transition"
+      >
+        <Trash2 className="h-4 w-4" strokeWidth={2} />
+      </button>
     </div>
   );
 }
