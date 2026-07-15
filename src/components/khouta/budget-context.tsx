@@ -119,7 +119,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     [...source, ...localGoals].forEach((goal) => merged.set(goal.id, goal));
     return Array.from(merged.values());
   }, [goalsLoading, localGoals, remoteGoals, snapshot.goals]);
-  const spentToday = Math.max(1, Math.round(Number(snapshot.spentToday) || DEFAULT_SPENT_TODAY));
+  // spentToday derived dynamically as 70% of dailyLimit (see below)
 
   useEffect(() => {
     if (typeof window === "undefined" || !storageReady) return;
