@@ -42,7 +42,15 @@ type SubScreen =
   | "group"
   | "donate";
 
-export function HomeScreen({ onReset: _onReset }: { onReset: () => void }) {
+export function HomeScreen(props: { onReset: () => void }) {
+  return (
+    <BudgetProvider>
+      <HomeScreenInner {...props} />
+    </BudgetProvider>
+  );
+}
+
+function HomeScreenInner({ onReset: _onReset }: { onReset: () => void }) {
   const [tab, setTab] = useState<Tab>("home");
   const [sub, setSub] = useState<SubScreen>("none");
   const [interceptOpen, setInterceptOpen] = useState(false);
