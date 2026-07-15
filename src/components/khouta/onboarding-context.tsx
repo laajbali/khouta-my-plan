@@ -143,7 +143,12 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           });
         }
       }
-      toast.success(`أهلاً ${data.fullName}`);
+      // Show welcome toast ONCE per app lifetime — guard prevents the loop
+      // where PlanGenerating + Step4Card both call submit() and re-fire it.
+      if (typeof window !== "undefined" && !sessionStorage.getItem("khouta_welcomed")) {
+        sessionStorage.setItem("khouta_welcomed", "1");
+        toast.success(`أهلاً ${data.fullName}`);
+      }
       return true;
     } catch (err) {
       const msg = err instanceof Error ? err.message : "حدث خطأ";
