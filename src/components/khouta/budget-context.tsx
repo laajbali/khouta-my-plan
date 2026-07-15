@@ -140,13 +140,13 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
           incomeLabel,
           fixedExpenses,
           goals: budgetGoals,
-          spentToday,
+          spentToday: DEFAULT_SPENT_TODAY,
         } satisfies BudgetSnapshot),
       );
     } catch {
       /* ignore */
     }
-  }, [budgetGoals, fixedExpenses, incomeLabel, monthlyIncome, spentToday, storageReady]);
+  }, [budgetGoals, fixedExpenses, incomeLabel, monthlyIncome, storageReady]);
 
   // Auto-inject monthly income event once we know it
   useEffect(() => {
