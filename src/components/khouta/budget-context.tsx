@@ -61,8 +61,9 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Net impact of occasions on this month's budget (excludes the salary itself)
+  // Only newly added occasions affect the baseline daily limit.
   const monthlyOccasionNet = events
-    .filter((e) => !(e.tone === "in" && e.amount === incomeAmount))
+    .filter((e) => e.status === "new")
     .reduce((sum, e) => sum + e.amount, 0);
 
   return (
