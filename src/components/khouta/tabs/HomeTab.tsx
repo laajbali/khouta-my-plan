@@ -60,17 +60,32 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  // Baseline daily limit stays at monthlyIncome/30. Only NEW goals/occasions
-  // added by the user after this session started adjust the number.
-  const { monthlyOccasionNet } = useBudget();
-  const monthlyIncome = Number(profile?.monthly_income ?? 0);
-  const baselineDaily = monthlyIncome > 0 ? Math.round(monthlyIncome / 30) : 0;
+  // Baseline daily limit = (monthly income - fixed monthly expenses) / 30.
+  // Only NEW goals/occasions added by the user AFTER first load shift it.
+  const { monthlyOccasionNet, baselineDaily, monthlyIncome } = useBudget();
 
   // Snapshot goals that already existed on first load — they don't affect the baseline.
+  // Persist to localStorage so a page refresh doesn't cause every goal to be treated as "new".
+  const BASELINE_KEY = "khouta_baseline_goal_ids_v1";
   const baselineGoalIds = useRef<Set<string> | null>(null);
   useEffect(() => {
-    if (baselineGoalIds.current === null && goals.length >= 0) {
-      baselineGoalIds.current = new Set(goals.map((g) => g.id));
+    if (baselineGoalIds.current !== null) return;
+    if (typeof window === "undefined") return;
+    try {
+      const raw = localStorage.getItem(BASELINE_KEY);
+      if (raw) {
+        baselineGoalIds.current = new Set(JSON.parse(raw) as string[]);
+        return;
+      }
+    } catch {
+      /* ignore */
+    }
+    const ids = goals.map((g) => g.id);
+    baselineGoalIds.current = new Set(ids);
+    try {
+      localStorage.setItem(BASELINE_KEY, JSON.stringify(ids));
+    } catch {
+      /* ignore */
     }
   }, [goals]);
 
