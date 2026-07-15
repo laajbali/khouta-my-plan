@@ -205,6 +205,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     0,
     Math.round(availableMonthlyBudget / 30 - goalDailyDeduction + todayEventNet),
   );
+  const spentToday = Math.round(dailyLimit * 0.70);
   const remainingToday = dailyLimit - spentToday;
 
   return (
