@@ -124,7 +124,7 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
         {/* Fixed expenses */}
         <Section title="المصاريف الشهرية">
           <div className="space-y-2">
-            {data.expenses.map((e, i) => (
+            {data.expenses.map((e) => (
               <div
                 key={e.key}
                 className="flex items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2.5 shadow-sm"
