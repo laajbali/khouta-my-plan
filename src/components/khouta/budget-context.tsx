@@ -66,19 +66,19 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const [snapshot, setSnapshot] = useState<BudgetSnapshot>(DEFAULT_SNAPSHOT);
   const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
   const [localGoals, setLocalGoals] = useState<BudgetGoal[]>([]);
+  const [storageReady, setStorageReady] = useState(false);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") {
+      setStorageReady(true);
+      return;
+    }
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) setEvents(JSON.parse(raw) as CalEvent[]);
     } catch {
       /* ignore */
     }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
     try {
       const raw = localStorage.getItem(SNAPSHOT_KEY);
       if (raw) {
@@ -89,6 +89,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
+    setStorageReady(true);
   }, []);
 
   const profileFixedExpenses = useMemo<FixedExpense[] | null>(() => {
@@ -121,16 +122,16 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const spentToday = Math.max(1, Math.round(Number(snapshot.spentToday) || DEFAULT_SPENT_TODAY));
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !storageReady) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
     } catch {
       /* ignore */
     }
-  }, [events]);
+  }, [events, storageReady]);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || !storageReady) return;
     try {
       localStorage.setItem(
         SNAPSHOT_KEY,
@@ -145,7 +146,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-  }, [budgetGoals, fixedExpenses, incomeLabel, monthlyIncome, spentToday]);
+  }, [budgetGoals, fixedExpenses, incomeLabel, monthlyIncome, spentToday, storageReady]);
 
   // Auto-inject monthly income event once we know it
   useEffect(() => {
