@@ -631,13 +631,6 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
     const deadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
       .toISOString()
       .slice(0, 10);
-    const localGoalId = `local-${Date.now()}`;
-    upsertGoal({
-      id: localGoalId,
-      target_amount: targetAmount,
-      saved_amount: 0,
-      deadline,
-    });
     setSaving(true);
     const { data: inserted, error } = await supabase.from("savings_goals").insert({
       user_id: user.id,
