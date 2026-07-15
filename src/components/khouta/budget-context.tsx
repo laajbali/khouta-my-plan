@@ -46,6 +46,7 @@ type Ctx = {
   events: CalEvent[];
   addEvent: (e: CalEvent) => void;
   removeEvent: (day: number, title: string) => void;
+  upsertGoal: (goal: BudgetGoal) => void;
   monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
   monthlyIncome: number;
@@ -64,6 +65,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const { goals, loading: goalsLoading } = useGoals();
   const [snapshot, setSnapshot] = useState<BudgetSnapshot>(DEFAULT_SNAPSHOT);
   const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
+  const [localGoals, setLocalGoals] = useState<BudgetGoal[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -79,7 +81,11 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
     try {
       const raw = localStorage.getItem(SNAPSHOT_KEY);
-      if (raw) setSnapshot({ ...DEFAULT_SNAPSHOT, ...(JSON.parse(raw) as Partial<BudgetSnapshot>) });
+      if (raw) {
+        const parsed = { ...DEFAULT_SNAPSHOT, ...(JSON.parse(raw) as Partial<BudgetSnapshot>) };
+        setSnapshot(parsed);
+        setLocalGoals(parsed.goals ?? []);
+      }
     } catch {
       /* ignore */
     }
@@ -100,14 +106,18 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   );
   const incomeLabel = profile?.income_label || snapshot.incomeLabel || "الدخل";
   const fixedExpenses = profileFixedExpenses ?? snapshot.fixedExpenses;
-  const budgetGoals: BudgetGoal[] = goalsLoading
-    ? snapshot.goals
-    : goals.map((goal) => ({
-        id: goal.id,
-        target_amount: Number(goal.target_amount) || 0,
-        saved_amount: Number(goal.saved_amount) || 0,
-        deadline: goal.deadline,
-      }));
+  const remoteGoals: BudgetGoal[] = goals.map((goal) => ({
+    id: goal.id,
+    target_amount: Number(goal.target_amount) || 0,
+    saved_amount: Number(goal.saved_amount) || 0,
+    deadline: goal.deadline,
+  }));
+  const budgetGoals: BudgetGoal[] = useMemo(() => {
+    const source = goalsLoading ? snapshot.goals : remoteGoals;
+    const merged = new Map<string, BudgetGoal>();
+    [...source, ...localGoals].forEach((goal) => merged.set(goal.id, goal));
+    return Array.from(merged.values());
+  }, [goalsLoading, localGoals, remoteGoals, snapshot.goals]);
   const spentToday = Math.max(1, Math.round(Number(snapshot.spentToday) || DEFAULT_SPENT_TODAY));
 
   useEffect(() => {
@@ -165,6 +175,10 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     setEvents((prev) => prev.filter((e) => !(e.day === day && e.title === title)));
   }, []);
 
+  const upsertGoal = useCallback((goal: BudgetGoal) => {
+    setLocalGoals((prev) => [goal, ...prev.filter((item) => item.id !== goal.id)]);
+  }, []);
+
   const todayEventNet = events
     .filter((e) => e.day === APP_TODAY_DAY && e.status !== "today")
     .reduce((sum, e) => sum + e.amount, 0);
@@ -199,6 +213,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
         events,
         addEvent,
         removeEvent,
+        upsertGoal,
         monthlyOccasionNet,
         fixedExpensesMonthly,
         monthlyIncome,
