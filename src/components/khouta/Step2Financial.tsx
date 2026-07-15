@@ -154,9 +154,10 @@ export function Step2Financial({ onNext, onBack }: { onNext: () => void; onBack:
                   )}
                 </div>
                 <button
+                  type="button"
                   onClick={() => removeExpense(e.key)}
                   aria-label="حذف المصروف"
-                  className="h-8 w-8 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 flex items-center justify-center shrink-0 transition"
+                  className="h-8 w-8 rounded-lg text-red-500 hover:text-red-600 hover:bg-red-500/10 flex items-center justify-center shrink-0 transition"
                 >
                   <Trash2 className="h-4 w-4" strokeWidth={2} />
                 </button>
