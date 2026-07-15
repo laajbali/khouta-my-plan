@@ -30,6 +30,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
+import { useBudget, type CalEvent as SharedCalEvent } from "./budget-context";
 
 /* ---------- Shared Chrome ---------- */
 
