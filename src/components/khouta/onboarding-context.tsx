@@ -135,11 +135,19 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           .eq("user_id", userId)
           .limit(1);
         if (!existing || existing.length === 0) {
+          const goalMonths =
+            data.goalMonths === -1
+              ? Math.max(1, Number(data.goalMonthsCustom) || 6)
+              : Math.max(1, Number(data.goalMonths) || 6);
+          const deadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
+            .toISOString()
+            .slice(0, 10);
           await supabase.from("savings_goals").insert({
             user_id: userId,
             title: data.goalLabel,
             target_amount: data.goalAmount,
             saved_amount: 0,
+            deadline,
           });
         }
       }

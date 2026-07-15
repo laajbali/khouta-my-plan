@@ -602,6 +602,7 @@ const GOAL_TYPES = [
 
 export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   const { user } = useSession();
+  const { upsertGoal } = useBudget();
   const [typeKey, setTypeKey] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -625,18 +626,32 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       toast.error("الرجاء كتابة اسم الهدف");
       return;
     }
+    const targetAmount = Number(amount) || 0;
+    const goalMonths = Math.max(1, Number(months) || 6);
+    const deadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
     setSaving(true);
-    const { error } = await supabase.from("savings_goals").insert({
+    const { data: inserted, error } = await supabase.from("savings_goals").insert({
       user_id: user.id,
       title: finalName,
       icon: typeKey,
-      target_amount: Number(amount),
+      target_amount: targetAmount,
       saved_amount: 0,
-    });
+      deadline,
+    }).select("id, target_amount, saved_amount, deadline").maybeSingle();
     setSaving(false);
     if (error) {
       toast.error(error.message);
       return;
+    }
+    if (inserted) {
+      upsertGoal({
+        id: inserted.id,
+        target_amount: Number(inserted.target_amount) || targetAmount,
+        saved_amount: Number(inserted.saved_amount) || 0,
+        deadline: inserted.deadline,
+      });
     }
     toast.success(`تم إنشاء هدف "${finalName}"`);
     setTimeout(onBack, 500);
@@ -1053,6 +1068,7 @@ function AddEventScreen({
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [cost, setCost] = useState("");
+  const [cashFlow, setCashFlow] = useState<"out" | "in">("out");
   const [priority, setPriority] = useState<"high" | "med" | "low">("med");
   const [notes, setNotes] = useState("");
 
@@ -1066,13 +1082,13 @@ function AddEventScreen({
       return;
     }
     const dayNum = Number(date.split("-")[2] ?? date) || 20;
-    const amount = -Math.abs(Number(cost) || 0);
+    const amount = cashFlow === "in" ? Math.abs(Number(cost) || 0) : -Math.abs(Number(cost) || 0);
     onSave({
       day: dayNum,
       title: label,
       subtitle: `${date} • ${priority === "high" ? "أولوية عالية" : priority === "med" ? "متوسطة" : "منخفضة"}${notes ? " • " + notes : ""}`,
       amount,
-      tone: "out",
+      tone: cashFlow,
       icon: kind.icon,
     });
   }
@@ -1122,7 +1138,34 @@ function AddEventScreen({
           />
         </Field>
 
-        <Field label="التكلفة المتوقعة (ر.س)">
+        <Field label="نوع التأثير على الميزانية">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setCashFlow("out")}
+              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                cashFlow === "out"
+                  ? "bg-destructive/10 text-destructive border-destructive/30"
+                  : "bg-card border-border text-muted-foreground"
+              }`}
+            >
+              مصروف
+            </button>
+            <button
+              type="button"
+              onClick={() => setCashFlow("in")}
+              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                cashFlow === "in"
+                  ? "bg-mint/10 text-primary border-mint/30"
+                  : "bg-card border-border text-muted-foreground"
+              }`}
+            >
+              دخل
+            </button>
+          </div>
+        </Field>
+
+        <Field label={cashFlow === "in" ? "المبلغ المتوقع (ر.س)" : "التكلفة المتوقعة (ر.س)"}>
           <input
             className={inputCls}
             value={cost}
