@@ -602,6 +602,7 @@ const GOAL_TYPES = [
 
 export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   const { user } = useSession();
+  const { upsertGoal } = useBudget();
   const [typeKey, setTypeKey] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -625,18 +626,39 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       toast.error("الرجاء كتابة اسم الهدف");
       return;
     }
+    const targetAmount = Number(amount) || 0;
+    const goalMonths = Math.max(1, Number(months) || 6);
+    const deadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+    const localGoalId = `local-${Date.now()}`;
+    upsertGoal({
+      id: localGoalId,
+      target_amount: targetAmount,
+      saved_amount: 0,
+      deadline,
+    });
     setSaving(true);
-    const { error } = await supabase.from("savings_goals").insert({
+    const { data: inserted, error } = await supabase.from("savings_goals").insert({
       user_id: user.id,
       title: finalName,
       icon: typeKey,
-      target_amount: Number(amount),
+      target_amount: targetAmount,
       saved_amount: 0,
-    });
+      deadline,
+    }).select("id, target_amount, saved_amount, deadline").maybeSingle();
     setSaving(false);
     if (error) {
       toast.error(error.message);
       return;
+    }
+    if (inserted) {
+      upsertGoal({
+        id: inserted.id,
+        target_amount: Number(inserted.target_amount) || targetAmount,
+        saved_amount: Number(inserted.saved_amount) || 0,
+        deadline: inserted.deadline,
+      });
     }
     toast.success(`تم إنشاء هدف "${finalName}"`);
     setTimeout(onBack, 500);

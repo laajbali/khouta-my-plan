@@ -25,7 +25,7 @@ const DEFAULT_GOAL_DAYS = 180;
 const APP_TODAY_DAY = 10;
 
 type FixedExpense = { key: string; label: string; amount: number };
-type BudgetGoal = Pick<Goal, "id" | "target_amount" | "saved_amount" | "deadline">;
+export type BudgetGoal = Pick<Goal, "id" | "target_amount" | "saved_amount" | "deadline">;
 type BudgetSnapshot = {
   monthlyIncome: number;
   incomeLabel: string;
