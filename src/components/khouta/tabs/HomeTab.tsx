@@ -60,11 +60,22 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  // Dynamic today summary: react to goals + calendar occasions
+  // Baseline daily limit stays at monthlyIncome/30. Only NEW goals/occasions
+  // added by the user after this session started adjust the number.
   const { monthlyOccasionNet } = useBudget();
   const monthlyIncome = Number(profile?.monthly_income ?? 0);
-  // Monthly savings needed across all active goals (assume 6-month horizon when no deadline)
-  const monthlyGoalSave = goals.reduce((sum, g) => {
+  const baselineDaily = monthlyIncome > 0 ? Math.round(monthlyIncome / 30) : 0;
+
+  // Snapshot goals that already existed on first load — they don't affect the baseline.
+  const baselineGoalIds = useRef<Set<string> | null>(null);
+  useEffect(() => {
+    if (baselineGoalIds.current === null && goals.length >= 0) {
+      baselineGoalIds.current = new Set(goals.map((g) => g.id));
+    }
+  }, [goals]);
+
+  const monthlyNewGoalSave = goals.reduce((sum, g) => {
+    if (baselineGoalIds.current?.has(g.id)) return sum;
     const remaining = Math.max(0, Number(g.target_amount) - Number(g.saved_amount));
     let months = 6;
     if (g.deadline) {
@@ -73,8 +84,9 @@ export function HomeTab({
     }
     return sum + remaining / months;
   }, 0);
-  const monthlyBudget = monthlyIncome + monthlyOccasionNet - monthlyGoalSave;
-  const dailyLimit = monthlyIncome > 0 ? Math.max(0, Math.round(monthlyBudget / 30)) : 0;
+
+  const dailyDelta = Math.round((monthlyOccasionNet - monthlyNewGoalSave) / 30);
+  const dailyLimit = monthlyIncome > 0 ? Math.max(0, baselineDaily + dailyDelta) : 0;
   const spentToday = 0; // no expense-tracking data source yet
   const remainingToday = Math.max(0, dailyLimit - spentToday);
   const budgetPct =
