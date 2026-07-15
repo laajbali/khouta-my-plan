@@ -60,9 +60,21 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  // Dynamic today summary based on real profile budget only
+  // Dynamic today summary: react to goals + calendar occasions
+  const { monthlyOccasionNet } = useBudget();
   const monthlyIncome = Number(profile?.monthly_income ?? 0);
-  const dailyLimit = monthlyIncome > 0 ? Math.round(monthlyIncome / 30) : 0;
+  // Monthly savings needed across all active goals (assume 6-month horizon when no deadline)
+  const monthlyGoalSave = goals.reduce((sum, g) => {
+    const remaining = Math.max(0, Number(g.target_amount) - Number(g.saved_amount));
+    let months = 6;
+    if (g.deadline) {
+      const diff = new Date(g.deadline).getTime() - Date.now();
+      months = Math.max(1, Math.ceil(diff / (1000 * 60 * 60 * 24 * 30)));
+    }
+    return sum + remaining / months;
+  }, 0);
+  const monthlyBudget = monthlyIncome + monthlyOccasionNet - monthlyGoalSave;
+  const dailyLimit = monthlyIncome > 0 ? Math.max(0, Math.round(monthlyBudget / 30)) : 0;
   const spentToday = 0; // no expense-tracking data source yet
   const remainingToday = Math.max(0, dailyLimit - spentToday);
   const budgetPct =
