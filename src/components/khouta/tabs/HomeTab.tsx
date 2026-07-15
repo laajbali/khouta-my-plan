@@ -61,8 +61,9 @@ export function HomeTab({
   const current: Goal | undefined = goals[safeIdx];
 
   const { dailyLimit, spentToday, remainingToday } = useBudget();
+  const isOverBudget = spentToday > dailyLimit || remainingToday < 0;
   const budgetPct =
-    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 0;
+    dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 100;
 
   return (
     <div className="bg-background pb-4">
