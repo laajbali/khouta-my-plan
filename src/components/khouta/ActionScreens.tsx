@@ -1068,6 +1068,7 @@ function AddEventScreen({
   const [name, setName] = useState("");
   const [date, setDate] = useState("");
   const [cost, setCost] = useState("");
+  const [cashFlow, setCashFlow] = useState<"out" | "in">("out");
   const [priority, setPriority] = useState<"high" | "med" | "low">("med");
   const [notes, setNotes] = useState("");
 
@@ -1081,13 +1082,13 @@ function AddEventScreen({
       return;
     }
     const dayNum = Number(date.split("-")[2] ?? date) || 20;
-    const amount = -Math.abs(Number(cost) || 0);
+    const amount = cashFlow === "in" ? Math.abs(Number(cost) || 0) : -Math.abs(Number(cost) || 0);
     onSave({
       day: dayNum,
       title: label,
       subtitle: `${date} • ${priority === "high" ? "أولوية عالية" : priority === "med" ? "متوسطة" : "منخفضة"}${notes ? " • " + notes : ""}`,
       amount,
-      tone: "out",
+      tone: cashFlow,
       icon: kind.icon,
     });
   }
@@ -1137,7 +1138,34 @@ function AddEventScreen({
           />
         </Field>
 
-        <Field label="التكلفة المتوقعة (ر.س)">
+        <Field label="نوع التأثير على الميزانية">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setCashFlow("out")}
+              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                cashFlow === "out"
+                  ? "bg-destructive/10 text-destructive border-destructive/30"
+                  : "bg-card border-border text-muted-foreground"
+              }`}
+            >
+              مصروف
+            </button>
+            <button
+              type="button"
+              onClick={() => setCashFlow("in")}
+              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                cashFlow === "in"
+                  ? "bg-mint/10 text-primary border-mint/30"
+                  : "bg-card border-border text-muted-foreground"
+              }`}
+            >
+              دخل
+            </button>
+          </div>
+        </Field>
+
+        <Field label={cashFlow === "in" ? "المبلغ المتوقع (ر.س)" : "التكلفة المتوقعة (ر.س)"}>
           <input
             className={inputCls}
             value={cost}
