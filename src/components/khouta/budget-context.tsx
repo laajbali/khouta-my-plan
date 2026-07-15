@@ -69,7 +69,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return;
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
-      if (raw) return JSON.parse(raw) as CalEvent[];
+      if (raw) setEvents(JSON.parse(raw) as CalEvent[]);
     } catch {
       /* ignore */
     }

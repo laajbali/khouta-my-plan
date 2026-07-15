@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Bell,
   ChevronLeft,
@@ -60,50 +60,7 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  // Baseline daily limit = (monthly income - fixed monthly expenses) / 30.
-  // Only NEW goals/occasions added by the user AFTER first load shift it.
-  const { monthlyOccasionNet, baselineDaily, monthlyIncome } = useBudget();
-
-  // Snapshot goals that already existed on first load — they don't affect the baseline.
-  // Persist to localStorage so a page refresh doesn't cause every goal to be treated as "new".
-  const BASELINE_KEY = "khouta_baseline_goal_ids_v1";
-  const baselineGoalIds = useRef<Set<string> | null>(null);
-  useEffect(() => {
-    if (baselineGoalIds.current !== null) return;
-    if (typeof window === "undefined") return;
-    try {
-      const raw = localStorage.getItem(BASELINE_KEY);
-      if (raw) {
-        baselineGoalIds.current = new Set(JSON.parse(raw) as string[]);
-        return;
-      }
-    } catch {
-      /* ignore */
-    }
-    const ids = goals.map((g) => g.id);
-    baselineGoalIds.current = new Set(ids);
-    try {
-      localStorage.setItem(BASELINE_KEY, JSON.stringify(ids));
-    } catch {
-      /* ignore */
-    }
-  }, [goals]);
-
-  const monthlyNewGoalSave = goals.reduce((sum, g) => {
-    if (baselineGoalIds.current?.has(g.id)) return sum;
-    const remaining = Math.max(0, Number(g.target_amount) - Number(g.saved_amount));
-    let months = 6;
-    if (g.deadline) {
-      const diff = new Date(g.deadline).getTime() - Date.now();
-      months = Math.max(1, Math.ceil(diff / (1000 * 60 * 60 * 24 * 30)));
-    }
-    return sum + remaining / months;
-  }, 0);
-
-  const dailyDelta = Math.round((monthlyOccasionNet - monthlyNewGoalSave) / 30);
-  const dailyLimit = monthlyIncome > 0 ? Math.max(0, baselineDaily + dailyDelta) : 0;
-  const spentToday = 0; // no expense-tracking data source yet
-  const remainingToday = Math.max(0, dailyLimit - spentToday);
+  const { dailyLimit, spentToday, remainingToday } = useBudget();
   const budgetPct =
     dailyLimit > 0 ? Math.min(100, Math.round((spentToday / dailyLimit) * 100)) : 0;
 
@@ -214,9 +171,7 @@ export function HomeTab({
             />
           </div>
           <p className="mt-2 text-[10.5px] text-muted-foreground text-right font-medium">
-            {dailyLimit === 0
-              ? "أضف دخلك الشهري لحساب حدك اليومي"
-              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+            أنت ضمن ميزانية اليوم • {budgetPct}%
           </p>
         </div>
 
