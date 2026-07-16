@@ -63,6 +63,12 @@ type Ctx = {
   removeEvent: (day: number, title: string) => void;
   removeEventById: (id: string) => void;
   upsertGoal: (goal: BudgetGoal) => void;
+  removeGoalById: (id: string) => void;
+  refreshGoals: () => Promise<void> | void;
+  activeGoals: BudgetGoal[];
+  totalGoalDeductions: number;
+  totalEventsBudget: number;
+  daysRemainingUntilSalary: number;
   monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
   monthlyIncome: number;
@@ -78,10 +84,11 @@ const BudgetContext = createContext<Ctx | null>(null);
 
 export function BudgetProvider({ children }: { children: ReactNode }) {
   const profile = useProfile();
-  const { goals, loading: goalsLoading } = useGoals();
+  const { goals, loading: goalsLoading, refresh: refreshGoals } = useGoals();
   const [snapshot, setSnapshot] = useState<BudgetSnapshot>(DEFAULT_SNAPSHOT);
   const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
   const [localGoals, setLocalGoals] = useState<BudgetGoal[]>([]);
+  const [removedGoalIds, setRemovedGoalIds] = useState<Set<string>>(() => new Set());
   const [storageReady, setStorageReady] = useState(false);
 
   useEffect(() => {
@@ -123,19 +130,25 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   );
   const incomeLabel = profile?.income_label || snapshot.incomeLabel || "الدخل";
   const fixedExpenses = profileFixedExpenses ?? snapshot.fixedExpenses;
-  const remoteGoals: BudgetGoal[] = goals.map((goal) => ({
-    id: goal.id,
-    target_amount: Number(goal.target_amount) || 0,
-    saved_amount: Number(goal.saved_amount) || 0,
-    deadline: goal.deadline,
-  }));
-  const budgetGoals: BudgetGoal[] = useMemo(() => {
-    const source = goalsLoading ? snapshot.goals : remoteGoals;
+  const remoteGoals: BudgetGoal[] = useMemo(
+    () =>
+      goals.map((goal) => ({
+        id: goal.id,
+        target_amount: Number(goal.target_amount) || 0,
+        saved_amount: Number(goal.saved_amount) || 0,
+        deadline: goal.deadline,
+      })),
+    [goals],
+  );
+  const activeGoals: BudgetGoal[] = useMemo(() => {
+    const source = goalsLoading && remoteGoals.length === 0 ? snapshot.goals : remoteGoals;
     const merged = new Map<string, BudgetGoal>();
     [...source, ...localGoals].forEach((goal) => merged.set(goal.id, goal));
+    // Honor client-side deletions even before the server round-trip resolves.
+    removedGoalIds.forEach((id) => merged.delete(id));
     return Array.from(merged.values());
-  }, [goalsLoading, localGoals, remoteGoals, snapshot.goals]);
-  // spentToday derived dynamically as 70% of dailyLimit (see below)
+  }, [goalsLoading, localGoals, remoteGoals, snapshot.goals, removedGoalIds]);
+  const budgetGoals = activeGoals;
 
   useEffect(() => {
     if (typeof window === "undefined" || !storageReady) return;
@@ -203,6 +216,21 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
 
   const upsertGoal = useCallback((goal: BudgetGoal) => {
     setLocalGoals((prev) => [goal, ...prev.filter((item) => item.id !== goal.id)]);
+    setRemovedGoalIds((prev) => {
+      if (!prev.has(goal.id)) return prev;
+      const next = new Set(prev);
+      next.delete(goal.id);
+      return next;
+    });
+  }, []);
+
+  const removeGoalById = useCallback((id: string) => {
+    setLocalGoals((prev) => prev.filter((item) => item.id !== id));
+    setRemovedGoalIds((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
   }, []);
 
   // Salary refresh day = the "in" income event's day; fallback to APP_TODAY_DAY.
@@ -217,50 +245,63 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const daysLeftUntilSalary = rawDaysLeft > 0 ? rawDaysLeft : 30;
 
   // Upcoming (non-income) events between today (exclusive) and the next salary payout.
-  const upcomingEventsBudget = events
-    .filter((e) => e.tone !== "in")
-    .filter((e) => {
-      const delta = e.day > APP_TODAY_DAY ? e.day - APP_TODAY_DAY : 30 - APP_TODAY_DAY + e.day;
-      return delta > 0 && delta <= daysLeftUntilSalary;
-    })
-    .reduce((sum, e) => sum + Math.abs(Number(e.amount) || 0), 0);
+  const totalEventsBudget = useMemo(
+    () =>
+      events
+        .filter((e) => e.tone !== "in")
+        .filter((e) => {
+          const delta =
+            e.day > APP_TODAY_DAY ? e.day - APP_TODAY_DAY : 30 - APP_TODAY_DAY + e.day;
+          return delta > 0 && delta <= daysLeftUntilSalary;
+        })
+        .reduce((sum, e) => sum + Math.abs(Number(e.amount) || 0), 0),
+    [events, daysLeftUntilSalary],
+  );
 
-  const todayEventNet = events
-    .filter((e) => e.day === APP_TODAY_DAY && e.status !== "today")
-    .reduce((sum, e) => sum + e.amount, 0);
+  const todayEventNet = useMemo(
+    () =>
+      events
+        .filter((e) => e.day === APP_TODAY_DAY && e.status !== "today")
+        .reduce((sum, e) => sum + e.amount, 0),
+    [events],
+  );
 
   const monthlyOccasionNet = todayEventNet;
-  const fixedExpensesMonthly = fixedExpenses.reduce(
-    (sum, item) => sum + (Number(item.amount) || 0),
-    0,
+  const fixedExpensesMonthly = useMemo(
+    () => fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0),
+    [fixedExpenses],
   );
 
   // Monthly share for each active goal = remaining / months remaining until deadline.
-  const goalsMonthlyDeduction = budgetGoals.reduce((sum, goal) => {
-    const targetAmount = Number(goal.target_amount) || 0;
-    if (targetAmount <= 0) return sum;
-    const remaining = Math.max(0, targetAmount - (Number(goal.saved_amount) || 0));
-    const deadlineTime = goal.deadline ? new Date(goal.deadline).getTime() : Number.NaN;
-    const monthsRemaining = Number.isFinite(deadlineTime)
-      ? Math.max(1, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24 * 30)))
-      : Math.max(1, Math.round(DEFAULT_GOAL_DAYS / 30));
-    return sum + remaining / monthsRemaining;
-  }, 0);
-
-  // Monthly disposable BEFORE subtracting calendar events.
-  const monthlyDisposable = monthlyIncome - fixedExpensesMonthly - goalsMonthlyDeduction;
-
-  // Buffer out the upcoming events, THEN divide across the days left.
-  const availableUntilSalary = monthlyDisposable - upcomingEventsBudget;
+  const totalGoalDeductions = useMemo(
+    () =>
+      activeGoals.reduce((sum, goal) => {
+        const targetAmount = Number(goal.target_amount) || 0;
+        if (targetAmount <= 0) return sum;
+        const remaining = Math.max(0, targetAmount - (Number(goal.saved_amount) || 0));
+        const deadlineTime = goal.deadline ? new Date(goal.deadline).getTime() : Number.NaN;
+        const monthsRemaining = Number.isFinite(deadlineTime)
+          ? Math.max(1, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24 * 30)))
+          : Math.max(1, Math.round(DEFAULT_GOAL_DAYS / 30));
+        return sum + remaining / monthsRemaining;
+      }, 0),
+    [activeGoals],
+  );
 
   const baselineDaily = Math.max(
     0,
     Math.round(Math.max(0, monthlyIncome - fixedExpensesMonthly) / 30),
   );
-  const goalDailyDeduction = goalsMonthlyDeduction / 30;
+  const goalDailyDeduction = totalGoalDeductions / 30;
 
-  const dailyLimit =
-    availableUntilSalary > 0 ? Math.round(availableUntilSalary / daysLeftUntilSalary) : 0;
+  // Centralized reactive dailyLimit — recomputes on any goal/event/income change.
+  const dailyLimit = useMemo(() => {
+    const netMonthlyDisposable =
+      monthlyIncome - fixedExpensesMonthly - totalGoalDeductions - totalEventsBudget;
+    if (netMonthlyDisposable <= 0 || daysLeftUntilSalary <= 0) return 0;
+    return Math.round(netMonthlyDisposable / daysLeftUntilSalary);
+  }, [monthlyIncome, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget, daysLeftUntilSalary]);
+
   // Spent today comes from real transactions; starts at 0 each day.
   const spentToday = 0;
   const remainingToday = dailyLimit > 0 ? Math.max(0, dailyLimit - spentToday) : 0;
@@ -276,6 +317,12 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
         removeEvent,
         removeEventById,
         upsertGoal,
+        removeGoalById,
+        refreshGoals,
+        activeGoals,
+        totalGoalDeductions,
+        totalEventsBudget,
+        daysRemainingUntilSalary: daysLeftUntilSalary,
         monthlyOccasionNet,
         fixedExpensesMonthly,
         monthlyIncome,

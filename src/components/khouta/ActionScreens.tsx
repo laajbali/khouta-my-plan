@@ -603,7 +603,7 @@ const GOAL_TYPES = [
 
 export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   const { user } = useSession();
-  const { upsertGoal } = useBudget();
+  const { upsertGoal, refreshGoals } = useBudget();
   const [typeKey, setTypeKey] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
@@ -654,6 +654,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
         deadline: inserted.deadline,
       });
     }
+    await refreshGoals();
     toast.success(`تم إنشاء هدف "${finalName}"`);
     setTimeout(onBack, 500);
   }
@@ -1279,12 +1280,15 @@ export function GoalsListScreen({
   onOpenNewGoal: () => void;
 }) {
   const { goals, loading, removeGoal } = useGoals();
+  const { removeGoalById, refreshGoals } = useBudget();
   const canDelete = goals.length > 1;
 
   async function handleDelete(id: string, e: React.MouseEvent) {
     e.stopPropagation();
     if (!canDelete) return;
+    removeGoalById(id); // instant reactive drop on Dashboard daily limit
     await removeGoal(id);
+    await refreshGoals();
     toast.success("تم حذف الهدف");
   }
 
