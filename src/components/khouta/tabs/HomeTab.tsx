@@ -234,9 +234,6 @@ export function HomeTab({
               <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
                 التحدي الجماعي
               </p>
-              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-primary/10 text-primary">
-                جديد
-              </span>
             </div>
             <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
               تحدَّ أصدقاءك وادّخروا سوياً — أنت 68% • ريما 45%
