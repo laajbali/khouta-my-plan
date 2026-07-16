@@ -84,10 +84,11 @@ const BudgetContext = createContext<Ctx | null>(null);
 
 export function BudgetProvider({ children }: { children: ReactNode }) {
   const profile = useProfile();
-  const { goals, loading: goalsLoading } = useGoals();
+  const { goals, loading: goalsLoading, refresh: refreshGoals } = useGoals();
   const [snapshot, setSnapshot] = useState<BudgetSnapshot>(DEFAULT_SNAPSHOT);
   const [events, setEvents] = useState<CalEvent[]>(INITIAL_EVENTS);
   const [localGoals, setLocalGoals] = useState<BudgetGoal[]>([]);
+  const [removedGoalIds, setRemovedGoalIds] = useState<Set<string>>(() => new Set());
   const [storageReady, setStorageReady] = useState(false);
 
   useEffect(() => {
