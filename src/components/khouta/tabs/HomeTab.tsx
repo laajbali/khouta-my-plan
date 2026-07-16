@@ -472,23 +472,36 @@ function SummaryStat({
   suffix,
   tone,
   icon,
+  loading,
 }: {
   value: string;
   label: string;
   suffix?: string;
   tone: string;
   icon?: React.ReactNode;
+  loading?: boolean;
 }) {
   return (
     <div className="text-center">
       <div className={`inline-flex items-center gap-1 ${tone}`}>
-        {icon}
-        <span className="text-[22px] font-black leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
-          {value}
-        </span>
+        {!loading && icon}
+        {loading ? (
+          <span
+            className="inline-block h-5 w-10 rounded-md bg-muted animate-pulse"
+            aria-label="جارٍ الحساب"
+          />
+        ) : (
+          <span
+            className="text-[22px] font-black leading-none"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            {value}
+          </span>
+        )}
       </div>
       {suffix && <p className="text-[9px] text-muted-foreground font-bold mt-1">{suffix}</p>}
       <p className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-tight">{label}</p>
     </div>
   );
 }
+
