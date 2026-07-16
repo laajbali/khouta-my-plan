@@ -188,13 +188,20 @@ export function HomeTab({
           </div>
           <p
             className={`mt-2 text-[10.5px] text-right font-medium ${
-              isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
+              isBudgetLoading
+                ? "text-muted-foreground animate-pulse"
+                : isOverBudget
+                  ? "text-red-500 font-bold"
+                  : "text-muted-foreground"
             }`}
           >
-            {isOverBudget
-              ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
-              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+            {isBudgetLoading
+              ? "جارٍ حساب ميزانية اليوم…"
+              : isOverBudget
+                ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
+                : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
           </p>
+
         </div>
 
         {/* 2×2 grid */}
