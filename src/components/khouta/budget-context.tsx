@@ -180,10 +180,24 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     setLocalGoals((prev) => [goal, ...prev.filter((item) => item.id !== goal.id)]);
   }, []);
 
-  // Total budget allocated for this month's occasions (expenses + savings events),
-  // excluding the income "in" event itself.
-  const monthlyOccasionsBudget = events
+  // Salary refresh day = the "in" income event's day; fallback to APP_TODAY_DAY.
+  const incomeEvent = events.find((e) => e.tone === "in");
+  const salaryDay = incomeEvent?.day ?? APP_TODAY_DAY;
+
+  // Days left until the NEXT salary payout (from the app's "today").
+  // If today is exactly the salary day, the next refresh is 30 days out.
+  const rawDaysLeft = salaryDay > APP_TODAY_DAY
+    ? salaryDay - APP_TODAY_DAY
+    : 30 - APP_TODAY_DAY + salaryDay;
+  const daysLeftUntilSalary = rawDaysLeft > 0 ? rawDaysLeft : 30;
+
+  // Upcoming (non-income) events between today (exclusive) and the next salary payout.
+  const upcomingEventsBudget = events
     .filter((e) => e.tone !== "in")
+    .filter((e) => {
+      const delta = e.day > APP_TODAY_DAY ? e.day - APP_TODAY_DAY : 30 - APP_TODAY_DAY + e.day;
+      return delta > 0 && delta <= daysLeftUntilSalary;
+    })
     .reduce((sum, e) => sum + Math.abs(Number(e.amount) || 0), 0);
 
   const todayEventNet = events
@@ -196,7 +210,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     0,
   );
 
-  // Monthly share for each active goal = target / months remaining until deadline.
+  // Monthly share for each active goal = remaining / months remaining until deadline.
   const goalsMonthlyDeduction = budgetGoals.reduce((sum, goal) => {
     const targetAmount = Number(goal.target_amount) || 0;
     if (targetAmount <= 0) return sum;
@@ -208,17 +222,23 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     return sum + remaining / monthsRemaining;
   }, 0);
 
-  // Disposable = income - fixed - goal shares - this month's occasions budget.
-  const monthlyDisposable =
-    monthlyIncome - fixedExpensesMonthly - goalsMonthlyDeduction - monthlyOccasionsBudget;
+  // Monthly disposable BEFORE subtracting calendar events.
+  const monthlyDisposable = monthlyIncome - fixedExpensesMonthly - goalsMonthlyDeduction;
 
-  const availableMonthlyBudget = Math.max(0, monthlyDisposable);
-  const baselineDaily = Math.max(0, Math.round(Math.max(0, monthlyIncome - fixedExpensesMonthly) / 30));
+  // Buffer out the upcoming events, THEN divide across the days left.
+  const availableUntilSalary = monthlyDisposable - upcomingEventsBudget;
+
+  const baselineDaily = Math.max(
+    0,
+    Math.round(Math.max(0, monthlyIncome - fixedExpensesMonthly) / 30),
+  );
   const goalDailyDeduction = goalsMonthlyDeduction / 30;
 
-  const dailyLimit = availableMonthlyBudget > 0 ? Math.round(availableMonthlyBudget / 30) : 0;
+  const dailyLimit =
+    availableUntilSalary > 0 ? Math.round(availableUntilSalary / daysLeftUntilSalary) : 0;
   const spentToday = dailyLimit > 0 ? Math.round(dailyLimit * 0.7) : 0;
   const remainingToday = dailyLimit > 0 ? dailyLimit - spentToday : 0;
+
 
 
   return (
