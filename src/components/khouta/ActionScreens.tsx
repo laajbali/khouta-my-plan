@@ -736,15 +736,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
 
 /* ---------- Financial Calendar (premium month grid) ---------- */
 
-type CalEvent = {
-  day: number;
-  title: string;
-  subtitle: string;
-  amount: number;
-  tone: "in" | "out" | "save";
-  icon: string;
-  status?: "new" | "upcoming" | "today";
-};
+// CalEvent type is imported from budget-context
 
 const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
