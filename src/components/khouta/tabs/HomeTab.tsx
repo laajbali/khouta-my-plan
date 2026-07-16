@@ -79,7 +79,7 @@ export function HomeTab({
         </button>
         <div className="text-center flex-1 mx-3">
           <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
-            صباح الخير{firstName ? "، " + firstName : ""}
+            {firstName ? `مرحباً، ${firstName}` : "مرحباً"}
           </p>
           <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
             كل خطوة ذكية تقرّبك من هدفك
