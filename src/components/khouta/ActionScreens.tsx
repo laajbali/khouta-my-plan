@@ -914,46 +914,54 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
             <h3 className="text-[13px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
           </div>
           <div className="space-y-2.5">
-            {events.map((e, i) => (
-              <div
-                key={i}
-                className="rounded-[20px] bg-card border border-border p-3.5 flex items-center gap-3 shadow-sm"
-              >
-                <div className="text-right shrink-0">
-                  <div
-                    className={`text-[13px] font-black ${
-                      e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
-                    }`}
-                    style={{ fontVariantNumeric: "tabular-nums" }}
-                  >
-                    {e.amount > 0 ? "+" : ""}
-                    {e.amount.toLocaleString()}
+            {events.map((e) => {
+              const isIncome = e.id === "income_default";
+              return (
+                <button
+                  type="button"
+                  key={e.id}
+                  onClick={() => !isIncome && openEdit(e)}
+                  disabled={isIncome}
+                  className={`w-full text-right rounded-[20px] bg-card border border-border p-3.5 flex items-center gap-3 shadow-sm transition ${
+                    isIncome ? "opacity-90 cursor-default" : "cursor-pointer hover:border-primary/40 active:scale-[0.99]"
+                  }`}
+                >
+                  <div className="text-right shrink-0">
+                    <div
+                      className={`text-[13px] font-black ${
+                        e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
+                      }`}
+                      style={{ fontVariantNumeric: "tabular-nums" }}
+                    >
+                      {e.amount > 0 ? "+" : ""}
+                      {e.amount.toLocaleString()}
+                    </div>
+                    <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
                   </div>
-                  <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
-                </div>
-                <div className="flex-1 text-right min-w-0">
-                  <div className="flex items-center justify-end gap-1.5">
-                    {e.status === "new" && (
-                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
-                        جديد
-                      </span>
-                    )}
-                    {e.status === "today" && (
-                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
-                        اليوم
-                      </span>
-                    )}
-                    <p className="text-[13px] font-extrabold text-foreground tracking-tight truncate">
-                      {e.title}
-                    </p>
+                  <div className="flex-1 text-right min-w-0">
+                    <div className="flex items-center justify-end gap-1.5">
+                      {e.status === "new" && (
+                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
+                          جديد
+                        </span>
+                      )}
+                      {e.status === "today" && (
+                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                          اليوم
+                        </span>
+                      )}
+                      <p className="text-[13px] font-extrabold text-foreground tracking-tight truncate">
+                        {e.title}
+                      </p>
+                    </div>
+                    <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
                   </div>
-                  <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
-                </div>
-                <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
-                  {e.icon}
-                </div>
-              </div>
-            ))}
+                  <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
+                    {e.icon}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
