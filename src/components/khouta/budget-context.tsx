@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 
 export type CalEvent = {
+  id: string;
   day: number;
   title: string;
   subtitle: string;
@@ -9,7 +10,16 @@ export type CalEvent = {
   tone: "in" | "out" | "save";
   icon: string;
   status?: "new" | "upcoming" | "today";
+  kindKey?: string;
+  date?: string;
+  priority?: "high" | "med" | "low";
+  notes?: string;
+  cost?: number;
 };
+
+function makeEventId() {
+  return `evt_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
 
 const INITIAL_EVENTS: CalEvent[] = [];
 
