@@ -159,23 +159,10 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       }
 
       if (userId) {
-        const INCOME_LABELS: Record<string, string> = {
-          salary: "راتب",
-          scholarship: "مكافأة",
-          bonus: "مكافأة",
-          freelance: "عمل حر",
-        };
-        const incomeLabel =
-          data.incomeSource === "other"
-            ? data.incomeSourceCustom.trim() || "دخل"
-            : INCOME_LABELS[data.incomeSource] || "دخل";
-        const fixedExpenses = data.expenses
-          .map((e) => ({ key: e.key, label: e.label?.trim() || "", amount: Number(e.amount) || 0 }))
-          .filter((e) => e.amount > 0 && e.label.length > 0);
         await supabase.from("profiles").upsert({
           id: userId,
           full_name: data.fullName,
-          monthly_income: Number(data.monthlyIncome) || 0,
+          monthly_income: monthlyIncomeNum,
           income_source: data.incomeSource,
           income_label: incomeLabel,
           fixed_expenses: fixedExpenses,
@@ -187,17 +174,11 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
           .eq("user_id", userId)
           .limit(1);
         if (!existing || existing.length === 0) {
-          const goalMonths =
-            data.goalMonths === -1
-              ? Math.max(1, Number(data.goalMonthsCustom) || 6)
-              : Math.max(1, Number(data.goalMonths) || 6);
-          const deadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
-            .toISOString()
-            .slice(0, 10);
           await supabase.from("savings_goals").insert({
             user_id: userId,
             title: data.goalLabel,
             target_amount: data.goalAmount,
+
             saved_amount: 0,
             deadline,
           });
