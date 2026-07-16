@@ -750,21 +750,45 @@ const EVENT_KINDS = [
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
-  const { events, addEvent } = useBudget();
+  const { events, addEvent, updateEvent, removeEventById } = useBudget();
   const [selected, setSelected] = useState(10);
   const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
   const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
+  const [editing, setEditing] = useState<CalEvent | null>(null);
+
+  function openAdd() {
+    setEditing(null);
+    setScreen("add");
+  }
+  function openEdit(e: CalEvent) {
+    setEditing(e);
+    setScreen("add");
+  }
 
   if (screen === "add") {
     return (
       <AddEventScreen
+        initial={editing}
         onBack={() => setScreen("main")}
         onSave={(e) => {
-          addEvent(e);
-          setLastAdded(e);
+          if (editing) {
+            updateEvent(editing.id, e);
+          } else {
+            addEvent(e);
+            setLastAdded(e);
+          }
           setScreen("loading");
-          setTimeout(() => setScreen("ai-done"), 1400);
+          setTimeout(() => setScreen(editing ? "main" : "ai-done"), 1400);
         }}
+        onDelete={
+          editing
+            ? () => {
+                removeEventById(editing.id);
+                setEditing(null);
+                setScreen("main");
+              }
+            : undefined
+        }
       />
     );
   }
