@@ -654,6 +654,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
         deadline: inserted.deadline,
       });
     }
+    await refreshGoals();
     toast.success(`تم إنشاء هدف "${finalName}"`);
     setTimeout(onBack, 500);
   }
