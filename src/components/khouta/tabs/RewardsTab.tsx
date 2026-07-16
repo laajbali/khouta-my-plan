@@ -69,7 +69,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
       <div className="px-5 pt-4 space-y-4">
         {/* Achievement card */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center shrink-0">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
             <Gift className="h-6 w-6" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">

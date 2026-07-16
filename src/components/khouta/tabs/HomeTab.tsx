@@ -193,7 +193,7 @@ export function HomeTab({
             icon={<Calendar className="h-5 w-5" strokeWidth={2} />}
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
-            tint="bg-blue-50 text-blue-700"
+            tint="bg-primary/10 text-primary"
             onClick={onOpenCalendar}
           />
           <FeatureCard
@@ -208,14 +208,14 @@ export function HomeTab({
             icon={<BarChart3 className="h-5 w-5" strokeWidth={2} />}
             title="التقارير"
             desc="أداء هذا الشهر"
-            tint="bg-mint/15 text-primary"
+            tint="bg-primary/10 text-primary"
             onClick={onOpenReports}
           />
           <FeatureCard
             icon={<Gift className="h-5 w-5" strokeWidth={2} />}
             title="المكافآت"
             desc="كوبون جديد بانتظارك"
-            tint="bg-amber-50 text-amber-700"
+            tint="bg-primary/10 text-primary"
             onClick={onOpenRewards}
           />
         </div>
@@ -234,7 +234,7 @@ export function HomeTab({
               <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
                 التحدي الجماعي 💚
               </p>
-              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-mint/15 text-primary">
+              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-primary/10 text-primary">
                 جديد
               </span>
             </div>
