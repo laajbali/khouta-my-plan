@@ -59,7 +59,9 @@ const DEFAULT_SNAPSHOT: BudgetSnapshot = {
 type Ctx = {
   events: CalEvent[];
   addEvent: (e: CalEvent) => void;
+  updateEvent: (id: string, patch: Partial<CalEvent>) => void;
   removeEvent: (day: number, title: string) => void;
+  removeEventById: (id: string) => void;
   upsertGoal: (goal: BudgetGoal) => void;
   monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
