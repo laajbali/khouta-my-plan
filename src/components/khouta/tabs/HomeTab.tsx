@@ -60,15 +60,10 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  const { dailyLimit, spentToday, remainingToday, monthlyIncome, fixedExpensesMonthly } = useBudget();
-  const isBudgetLoading =
-    !Number.isFinite(dailyLimit) ||
-    dailyLimit <= 0 ||
-    monthlyIncome <= 0 ||
-    fixedExpensesMonthly < 0;
-  const isOverBudget = !isBudgetLoading && spentToday > dailyLimit;
-  const rawPct = isBudgetLoading || dailyLimit <= 0 ? 0 : (spentToday / dailyLimit) * 100;
-  const budgetPct = Math.max(0, Math.min(100, Math.round(rawPct)));
+  const { dailyLimit, spentToday, remainingToday } = useBudget();
+  const isOverBudget = spentToday > dailyLimit;
+  const budgetPct =
+    dailyLimit > 0 ? Math.max(0, Math.min(100, Math.round((spentToday / dailyLimit) * 100))) : 0;
 
 
   return (
