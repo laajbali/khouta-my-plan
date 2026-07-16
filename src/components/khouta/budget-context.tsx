@@ -130,19 +130,25 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   );
   const incomeLabel = profile?.income_label || snapshot.incomeLabel || "الدخل";
   const fixedExpenses = profileFixedExpenses ?? snapshot.fixedExpenses;
-  const remoteGoals: BudgetGoal[] = goals.map((goal) => ({
-    id: goal.id,
-    target_amount: Number(goal.target_amount) || 0,
-    saved_amount: Number(goal.saved_amount) || 0,
-    deadline: goal.deadline,
-  }));
-  const budgetGoals: BudgetGoal[] = useMemo(() => {
-    const source = goalsLoading ? snapshot.goals : remoteGoals;
+  const remoteGoals: BudgetGoal[] = useMemo(
+    () =>
+      goals.map((goal) => ({
+        id: goal.id,
+        target_amount: Number(goal.target_amount) || 0,
+        saved_amount: Number(goal.saved_amount) || 0,
+        deadline: goal.deadline,
+      })),
+    [goals],
+  );
+  const activeGoals: BudgetGoal[] = useMemo(() => {
+    const source = goalsLoading && remoteGoals.length === 0 ? snapshot.goals : remoteGoals;
     const merged = new Map<string, BudgetGoal>();
     [...source, ...localGoals].forEach((goal) => merged.set(goal.id, goal));
+    // Honor client-side deletions even before the server round-trip resolves.
+    removedGoalIds.forEach((id) => merged.delete(id));
     return Array.from(merged.values());
-  }, [goalsLoading, localGoals, remoteGoals, snapshot.goals]);
-  // spentToday derived dynamically as 70% of dailyLimit (see below)
+  }, [goalsLoading, localGoals, remoteGoals, snapshot.goals, removedGoalIds]);
+  const budgetGoals = activeGoals;
 
   useEffect(() => {
     if (typeof window === "undefined" || !storageReady) return;
