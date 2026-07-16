@@ -271,7 +271,9 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
       value={{
         events,
         addEvent,
+        updateEvent,
         removeEvent,
+        removeEventById,
         upsertGoal,
         monthlyOccasionNet,
         fixedExpensesMonthly,
