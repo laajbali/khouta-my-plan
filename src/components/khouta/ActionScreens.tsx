@@ -603,7 +603,7 @@ const GOAL_TYPES = [
 
 export function NewGoalScreen({ onBack }: { onBack: () => void }) {
   const { user } = useSession();
-  const { upsertGoal } = useBudget();
+  const { upsertGoal, refreshGoals } = useBudget();
   const [typeKey, setTypeKey] = useState<string | null>(null);
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
