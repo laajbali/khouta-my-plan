@@ -169,6 +169,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
       if (prev.some((e) => e.tone === "in" && e.day === 10)) return prev;
       return [
         {
+          id: "income_default",
           day: 10,
           title: `نزول ${incomeLabel}`,
           subtitle: "الأربعاء 10 يوليو",
@@ -183,11 +184,19 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   }, [monthlyIncome, incomeLabel]);
 
   const addEvent = useCallback((e: CalEvent) => {
-    setEvents((prev) => [{ ...e, status: "new" }, ...prev]);
+    setEvents((prev) => [{ ...e, id: e.id || makeEventId(), status: "new" }, ...prev]);
   }, []);
 
   const removeEvent = useCallback((day: number, title: string) => {
     setEvents((prev) => prev.filter((e) => !(e.day === day && e.title === title)));
+  }, []);
+
+  const removeEventById = useCallback((id: string) => {
+    setEvents((prev) => prev.filter((e) => e.id !== id));
+  }, []);
+
+  const updateEvent = useCallback((id: string, patch: Partial<CalEvent>) => {
+    setEvents((prev) => prev.map((e) => (e.id === id ? { ...e, ...patch, id: e.id } : e)));
   }, []);
 
   const upsertGoal = useCallback((goal: BudgetGoal) => {
