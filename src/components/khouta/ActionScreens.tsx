@@ -1084,17 +1084,26 @@ function MiniStat({
 function AddEventScreen({
   onBack,
   onSave,
+  initial,
+  onDelete,
 }: {
   onBack: () => void;
   onSave: (e: CalEvent) => void;
+  initial?: CalEvent | null;
+  onDelete?: () => void;
 }) {
-  const [kindKey, setKindKey] = useState<string>("birthday");
-  const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [cost, setCost] = useState("");
-  const [cashFlow, setCashFlow] = useState<"out" | "in">("out");
-  const [priority, setPriority] = useState<"high" | "med" | "low">("med");
-  const [notes, setNotes] = useState("");
+  const isEdit = !!initial;
+  const [kindKey, setKindKey] = useState<string>(initial?.kindKey ?? "birthday");
+  const [name, setName] = useState(initial?.title ?? "");
+  const [date, setDate] = useState(initial?.date ?? "");
+  const [cost, setCost] = useState(
+    initial ? String(initial.cost ?? Math.abs(initial.amount)) : "",
+  );
+  const [cashFlow, setCashFlow] = useState<"out" | "in">(
+    initial ? (initial.tone === "in" ? "in" : "out") : "out",
+  );
+  const [priority, setPriority] = useState<"high" | "med" | "low">(initial?.priority ?? "med");
+  const [notes, setNotes] = useState(initial?.notes ?? "");
 
   const kind = EVENT_KINDS.find((k) => k.key === kindKey)!;
 
@@ -1106,21 +1115,29 @@ function AddEventScreen({
       return;
     }
     const dayNum = Number(date.split("-")[2] ?? date) || 20;
-    const amount = cashFlow === "in" ? Math.abs(Number(cost) || 0) : -Math.abs(Number(cost) || 0);
+    const costNum = Math.abs(Number(cost) || 0);
+    const amount = cashFlow === "in" ? costNum : -costNum;
     onSave({
+      id: initial?.id ?? "",
       day: dayNum,
       title: label,
       subtitle: `${date} • ${priority === "high" ? "أولوية عالية" : priority === "med" ? "متوسطة" : "منخفضة"}${notes ? " • " + notes : ""}`,
       amount,
       tone: cashFlow,
       icon: kind.icon,
+      kindKey,
+      date,
+      priority,
+      notes,
+      cost: costNum,
     });
   }
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <ScreenHeader title="إضافة مناسبة جديدة" onBack={onBack} />
+      <ScreenHeader title={isEdit ? "تعديل المناسبة" : "إضافة مناسبة جديدة"} onBack={onBack} />
       <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4">
+
         <Field label="نوع المناسبة">
           <div className="grid grid-cols-3 gap-2">
             {EVENT_KINDS.map((k) => {
