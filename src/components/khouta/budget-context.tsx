@@ -284,12 +284,13 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const baselineDaily = Math.max(0, Math.round(Math.max(0, income - fixedExpensesMonthly) / 30));
   const goalDailyDeduction = totalGoalDeductions / 30;
 
-  // Realistic dailyLimit — dynamic, always >= 0, reactive to every input.
+  // Realistic dailyLimit — always divided by fixed 30-day base for stability.
   const dailyLimit = useMemo(() => {
-    const monthlyNet = income - fixedExpensesMonthly - totalGoalDeductions;
-    const disposable = monthlyNet - totalEventsBudget;
-    return Math.max(0, Math.round(disposable / daysLeftUntilSalary));
-  }, [income, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget, daysLeftUntilSalary]);
+    const monthlyNetDisposable =
+      income - fixedExpensesMonthly - totalGoalDeductions - totalEventsBudget;
+    return Math.max(0, Math.round(monthlyNetDisposable / 30));
+  }, [income, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget]);
+
 
 
   const spentToday = 0;
