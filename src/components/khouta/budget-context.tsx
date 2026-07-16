@@ -216,6 +216,21 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
 
   const upsertGoal = useCallback((goal: BudgetGoal) => {
     setLocalGoals((prev) => [goal, ...prev.filter((item) => item.id !== goal.id)]);
+    setRemovedGoalIds((prev) => {
+      if (!prev.has(goal.id)) return prev;
+      const next = new Set(prev);
+      next.delete(goal.id);
+      return next;
+    });
+  }, []);
+
+  const removeGoalById = useCallback((id: string) => {
+    setLocalGoals((prev) => prev.filter((item) => item.id !== id));
+    setRemovedGoalIds((prev) => {
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
   }, []);
 
   // Salary refresh day = the "in" income event's day; fallback to APP_TODAY_DAY.
