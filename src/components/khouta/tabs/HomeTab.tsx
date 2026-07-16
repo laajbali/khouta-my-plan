@@ -155,6 +155,7 @@ export function HomeTab({
               suffix="ر.س"
               tone={isOverBudget ? "text-red-500" : "text-mint"}
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
+              loading={isBudgetLoading}
             />
             <SummaryStat
               value={spentToday.toLocaleString()}
@@ -162,19 +163,26 @@ export function HomeTab({
               suffix="ر.س"
               tone="text-destructive"
               icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
+              loading={isBudgetLoading}
             />
             <SummaryStat
               value={dailyLimit.toLocaleString()}
               label="الحد اليومي"
               suffix="ر.س"
               tone="text-foreground"
+              loading={isBudgetLoading}
             />
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
             <div
               className={`h-full rounded-full transition-all ${
-                isOverBudget ? "bg-red-500" : "bg-gradient-to-l from-mint to-primary"
+                isBudgetLoading
+                  ? "bg-gradient-to-l from-mint/40 to-primary/40 animate-pulse"
+                  : isOverBudget
+                    ? "bg-red-500"
+                    : "bg-gradient-to-l from-mint to-primary"
               }`}
+
               style={{ width: `${budgetPct}%` }}
             />
           </div>
