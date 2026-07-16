@@ -240,19 +240,19 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           80% { opacity: 0.7; }
           100% { opacity: 0; transform: translate3d(0,-40px,0) scale(1.1); }
         }
-        .p0  { left: 10%; top: 22%; animation-delay: 0ms;   width: 3px; height: 3px; }
-        .p1  { left: 22%; top: 70%; animation-delay: 400ms; }
-        .p2  { left: 35%; top: 18%; animation-delay: 800ms; width: 5px; height: 5px; }
-        .p3  { left: 48%; top: 82%; animation-delay: 200ms; }
-        .p4  { left: 62%; top: 26%; animation-delay: 1000ms; }
-        .p5  { left: 78%; top: 68%; animation-delay: 600ms; width: 3px; height: 3px; }
-        .p6  { left: 88%; top: 20%; animation-delay: 300ms; }
-        .p7  { left: 15%; top: 50%; animation-delay: 1200ms; }
-        .p8  { left: 70%; top: 15%; animation-delay: 900ms; width: 5px; height: 5px; }
-        .p9  { left: 30%; top: 88%; animation-delay: 1500ms; }
+        .p0 { left: 10%; top: 22%; animation-delay: 0ms; width: 3px; height: 3px; }
+        .p1 { left: 22%; top: 70%; animation-delay: 400ms; }
+        .p2 { left: 35%; top: 18%; animation-delay: 800ms; width: 5px; height: 5px; }
+        .p3 { left: 48%; top: 82%; animation-delay: 200ms; }
+        .p4 { left: 62%; top: 26%; animation-delay: 1000ms; }
+        .p5 { left: 78%; top: 68%; animation-delay: 600ms; width: 3px; height: 3px; }
+        .p6 { left: 88%; top: 20%; animation-delay: 300ms; }
+        .p7 { left: 15%; top: 50%; animation-delay: 1200ms; }
+        .p8 { left: 70%; top: 15%; animation-delay: 900ms; width: 5px; height: 5px; }
+        .p9 { left: 30%; top: 88%; animation-delay: 1500ms; }
         .p10 { left: 55%; top: 40%; animation-delay: 700ms; }
         .p11 { left: 82%; top: 40%; animation-delay: 1100ms; }
-        .p12 { left: 8%;  top: 80%; animation-delay: 500ms; }
+        .p12 { left: 8%; top: 80%; animation-delay: 500ms; }
         .p13 { left: 92%; top: 78%; animation-delay: 1300ms; width: 3px; height: 3px; }
 
         /* ============ Logo stage ============ */
@@ -261,14 +261,14 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-finish 2400ms ease-in-out 1500ms forwards, splash-float-idle 3s ease-in-out 2400ms infinite;
         }
         @keyframes splash-finish {
-          0%   { transform: scale(1) translateY(0); }
-          25%  { transform: scale(1.03) translateY(-2px); }
-          60%  { transform: scale(1.0) translateY(0); }
+          0% { transform: scale(1) translateY(0); }
+          25% { transform: scale(1.03) translateY(-2px); }
+          60% { transform: scale(1.0) translateY(0); }
           100% { transform: scale(1.0) translateY(0); }
         }
         @keyframes splash-float-idle {
           0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-3px); }
+          50% { transform: translateY(-3px); }
         }
 
         /* Green square — grows from center at step 6 */
@@ -278,9 +278,9 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-square-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 1500ms forwards;
         }
         @keyframes splash-square-in {
-          0%   { transform: scale(0);    opacity: 0; }
-          40%  { opacity: 1; }
-          100% { transform: scale(1);    opacity: 1; }
+          0% { transform: scale(0); opacity: 0; }
+          40% { opacity: 1; }
+          100% { transform: scale(1); opacity: 1; }
         }
 
         /* Scaffolding assembly fades out as real logo takes over */
@@ -289,7 +289,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
         @keyframes splash-assembly-out {
           from { opacity: 1; }
-          to   { opacity: 0; }
+          to { opacity: 0; }
         }
 
         /* Steps — each with its own entrance */
@@ -299,27 +299,27 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-step1 700ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
         }
         @keyframes splash-step1 {
-          0%   { transform: translateY(140%); opacity: 0; }
-          60%  { opacity: 1; }
-          100% { transform: translateY(0);    opacity: 1; }
+          0% { transform: translateY(140%); opacity: 0; }
+          60% { opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
         }
         .splash-step-2 {
           transform: translateX(160%);
           animation: splash-step2 650ms cubic-bezier(0.22, 1, 0.36, 1) 650ms forwards;
         }
         @keyframes splash-step2 {
-          0%   { transform: translateX(160%); opacity: 0; }
-          50%  { opacity: 1; }
-          100% { transform: translateX(0);    opacity: 1; }
+          0% { transform: translateX(160%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(0); opacity: 1; }
         }
         .splash-step-3 {
           transform: translateY(-160%);
           animation: splash-step3 650ms cubic-bezier(0.22, 1, 0.36, 1) 1050ms forwards;
         }
         @keyframes splash-step3 {
-          0%   { transform: translateY(-160%); opacity: 0; }
-          50%  { opacity: 1; }
-          100% { transform: translateY(0);     opacity: 1; }
+          0% { transform: translateY(-160%); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(0); opacity: 1; }
         }
 
         /* Star: sparkle → grow → settle */
@@ -330,13 +330,13 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-star-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 1400ms forwards;
         }
         @keyframes splash-star-in {
-          0%   { opacity: 0;   transform: scale(0.05) rotate(-30deg);
+          0% { opacity: 0; transform: scale(0.05) rotate(-30deg);
                  filter: drop-shadow(0 0 2px oklch(1 0 0 / 0.9)); }
-          25%  { opacity: 1;   transform: scale(0.25) rotate(-10deg);
+          25% { opacity: 1; transform: scale(0.25) rotate(-10deg);
                  filter: drop-shadow(0 0 12px oklch(1 0 0 / 0.9)); }
-          70%  { opacity: 1;   transform: scale(1.08) rotate(3deg);
+          70% { opacity: 1; transform: scale(1.08) rotate(3deg);
                  filter: drop-shadow(0 0 14px oklch(0.85 0.14 85 / 0.7)); }
-          100% { opacity: 1;   transform: scale(1) rotate(0);
+          100% { opacity: 1; transform: scale(1) rotate(0);
                  filter: drop-shadow(0 0 8px oklch(0.85 0.14 85 / 0.35)); }
         }
 
@@ -350,7 +350,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
         @keyframes splash-real-in {
           from { opacity: 0; }
-          to   { opacity: 1; }
+          to { opacity: 1; }
         }
 
         /* Golden light sweep — once */
@@ -375,7 +375,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-sheen-move 900ms ease-out 2700ms forwards;
         }
         @keyframes splash-sheen-move {
-          0%   { left: -60%; }
+          0% { left: -60%; }
           100% { left: 140%; }
         }
 
@@ -387,8 +387,8 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
           animation: splash-glow 1400ms ease-out 2500ms forwards;
         }
         @keyframes splash-glow {
-          0%   { opacity: 0; box-shadow: 0 0 0 0 oklch(0.85 0.14 85 / 0.0); }
-          40%  { opacity: 1; box-shadow: 0 0 40px 6px oklch(0.85 0.14 85 / 0.35); }
+          0% { opacity: 0; box-shadow: 0 0 0 0 oklch(0.85 0.14 85 / 0.0); }
+          40% { opacity: 1; box-shadow: 0 0 40px 6px oklch(0.85 0.14 85 / 0.35); }
           100% { opacity: 1; box-shadow: 0 0 26px 2px oklch(0.85 0.14 85 / 0.18); }
         }
 
@@ -399,7 +399,7 @@ export function SplashScreen({ onDone }: { onDone: () => void }) {
         }
         @keyframes splash-veil-in {
           from { opacity: 0; }
-          to   { opacity: 1; }
+          to { opacity: 1; }
         }
 
         @media (prefers-reduced-motion: reduce) {

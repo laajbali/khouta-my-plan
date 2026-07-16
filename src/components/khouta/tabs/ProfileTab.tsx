@@ -125,6 +125,13 @@ export function ProfileTab({
       tint: "bg-primary/10 text-primary",
       onClick: () => toast("فتح مركز المساعدة"),
     },
+    {
+      icon: LogOut,
+      label: "تسجيل الخروج",
+      desc: "إنهاء الجلسة الحالية",
+      tint: "bg-destructive/10 text-destructive",
+      onClick: signOut,
+    },
   ];
 
   return (
@@ -225,13 +232,6 @@ export function ProfileTab({
           </div>
         </div>
 
-        <button
-          onClick={signOut}
-          className="w-full rounded-2xl border border-destructive/30 bg-destructive/5 text-destructive font-extrabold py-3.5 flex items-center justify-center gap-2 text-[13px] tracking-tight active:scale-[0.99] transition"
-        >
-          <LogOut className="h-4 w-4" strokeWidth={2} />
-          تسجيل الخروج
-        </button>
       </div>
     </div>
   );

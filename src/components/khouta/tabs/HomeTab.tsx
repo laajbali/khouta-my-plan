@@ -79,7 +79,7 @@ export function HomeTab({
         </button>
         <div className="text-center flex-1 mx-3">
           <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
-            صباح الخير{firstName ? "، " + firstName : ""} 👋
+            {firstName ? `مرحباً، ${firstName}` : "مرحباً"}
           </p>
           <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
             كل خطوة ذكية تقرّبك من هدفك
@@ -232,11 +232,8 @@ export function HomeTab({
           <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center gap-2 justify-start">
               <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
-                التحدي الجماعي 💚
+                التحدي الجماعي
               </p>
-              <span className="text-[9px] font-black tracking-[0.15em] uppercase px-2 py-0.5 rounded-md bg-primary/10 text-primary">
-                جديد
-              </span>
             </div>
             <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
               تحدَّ أصدقاءك وادّخروا سوياً — أنت 68% • ريما 45%

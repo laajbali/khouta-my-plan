@@ -78,7 +78,7 @@ export function BankConnect({
                       {b.short}
                     </div>
                     <span className="text-sm font-bold text-foreground">{b.name}</span>
-                    <span className="text-[10px] text-mint">✓ متاح</span>
+                    <span className="text-[10px] text-mint"> متاح</span>
                   </button>
                 ))}
               </div>
