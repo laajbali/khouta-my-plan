@@ -70,7 +70,59 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
       return false;
     }
     setLoading(true);
+
+    // Compute income label + normalized fixed expenses once — reused for both
+    // the localStorage snapshot (instant dashboard hydration) and the DB upsert.
+    const INCOME_LABELS: Record<string, string> = {
+      salary: "راتب",
+      scholarship: "مكافأة",
+      bonus: "مكافأة",
+      freelance: "عمل حر",
+    };
+    const incomeLabel =
+      data.incomeSource === "other"
+        ? data.incomeSourceCustom.trim() || "دخل"
+        : INCOME_LABELS[data.incomeSource] || "دخل";
+    const fixedExpenses = data.expenses
+      .map((e) => ({ key: e.key, label: e.label?.trim() || "", amount: Number(e.amount) || 0 }))
+      .filter((e) => e.amount > 0 && e.label.length > 0);
+    const monthlyIncomeNum = Number(data.monthlyIncome) || 0;
+    const goalMonths =
+      data.goalMonths === -1
+        ? Math.max(1, Number(data.goalMonthsCustom) || 6)
+        : Math.max(1, Number(data.goalMonths) || 6);
+    const goalDeadline = new Date(Date.now() + goalMonths * 30 * 24 * 60 * 60 * 1000)
+      .toISOString()
+      .slice(0, 10);
+
+    // Persist onboarding inputs to the shared budget snapshot immediately so the
+    // Dashboard renders the user's real numbers even before Supabase responds.
+    if (typeof window !== "undefined" && monthlyIncomeNum > 0) {
+      try {
+        window.localStorage.setItem(
+          "khouta_budget_snapshot_v1",
+          JSON.stringify({
+            monthlyIncome: monthlyIncomeNum,
+            incomeLabel,
+            fixedExpenses,
+            goals: [
+              {
+                id: `onboarding-${data.goalKey || "goal"}`,
+                target_amount: Number(data.goalAmount) || 0,
+                saved_amount: 0,
+                deadline: goalDeadline,
+              },
+            ],
+            spentToday: 0,
+          }),
+        );
+      } catch {
+        /* ignore */
+      }
+    }
+
     try {
+
       let userId: string | undefined;
 
       const { data: auth, error } = await supabase.auth.signUp({
