@@ -94,7 +94,7 @@ export function InterceptModal({
               </p>
             </div>
             <h2 className="mt-1 text-[22px] font-black tracking-tight">
-              لحظة{firstName ? " يا " + firstName : ""}! 🛑
+              لحظة{firstName ? " يا " + firstName : ""}!
             </h2>
           </div>
 
@@ -130,7 +130,7 @@ export function InterceptModal({
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[12px] font-black text-foreground">🎯 {goalTitle}</span>
+                <span className="text-[12px] font-black text-foreground"> {goalTitle}</span>
               </div>
               <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
@@ -169,16 +169,16 @@ export function InterceptModal({
                 "linear-gradient(180deg, oklch(0.96 0.04 155) 0%, oklch(0.99 0.01 155) 100%)",
             }}
           >
-            <div className="absolute top-3 left-6 text-lg animate-bounce">🎉</div>
-            <div className="absolute top-8 right-5 text-base animate-pulse">✨</div>
-            <div className="absolute top-5 right-16 text-lg">🎊</div>
+            <div className="absolute top-3 left-6 text-lg animate-bounce"></div>
+            <div className="absolute top-8 right-5 text-base animate-pulse"></div>
+            <div className="absolute top-5 right-16 text-lg"></div>
             <div className="absolute top-10 left-16 text-base animate-pulse">⭐</div>
 
             <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/20 flex items-center justify-center relative">
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
-              أحسنت{firstName ? " يا " + firstName : ""}! 🎁
+              أحسنت{firstName ? " يا " + firstName : ""}!
             </h2>
             <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
@@ -218,7 +218,7 @@ export function InterceptModal({
 
             <button
               onClick={() => {
-                toast.success(`🎉 تم توفير ${amount} ر.س`, {
+                toast.success(` تم توفير ${amount} ر.س`, {
                   description: `قرارك الذكي قرّبك ${percentAfter}% من ${goalTitle}. الكود ${code} في المكافآت.`,
                   duration: 5000,
                 });

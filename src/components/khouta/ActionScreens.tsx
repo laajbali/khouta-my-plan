@@ -743,12 +743,12 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
 const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
 const EVENT_KINDS = [
-  { key: "birthday", label: "عيد ميلاد", icon: "🎂" },
-  { key: "wedding", label: "زواج", icon: "💍" },
-  { key: "travel", label: "سفر", icon: "✈️" },
-  { key: "eid", label: "عيد", icon: "🌙" },
-  { key: "study", label: "دراسة", icon: "📚" },
-  { key: "other", label: "أخرى", icon: "📅" },
+  { key: "birthday", label: "عيد ميلاد", icon: "" },
+  { key: "wedding", label: "زواج", icon: "" },
+  { key: "travel", label: "سفر", icon: "" },
+  { key: "eid", label: "عيد", icon: "" },
+  { key: "study", label: "دراسة", icon: "" },
+  { key: "other", label: "أخرى", icon: "" },
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
@@ -993,7 +993,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 <p className="text-[13px] font-black tracking-tight">المستشار المالي</p>
               </div>
               <h2 className="mt-2 text-[18px] font-black tracking-tight text-right">
-                تمت إضافة المناسبة بنجاح 🎉
+                تمت إضافة المناسبة بنجاح
               </h2>
             </div>
 
@@ -1415,7 +1415,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
             الرادار يعمل الآن
           </p>
           <h3 className="text-[18px] font-black text-foreground tracking-tight">
-            تحليل السلوك الاندفاعي 🧠
+            تحليل السلوك الاندفاعي
           </h3>
         </div>
 
@@ -1451,7 +1451,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         >
           <div className="flex items-center gap-2 justify-end mb-2">
             <p className="text-[13px] font-black text-amber-900 tracking-tight">تحدي الليلة</p>
-            <span className="text-lg">🌙</span>
+            <span className="text-lg"></span>
           </div>
           <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
             متبقي ساعتان على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب كود توفير حصري من نون لدعم هدفك الحالي!
@@ -1461,12 +1461,12 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         <button
           onClick={() => {
             setActivated(true);
-            toast.success("تم تفعيل الحماية الاستباقية الليلة 🛡️");
+            toast.success("تم تفعيل الحماية الاستباقية الليلة ");
           }}
           disabled={activated}
           className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-4 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.99] transition disabled:opacity-70"
         >
-          {activated ? "الحماية مُفعّلة الليلة ✓" : "تفعيل الحماية الاستباقية"}
+          {activated ? "الحماية مُفعّلة الليلة " : "تفعيل الحماية الاستباقية"}
         </button>
 
         {/* NEW — Freeze feature card (compact) */}
@@ -1567,21 +1567,21 @@ const FOLLOWUPS: Record<string, string[]> = {
     "هل يمكن توجيه هذا الحماس نحو هدفك المالي بدلاً منها؟",
   ],
   توتر: [
-    "أتفهم شعورك 🌿 — ما الذي يوترك الآن؟",
+    "أتفهم شعورك — ما الذي يوترك الآن؟",
     "هل تعتقد أن الشراء سيحلّ سبب التوتر أم يخفّف الشعور مؤقتاً؟",
     "جرّبت من قبل تخفيف التوتر بطريقة أخرى؟ كيف كانت النتيجة؟",
     "لو تنفّست دقيقة ثم عدت للقرار، هل سيتغير رأيك؟",
     "ما الشعور الذي تريده بدل التوتر؟ يمكن نصل له بدون شراء.",
   ],
   ملل: [
-    "الملل صديق التسوق الاندفاعي 😉 — ما آخر شيء أمتعك حقاً؟",
+    "الملل صديق التسوق الاندفاعي — ما آخر شيء أمتعك حقاً؟",
     "هل يوجد نشاط بسيط الآن يمكنه كسر الملل؟",
     "لو اشتريت السماعة، كم يوماً ستبقى سعيداً بها فعلاً؟",
     "هل يمكن استبدال الشراء بشيء مجاني: مشي، كتاب، مكالمة؟",
     "لو مرّ الملل، هل ستحتاج السماعة أصلاً؟",
   ],
   "مكافأة لنفسي": [
-    "تستحق المكافأة 💚 — ما الإنجاز الذي تكافئ نفسك عليه؟",
+    "تستحق المكافأة — ما الإنجاز الذي تكافئ نفسك عليه؟",
     "هل هذه المكافأة تعبّر فعلاً عن حجم الإنجاز؟",
     "هل هناك مكافأة تعزّز صحتك أو مهاراتك بنفس المبلغ؟",
     "لو ادّخرت المبلغ لهدفك، ألن يكون ذلك مكافأة أكبر؟",
@@ -1590,7 +1590,7 @@ const FOLLOWUPS: Record<string, string[]> = {
 };
 
 const ACK_LINES = [
-  "شكراً لصراحتك 🙏",
+  "شكراً لصراحتك ",
   "ملاحظة جميلة، خلينا نكمل.",
   "أفهم قصدك تماماً.",
   "منطقي جداً، فكرة مهمة.",
@@ -1608,7 +1608,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
   const [msgs, setMsgs] = useState<FreezeMsg[]>([
     {
       from: "ai",
-      text: `مرحبًا${firstName ? " " + firstName : ""} 👋 لاحظت أنك على وشك شراء سماعة بقيمة 400 ريال من نون.`,
+      text: `مرحبًا${firstName ? " " + firstName : ""} لاحظت أنك على وشك شراء سماعة بقيمة 400 ريال من نون.`,
     },
     {
       from: "ai",
@@ -1833,7 +1833,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         <div className="border-t border-border bg-card p-4 space-y-2 shrink-0">
           <button
             onClick={() => {
-              toast.success("أحسنت! تم إلغاء الشراء ✓");
+              toast.success("أحسنت! تم إلغاء الشراء ");
               onExit();
             }}
             className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/25 active:scale-[0.99] transition"
@@ -1865,8 +1865,8 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
   const [newFriend, setNewFriend] = useState("");
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<ChatMsg[]>([
-    { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "📉" },
-    { from: "her", text: "كفو! أنا باقي لي 10% وأقفل ميزانية هذا الأسبوع!", emoji: "💪" },
+    { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "" },
+    { from: "her", text: "كفو! أنا باقي لي 10% وأقفل ميزانية هذا الأسبوع!", emoji: "" },
   ]);
 
   function send(text?: string) {
@@ -1877,7 +1877,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
     setTimeout(() => {
       setMsgs((m) => [
         ...m,
-        { from: "her", text: `يعطيكِ العافية${firstName && firstName !== "أنت" ? " يا " + firstName : ""}، محفزّة صح 💚` },
+        { from: "her", text: `يعطيكِ العافية${firstName && firstName !== "أنت" ? " يا " + firstName : ""}، محفزّة صح ` },
       ]);
     }, 900);
   }
@@ -1898,7 +1898,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
               إضافة صديق آخر
             </button>
             <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">
-              {firstName} وريما في تحدٍّ واحد 💚
+              {firstName} وريما في تحدٍّ واحد
             </h3>
           </div>
 
@@ -1910,7 +1910,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         <div className="px-5 pt-4">
           <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
             <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
-              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟ 🚀
+              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟
             </p>
           </div>
         </div>
@@ -1945,7 +1945,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
 
           {/* Quick tap bubbles */}
           <div className="flex flex-wrap gap-2 justify-end pt-1">
-            {["يلا نكمّل! 💪", "توفيري اليوم مبسوط فيه 💚", "قربت من هدفك 🚀"].map((t) => (
+            {["يلا نكمّل! ", "توفيري اليوم مبسوط فيه ", "قربت من هدفك "].map((t) => (
               <button
                 key={t}
                 onClick={() => send(t)}
@@ -2010,7 +2010,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                     toast.error("رقم الجوال يجب أن يتكون من 10 خانات ويبدأ بـ 05");
                     return;
                   }
-                  toast.success("تمت دعوة صديقتك للتحدي 🎉");
+                  toast.success("تمت دعوة صديقتك للتحدي ");
                   setNewFriend("");
                   setShowAdd(false);
                 }}

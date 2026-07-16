@@ -63,7 +63,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
     setMessages([
       {
         role: "noor",
-        text: `أهلاً${firstName ? " " + firstName : ""} 👋 أنا نور، مستشارك المالي.${
+        text: `أهلاً${firstName ? " " + firstName : ""} أنا نور، مستشارك المالي.${
           goalTitle && goalTarget > 0
             ? ` هدفك الحالي: ${goalTitle} (${goalTarget.toLocaleString()} ر.س). كيف أقدر أساعدك اليوم؟`
             : " كيف أقدر أساعدك اليوم؟"
