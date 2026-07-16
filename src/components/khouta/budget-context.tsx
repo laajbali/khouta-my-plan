@@ -261,8 +261,9 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
 
   const dailyLimit =
     availableUntilSalary > 0 ? Math.round(availableUntilSalary / daysLeftUntilSalary) : 0;
-  const spentToday = dailyLimit > 0 ? Math.round(dailyLimit * 0.7) : 0;
-  const remainingToday = dailyLimit > 0 ? dailyLimit - spentToday : 0;
+  // Spent today comes from real transactions; starts at 0 each day.
+  const spentToday = 0;
+  const remainingToday = dailyLimit > 0 ? Math.max(0, dailyLimit - spentToday) : 0;
 
 
 

@@ -60,9 +60,18 @@ export function useGoals() {
     setLoading(false);
   }, [user]);
 
+  const removeGoal = useCallback(
+    async (id: string) => {
+      if (!user) return;
+      setGoals((prev) => prev.filter((g) => g.id !== id));
+      await supabase.from("savings_goals").delete().eq("id", id).eq("user_id", user.id);
+    },
+    [user],
+  );
+
   useEffect(() => {
     refresh();
   }, [refresh]);
 
-  return { goals, loading, refresh };
+  return { goals, loading, refresh, removeGoal };
 }

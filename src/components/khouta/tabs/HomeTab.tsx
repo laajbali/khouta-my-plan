@@ -66,8 +66,9 @@ export function HomeTab({
     dailyLimit <= 0 ||
     monthlyIncome <= 0 ||
     fixedExpensesMonthly < 0;
-  const isOverBudget = !isBudgetLoading && (spentToday > dailyLimit || remainingToday < 0);
-  const budgetPct = isBudgetLoading ? 70 : isOverBudget ? 100 : 70;
+  const isOverBudget = !isBudgetLoading && spentToday > dailyLimit;
+  const rawPct = isBudgetLoading || dailyLimit <= 0 ? 0 : (spentToday / dailyLimit) * 100;
+  const budgetPct = Math.max(0, Math.min(100, Math.round(rawPct)));
 
 
   return (

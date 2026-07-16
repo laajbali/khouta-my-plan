@@ -24,6 +24,7 @@ import {
   Calendar as CalIcon,
   Sparkles,
   Send,
+  Trash2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -1277,7 +1278,15 @@ export function GoalsListScreen({
   onOpenGoal: (id: string) => void;
   onOpenNewGoal: () => void;
 }) {
-  const { goals, loading } = useGoals();
+  const { goals, loading, removeGoal } = useGoals();
+  const canDelete = goals.length > 1;
+
+  async function handleDelete(id: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    if (!canDelete) return;
+    await removeGoal(id);
+    toast.success("تم حذف الهدف");
+  }
 
   return (
     <div className="flex flex-col h-full bg-background">
@@ -1303,26 +1312,41 @@ export function GoalsListScreen({
           const percent = target > 0 ? Math.min(100, Math.round((saved / target) * 100)) : 0;
           const Icon = iconFor(g.icon);
           return (
-            <button
+            <div
               key={g.id}
-              onClick={() => onOpenGoal(g.id)}
-              className="w-full rounded-2xl bg-card border border-border p-4 shadow-sm text-right active:scale-[0.99] transition hover:border-primary/40"
+              className="w-full rounded-2xl bg-card border border-border p-4 shadow-sm text-right transition hover:border-primary/40"
             >
               <div className="flex items-center gap-3">
-                <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
-                  <Icon className="h-5 w-5" strokeWidth={1.8} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{g.title}</p>
-                  <p className="text-[10.5px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
-                    {saved.toLocaleString()} / {target.toLocaleString()} ر.س • {percent}%
-                  </p>
-                </div>
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={(e) => handleDelete(g.id, e)}
+                    className="h-9 w-9 rounded-xl bg-destructive/10 text-destructive flex items-center justify-center shrink-0 active:scale-95 transition hover:bg-destructive/15"
+                    aria-label="حذف الهدف"
+                  >
+                    <Trash2 className="h-4 w-4" strokeWidth={2} />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={() => onOpenGoal(g.id)}
+                  className="flex-1 flex items-center gap-3 text-right min-w-0 active:scale-[0.99] transition"
+                >
+                  <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Icon className="h-5 w-5" strokeWidth={1.8} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{g.title}</p>
+                    <p className="text-[10.5px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                      {saved.toLocaleString()} / {target.toLocaleString()} ر.س • {percent}%
+                    </p>
+                  </div>
+                </button>
               </div>
               <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
                 <div className="h-full bg-mint rounded-full" style={{ width: `${percent}%` }} />
               </div>
-            </button>
+            </div>
           );
         })}
 
