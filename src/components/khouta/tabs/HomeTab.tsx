@@ -60,9 +60,15 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  const { dailyLimit, spentToday, remainingToday } = useBudget();
-  const isOverBudget = spentToday > dailyLimit || remainingToday < 0;
-  const budgetPct = isOverBudget ? 100 : 70;
+  const { dailyLimit, spentToday, remainingToday, monthlyIncome, fixedExpensesMonthly } = useBudget();
+  const isBudgetLoading =
+    !Number.isFinite(dailyLimit) ||
+    dailyLimit <= 0 ||
+    monthlyIncome <= 0 ||
+    fixedExpensesMonthly < 0;
+  const isOverBudget = !isBudgetLoading && (spentToday > dailyLimit || remainingToday < 0);
+  const budgetPct = isBudgetLoading ? 70 : isOverBudget ? 100 : 70;
+
 
   return (
     <div className="bg-background pb-4">
@@ -149,6 +155,7 @@ export function HomeTab({
               suffix="ر.س"
               tone={isOverBudget ? "text-red-500" : "text-mint"}
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
+              loading={isBudgetLoading}
             />
             <SummaryStat
               value={spentToday.toLocaleString()}
@@ -156,31 +163,45 @@ export function HomeTab({
               suffix="ر.س"
               tone="text-destructive"
               icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
+              loading={isBudgetLoading}
             />
             <SummaryStat
               value={dailyLimit.toLocaleString()}
               label="الحد اليومي"
               suffix="ر.س"
               tone="text-foreground"
+              loading={isBudgetLoading}
             />
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
             <div
               className={`h-full rounded-full transition-all ${
-                isOverBudget ? "bg-red-500" : "bg-gradient-to-l from-mint to-primary"
+                isBudgetLoading
+                  ? "bg-gradient-to-l from-mint/40 to-primary/40 animate-pulse"
+                  : isOverBudget
+                    ? "bg-red-500"
+                    : "bg-gradient-to-l from-mint to-primary"
               }`}
+
               style={{ width: `${budgetPct}%` }}
             />
           </div>
           <p
             className={`mt-2 text-[10.5px] text-right font-medium ${
-              isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
+              isBudgetLoading
+                ? "text-muted-foreground animate-pulse"
+                : isOverBudget
+                  ? "text-red-500 font-bold"
+                  : "text-muted-foreground"
             }`}
           >
-            {isOverBudget
-              ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
-              : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+            {isBudgetLoading
+              ? "جارٍ حساب ميزانية اليوم…"
+              : isOverBudget
+                ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
+                : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
           </p>
+
         </div>
 
         {/* 2×2 grid */}
@@ -458,23 +479,36 @@ function SummaryStat({
   suffix,
   tone,
   icon,
+  loading,
 }: {
   value: string;
   label: string;
   suffix?: string;
   tone: string;
   icon?: React.ReactNode;
+  loading?: boolean;
 }) {
   return (
     <div className="text-center">
       <div className={`inline-flex items-center gap-1 ${tone}`}>
-        {icon}
-        <span className="text-[22px] font-black leading-none" style={{ fontVariantNumeric: "tabular-nums" }}>
-          {value}
-        </span>
+        {!loading && icon}
+        {loading ? (
+          <span
+            className="inline-block h-5 w-10 rounded-md bg-muted animate-pulse"
+            aria-label="جارٍ الحساب"
+          />
+        ) : (
+          <span
+            className="text-[22px] font-black leading-none"
+            style={{ fontVariantNumeric: "tabular-nums" }}
+          >
+            {value}
+          </span>
+        )}
       </div>
       {suffix && <p className="text-[9px] text-muted-foreground font-bold mt-1">{suffix}</p>}
       <p className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-tight">{label}</p>
     </div>
   );
 }
+
