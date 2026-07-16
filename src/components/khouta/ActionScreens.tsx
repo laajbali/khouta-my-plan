@@ -1280,12 +1280,15 @@ export function GoalsListScreen({
   onOpenNewGoal: () => void;
 }) {
   const { goals, loading, removeGoal } = useGoals();
+  const { removeGoalById, refreshGoals } = useBudget();
   const canDelete = goals.length > 1;
 
   async function handleDelete(id: string, e: React.MouseEvent) {
     e.stopPropagation();
     if (!canDelete) return;
+    removeGoalById(id); // instant reactive drop on Dashboard daily limit
     await removeGoal(id);
+    await refreshGoals();
     toast.success("تم حذف الهدف");
   }
 
