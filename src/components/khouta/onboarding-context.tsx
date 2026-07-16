@@ -180,7 +180,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
             target_amount: data.goalAmount,
 
             saved_amount: 0,
-            deadline,
+            deadline: goalDeadline,
           });
         }
       }
