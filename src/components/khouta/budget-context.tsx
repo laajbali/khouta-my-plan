@@ -233,13 +233,15 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Synchronous days remaining — no async / date libs, instant on render.
+  // Real calendar days remaining in the current month (never zero).
   const daysLeftUntilSalary = useMemo(() => {
-    if (typeof window === "undefined") return 20;
-    return Math.max(1, 30 - new Date().getDate());
+    if (typeof window === "undefined") return 15;
+    const now = new Date();
+    const totalDaysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+    return Math.max(1, totalDaysInMonth - now.getDate() + 1);
   }, []);
 
-  // Upcoming (non-income) events sum — instant, no date filtering.
+  // Sum of upcoming (non-income) event costs.
   const totalEventsBudget = useMemo(
     () =>
       events
@@ -258,7 +260,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
 
   const monthlyOccasionNet = todayEventNet;
 
-  // Instant fallbacks — never render 0 or skeletons while profile syncs.
+  // Safe user inputs — prefer real values, fall back only if truly empty.
   const income = Number(profile?.monthly_income) || monthlyIncome || 9000;
   const expensesRaw = fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
   const fixedExpensesMonthly = expensesRaw > 0 ? expensesRaw : 2500;
@@ -282,11 +284,13 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   const baselineDaily = Math.max(0, Math.round(Math.max(0, income - fixedExpensesMonthly) / 30));
   const goalDailyDeduction = totalGoalDeductions / 30;
 
-  // Instant, synchronous dailyLimit — reactive to goals/events/income.
+  // Realistic dailyLimit — dynamic, always >= 0, reactive to every input.
   const dailyLimit = useMemo(() => {
-    const monthlyDisposable = income - fixedExpensesMonthly - totalGoalDeductions - totalEventsBudget;
-    return Math.max(0, Math.round(monthlyDisposable / daysLeftUntilSalary));
+    const monthlyNet = income - fixedExpensesMonthly - totalGoalDeductions;
+    const disposable = monthlyNet - totalEventsBudget;
+    return Math.max(0, Math.round(disposable / daysLeftUntilSalary));
   }, [income, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget, daysLeftUntilSalary]);
+
 
   const spentToday = 0;
   const remainingToday = Math.max(0, dailyLimit - spentToday);
