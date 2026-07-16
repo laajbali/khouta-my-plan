@@ -60,15 +60,10 @@ export function HomeTab({
   const safeIdx = goals.length > 0 ? Math.min(goalIdx, goals.length - 1) : 0;
   const current: Goal | undefined = goals[safeIdx];
 
-  const { dailyLimit, spentToday, remainingToday, monthlyIncome, fixedExpensesMonthly } = useBudget();
-  const isBudgetLoading =
-    !Number.isFinite(dailyLimit) ||
-    dailyLimit <= 0 ||
-    monthlyIncome <= 0 ||
-    fixedExpensesMonthly < 0;
-  const isOverBudget = !isBudgetLoading && spentToday > dailyLimit;
-  const rawPct = isBudgetLoading || dailyLimit <= 0 ? 0 : (spentToday / dailyLimit) * 100;
-  const budgetPct = Math.max(0, Math.min(100, Math.round(rawPct)));
+  const { dailyLimit, spentToday, remainingToday } = useBudget();
+  const isOverBudget = spentToday > dailyLimit;
+  const budgetPct =
+    dailyLimit > 0 ? Math.max(0, Math.min(100, Math.round((spentToday / dailyLimit) * 100))) : 0;
 
 
   return (
@@ -151,57 +146,44 @@ export function HomeTab({
           </div>
           <div className="grid grid-cols-3 gap-2">
             <SummaryStat
-              value={remainingToday.toLocaleString()}
+              value={remainingToday.toFixed(0)}
               label="متبقٍ اليوم"
               suffix="ر.س"
               tone={isOverBudget ? "text-red-500" : "text-mint"}
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
-              loading={isBudgetLoading}
             />
             <SummaryStat
-              value={spentToday.toLocaleString()}
+              value={spentToday.toFixed(0)}
               label="أُنفق اليوم"
               suffix="ر.س"
               tone="text-destructive"
               icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
-              loading={isBudgetLoading}
             />
             <SummaryStat
-              value={dailyLimit.toLocaleString()}
+              value={dailyLimit.toFixed(0)}
               label="الحد اليومي"
               suffix="ر.س"
               tone="text-foreground"
-              loading={isBudgetLoading}
             />
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
             <div
               className={`h-full rounded-full transition-all ${
-                isBudgetLoading
-                  ? "bg-gradient-to-l from-mint/40 to-primary/40 animate-pulse"
-                  : isOverBudget
-                    ? "bg-red-500"
-                    : "bg-gradient-to-l from-mint to-primary"
+                isOverBudget ? "bg-red-500" : "bg-gradient-to-l from-mint to-primary"
               }`}
-
               style={{ width: `${budgetPct}%` }}
             />
           </div>
           <p
             className={`mt-2 text-[10.5px] text-right font-medium ${
-              isBudgetLoading
-                ? "text-muted-foreground animate-pulse"
-                : isOverBudget
-                  ? "text-red-500 font-bold"
-                  : "text-muted-foreground"
+              isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
             }`}
           >
-            {isBudgetLoading
-              ? "جارٍ حساب ميزانية اليوم…"
-              : isOverBudget
-                ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
-                : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+            {isOverBudget
+              ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct.toFixed(0)}%`
+              : `أنت ضمن ميزانية اليوم • ${budgetPct.toFixed(0)}%`}
           </p>
+
 
         </div>
 
@@ -480,32 +462,23 @@ function SummaryStat({
   suffix,
   tone,
   icon,
-  loading,
 }: {
   value: string;
   label: string;
   suffix?: string;
   tone: string;
   icon?: React.ReactNode;
-  loading?: boolean;
 }) {
   return (
     <div className="text-center">
       <div className={`inline-flex items-center gap-1 ${tone}`}>
-        {!loading && icon}
-        {loading ? (
-          <span
-            className="inline-block h-5 w-10 rounded-md bg-muted animate-pulse"
-            aria-label="جارٍ الحساب"
-          />
-        ) : (
-          <span
-            className="text-[22px] font-black leading-none"
-            style={{ fontVariantNumeric: "tabular-nums" }}
-          >
-            {value}
-          </span>
-        )}
+        {icon}
+        <span
+          className="text-[22px] font-black leading-none"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {value}
+        </span>
       </div>
       {suffix && <p className="text-[9px] text-muted-foreground font-bold mt-1">{suffix}</p>}
       <p className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-tight">{label}</p>
