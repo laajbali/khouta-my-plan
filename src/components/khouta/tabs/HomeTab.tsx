@@ -146,57 +146,44 @@ export function HomeTab({
           </div>
           <div className="grid grid-cols-3 gap-2">
             <SummaryStat
-              value={remainingToday.toLocaleString()}
+              value={remainingToday.toFixed(0)}
               label="متبقٍ اليوم"
               suffix="ر.س"
               tone={isOverBudget ? "text-red-500" : "text-mint"}
               icon={<TrendingUp className="h-3 w-3" strokeWidth={2.5} />}
-              loading={isBudgetLoading}
             />
             <SummaryStat
-              value={spentToday.toLocaleString()}
+              value={spentToday.toFixed(0)}
               label="أُنفق اليوم"
               suffix="ر.س"
               tone="text-destructive"
               icon={<TrendingDown className="h-3 w-3" strokeWidth={2.5} />}
-              loading={isBudgetLoading}
             />
             <SummaryStat
-              value={dailyLimit.toLocaleString()}
+              value={dailyLimit.toFixed(0)}
               label="الحد اليومي"
               suffix="ر.س"
               tone="text-foreground"
-              loading={isBudgetLoading}
             />
           </div>
           <div className="mt-4 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
             <div
               className={`h-full rounded-full transition-all ${
-                isBudgetLoading
-                  ? "bg-gradient-to-l from-mint/40 to-primary/40 animate-pulse"
-                  : isOverBudget
-                    ? "bg-red-500"
-                    : "bg-gradient-to-l from-mint to-primary"
+                isOverBudget ? "bg-red-500" : "bg-gradient-to-l from-mint to-primary"
               }`}
-
               style={{ width: `${budgetPct}%` }}
             />
           </div>
           <p
             className={`mt-2 text-[10.5px] text-right font-medium ${
-              isBudgetLoading
-                ? "text-muted-foreground animate-pulse"
-                : isOverBudget
-                  ? "text-red-500 font-bold"
-                  : "text-muted-foreground"
+              isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
             }`}
           >
-            {isBudgetLoading
-              ? "جارٍ حساب ميزانية اليوم…"
-              : isOverBudget
-                ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct}%`
-                : `أنت ضمن ميزانية اليوم • ${budgetPct}%`}
+            {isOverBudget
+              ? `لقد تجاوزت الحد اليومي اليوم! • ${budgetPct.toFixed(0)}%`
+              : `أنت ضمن ميزانية اليوم • ${budgetPct.toFixed(0)}%`}
           </p>
+
 
         </div>
 
