@@ -21,9 +21,7 @@ type Coupon = {
 
 const COUPONS: Coupon[] = [
   { brand: "SHEIN", accent: "bg-neutral-900", accentText: "text-white", pct: 20, min: 150, days: 7, target: "المشتريات", code: "KHUTA20SH", status: "available" },
-  { brand: "جاهز", accent: "bg-red-500", accentText: "text-white", pct: 15, min: 60, days: 10, target: "الطلبات", code: "KHUTA15JZ", status: "in-use" },
   { brand: "نون", accent: "bg-yellow-400", accentText: "text-neutral-900", pct: 10, min: 200, days: 12, target: "المشتريات", code: "KHUTA10NN", status: "available" },
-  { brand: "فلورارد", accent: "bg-emerald-700", accentText: "text-white", pct: 25, min: 120, days: 14, target: "الطلبات", code: "KHUTA25FL", status: "in-use" },
   { brand: "هنقر", accent: "bg-neutral-500", accentText: "text-white", pct: 10, min: 50, days: 0, target: "الطلبات", code: "KHUTA10HG", status: "expired", usedOn: "استُخدم 20 يونيو" },
 ];
 
