@@ -233,29 +233,19 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Salary refresh day = the "in" income event's day; fallback to APP_TODAY_DAY.
-  const incomeEvent = events.find((e) => e.tone === "in");
-  const salaryDay = incomeEvent?.day ?? APP_TODAY_DAY;
+  // Synchronous days remaining — no async / date libs, instant on render.
+  const daysLeftUntilSalary = useMemo(() => {
+    if (typeof window === "undefined") return 20;
+    return Math.max(1, 30 - new Date().getDate());
+  }, []);
 
-  // Days left until the NEXT salary payout (from the app's "today").
-  // If today is exactly the salary day, the next refresh is 30 days out.
-  const rawDaysLeft = salaryDay > APP_TODAY_DAY
-    ? salaryDay - APP_TODAY_DAY
-    : 30 - APP_TODAY_DAY + salaryDay;
-  const daysLeftUntilSalary = rawDaysLeft > 0 ? rawDaysLeft : 30;
-
-  // Upcoming (non-income) events between today (exclusive) and the next salary payout.
+  // Upcoming (non-income) events sum — instant, no date filtering.
   const totalEventsBudget = useMemo(
     () =>
       events
         .filter((e) => e.tone !== "in")
-        .filter((e) => {
-          const delta =
-            e.day > APP_TODAY_DAY ? e.day - APP_TODAY_DAY : 30 - APP_TODAY_DAY + e.day;
-          return delta > 0 && delta <= daysLeftUntilSalary;
-        })
         .reduce((sum, e) => sum + Math.abs(Number(e.amount) || 0), 0),
-    [events, daysLeftUntilSalary],
+    [events],
   );
 
   const todayEventNet = useMemo(
@@ -267,12 +257,13 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   );
 
   const monthlyOccasionNet = todayEventNet;
-  const fixedExpensesMonthly = useMemo(
-    () => fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0),
-    [fixedExpenses],
-  );
 
-  // Monthly share for each active goal = remaining / months remaining until deadline.
+  // Instant fallbacks — never render 0 or skeletons while profile syncs.
+  const income = Number(profile?.monthly_income) || monthlyIncome || 9000;
+  const expensesRaw = fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+  const fixedExpensesMonthly = expensesRaw > 0 ? expensesRaw : 2500;
+
+  // Monthly share for each active goal.
   const totalGoalDeductions = useMemo(
     () =>
       activeGoals.reduce((sum, goal) => {
@@ -288,23 +279,17 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     [activeGoals],
   );
 
-  const baselineDaily = Math.max(
-    0,
-    Math.round(Math.max(0, monthlyIncome - fixedExpensesMonthly) / 30),
-  );
+  const baselineDaily = Math.max(0, Math.round(Math.max(0, income - fixedExpensesMonthly) / 30));
   const goalDailyDeduction = totalGoalDeductions / 30;
 
-  // Centralized reactive dailyLimit — recomputes on any goal/event/income change.
+  // Instant, synchronous dailyLimit — reactive to goals/events/income.
   const dailyLimit = useMemo(() => {
-    const netMonthlyDisposable =
-      monthlyIncome - fixedExpensesMonthly - totalGoalDeductions - totalEventsBudget;
-    if (netMonthlyDisposable <= 0 || daysLeftUntilSalary <= 0) return 0;
-    return Math.round(netMonthlyDisposable / daysLeftUntilSalary);
-  }, [monthlyIncome, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget, daysLeftUntilSalary]);
+    const monthlyDisposable = income - fixedExpensesMonthly - totalGoalDeductions - totalEventsBudget;
+    return Math.max(0, Math.round(monthlyDisposable / daysLeftUntilSalary));
+  }, [income, fixedExpensesMonthly, totalGoalDeductions, totalEventsBudget, daysLeftUntilSalary]);
 
-  // Spent today comes from real transactions; starts at 0 each day.
   const spentToday = 0;
-  const remainingToday = dailyLimit > 0 ? Math.max(0, dailyLimit - spentToday) : 0;
+  const remainingToday = Math.max(0, dailyLimit - spentToday);
 
 
 
