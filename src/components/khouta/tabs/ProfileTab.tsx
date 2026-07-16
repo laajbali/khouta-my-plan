@@ -236,7 +236,3 @@ export function ProfileTab({
     </div>
   );
 }
-      </div>
-    </div>
-  );
-}
