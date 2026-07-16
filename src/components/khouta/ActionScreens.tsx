@@ -1250,7 +1250,17 @@ function AddEventScreen({
           />
         </Field>
 
-        <PrimaryButton type="submit">إضافة المناسبة</PrimaryButton>
+        <PrimaryButton type="submit">{isEdit ? "تعديل المناسبة" : "إضافة المناسبة"}</PrimaryButton>
+        {isEdit && onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="w-full rounded-2xl border border-destructive/40 bg-destructive/5 text-destructive font-extrabold py-3 text-[12.5px] active:scale-[0.99] transition"
+            style={{ color: "#DC2626" }}
+          >
+            حذف المناسبة
+          </button>
+        )}
       </form>
     </div>
   );
