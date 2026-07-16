@@ -63,6 +63,12 @@ type Ctx = {
   removeEvent: (day: number, title: string) => void;
   removeEventById: (id: string) => void;
   upsertGoal: (goal: BudgetGoal) => void;
+  removeGoalById: (id: string) => void;
+  refreshGoals: () => Promise<void> | void;
+  activeGoals: BudgetGoal[];
+  totalGoalDeductions: number;
+  totalEventsBudget: number;
+  daysRemainingUntilSalary: number;
   monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
   monthlyIncome: number;
