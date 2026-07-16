@@ -11,18 +11,20 @@ export type CalEvent = {
   status?: "new" | "upcoming" | "today";
 };
 
-const INITIAL_EVENTS: CalEvent[] = [
-  { day: 5, title: "عيد ميلاد أختي", subtitle: "الجمعة 5 يوليو", amount: -150, tone: "out", icon: "🎂", status: "upcoming" },
-  { day: 16, title: "تحويل الادخار", subtitle: "الثلاثاء 16 يوليو", amount: -1500, tone: "save", icon: "🏦", status: "upcoming" },
-  { day: 27, title: "مناسبة عائلية", subtitle: "السبت 27 يوليو", amount: -400, tone: "out", icon: "🎉", status: "upcoming" },
-];
+const INITIAL_EVENTS: CalEvent[] = [];
 
 const STORAGE_KEY = "khouta_budget_events_v1";
 const SNAPSHOT_KEY = "khouta_budget_snapshot_v1";
-const DEFAULT_MONTHLY_INCOME = 9000;
-const DEFAULT_SPENT_TODAY = 124;
+const DEFAULT_MONTHLY_INCOME = 10000;
+const DEFAULT_SPENT_TODAY = 140;
 const DEFAULT_GOAL_DAYS = 180;
 const APP_TODAY_DAY = 10;
+
+const DEFAULT_FIXED_EXPENSES: FixedExpense[] = [
+  { key: "housing", label: "السكن", amount: 2000 },
+  { key: "transport", label: "المواصلات", amount: 600 },
+  { key: "internet", label: "الإنترنت", amount: 400 },
+];
 
 type FixedExpense = { key: string; label: string; amount: number };
 export type BudgetGoal = Pick<Goal, "id" | "target_amount" | "saved_amount" | "deadline">;
@@ -37,10 +39,11 @@ type BudgetSnapshot = {
 const DEFAULT_SNAPSHOT: BudgetSnapshot = {
   monthlyIncome: DEFAULT_MONTHLY_INCOME,
   incomeLabel: "الدخل",
-  fixedExpenses: [],
+  fixedExpenses: DEFAULT_FIXED_EXPENSES,
   goals: [],
   spentToday: DEFAULT_SPENT_TODAY,
 };
+
 
 type Ctx = {
   events: CalEvent[];
