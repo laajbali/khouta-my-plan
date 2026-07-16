@@ -199,12 +199,12 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
 /* ---------- Pay Bills ---------- */
 
 const BILLS = [
-  { id: "elec", label: "كهرباء", icon: Zap, tint: "bg-amber-50 text-amber-700", amount: 182 },
-  { id: "water", label: "مياه", icon: Wifi, tint: "bg-blue-50 text-blue-700", amount: 64 },
-  { id: "stc", label: "STC جوال", icon: Phone, tint: "bg-purple-50 text-purple-700", amount: 129 },
-  { id: "net", label: "إنترنت", icon: Wifi, tint: "bg-blue-50 text-blue-700", amount: 249 },
-  { id: "traffic", label: "مخالفات المرور", icon: Car, tint: "bg-rose-50 text-rose-700", amount: 300 },
-  { id: "tuition", label: "رسوم دراسية", icon: GraduationCap, tint: "bg-indigo-50 text-indigo-700", amount: 1500 },
+  { id: "elec", label: "كهرباء", icon: Zap, tint: "bg-primary/10 text-primary", amount: 182 },
+  { id: "water", label: "مياه", icon: Wifi, tint: "bg-primary/10 text-primary", amount: 64 },
+  { id: "stc", label: "STC جوال", icon: Phone, tint: "bg-primary/10 text-primary", amount: 129 },
+  { id: "net", label: "إنترنت", icon: Wifi, tint: "bg-primary/10 text-primary", amount: 249 },
+  { id: "traffic", label: "مخالفات المرور", icon: Car, tint: "bg-primary/10 text-primary", amount: 300 },
+  { id: "tuition", label: "رسوم دراسية", icon: GraduationCap, tint: "bg-primary/10 text-primary", amount: 1500 },
 ];
 
 export function PayBillsScreen({ onBack }: { onBack: () => void }) {
@@ -312,14 +312,14 @@ export function QrPayScreen({ onBack }: { onBack: () => void }) {
 /* ---------- More Services Grid ---------- */
 
 const MORE = [
-  { icon: ArrowLeftRight, label: "تحويل دولي", tint: "bg-mint/15 text-primary" },
-  { icon: CreditCard, label: "بطاقاتي", tint: "bg-blue-50 text-blue-700" },
-  { icon: Shield, label: "تأمين", tint: "bg-purple-50 text-purple-700" },
-  { icon: Target, label: "استثمار", tint: "bg-amber-50 text-amber-700" },
-  { icon: Building2, label: "قروض", tint: "bg-rose-50 text-rose-700" },
-  { icon: Plane, label: "سفر وحجز", tint: "bg-indigo-50 text-indigo-700" },
-  { icon: HomeIcon, label: "عقارات", tint: "bg-teal-50 text-teal-700" },
-  { icon: Heart, label: "تبرعات", tint: "bg-pink-50 text-pink-700" },
+  { icon: ArrowLeftRight, label: "تحويل دولي", tint: "bg-primary/10 text-primary" },
+  { icon: CreditCard, label: "بطاقاتي", tint: "bg-primary/10 text-primary" },
+  { icon: Shield, label: "تأمين", tint: "bg-primary/10 text-primary" },
+  { icon: Target, label: "استثمار", tint: "bg-primary/10 text-primary" },
+  { icon: Building2, label: "قروض", tint: "bg-primary/10 text-primary" },
+  { icon: Plane, label: "سفر وحجز", tint: "bg-primary/10 text-primary" },
+  { icon: HomeIcon, label: "عقارات", tint: "bg-primary/10 text-primary" },
+  { icon: Heart, label: "تبرعات", tint: "bg-primary/10 text-primary" },
 ];
 
 export function MoreServicesScreen({ onBack }: { onBack: () => void }) {
@@ -355,11 +355,11 @@ export function MoreServicesScreen({ onBack }: { onBack: () => void }) {
 
 const TXNS = [
   { icon: ShoppingBag, title: "سوبر ماركت لولو", time: "اليوم، 09:24 ص", amount: -124.5, tint: "bg-secondary text-muted-foreground" },
-  { icon: ArrowDownLeft, title: "تحويل من خالد فهد", time: "أمس، 02:15 م", amount: 500, tint: "bg-mint/15 text-primary" },
-  { icon: Receipt, title: "فاتورة الكهرباء", time: "أمس، 10:02 ص", amount: -182, tint: "bg-blue-50 text-blue-700" },
-  { icon: ShoppingBag, title: "نون - طلبية", time: "قبل يومين", amount: -238.9, tint: "bg-amber-50 text-amber-700" },
-  { icon: Receipt, title: "STC — فاتورة جوال", time: "قبل 3 أيام", amount: -129, tint: "bg-purple-50 text-purple-700" },
-  { icon: ArrowDownLeft, title: "راتب — شركة أبعاد", time: "1 يوليو", amount: 9000, tint: "bg-mint/15 text-primary" },
+  { icon: ArrowDownLeft, title: "تحويل من خالد فهد", time: "أمس، 02:15 م", amount: 500, tint: "bg-primary/10 text-primary" },
+  { icon: Receipt, title: "فاتورة الكهرباء", time: "أمس، 10:02 ص", amount: -182, tint: "bg-primary/10 text-primary" },
+  { icon: ShoppingBag, title: "نون - طلبية", time: "قبل يومين", amount: -238.9, tint: "bg-primary/10 text-primary" },
+  { icon: Receipt, title: "STC — فاتورة جوال", time: "قبل 3 أيام", amount: -129, tint: "bg-primary/10 text-primary" },
+  { icon: ArrowDownLeft, title: "راتب — شركة أبعاد", time: "1 يوليو", amount: 9000, tint: "bg-primary/10 text-primary" },
 ];
 
 export function StatementScreen({ onBack }: { onBack: () => void }) {
@@ -885,7 +885,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                     isSelected
                       ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
                       : isToday
-                        ? "bg-mint/15 text-primary"
+                        ? "bg-primary/10 text-primary"
                         : "text-foreground hover:bg-secondary/60"
                   }`}
                   style={{ fontVariantNumeric: "tabular-nums" }}
@@ -1223,7 +1223,7 @@ function AddEventScreen({
           <div className="grid grid-cols-3 gap-2">
             {[
               { k: "high", l: "عالية", tone: "bg-destructive/10 text-destructive border-destructive/30" },
-              { k: "med", l: "متوسطة", tone: "bg-amber-50 text-amber-700 border-amber-200" },
+              { k: "med", l: "متوسطة", tone: "bg-primary/10 text-primary border-amber-200" },
               { k: "low", l: "منخفضة", tone: "bg-mint/10 text-primary border-mint/30" },
             ].map((p) => {
               const active = priority === (p.k as typeof priority);
@@ -1709,7 +1709,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
                 onExit();
               }
             }}
-            className="h-10 px-3 rounded-2xl bg-rose-50 text-rose-700 text-[11.5px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
+            className="h-10 px-3 rounded-2xl bg-primary/10 text-primary text-[11.5px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
             aria-label="خروج طارئ"
           >
             <Shield className="h-3.5 w-3.5" strokeWidth={2.5} />

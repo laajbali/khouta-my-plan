@@ -2,11 +2,11 @@ import { useState } from "react";
 import { ChevronRight, ShieldCheck, Check, Loader2 } from "lucide-react";
 
 const BANKS = [
-  { key: "rajhi", name: "الراجحي", color: "bg-blue-50 text-blue-800", short: "R" },
+  { key: "rajhi", name: "الراجحي", color: "bg-primary/10 text-primary", short: "R" },
   { key: "snb", name: "الأهلي (SNB)", color: "bg-emerald-50 text-emerald-800", short: "SNB" },
   { key: "alinma", name: "الإنماء", color: "bg-emerald-100 text-emerald-900", short: "A" },
   { key: "riyad", name: "الرياض", color: "bg-blue-100 text-blue-900", short: "R" },
-  { key: "albilad", name: "البلاد", color: "bg-amber-50 text-amber-800", short: "B" },
+  { key: "albilad", name: "البلاد", color: "bg-primary/10 text-primary", short: "B" },
   { key: "aljazira", name: "الجزيرة", color: "bg-red-50 text-red-800", short: "J" },
 ];
 

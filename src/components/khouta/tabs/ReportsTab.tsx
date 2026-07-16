@@ -112,7 +112,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
       <div className="px-5 pt-4 space-y-4">
         {/* Praise card */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-mint/15 text-primary flex items-center justify-center shrink-0">
+          <div className="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
             <Award className="h-6 w-6" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
@@ -155,7 +155,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الدخل"
             value={fmt(stats.income)}
             icon={<ArrowUp className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-mint/15 text-primary"
+            iconBg="bg-primary/10 text-primary"
             valueColor="text-foreground"
           />
           <StatCard
@@ -169,7 +169,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الادخار"
             value={fmt(stats.saving)}
             icon={<PiggyBank className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-blue-50 text-blue-700"
+            iconBg="bg-primary/10 text-primary"
             valueColor="text-mint"
           />
           <div className="rounded-[20px] bg-card border border-border p-4 shadow-sm">
@@ -238,21 +238,21 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
         <div className="grid grid-cols-3 gap-2">
           <SummaryTile
             icon={<Target className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-primary/10 text-primary"
             title="هدفك"
             main={stats.goalsTotal > 0 ? `${fmt(stats.goalsTotal)} ر.س` : "لا يوجد"}
             note={stats.goalsTotal > 0 ? `وفَّرتِ ${fmt(stats.goalsSaved)} (${stats.goalProgress}%)` : "أضيفي هدفاً"}
           />
           <SummaryTile
             icon={<Sparkles className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-amber-50 text-amber-700"
+            iconTint="bg-primary/10 text-primary"
             title="أعلى صرف"
             main="التسوق"
             note="32% من الفترة"
           />
           <SummaryTile
             icon={<TrendingUp className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-blue-50 text-blue-700"
+            iconTint="bg-primary/10 text-primary"
             title="أكثر تحكم"
             main="الترفيه"
             note="-12% عن السابق"

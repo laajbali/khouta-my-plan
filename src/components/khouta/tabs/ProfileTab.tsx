@@ -25,12 +25,12 @@ import { toast } from "sonner";
 
 
 const PREFERENCES = [
-  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-amber-50 text-amber-700", action: "فتح إعدادات التنبيهات" },
-  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-blue-50 text-blue-700", action: "تغيير لغة التطبيق قريباً" },
+  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-primary/10 text-primary", action: "فتح إعدادات التنبيهات" },
+  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-primary/10 text-primary", action: "تغيير لغة التطبيق قريباً" },
   { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-destructive/10 text-destructive", action: "فتح إعدادات الأمان" },
-  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-mint/15 text-primary", action: "العملة الحالية: ريال سعودي" },
-  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-amber-50 text-amber-700", action: "تبديل الوضع الليلي قريباً" },
-  { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-blue-50 text-blue-700", action: "خُطى — رفيقتك المالية الذكية" },
+  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-primary/10 text-primary", action: "العملة الحالية: ريال سعودي" },
+  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-primary/10 text-primary", action: "تبديل الوضع الليلي قريباً" },
+  { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-primary/10 text-primary", action: "خُطى — رفيقتك المالية الذكية" },
   { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-primary/10 text-primary", action: "تم نسخ رابط الدعوة" },
   { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-secondary text-muted-foreground", action: "فتح مركز المساعدة" },
 ];
@@ -122,7 +122,7 @@ export function ProfileTab({
       icon: LifeBuoy,
       label: "المساعدة",
       desc: "الأسئلة الشائعة وتواصل معنا",
-      tint: "bg-amber-50 text-amber-700",
+      tint: "bg-primary/10 text-primary",
       onClick: () => toast("فتح مركز المساعدة"),
     },
   ];
