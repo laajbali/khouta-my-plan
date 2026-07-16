@@ -180,33 +180,46 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
     setLocalGoals((prev) => [goal, ...prev.filter((item) => item.id !== goal.id)]);
   }, []);
 
+  // Total budget allocated for this month's occasions (expenses + savings events),
+  // excluding the income "in" event itself.
+  const monthlyOccasionsBudget = events
+    .filter((e) => e.tone !== "in")
+    .reduce((sum, e) => sum + Math.abs(Number(e.amount) || 0), 0);
+
   const todayEventNet = events
     .filter((e) => e.day === APP_TODAY_DAY && e.status !== "today")
     .reduce((sum, e) => sum + e.amount, 0);
 
   const monthlyOccasionNet = todayEventNet;
-  const fixedExpensesMonthly = fixedExpenses.reduce((sum, item) => sum + (Number(item.amount) || 0), 0);
+  const fixedExpensesMonthly = fixedExpenses.reduce(
+    (sum, item) => sum + (Number(item.amount) || 0),
+    0,
+  );
 
-  const availableMonthlyBudget = Math.max(1, monthlyIncome - fixedExpensesMonthly);
-
-  const baselineDaily = Math.max(1, Math.round(availableMonthlyBudget / 30));
-
-  const goalDailyDeduction = budgetGoals.reduce((sum, goal) => {
+  // Monthly share for each active goal = target / months remaining until deadline.
+  const goalsMonthlyDeduction = budgetGoals.reduce((sum, goal) => {
     const targetAmount = Number(goal.target_amount) || 0;
     if (targetAmount <= 0) return sum;
+    const remaining = Math.max(0, targetAmount - (Number(goal.saved_amount) || 0));
     const deadlineTime = goal.deadline ? new Date(goal.deadline).getTime() : Number.NaN;
-    const daysRemaining = Number.isFinite(deadlineTime)
-      ? Math.max(1, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24)))
-      : DEFAULT_GOAL_DAYS;
-    return sum + targetAmount / daysRemaining;
+    const monthsRemaining = Number.isFinite(deadlineTime)
+      ? Math.max(1, Math.ceil((deadlineTime - Date.now()) / (1000 * 60 * 60 * 24 * 30)))
+      : Math.max(1, Math.round(DEFAULT_GOAL_DAYS / 30));
+    return sum + remaining / monthsRemaining;
   }, 0);
 
-  const dailyLimit = Math.max(
-    0,
-    Math.round(availableMonthlyBudget / 30 - goalDailyDeduction + todayEventNet),
-  );
-  const spentToday = Math.round(dailyLimit * 0.70);
-  const remainingToday = dailyLimit - spentToday;
+  // Disposable = income - fixed - goal shares - this month's occasions budget.
+  const monthlyDisposable =
+    monthlyIncome - fixedExpensesMonthly - goalsMonthlyDeduction - monthlyOccasionsBudget;
+
+  const availableMonthlyBudget = Math.max(0, monthlyDisposable);
+  const baselineDaily = Math.max(0, Math.round(Math.max(0, monthlyIncome - fixedExpensesMonthly) / 30));
+  const goalDailyDeduction = goalsMonthlyDeduction / 30;
+
+  const dailyLimit = availableMonthlyBudget > 0 ? Math.round(availableMonthlyBudget / 30) : 0;
+  const spentToday = dailyLimit > 0 ? Math.round(dailyLimit * 0.7) : 0;
+  const remainingToday = dailyLimit > 0 ? dailyLimit - spentToday : 0;
+
 
   return (
     <BudgetContext.Provider
