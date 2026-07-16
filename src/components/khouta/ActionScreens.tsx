@@ -30,7 +30,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-session";
 import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 import { useSavingsPlan, type SavingsPlan } from "@/hooks/use-savings-plan";
-import { useBudget } from "./budget-context";
+import { useBudget, type CalEvent } from "./budget-context";
 
 /* ---------- Shared Chrome ---------- */
 
@@ -736,15 +736,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
 
 /* ---------- Financial Calendar (premium month grid) ---------- */
 
-type CalEvent = {
-  day: number;
-  title: string;
-  subtitle: string;
-  amount: number;
-  tone: "in" | "out" | "save";
-  icon: string;
-  status?: "new" | "upcoming" | "today";
-};
+// CalEvent type is imported from budget-context
 
 const WEEK_DAYS = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
 
@@ -758,21 +750,45 @@ const EVENT_KINDS = [
 ];
 
 export function CalendarScreen({ onBack }: { onBack: () => void }) {
-  const { events, addEvent } = useBudget();
+  const { events, addEvent, updateEvent, removeEventById } = useBudget();
   const [selected, setSelected] = useState(10);
   const [screen, setScreen] = useState<"main" | "add" | "loading" | "ai-done">("main");
   const [lastAdded, setLastAdded] = useState<CalEvent | null>(null);
+  const [editing, setEditing] = useState<CalEvent | null>(null);
+
+  function openAdd() {
+    setEditing(null);
+    setScreen("add");
+  }
+  function openEdit(e: CalEvent) {
+    setEditing(e);
+    setScreen("add");
+  }
 
   if (screen === "add") {
     return (
       <AddEventScreen
+        initial={editing}
         onBack={() => setScreen("main")}
         onSave={(e) => {
-          addEvent(e);
-          setLastAdded(e);
+          if (editing) {
+            updateEvent(editing.id, e);
+          } else {
+            addEvent(e);
+            setLastAdded(e);
+          }
           setScreen("loading");
-          setTimeout(() => setScreen("ai-done"), 1400);
+          setTimeout(() => setScreen(editing ? "main" : "ai-done"), 1400);
         }}
+        onDelete={
+          editing
+            ? () => {
+                removeEventById(editing.id);
+                setEditing(null);
+                setScreen("main");
+              }
+            : undefined
+        }
       />
     );
   }
@@ -821,7 +837,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
         </div>
 
         <button
-          onClick={() => setScreen("add")}
+          onClick={openAdd}
           className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[12.5px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
@@ -898,46 +914,54 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
             <h3 className="text-[13px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
           </div>
           <div className="space-y-2.5">
-            {events.map((e, i) => (
-              <div
-                key={i}
-                className="rounded-[20px] bg-card border border-border p-3.5 flex items-center gap-3 shadow-sm"
-              >
-                <div className="text-right shrink-0">
-                  <div
-                    className={`text-[13px] font-black ${
-                      e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
-                    }`}
-                    style={{ fontVariantNumeric: "tabular-nums" }}
-                  >
-                    {e.amount > 0 ? "+" : ""}
-                    {e.amount.toLocaleString()}
+            {events.map((e) => {
+              const isIncome = e.id === "income_default";
+              return (
+                <button
+                  type="button"
+                  key={e.id}
+                  onClick={() => !isIncome && openEdit(e)}
+                  disabled={isIncome}
+                  className={`w-full text-right rounded-[20px] bg-card border border-border p-3.5 flex items-center gap-3 shadow-sm transition ${
+                    isIncome ? "opacity-90 cursor-default" : "cursor-pointer hover:border-primary/40 active:scale-[0.99]"
+                  }`}
+                >
+                  <div className="text-right shrink-0">
+                    <div
+                      className={`text-[13px] font-black ${
+                        e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
+                      }`}
+                      style={{ fontVariantNumeric: "tabular-nums" }}
+                    >
+                      {e.amount > 0 ? "+" : ""}
+                      {e.amount.toLocaleString()}
+                    </div>
+                    <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
                   </div>
-                  <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
-                </div>
-                <div className="flex-1 text-right min-w-0">
-                  <div className="flex items-center justify-end gap-1.5">
-                    {e.status === "new" && (
-                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
-                        جديد
-                      </span>
-                    )}
-                    {e.status === "today" && (
-                      <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
-                        اليوم
-                      </span>
-                    )}
-                    <p className="text-[13px] font-extrabold text-foreground tracking-tight truncate">
-                      {e.title}
-                    </p>
+                  <div className="flex-1 text-right min-w-0">
+                    <div className="flex items-center justify-end gap-1.5">
+                      {e.status === "new" && (
+                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
+                          جديد
+                        </span>
+                      )}
+                      {e.status === "today" && (
+                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                          اليوم
+                        </span>
+                      )}
+                      <p className="text-[13px] font-extrabold text-foreground tracking-tight truncate">
+                        {e.title}
+                      </p>
+                    </div>
+                    <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
                   </div>
-                  <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
-                </div>
-                <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
-                  {e.icon}
-                </div>
-              </div>
-            ))}
+                  <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
+                    {e.icon}
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -1060,17 +1084,26 @@ function MiniStat({
 function AddEventScreen({
   onBack,
   onSave,
+  initial,
+  onDelete,
 }: {
   onBack: () => void;
   onSave: (e: CalEvent) => void;
+  initial?: CalEvent | null;
+  onDelete?: () => void;
 }) {
-  const [kindKey, setKindKey] = useState<string>("birthday");
-  const [name, setName] = useState("");
-  const [date, setDate] = useState("");
-  const [cost, setCost] = useState("");
-  const [cashFlow, setCashFlow] = useState<"out" | "in">("out");
-  const [priority, setPriority] = useState<"high" | "med" | "low">("med");
-  const [notes, setNotes] = useState("");
+  const isEdit = !!initial;
+  const [kindKey, setKindKey] = useState<string>(initial?.kindKey ?? "birthday");
+  const [name, setName] = useState(initial?.title ?? "");
+  const [date, setDate] = useState(initial?.date ?? "");
+  const [cost, setCost] = useState(
+    initial ? String(initial.cost ?? Math.abs(initial.amount)) : "",
+  );
+  const [cashFlow, setCashFlow] = useState<"out" | "in">(
+    initial ? (initial.tone === "in" ? "in" : "out") : "out",
+  );
+  const [priority, setPriority] = useState<"high" | "med" | "low">(initial?.priority ?? "med");
+  const [notes, setNotes] = useState(initial?.notes ?? "");
 
   const kind = EVENT_KINDS.find((k) => k.key === kindKey)!;
 
@@ -1082,21 +1115,29 @@ function AddEventScreen({
       return;
     }
     const dayNum = Number(date.split("-")[2] ?? date) || 20;
-    const amount = cashFlow === "in" ? Math.abs(Number(cost) || 0) : -Math.abs(Number(cost) || 0);
+    const costNum = Math.abs(Number(cost) || 0);
+    const amount = cashFlow === "in" ? costNum : -costNum;
     onSave({
+      id: initial?.id ?? "",
       day: dayNum,
       title: label,
       subtitle: `${date} • ${priority === "high" ? "أولوية عالية" : priority === "med" ? "متوسطة" : "منخفضة"}${notes ? " • " + notes : ""}`,
       amount,
       tone: cashFlow,
       icon: kind.icon,
+      kindKey,
+      date,
+      priority,
+      notes,
+      cost: costNum,
     });
   }
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <ScreenHeader title="إضافة مناسبة جديدة" onBack={onBack} />
+      <ScreenHeader title={isEdit ? "تعديل المناسبة" : "إضافة مناسبة جديدة"} onBack={onBack} />
       <form onSubmit={submit} className="flex-1 overflow-y-auto p-5 space-y-4">
+
         <Field label="نوع المناسبة">
           <div className="grid grid-cols-3 gap-2">
             {EVENT_KINDS.map((k) => {
@@ -1209,7 +1250,17 @@ function AddEventScreen({
           />
         </Field>
 
-        <PrimaryButton type="submit">إضافة المناسبة</PrimaryButton>
+        <PrimaryButton type="submit">{isEdit ? "تعديل المناسبة" : "إضافة المناسبة"}</PrimaryButton>
+        {isEdit && onDelete && (
+          <button
+            type="button"
+            onClick={onDelete}
+            className="w-full rounded-2xl border border-destructive/40 bg-destructive/5 text-destructive font-extrabold py-3 text-[12.5px] active:scale-[0.99] transition"
+            style={{ color: "#DC2626" }}
+          >
+            حذف المناسبة
+          </button>
+        )}
       </form>
     </div>
   );

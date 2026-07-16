@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { useGoals, useProfile, type Goal } from "@/hooks/use-khouta-data";
 
 export type CalEvent = {
+  id: string;
   day: number;
   title: string;
   subtitle: string;
@@ -9,7 +10,16 @@ export type CalEvent = {
   tone: "in" | "out" | "save";
   icon: string;
   status?: "new" | "upcoming" | "today";
+  kindKey?: string;
+  date?: string;
+  priority?: "high" | "med" | "low";
+  notes?: string;
+  cost?: number;
 };
+
+function makeEventId() {
+  return `evt_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+}
 
 const INITIAL_EVENTS: CalEvent[] = [];
 
@@ -49,7 +59,9 @@ const DEFAULT_SNAPSHOT: BudgetSnapshot = {
 type Ctx = {
   events: CalEvent[];
   addEvent: (e: CalEvent) => void;
+  updateEvent: (id: string, patch: Partial<CalEvent>) => void;
   removeEvent: (day: number, title: string) => void;
+  removeEventById: (id: string) => void;
   upsertGoal: (goal: BudgetGoal) => void;
   monthlyOccasionNet: number;
   fixedExpensesMonthly: number;
@@ -159,6 +171,7 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
       if (prev.some((e) => e.tone === "in" && e.day === 10)) return prev;
       return [
         {
+          id: "income_default",
           day: 10,
           title: `نزول ${incomeLabel}`,
           subtitle: "الأربعاء 10 يوليو",
@@ -173,11 +186,19 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
   }, [monthlyIncome, incomeLabel]);
 
   const addEvent = useCallback((e: CalEvent) => {
-    setEvents((prev) => [{ ...e, status: "new" }, ...prev]);
+    setEvents((prev) => [{ ...e, id: e.id || makeEventId(), status: "new" }, ...prev]);
   }, []);
 
   const removeEvent = useCallback((day: number, title: string) => {
     setEvents((prev) => prev.filter((e) => !(e.day === day && e.title === title)));
+  }, []);
+
+  const removeEventById = useCallback((id: string) => {
+    setEvents((prev) => prev.filter((e) => e.id !== id));
+  }, []);
+
+  const updateEvent = useCallback((id: string, patch: Partial<CalEvent>) => {
+    setEvents((prev) => prev.map((e) => (e.id === id ? { ...e, ...patch, id: e.id } : e)));
   }, []);
 
   const upsertGoal = useCallback((goal: BudgetGoal) => {
@@ -250,7 +271,9 @@ export function BudgetProvider({ children }: { children: ReactNode }) {
       value={{
         events,
         addEvent,
+        updateEvent,
         removeEvent,
+        removeEventById,
         upsertGoal,
         monthlyOccasionNet,
         fixedExpensesMonthly,
