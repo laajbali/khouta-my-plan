@@ -20,13 +20,14 @@ const DEFAULT_SPENT_TODAY = 140;
 const DEFAULT_GOAL_DAYS = 180;
 const APP_TODAY_DAY = 10;
 
+type FixedExpense = { key: string; label: string; amount: number };
+
 const DEFAULT_FIXED_EXPENSES: FixedExpense[] = [
   { key: "housing", label: "السكن", amount: 2000 },
   { key: "transport", label: "المواصلات", amount: 600 },
   { key: "internet", label: "الإنترنت", amount: 400 },
 ];
 
-type FixedExpense = { key: string; label: string; amount: number };
 export type BudgetGoal = Pick<Goal, "id" | "target_amount" | "saved_amount" | "deadline">;
 type BudgetSnapshot = {
   monthlyIncome: number;
