@@ -131,7 +131,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
           onClick={() =>
             toast.success(`جارٍ تحويلك إلى منصة إحسان لتبرع ${amount} ريال`)
           }
-          className="w-full rounded-2xl text-white font-extrabold py-4 flex items-center justify-center gap-2 text-[14px] shadow-lg active:scale-[0.99] transition"
+          className="w-full rounded-2xl text-white font-extrabold py-4 flex items-center justify-center gap-2 text-[13px] shadow-lg active:scale-[0.99] transition"
           style={{ background: "oklch(0.24 0.05 155)" }}
         >
           <ExternalLink className="h-4 w-4" strokeWidth={2.5} />
@@ -141,7 +141,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
           سيتم تحويلك إلى منصة إحسان لإتمام التبرع بأمان.
         </p>
 
-        <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-muted-foreground font-semibold">
+        <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground font-medium">
           <Lock className="h-3 w-3" strokeWidth={2.5} />
           عملية آمنة ومشفرة
         </div>
