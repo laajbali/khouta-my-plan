@@ -108,8 +108,8 @@ export function BankConnect({
 
         {state === "done" && (
           <div className="py-12 flex flex-col items-center gap-4">
-            <div className="h-16 w-16 rounded-full bg-mint flex items-center justify-center">
-              <Check className="h-8 w-8 text-mint-foreground" strokeWidth={3} />
+            <div className="h-16 w-16 rounded-full bg-secondary flex items-center justify-center">
+              <Check className="h-8 w-8 text-primary" strokeWidth={3} />
             </div>
             <p className="text-[17px] font-extrabold text-foreground tracking-tight">تم الربط بنجاح!</p>
             <p className="text-[11px] text-muted-foreground font-medium">جارٍ نقلك إلى الرئيسية...</p>
