@@ -87,7 +87,7 @@ function PrimaryButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="w-full h-13 py-3.5 rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-lg shadow-primary/20 disabled:opacity-50 active:scale-[0.99] transition"
+      className="w-full h-13 py-3.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-[13px] shadow-lg shadow-primary/20 disabled:opacity-50 active:scale-[0.99] transition"
     >
       {children}
     </button>
