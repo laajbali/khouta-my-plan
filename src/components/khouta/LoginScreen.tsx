@@ -34,7 +34,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
     <div className="px-6 pt-5 pb-6 bg-card overflow-y-auto">
       {/* Language pill */}
       <div className="flex items-center justify-start">
-        <button className="flex items-center gap-1.5 rounded-full bg-mint/10 border border-mint/30 px-3 py-1.5 text-[11px] font-bold text-primary hover:bg-mint/15 transition">
+        <button className="flex items-center gap-1.5 rounded-full bg-mint/10 border border-mint/30 px-3 py-1.5 text-[11px] font-extrabold text-primary hover:bg-mint/15 transition">
           <Globe className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
           العربية
         </button>
@@ -43,8 +43,8 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
       {/* Brand */}
       <div className="flex flex-col items-center mt-6">
         <KhoutaLogo size={82} />
-        <h1 className="mt-8 text-[28px] font-black text-foreground tracking-tight leading-none">خُطى</h1>
-        <p className="mt-4 text-[12.5px] text-muted-foreground font-medium tracking-tight">
+        <h1 className="mt-8 text-[28px] font-extrabold text-foreground tracking-tight leading-none">خُطى</h1>
+        <p className="mt-4 text-[11px] text-muted-foreground font-medium tracking-tight">
           خطواتك نحو مستقبل مالي أفضل
         </p>
       </div>
