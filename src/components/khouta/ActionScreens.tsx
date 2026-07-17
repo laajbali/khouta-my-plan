@@ -575,10 +575,10 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="text-sm font-bold text-foreground text-right">نصائح نور</p>
+          <p className="text-[14px] font-extrabold text-foreground text-right tracking-tight">نصائح نور</p>
           <div className="flex items-start gap-3 text-right">
             <Check className="h-4 w-4 text-mint mt-0.5 shrink-0" />
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
               لو ادّخرت 1,000 ر.س شهرياً ستصل للهدف خلال{" "}
               {Math.max(1, Math.ceil((Number(goal.target_amount) - Number(goal.saved_amount)) / 1000))}{" "}
               شهراً تقريباً.
