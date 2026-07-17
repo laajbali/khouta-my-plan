@@ -99,10 +99,10 @@ export function BankConnect({
         {state === "connecting" && (
           <div className="py-12 flex flex-col items-center gap-4">
             <Loader2 className="h-10 w-10 text-primary animate-spin" />
-            <p className="text-sm font-bold text-foreground">
+            <p className="text-[13px] font-medium text-foreground">
               جارٍ الربط مع {BANKS.find((b) => b.key === chosen)?.name}...
             </p>
-            <p className="text-xs text-muted-foreground">قد يستغرق هذا بضع ثوانٍ</p>
+            <p className="text-[11px] text-muted-foreground font-medium">قد يستغرق هذا بضع ثوانٍ</p>
           </div>
         )}
 
@@ -111,8 +111,8 @@ export function BankConnect({
             <div className="h-16 w-16 rounded-full bg-mint flex items-center justify-center">
               <Check className="h-8 w-8 text-mint-foreground" strokeWidth={3} />
             </div>
-            <p className="text-lg font-bold text-foreground">تم الربط بنجاح!</p>
-            <p className="text-xs text-muted-foreground">جارٍ نقلك إلى الرئيسية...</p>
+            <p className="text-[17px] font-extrabold text-foreground tracking-tight">تم الربط بنجاح!</p>
+            <p className="text-[11px] text-muted-foreground font-medium">جارٍ نقلك إلى الرئيسية...</p>
           </div>
         )}
       </div>
