@@ -1919,29 +1919,47 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         <div className="px-5 pt-4 pb-4 space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-[10px] font-medium text-muted-foreground">مباشر</span>
-            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">
+            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight text-right">
               محادثة ريما المالية
             </h4>
           </div>
 
           <div dir="ltr" className="space-y-2.5">
-            {msgs.map((m, i) => (
-              <div
-                key={i}
-                className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
-              >
+            {msgs.map((m, i) => {
+              const isMe = m.from === "me";
+              return (
                 <div
-                  dir="rtl"
-                  className={`max-w-[78%] px-4 py-2.5 text-[12px] leading-relaxed font-medium shadow-sm ${
-                    m.from === "me"
-                      ? "bg-primary text-primary-foreground rounded-[18px] rounded-br-md text-right"
-                      : "bg-mint/10 text-foreground rounded-[18px] rounded-bl-md text-right"
-                  }`}
+                  key={i}
+                  className={`flex items-end gap-1.5 ${isMe ? "justify-end" : "justify-start"}`}
                 >
-                  {m.text} {m.emoji ?? ""}
+                  {isMe ? (
+                    <>
+                      <div
+                        dir="rtl"
+                        className="max-w-[78%] px-4 py-2.5 text-[12px] leading-relaxed font-medium shadow-sm bg-primary text-primary-foreground rounded-[18px] rounded-br-md text-right"
+                      >
+                        {m.text} {m.emoji ?? ""}
+                      </div>
+                      <div className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-[11px] font-extrabold shrink-0">
+                        {firstName && firstName !== "أنت" ? firstName.charAt(0).toUpperCase() : "S"}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="h-8 w-8 rounded-full bg-mint/15 text-primary flex items-center justify-center text-[11px] font-extrabold shrink-0">
+                        R
+                      </div>
+                      <div
+                        dir="rtl"
+                        className="max-w-[78%] px-4 py-2.5 text-[12px] leading-relaxed font-medium shadow-sm bg-mint/10 text-foreground rounded-[18px] rounded-bl-md text-right"
+                      >
+                        {m.text} {m.emoji ?? ""}
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
