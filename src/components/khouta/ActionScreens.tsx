@@ -931,7 +931,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 >
                   <div className="text-right shrink-0">
                     <div
-                      className={`text-[13px] font-black ${
+                      className={`text-[13px] font-bold tracking-tight ${
                         e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
                       }`}
                       style={{ fontVariantNumeric: "tabular-nums" }}
@@ -939,7 +939,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                       {e.amount > 0 ? "+" : ""}
                       {e.amount.toLocaleString()}
                     </div>
-                    <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
+                    <p className="text-[9px] text-muted-foreground font-medium">ر.س</p>
                   </div>
                   <div className="flex-1 text-right min-w-0">
                     <div className="flex items-center justify-end gap-1.5">
