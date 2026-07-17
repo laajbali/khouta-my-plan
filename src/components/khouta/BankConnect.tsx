@@ -37,7 +37,7 @@ export function BankConnect({
         <button onClick={onBack} className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center">
           <ChevronRight className="h-5 w-5 text-foreground" />
         </button>
-        <h1 className="text-lg font-bold text-foreground">الربط البنكي</h1>
+        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الربط البنكي</h1>
         <div className="w-10" />
       </div>
 
@@ -53,11 +53,11 @@ export function BankConnect({
               </div>
               <div className="text-right flex-1">
                 <p className="text-[10px] text-mint font-bold tracking-widest">SAMA APPROVED</p>
-                <p className="text-sm font-bold">معتمد من البنك المركزي السعودي</p>
+                <p className="text-[13px] font-extrabold tracking-tight">معتمد من البنك المركزي السعودي</p>
               </div>
             </div>
-            <h2 className="text-lg font-bold mt-2">الربط عبر Open Banking</h2>
-            <p className="text-xs text-white/80 mt-1 leading-relaxed">
+            <h2 className="text-[17px] font-extrabold mt-2 tracking-tight">الربط عبر Open Banking</h2>
+            <p className="text-[11px] text-white/80 mt-1 leading-relaxed font-medium">
               اسحبي بياناتك المالية تلقائياً بأمان تام — لا يتم مشاركة كلمة سرك، ويمكنكِ فصل الربط في أي وقت.
             </p>
           </div>
@@ -66,7 +66,7 @@ export function BankConnect({
         {state === "select" && (
           <>
             <div>
-              <p className="text-sm font-bold text-foreground mb-3 text-right">اختر بنكك</p>
+              <p className="text-[14px] font-extrabold text-foreground mb-3 text-right tracking-tight">اختر بنكك</p>
               <div className="grid grid-cols-2 gap-3">
                 {BANKS.map((b) => (
                   <button
@@ -74,11 +74,11 @@ export function BankConnect({
                     onClick={() => connect(b.key)}
                     className="rounded-2xl bg-card border border-border p-4 flex flex-col items-center gap-2 hover:border-primary/40 active:scale-[0.98] transition"
                   >
-                    <div className={`h-12 w-12 rounded-xl ${b.color} flex items-center justify-center font-bold`}>
+                    <div className={`h-12 w-12 rounded-xl ${b.color} flex items-center justify-center font-extrabold text-[14px]`}>
                       {b.short}
                     </div>
-                    <span className="text-sm font-bold text-foreground">{b.name}</span>
-                    <span className="text-[10px] text-mint"> متاح</span>
+                    <span className="text-[13px] font-extrabold text-foreground tracking-tight">{b.name}</span>
+                    <span className="text-[10px] text-mint font-medium"> متاح</span>
                   </button>
                 ))}
               </div>
@@ -87,8 +87,8 @@ export function BankConnect({
             <div className="rounded-2xl bg-secondary p-4 flex items-start gap-3">
               <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="text-right flex-1">
-                <p className="text-xs font-bold text-foreground">تشفير من طرف لطرف</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="text-[11px] font-bold text-foreground">تشفير من طرف لطرف</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">
                   نستخدم معايير Open Banking المعتمدة. بياناتك لا تُخزّن ولا تُشارك.
                 </p>
               </div>
@@ -99,10 +99,10 @@ export function BankConnect({
         {state === "connecting" && (
           <div className="py-12 flex flex-col items-center gap-4">
             <Loader2 className="h-10 w-10 text-primary animate-spin" />
-            <p className="text-sm font-bold text-foreground">
+            <p className="text-[13px] font-medium text-foreground">
               جارٍ الربط مع {BANKS.find((b) => b.key === chosen)?.name}...
             </p>
-            <p className="text-xs text-muted-foreground">قد يستغرق هذا بضع ثوانٍ</p>
+            <p className="text-[11px] text-muted-foreground font-medium">قد يستغرق هذا بضع ثوانٍ</p>
           </div>
         )}
 
@@ -111,8 +111,8 @@ export function BankConnect({
             <div className="h-16 w-16 rounded-full bg-mint flex items-center justify-center">
               <Check className="h-8 w-8 text-mint-foreground" strokeWidth={3} />
             </div>
-            <p className="text-lg font-bold text-foreground">تم الربط بنجاح!</p>
-            <p className="text-xs text-muted-foreground">جارٍ نقلك إلى الرئيسية...</p>
+            <p className="text-[17px] font-extrabold text-foreground tracking-tight">تم الربط بنجاح!</p>
+            <p className="text-[11px] text-muted-foreground font-medium">جارٍ نقلك إلى الرئيسية...</p>
           </div>
         )}
       </div>

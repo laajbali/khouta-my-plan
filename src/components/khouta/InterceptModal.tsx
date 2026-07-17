@@ -83,7 +83,7 @@ export function InterceptModal({
                 <X className="h-4 w-4" strokeWidth={2.2} />
               </button>
               <div className="flex items-center gap-2">
-                <span className="text-[13px] font-black tracking-tight">خُطى</span>
+                <span className="text-[13px] font-extrabold tracking-tight">خُطى</span>
                 <KhoutaLogo size={26} className="!rounded-lg" />
               </div>
             </div>
@@ -93,20 +93,20 @@ export function InterceptModal({
                 تدخل ذكي فوري
               </p>
             </div>
-            <h2 className="mt-1 text-[22px] font-black tracking-tight">
+            <h2 className="mt-1 text-[17px] font-extrabold tracking-tight">
               لحظة{firstName ? " يا " + firstName : ""}!
             </h2>
           </div>
 
           <div className="p-5">
-            <p className="text-[13px] text-foreground leading-relaxed text-right">
+            <p className="text-[13px] text-foreground leading-relaxed text-right font-medium">
               أنت الآن على وشك شراء منتجات بقيمة{" "}
-              <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
               </span>{" "}
               من <span className="font-bold">{merchant}</span>.
             </p>
-            <p className="text-[12.5px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
+            <p className="text-[11px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
               إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
@@ -114,7 +114,7 @@ export function InterceptModal({
             <div className="mt-3 rounded-2xl bg-destructive/10 border border-destructive/25 p-3 flex items-center justify-between">
               <span className="text-[11px] font-bold text-destructive">تأخير متوقع</span>
               <span
-                className="text-[18px] font-black text-destructive"
+                className="text-[22px] font-bold text-destructive tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {delayDays} يوماً
@@ -124,13 +124,13 @@ export function InterceptModal({
             {/* Goal progress preview */}
             <div className="mt-4 rounded-2xl bg-secondary/60 border border-border p-3.5">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10.5px] font-bold text-muted-foreground">
+                <span className="text-[11px] font-bold text-muted-foreground">
                   متبقٍ{" "}
-                  <span className="text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-foreground font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[12px] font-black text-foreground"> {goalTitle}</span>
+                <span className="text-[13px] font-extrabold text-foreground tracking-tight"> {goalTitle}</span>
               </div>
               <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
@@ -146,13 +146,13 @@ export function InterceptModal({
             <div className="mt-5 flex gap-2.5">
               <button
                 onClick={onProceed}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[12.5px] active:scale-[0.98] transition"
+                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.98] transition"
               >
                 المتابعة رغم ذلك
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[12px] shadow-lg active:scale-[0.98] transition"
+                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[13px] shadow-lg active:scale-[0.98] transition"
               >
                 إلغاء الطلب وتوفير {amount} ر.س
               </button>
@@ -177,10 +177,10 @@ export function InterceptModal({
             <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/20 flex items-center justify-center relative">
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
-            <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
+            <h2 className="mt-4 text-[17px] font-extrabold text-foreground tracking-tight">
               أحسنت{firstName ? " يا " + firstName : ""}!
             </h2>
-            <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
+            <p className="mt-1.5 text-[11px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
             </p>
           </div>
@@ -196,7 +196,7 @@ export function InterceptModal({
                 <p className="text-[11px] font-bold text-foreground">تمت إضافة مكافأة جديدة</p>
                 <Sparkles className="h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
               </div>
-              <p className="text-center text-[20px] font-black text-primary mt-1.5 tracking-tight">
+              <p className="text-center text-[16px] font-extrabold text-primary mt-1.5 tracking-tight">
                 كوبون خصم 20%
               </p>
               <div className="mt-2.5 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2">
@@ -209,7 +209,7 @@ export function InterceptModal({
                 </button>
                 <span
                   dir="ltr"
-                  className="flex-1 text-center font-mono font-bold text-foreground tracking-widest text-[13px]"
+                  className="flex-1 text-center font-bold text-foreground tracking-tight text-[13px]"
                 >
                   {code}
                 </span>
@@ -251,7 +251,7 @@ function RewardStat({
   return (
     <div className={`rounded-2xl p-3 text-right ${tone}`}>
       <p className="text-[10px] font-bold opacity-80">{label}</p>
-      <p className="text-[18px] font-black mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="text-[18px] font-bold mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
         {value}
         {suffix && <span className="text-[10px] font-bold mr-1">{suffix}</span>}
       </p>

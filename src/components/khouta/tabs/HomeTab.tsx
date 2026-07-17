@@ -72,16 +72,16 @@ export function HomeTab({
       <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card" dir="rtl">
         <button
           onClick={onOpenProfile}
-          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm active:scale-95 transition"
+          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-[13px] shadow-sm active:scale-95 transition"
           aria-label="الحساب"
         >
           {initial}
         </button>
         <div className="text-center flex-1 mx-3">
-          <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
+          <p className="text-foreground text-[17px] font-extrabold tracking-tight leading-tight">
             {firstName ? `مرحباً، ${firstName}` : "مرحباً"}
           </p>
-          <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
+          <p className="text-muted-foreground text-[11px] mt-0.5 font-medium">
             كل خطوة ذكية تقرّبك من هدفك
           </p>
         </div>
@@ -128,7 +128,7 @@ export function HomeTab({
             <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
               <Target className="h-6 w-6" strokeWidth={1.8} />
             </div>
-            <p className="text-[14px] font-extrabold text-foreground">أنشئ هدفك الأول</p>
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">أنشئ هدفك الأول</p>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               ابدأ رحلة الادخار الآن
             </p>
@@ -175,7 +175,7 @@ export function HomeTab({
             />
           </div>
           <p
-            className={`mt-2 text-[10.5px] text-right font-medium ${
+            className={`mt-2 text-[11px] text-right font-medium ${
               isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
             }`}
           >
@@ -231,11 +231,11 @@ export function HomeTab({
           </div>
           <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center gap-2 justify-start">
-              <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
+              <p className="text-[14px] font-extrabold text-foreground tracking-tight leading-tight">
                 التحدي الجماعي
               </p>
             </div>
-            <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
+            <p className="text-[11px] text-muted-foreground font-medium mt-1 leading-tight text-right">
               تحدَّ أصدقاءك وادّخروا سوياً — أنت 68% • ريما 45%
             </p>
           </div>
@@ -258,10 +258,10 @@ export function HomeTab({
             className="h-9 w-9 rounded-xl object-contain bg-white/60 p-0.5 shrink-0"
           />
           <div className="flex-1 min-w-0 text-right">
-            <p className="text-[11.5px] font-black text-foreground tracking-tight leading-tight truncate">
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight truncate">
               العطاء لا يوقف رحلتك نحو هدفك..
             </p>
-            <p className="text-[9.5px] text-foreground/70 font-medium mt-0.5 leading-tight truncate">
+            <p className="text-[11px] text-foreground/70 font-medium mt-0.5 leading-tight truncate">
               فربما يكون سبباً في بركة ما تملك.
             </p>
           </div>
@@ -325,7 +325,7 @@ function GoalCarouselCard({
           <p className="text-[9.5px] font-bold text-white/60 tracking-[0.15em] uppercase">
             هدف {index + 1} من {total}
           </p>
-          <span className="inline-flex items-center gap-1 text-[9.5px] font-black px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
+          <span className="inline-flex items-center gap-1 text-[9.5px] font-extrabold px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
             <Target className="h-3 w-3" strokeWidth={2.5} />
             هدفك
           </span>
@@ -336,8 +336,8 @@ function GoalCarouselCard({
             <GoalIcon className="h-6 w-6 text-white" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right pr-3 min-w-0">
-            <h3 className="text-[19px] font-black tracking-tight leading-tight truncate">{title}</h3>
-            <p className="text-[10.5px] text-white/60 font-semibold mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <h3 className="text-[17px] font-extrabold tracking-tight leading-tight truncate">{title}</h3>
+            <p className="text-[11px] text-white/60 font-medium mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
               {percent}% مكتمل
             </p>
           </div>
@@ -358,17 +358,17 @@ function GoalCarouselCard({
 
         <div className="mt-3 flex items-center gap-2">
           <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
-            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <p className="text-[10px] text-white/60 font-medium tracking-wider">تبقى</p>
+            <p className="text-[13px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
               {remaining.toLocaleString()}
-              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+              <span className="text-[9px] text-white/60 font-medium mr-1">ر.س</span>
             </p>
           </div>
           <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">الهدف</p>
-            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <p className="text-[10px] text-white/60 font-medium tracking-wider">الهدف</p>
+            <p className="text-[13px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
               {target.toLocaleString()}
-              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+              <span className="text-[9px] text-white/60 font-medium mr-1">ر.س</span>
             </p>
           </div>
           <button
@@ -441,13 +441,13 @@ function FeatureCard({
           {icon}
         </div>
         {badge && (
-          <span className="text-[9px] font-black px-2 py-1 rounded-lg bg-primary text-primary-foreground tracking-wider">
+          <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-primary text-primary-foreground tracking-wider">
             {badge}
           </span>
         )}
       </div>
       <h4 className="font-extrabold text-foreground text-[14px] tracking-tight">{title}</h4>
-      <p className="text-[10.5px] text-muted-foreground mt-1 font-medium">{desc}</p>
+      <p className="text-[11px] text-muted-foreground mt-1 font-medium">{desc}</p>
       <ChevronLeft className="h-3 w-3 text-muted-foreground/70 absolute bottom-3 left-3" strokeWidth={2.5} />
     </button>
   );
@@ -471,14 +471,14 @@ function SummaryStat({
       <div className={`inline-flex items-center gap-1 ${tone}`}>
         {icon}
         <span
-          className="text-[22px] font-black leading-none"
+          className="text-[22px] font-bold leading-none tracking-tight"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value}
         </span>
       </div>
-      {suffix && <p className="text-[9px] text-muted-foreground font-bold mt-1">{suffix}</p>}
-      <p className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-tight">{label}</p>
+      {suffix && <p className="text-[10px] text-muted-foreground font-medium mt-1">{suffix}</p>}
+      <p className="text-[10px] text-muted-foreground font-medium mt-0.5">{label}</p>
     </div>
   );
 }

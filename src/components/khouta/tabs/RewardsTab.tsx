@@ -73,9 +73,10 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
           <div className="flex-1 text-right">
             <p className="text-[11px] text-muted-foreground font-medium">إجمالي ما وفرتِه</p>
             <p className="text-[22px] font-bold text-foreground mt-0.5 leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {totalSaved.toLocaleString()}<span className="text-[13px] font-semibold text-foreground mr-2">ر.س</span>
+              {totalSaved.toLocaleString()}
             </p>
-            <p className="text-[11px] text-muted-foreground font-semibold mt-1.5 flex items-center gap-1">
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س</p>
+            <p className="text-[11px] text-muted-foreground font-medium mt-1.5 flex items-center gap-1">
               {rewardsCount} مكافآت متاحة
               <Gift className="h-3 w-3" strokeWidth={2} />
             </p>
@@ -153,7 +154,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                       key={i}
                       className={`rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex ${expired ? "opacity-70" : ""}`}
                     >
-                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[12px] font-extrabold tracking-tight`}>
+                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[13px] font-extrabold tracking-tight`}>
                         <span>{c.brand}</span>
                       </div>
                       <div className="flex-1 p-3 flex justify-between items-center gap-3">
@@ -179,10 +180,10 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                           )}
                         </div>
                         <div className="flex-1 text-right min-w-0">
-                          <p className={`font-extrabold text-[12px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
+                          <p className={`font-extrabold text-[13px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
                             خصم على {c.target} في {c.brand}
                           </p>
-                          <p className="text-[11px] text-muted-foreground font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className="text-[11px] text-muted-foreground font-medium mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
                             حد أدنى {c.min} ر.س
                           </p>
                           <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
@@ -212,7 +213,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
           </div>
           <div className="relative flex-1 text-right">
-            <p className="font-extrabold text-[13px] tracking-tight">كل قرار ذكي يقرّبك من هدفك</p>
+            <p className="font-extrabold text-[14px] tracking-tight">كل قرار ذكي يقرّبك من هدفك</p>
             <p className="text-[11px] text-white/70 mt-1 font-medium">استمري للحصول على مكافآت حصرية</p>
           </div>
           <ChevronLeft className="relative h-4 w-4 text-white/70 shrink-0" strokeWidth={2.5} />
@@ -233,7 +234,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
               >
                 <X className="h-4 w-4 text-foreground" strokeWidth={2.5} />
               </button>
-              <h3 className="text-[15px] font-extrabold text-foreground tracking-tight">كوبونك جاهز</h3>
+              <h3 className="text-[17px] font-extrabold text-foreground tracking-tight">كوبونك جاهز</h3>
               <div className="w-9" />
             </div>
 
@@ -242,26 +243,26 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             >
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
               <div className="relative flex items-center justify-between">
-                <span className="text-[11px] font-bold opacity-70">خصم على {activeCoupon.target}</span>
-                <span className="text-[16px] font-black tracking-tight">{activeCoupon.brand}</span>
+                <span className="text-[11px] font-medium opacity-80">خصم على {activeCoupon.target}</span>
+                <span className="text-[14px] font-extrabold tracking-tight">{activeCoupon.brand}</span>
               </div>
               <p
-                className="relative mt-3 text-[52px] font-black leading-none text-center"
+                className="relative mt-3 text-[28px] font-black leading-none text-center tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {activeCoupon.pct}%
               </p>
-              <p className="relative text-center text-[11px] font-semibold opacity-80 mt-1">
+              <p className="relative text-center text-[11px] font-medium opacity-80 mt-1">
                 حد أدنى {activeCoupon.min} ر.س • صالح {activeCoupon.days} أيام
               </p>
             </div>
 
             <div className="mt-4 rounded-2xl border-2 border-dashed border-border bg-secondary/40 p-4">
-              <p className="text-[10px] font-bold text-muted-foreground text-right mb-2">كود الخصم</p>
+              <p className="text-[10px] font-medium text-muted-foreground text-right mb-2">كود الخصم</p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => copyCode(activeCoupon.code)}
-                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-bold text-[12px] flex items-center gap-1.5 shrink-0"
+                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-extrabold text-[12px] flex items-center gap-1.5 shrink-0"
                 >
                   {copied ? (
                     <>
@@ -274,7 +275,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                   )}
                 </button>
                 <span
-                  className="flex-1 text-center text-[18px] font-black text-foreground tracking-[0.2em] font-mono"
+                  className="flex-1 text-center text-[16px] font-bold text-foreground tracking-tight"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
                   {activeCoupon.code}

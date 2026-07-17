@@ -45,7 +45,7 @@ function ScreenHeader({ title, onBack }: { title: string; onBack: () => void }) 
       >
         <ChevronRight className="h-5 w-5 text-foreground" />
       </button>
-      <h2 className="text-base font-bold text-foreground">{title}</h2>
+      <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">{title}</h2>
       <div className="w-10" />
     </div>
   );
@@ -60,7 +60,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-xs font-semibold text-muted-foreground mb-1.5 text-right">
+      <span className="block text-[11px] font-medium text-muted-foreground mb-1.5 text-right">
         {label}
       </span>
       {children}
@@ -69,7 +69,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 focus:bg-card outline-none px-4 text-sm text-right transition";
+  "w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 focus:bg-card outline-none px-4 text-[13px] font-medium text-right transition";
 
 function PrimaryButton({
   children,
@@ -87,7 +87,7 @@ function PrimaryButton({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className="w-full h-13 py-3.5 rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-lg shadow-primary/20 disabled:opacity-50 active:scale-[0.99] transition"
+      className="w-full h-13 py-3.5 rounded-2xl bg-primary text-primary-foreground font-extrabold text-[13px] shadow-lg shadow-primary/20 disabled:opacity-50 active:scale-[0.99] transition"
     >
       {children}
     </button>
@@ -123,7 +123,7 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
       <ScreenHeader title="تحويل مالي" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-5">
         <div>
-          <p className="text-xs font-semibold text-muted-foreground mb-2 text-right">
+          <p className="text-[11px] font-medium text-muted-foreground mb-2 text-right">
             المستفيدون الأخيرون
           </p>
           <div className="flex gap-3 overflow-x-auto pb-1" dir="rtl">
@@ -136,10 +136,10 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
                 }}
                 className="shrink-0 flex flex-col items-center gap-1.5 w-16"
               >
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-extrabold text-[14px]">
                   {r.name[0]}
                 </div>
-                <span className="text-[10px] text-foreground truncate w-full text-center">
+                <span className="text-[10px] text-foreground truncate w-full text-center font-medium">
                   {r.name.split(" ")[0]}
                 </span>
               </button>
@@ -148,7 +148,7 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
               <div className="h-14 w-14 rounded-2xl bg-secondary border-2 border-dashed border-border flex items-center justify-center">
                 <Plus className="h-5 w-5 text-muted-foreground" />
               </div>
-              <span className="text-[10px] text-muted-foreground">جديد</span>
+              <span className="text-[10px] text-muted-foreground font-medium">جديد</span>
             </button>
           </div>
         </div>
@@ -215,7 +215,7 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="سداد الفواتير" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        <p className="text-xs text-muted-foreground text-right">اختر نوع الفاتورة</p>
+        <p className="text-[11px] text-muted-foreground text-right font-medium">اختر نوع الفاتورة</p>
         <div className="grid grid-cols-2 gap-3">
           {BILLS.map((b) => {
             const Icon = b.icon;
@@ -233,9 +233,9 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${b.tint} mb-3`}>
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
                 </div>
-                <p className="text-sm font-bold text-foreground">{b.label}</p>
+                <p className="text-[13px] font-extrabold text-foreground tracking-tight">{b.label}</p>
                 <p
-                  className="text-[11px] text-muted-foreground mt-0.5"
+                  className="text-[11px] text-muted-foreground mt-0.5 font-medium"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
                   المستحق: {b.amount} ر.س
@@ -248,13 +248,16 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
         {bill && (
           <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
             <div className="flex justify-between items-center">
-              <span
-                className="text-lg font-bold text-foreground"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                {bill.amount} ر.س
-              </span>
-              <span className="text-sm font-semibold text-foreground">{bill.label}</span>
+              <div className="text-right">
+                <p
+                  className="text-[22px] font-bold text-foreground tracking-tight leading-none"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {bill.amount}
+                </p>
+                <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س</p>
+              </div>
+              <span className="text-[13px] font-extrabold text-foreground tracking-tight">{bill.label}</span>
             </div>
             <PrimaryButton
               onClick={() => {
@@ -283,7 +286,7 @@ export function QrPayScreen({ onBack }: { onBack: () => void }) {
           <QrCode className="h-20 w-20 text-primary/70" strokeWidth={1.2} />
           <div className="absolute inset-x-6 h-0.5 bg-primary shadow-[0_0_12px_hsl(var(--primary))] animate-pulse" />
         </div>
-        <p className="text-sm text-center text-muted-foreground max-w-xs leading-relaxed">
+        <p className="text-[13px] text-center text-muted-foreground max-w-xs leading-relaxed font-medium">
           وجّهي الكاميرا نحو رمز QR الخاص بالمتجر ليتم إتمام العملية
         </p>
         <div className="w-full max-w-xs space-y-2">
@@ -293,13 +296,13 @@ export function QrPayScreen({ onBack }: { onBack: () => void }) {
               setTimeout(onBack, 700);
             }}
           >
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold">
               <Camera className="h-4 w-4" /> فتح الكاميرا
             </span>
           </PrimaryButton>
           <button
             onClick={onBack}
-            className="w-full text-xs font-semibold text-muted-foreground py-2"
+            className="w-full text-[11px] font-medium text-muted-foreground py-2"
           >
             إلغاء
           </button>
@@ -339,7 +342,7 @@ export function MoreServicesScreen({ onBack }: { onBack: () => void }) {
                 <div className={`h-12 w-12 rounded-2xl flex items-center justify-center ${s.tint}`}>
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
                 </div>
-                <span className="text-[11px] font-semibold text-foreground text-center leading-tight">
+                <span className="text-[11px] font-medium text-foreground text-center leading-tight">
                   {s.label}
                 </span>
               </button>
@@ -380,7 +383,7 @@ export function StatementScreen({ onBack }: { onBack: () => void }) {
           <button
             key={f.k}
             onClick={() => setFilter(f.k as typeof filter)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold ${
+            className={`px-4 py-1.5 rounded-full text-[11px] font-extrabold ${
               filter === f.k
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-muted-foreground"
@@ -406,12 +409,12 @@ export function StatementScreen({ onBack }: { onBack: () => void }) {
                     <Icon className="w-5 h-5" strokeWidth={1.7} />
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-semibold text-foreground">{t.title}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{t.time}</p>
+                    <p className="text-[12px] font-semibold text-foreground">{t.title}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">{t.time}</p>
                   </div>
                 </div>
                 <span
-                  className={`text-sm font-semibold ${positive ? "text-mint" : "text-foreground"}`}
+                  className={`text-[13px] font-bold ${positive ? "text-mint" : "text-foreground"}`}
                   dir="ltr"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
@@ -469,8 +472,8 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
           <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
             <Target className="h-7 w-7 text-primary" />
           </div>
-          <p className="text-sm font-bold text-foreground">لا يوجد هدف حالياً</p>
-          <p className="text-xs text-muted-foreground">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
+          <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا يوجد هدف حالياً</p>
+          <p className="text-[11px] text-muted-foreground font-medium">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
         </div>
       </div>
     );
@@ -524,7 +527,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               <Icon className="h-6 w-6" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white/70 text-xs">هدفك</p>
+              <p className="text-white/70 text-[11px] font-medium">هدفك</p>
               {editing ? (
                 <input
                   value={editTitle}
@@ -533,13 +536,13 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
                   placeholder="اسم الهدف"
                 />
               ) : (
-                <h3 className="font-bold text-lg truncate">{goal.title}</h3>
+                <h3 className="font-extrabold text-[17px] tracking-tight truncate">{goal.title}</h3>
               )}
             </div>
             <button
               onClick={editing ? saveEdit : startEdit}
               disabled={savingEdit}
-              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-black active:scale-95 transition disabled:opacity-60"
+              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-extrabold active:scale-95 transition disabled:opacity-60"
             >
               {editing ? (savingEdit ? "..." : "حفظ") : "تعديل"}
             </button>
@@ -553,16 +556,16 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
                   inputMode="numeric"
                   className="w-24 bg-transparent text-white text-[13px] font-bold outline-none text-right"
                 />
-                <span className="text-[11px] text-white/70">ر.س</span>
+                <span className="text-[11px] text-white/70 font-medium">ر.س</span>
               </div>
             ) : (
-              <span className="text-xs text-white/60">
+              <span className="text-[11px] text-white/60 font-medium">
                 من {Number(goal.target_amount).toLocaleString()} ر.س
               </span>
             )}
-            <span className="text-2xl font-bold">
-              {Number(goal.saved_amount).toLocaleString()}{" "}
-              <span className="text-sm text-white/70">ر.س</span>
+            <span className="text-[22px] font-bold tracking-tight">
+              {Number(goal.saved_amount).toLocaleString()}
+              <span className="text-[10px] text-white/70 font-medium mr-1">ر.س</span>
             </span>
           </div>
           <div className="h-2 bg-white/15 rounded-full overflow-hidden" dir="ltr">
@@ -571,14 +574,14 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-white/70 text-right">أنجزت {percent}% من الهدف</p>
+          <p className="mt-2 text-[11px] text-white/70 text-right font-medium">أنجزت {percent}% من الهدف</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
-          <p className="text-sm font-bold text-foreground text-right">نصائح نور</p>
+          <p className="text-[14px] font-extrabold text-foreground text-right tracking-tight">نصائح نور</p>
           <div className="flex items-start gap-3 text-right">
             <Check className="h-4 w-4 text-mint mt-0.5 shrink-0" />
-            <p className="text-xs text-muted-foreground leading-relaxed">
+            <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
               لو ادّخرت 1,000 ر.س شهرياً ستصل للهدف خلال{" "}
               {Math.max(1, Math.ceil((Number(goal.target_amount) - Number(goal.saved_amount)) / 1000))}{" "}
               شهراً تقريباً.
@@ -664,7 +667,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       <ScreenHeader title="هدف جديد" onBack={onBack} />
       <form onSubmit={save} className="flex-1 overflow-y-auto p-5 space-y-5">
         <div>
-          <p className="text-xs font-semibold text-muted-foreground mb-2 text-right">نوع الهدف</p>
+          <p className="text-[11px] font-medium text-muted-foreground mb-2 text-right">نوع الهدف</p>
           <div className="grid grid-cols-3 gap-2">
             {GOAL_TYPES.map((g) => {
               const Icon = g.icon;
@@ -681,7 +684,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
                   }`}
                 >
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
-                  <span className="text-[11px] font-semibold">{g.label}</span>
+                  <span className="text-[11px] font-medium">{g.label}</span>
                 </button>
               );
             })}
@@ -719,13 +722,14 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
         </Field>
         {amount && months && (
           <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4 text-right">
-            <p className="text-xs text-muted-foreground">للوصول للهدف تحتاجين لادخار</p>
+            <p className="text-[11px] text-muted-foreground font-medium">للوصول للهدف تحتاجين لادخار</p>
             <p
-              className="text-lg font-bold text-primary mt-1"
+              className="text-[22px] font-bold text-primary mt-1 tracking-tight"
               style={{ fontVariantNumeric: "tabular-nums" }}
             >
-              {Math.ceil(Number(amount) / Number(months)).toLocaleString()} ر.س/شهر
+              {Math.ceil(Number(amount) / Number(months)).toLocaleString()}
             </p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س/شهر</p>
           </div>
         )}
         <PrimaryButton type="submit" disabled={saving}>
@@ -816,8 +820,8 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
           <ChevronRight className="h-5 w-5 text-foreground" />
         </button>
         <div className="text-center">
-          <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">التقويم المالي</h2>
-          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">خطّطي اليوم لمستقبل أفضل</p>
+          <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">التقويم المالي</h2>
+          <p className="text-[11px] text-muted-foreground font-medium mt-0.5">خطّطي اليوم لمستقبل أفضل</p>
         </div>
         <div className="w-10" />
       </div>
@@ -829,10 +833,10 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
             <CalIcon className="h-5 w-5" strokeWidth={2} style={{ color: "oklch(0.45 0.15 85)" }} />
           </div>
           <div className="flex-1 text-right min-w-0">
-            <p className="text-[12.5px] font-extrabold text-foreground tracking-tight">
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">
               لديك مناسبة بعد 5 أيام
             </p>
-            <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
+            <p className="text-[11px] text-muted-foreground font-medium mt-0.5">
               تم تعديل خطة الادخار تلقائياً • وفّرنا لك 250 ر.س قبل المناسبة
             </p>
           </div>
@@ -840,7 +844,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
 
         <button
           onClick={openAdd}
-          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[12.5px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[13px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           إضافة مناسبة
@@ -853,7 +857,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               <ChevronRight className="h-4 w-4 text-foreground rotate-180" strokeWidth={2.5} />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-[13px] font-extrabold text-foreground tracking-tight">يوليو 2026</span>
+              <span className="text-[14px] font-extrabold text-foreground tracking-tight">يوليو 2026</span>
               <button className="text-[10px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
                 اليوم
               </button>
@@ -865,7 +869,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
 
           <div className="grid grid-cols-7 gap-1 mb-2" dir="rtl">
             {WEEK_DAYS.map((d) => (
-              <div key={d} className="text-center text-[9.5px] font-bold text-muted-foreground py-1">
+              <div key={d} className="text-center text-[10px] font-bold text-muted-foreground py-1">
                 {d.slice(0, 3)}
               </div>
             ))}
@@ -881,7 +885,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 <button
                   key={i}
                   onClick={() => setSelected(day)}
-                  className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-[12px] font-bold transition ${
+                  className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-[12px] font-extrabold transition ${
                     isSelected
                       ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
                       : isToday
@@ -912,8 +916,8 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
         {/* Upcoming events — premium cards */}
         <div>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-[10px] font-bold text-muted-foreground">{upcomingCount} مناسبات</span>
-            <h3 className="text-[13px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
+            <span className="text-[10px] font-medium text-muted-foreground">{upcomingCount} مناسبات</span>
+            <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">المناسبات القادمة</h3>
           </div>
           <div className="space-y-2.5">
             {events.map((e) => {
@@ -930,7 +934,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 >
                   <div className="text-right shrink-0">
                     <div
-                      className={`text-[13px] font-black ${
+                      className={`text-[13px] font-bold tracking-tight ${
                         e.tone === "in" ? "text-mint" : e.tone === "save" ? "text-primary" : "text-destructive"
                       }`}
                       style={{ fontVariantNumeric: "tabular-nums" }}
@@ -938,17 +942,17 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                       {e.amount > 0 ? "+" : ""}
                       {e.amount.toLocaleString()}
                     </div>
-                    <p className="text-[9px] text-muted-foreground font-bold">ر.س</p>
+                    <p className="text-[9px] text-muted-foreground font-medium">ر.س</p>
                   </div>
                   <div className="flex-1 text-right min-w-0">
                     <div className="flex items-center justify-end gap-1.5">
                       {e.status === "new" && (
-                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
                           جديد
                         </span>
                       )}
                       {e.status === "today" && (
-                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
                           اليوم
                         </span>
                       )}
@@ -956,7 +960,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                         {e.title}
                       </p>
                     </div>
-                    <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
+                    <p className="text-[11px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
                   </div>
                   <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
                     {e.icon}
@@ -972,7 +976,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
       {screen === "loading" && (
         <div className="absolute inset-0 z-40 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
           <div className="h-14 w-14 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-          <p className="text-[13px] font-bold text-foreground">جارٍ تحليل تأثير المناسبة...</p>
+          <p className="text-[13px] font-medium text-foreground">جارٍ تحليل تأثير المناسبة...</p>
         </div>
       )}
 
@@ -989,20 +993,20 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               }}
             >
               <div className="flex items-center gap-2 justify-end">
-                <span className="text-[9px] font-black px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
-                <p className="text-[13px] font-black tracking-tight">المستشار المالي</p>
+                <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
+                <p className="text-[13px] font-extrabold tracking-tight">المستشار المالي</p>
               </div>
-              <h2 className="mt-2 text-[18px] font-black tracking-tight text-right">
+              <h2 className="mt-2 text-[17px] font-extrabold tracking-tight text-right">
                 تمت إضافة المناسبة بنجاح
               </h2>
             </div>
 
             <div className="p-5">
-              <p className="text-[12.5px] text-foreground/85 text-right font-medium leading-relaxed">
+              <p className="text-[11px] text-foreground/85 text-right font-medium leading-relaxed">
                 قمنا بإعادة توزيع خطة الادخار تلقائياً حتى لا تتأثر ميزانيتك.
               </p>
 
-              <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-semibold">
+              <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-medium">
                 اختر خطة الادخار المناسبة
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -1014,13 +1018,13 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               <div className="mt-4 flex gap-2.5">
                 <button
                   onClick={() => setScreen("main")}
-                  className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[12.5px] active:scale-[0.98] transition"
+                  className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.98] transition"
                 >
                   إغلاق
                 </button>
                 <button
                   onClick={() => setScreen("main")}
-                  className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[12.5px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
+                  className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
                 >
                   عرض الخطة الجديدة
                 </button>
@@ -1069,13 +1073,13 @@ function MiniStat({
       } ${clickable ? "active:scale-[0.98]" : ""}`}
     >
       <p
-        className={`text-[15px] font-black ${active ? "text-primary-foreground" : "text-primary"}`}
+        className={`text-[15px] font-bold tracking-tight ${active ? "text-primary-foreground" : "text-primary"}`}
         style={{ fontVariantNumeric: "tabular-nums" }}
       >
         {value}
-        {suffix && <span className="text-[9px] mr-1 font-bold">{suffix}</span>}
+        {suffix && <span className="text-[9px] mr-1 font-medium">{suffix}</span>}
       </p>
-      <p className={`text-[9px] font-bold mt-0.5 ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+      <p className={`text-[9px] font-medium mt-0.5 ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
         {label}
       </p>
     </button>
@@ -1156,7 +1160,7 @@ function AddEventScreen({
                   }`}
                 >
                   <span className="text-xl">{k.icon}</span>
-                  <span className="text-[11px] font-bold">{k.label}</span>
+                  <span className="text-[11px] font-medium">{k.label}</span>
                 </button>
               );
             })}
@@ -1186,7 +1190,7 @@ function AddEventScreen({
             <button
               type="button"
               onClick={() => setCashFlow("out")}
-              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+              className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                 cashFlow === "out"
                   ? "bg-destructive/10 text-destructive border-destructive/30"
                   : "bg-card border-border text-muted-foreground"
@@ -1197,7 +1201,7 @@ function AddEventScreen({
             <button
               type="button"
               onClick={() => setCashFlow("in")}
-              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+              className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                 cashFlow === "in"
                   ? "bg-mint/10 text-primary border-mint/30"
                   : "bg-card border-border text-muted-foreground"
@@ -1232,7 +1236,7 @@ function AddEventScreen({
                   type="button"
                   key={p.k}
                   onClick={() => setPriority(p.k as typeof priority)}
-                  className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                  className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                     active ? p.tone : "bg-card border-border text-muted-foreground"
                   }`}
                 >
@@ -1253,16 +1257,16 @@ function AddEventScreen({
         </Field>
 
         <PrimaryButton type="submit">{isEdit ? "تعديل المناسبة" : "إضافة المناسبة"}</PrimaryButton>
-        {isEdit && onDelete && (
-          <button
-            type="button"
-            onClick={onDelete}
-            className="w-full rounded-2xl border border-destructive/40 bg-destructive/5 text-destructive font-extrabold py-3 text-[12.5px] active:scale-[0.99] transition"
-            style={{ color: "#DC2626" }}
-          >
-            حذف المناسبة
-          </button>
-        )}
+          {isEdit && onDelete && (
+            <button
+              type="button"
+              onClick={onDelete}
+              className="w-full rounded-2xl border border-destructive/40 bg-destructive/5 text-destructive font-extrabold py-3 text-[13px] active:scale-[0.99] transition"
+              style={{ color: "#DC2626" }}
+            >
+              حذف المناسبة
+            </button>
+          )}
       </form>
     </div>
   );
@@ -1297,7 +1301,7 @@ export function GoalsListScreen({
       <ScreenHeader title="أهدافي" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-3">
         {loading && (
-          <p className="text-center text-sm text-muted-foreground py-10">جارٍ التحميل...</p>
+          <p className="text-center text-[13px] text-muted-foreground py-10 font-medium">جارٍ التحميل...</p>
         )}
 
         {!loading && goals.length === 0 && (
@@ -1305,8 +1309,8 @@ export function GoalsListScreen({
             <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
               <Target className="h-6 w-6 text-primary" />
             </div>
-            <p className="text-sm font-bold text-foreground">لا توجد أهداف بعد</p>
-            <p className="text-xs text-muted-foreground">ابدأ بإضافة هدفك الأول من الأسفل</p>
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا توجد أهداف بعد</p>
+            <p className="text-[11px] text-muted-foreground font-medium">ابدأ بإضافة هدفك الأول من الأسفل</p>
           </div>
         )}
 
@@ -1341,7 +1345,7 @@ export function GoalsListScreen({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{g.title}</p>
-                    <p className="text-[10.5px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    <p className="text-[11px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
                       {saved.toLocaleString()} / {target.toLocaleString()} ر.س • {percent}%
                     </p>
                   </div>
@@ -1356,7 +1360,7 @@ export function GoalsListScreen({
 
         <button
           onClick={onOpenNewGoal}
-          className="w-full py-3 rounded-2xl border border-dashed border-border text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
+          className="w-full py-3 rounded-2xl border border-dashed border-border text-[13px] font-extrabold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
         >
           <Plus className="h-4 w-4" /> إضافة هدف جديد
         </button>
@@ -1411,10 +1415,10 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
               <Sparkles className="h-8 w-8" strokeWidth={2} />
             </div>
           </div>
-          <p className="text-[11px] font-bold text-mint tracking-[0.2em] uppercase">
+          <p className="text-[11px] font-medium text-mint tracking-[0.2em] uppercase">
             الرادار يعمل الآن
           </p>
-          <h3 className="text-[18px] font-black text-foreground tracking-tight">
+          <h3 className="text-[17px] font-extrabold text-foreground tracking-tight">
             تحليل السلوك الاندفاعي
           </h3>
         </div>
@@ -1422,18 +1426,18 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         {/* Insight */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm text-right space-y-2">
           <div className="flex items-center gap-2 justify-end">
-            <p className="text-[13px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
-            <span className="inline-flex items-center gap-1 text-[10px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-0.5">
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-0.5">
               رادار
             </span>
           </div>
-          <p className="text-[12px] text-foreground/85 leading-relaxed font-medium">
+          <p className="text-[11px] text-foreground/85 leading-relaxed font-medium">
             تم ملاحظة زيادة بنسبة{" "}
-            <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
               85%
             </span>{" "}
             في محاولات التسوق الاندفاعي يوم{" "}
-            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>27</span>{" "}
+            <span className="font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>27</span>{" "}
             من كل شهر (يوم المكافأة) بين{" "}
             <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>11:00 PM</span> و{" "}
             <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>1:00 AM</span>.
@@ -1450,10 +1454,10 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           }}
         >
           <div className="flex items-center gap-2 justify-end mb-2">
-            <p className="text-[13px] font-black text-amber-900 tracking-tight">تحدي الليلة</p>
+            <p className="text-[14px] font-extrabold text-amber-900 tracking-tight">تحدي الليلة</p>
             <span className="text-lg"></span>
           </div>
-          <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
+          <p className="text-[11px] text-amber-950/90 leading-relaxed font-medium">
             متبقي ساعتان على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب كود توفير حصري من نون لدعم هدفك الحالي!
           </p>
         </div>
@@ -1478,21 +1482,21 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
             background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
           }}
         >
-          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-black shrink-0 lowercase">
+          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-extrabold shrink-0 lowercase">
             noon
           </div>
           <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center gap-1.5 justify-start">
-              <p className="text-[11.5px] font-black text-foreground tracking-tight leading-tight">ميزة التجميد</p>
-              <span className="text-[8.5px] font-black text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
+              <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">ميزة التجميد</p>
+              <span className="text-[9px] font-bold text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
             </div>
-            <p className="text-[9.5px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
+            <p className="text-[10px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
               محاكاة نون — جرّب تدخّل خُطى قبل شراء اندفاعي
             </p>
           </div>
           <button
             onClick={() => setFreezeStage("noon")}
-            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[10.5px] active:scale-95 transition"
+            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[11px] active:scale-95 transition"
           >
             ابدأ
           </button>
@@ -1510,12 +1514,12 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
         <button onClick={onBack} className="h-9 w-9 rounded-full bg-white/40 flex items-center justify-center text-neutral-900">
           <ChevronRight className="h-5 w-5" strokeWidth={2} />
         </button>
-        <span className="text-neutral-900 text-[22px] font-black tracking-tight lowercase">noon</span>
+        <span className="text-neutral-900 text-[17px] font-extrabold tracking-tight lowercase">noon</span>
         <div className="w-9" />
       </div>
       <div className="bg-yellow-400 px-4 pb-4 shrink-0">
         <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
-          <span className="text-[12px] text-neutral-500 font-medium">ابحث في نون</span>
+          <span className="text-[11px] text-neutral-500 font-medium">ابحث في نون</span>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
@@ -1526,16 +1530,17 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
           </div>
         </div>
         <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-          <p className="text-[15px] font-bold leading-snug">سماعة سوني اللاسلكية — عزل ضوضاء</p>
-          <p className="text-[11px] text-neutral-500 mt-1">Sony Wireless Headphones</p>
+          <p className="text-[14px] font-extrabold leading-snug tracking-tight">سماعة سوني اللاسلكية — عزل ضوضاء</p>
+          <p className="text-[11px] text-neutral-500 mt-1 font-medium">Sony Wireless Headphones</p>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="text-[26px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-              400 ر.س
+            <span className="text-[22px] font-bold text-neutral-900 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+              400
             </span>
+            <span className="text-[10px] text-neutral-500 font-medium">ر.س</span>
           </div>
           <button
             onClick={onBuy}
-            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-black py-4 text-[14px] active:scale-[0.99] transition shadow-lg"
+            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold py-4 text-[13px] active:scale-[0.99] transition shadow-lg"
           >
             شراء الآن
           </button>
@@ -1709,7 +1714,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
                 onExit();
               }
             }}
-            className="h-10 px-3 rounded-2xl bg-primary/10 text-primary text-[11.5px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
+            className="h-10 px-3 rounded-2xl bg-primary/10 text-primary text-[11px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
             aria-label="خروج طارئ"
           >
             <Shield className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -1727,9 +1732,9 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         <div className="text-center">
           <div className="flex items-center gap-1.5 justify-center">
             <Shield className="h-4 w-4 text-primary" strokeWidth={2} />
-            <h2 className="text-[15px] font-extrabold text-foreground tracking-tight">وضع التجميد</h2>
+            <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">وضع التجميد</h2>
           </div>
-          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">نساعدك تتخذ قرارك بهدوء</p>
+          <p className="text-[11px] text-muted-foreground font-medium mt-0.5">نساعدك تتخذ قرارك بهدوء</p>
         </div>
         <div className="w-10" />
       </div>
@@ -1738,16 +1743,16 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-3">
         {reason && (
           <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm text-center">
-            <p className="text-[10.5px] font-bold text-muted-foreground tracking-wider uppercase">
+            <p className="text-[10px] font-medium text-muted-foreground tracking-wider uppercase">
               {finished ? "انتهى الوقت!" : "الجلسة ستنتهي خلال"}
             </p>
             <p
-              className="text-[38px] font-black text-primary mt-1 leading-none"
+              className="text-[28px] font-bold text-primary mt-1 leading-none tracking-tight"
               style={{ fontVariantNumeric: "tabular-nums" }}
             >
               {mm}:{ss}
             </p>
-            <p className="text-[10.5px] font-semibold text-muted-foreground mt-1">
+            <p className="text-[10px] font-medium text-muted-foreground mt-1">
               {finished ? "القرار النهائي لك" : "دقائق متبقية"}
             </p>
             <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
@@ -1762,14 +1767,14 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         {msgs.map((m, i) => (
           <div key={i} className={`flex ${m.from === "me" ? "justify-start" : "justify-end"}`}>
             <div
-              className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+              className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed ${
                 m.from === "me"
-                  ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
+                  ? "bg-primary text-primary-foreground rounded-br-sm font-medium"
                   : "bg-card border border-border text-foreground rounded-bl-sm font-medium"
               }`}
             >
               <div className="flex items-center gap-1.5 mb-1 justify-end">
-                <span className="text-[9.5px] font-black text-muted-foreground">
+                <span className="text-[9px] font-bold text-muted-foreground">
                   {m.from === "me" ? (firstName || "أنت") : "خُطى"}
                 </span>
               </div>
@@ -1794,7 +1799,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               <button
                 key={r}
                 onClick={() => pickReason(r)}
-                className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-bold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
+                className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-extrabold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
               >
                 {r}
               </button>
@@ -1823,7 +1828,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="اكتب ردك..."
-              className="flex-1 bg-transparent outline-none text-sm text-right"
+              className="flex-1 bg-transparent outline-none text-[13px] font-medium text-right"
             />
           </form>
         </div>
@@ -1845,7 +1850,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               toast("متابعة الشراء — القرار لك");
               onExit();
             }}
-            className="w-full rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[13px] active:scale-[0.99] transition"
+            className="w-full rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.99] transition"
           >
             متابعة الشراء
           </button>
@@ -1909,7 +1914,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         {/* Motivational reminder */}
         <div className="px-5 pt-4">
           <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
-            <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
+            <p className="text-[11px] text-foreground font-medium leading-relaxed">
               ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟
             </p>
           </div>
@@ -1918,8 +1923,8 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         {/* Chat */}
         <div className="px-5 pt-4 pb-4 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-muted-foreground">مباشر</span>
-            <h4 className="text-[13px] font-extrabold text-foreground tracking-tight">
+            <span className="text-[10px] font-medium text-muted-foreground">مباشر</span>
+            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">
               محادثة ريما المالية
             </h4>
           </div>
@@ -1931,10 +1936,10 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                 className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed font-medium ${
                     m.from === "me"
-                      ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
-                      : "bg-secondary text-foreground rounded-bl-sm font-medium border border-border"
+                      ? "bg-primary text-primary-foreground rounded-br-sm"
+                      : "bg-secondary text-foreground rounded-bl-sm border border-border"
                   }`}
                 >
                   {m.text} {m.emoji ?? ""}
@@ -1974,7 +1979,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             if (e.key === "Enter") send();
           }}
           placeholder="اكتب رسالة تحفيزية..."
-          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[12.5px] font-medium text-right"
+          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-medium text-right"
         />
       </div>
 
@@ -1985,7 +1990,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             onClick={() => setShowAdd(false)}
           />
           <div className="relative w-full rounded-3xl bg-card shadow-2xl p-5 space-y-3 animate-scale-in">
-            <h4 className="text-[15px] font-extrabold text-foreground text-right tracking-tight">
+            <h4 className="text-[17px] font-extrabold text-foreground text-right tracking-tight">
               إضافة صديق للتحدي
             </h4>
             <input
@@ -2000,7 +2005,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             <div className="flex gap-2 pt-1">
               <button
                 onClick={() => setShowAdd(false)}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3 text-[12px]"
+                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3 text-[13px]"
               >
                 إلغاء
               </button>
@@ -2014,7 +2019,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                   setNewFriend("");
                   setShowAdd(false);
                 }}
-                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[12px]"
+                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[13px]"
               >
                 إرسال الدعوة
               </button>
@@ -2043,12 +2048,12 @@ function ProgressBar({
     <div className="text-right">
       <div className="flex items-center justify-between mb-1.5">
         <span
-          className="text-[11px] font-black text-foreground"
+          className="text-[11px] font-bold text-foreground"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {percent}%
         </span>
-        <span className="text-[12px] font-extrabold text-foreground tracking-tight">{name}</span>
+        <span className="text-[13px] font-extrabold text-foreground tracking-tight">{name}</span>
       </div>
       <div className="h-2.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
         <div

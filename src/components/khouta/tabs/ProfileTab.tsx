@@ -61,7 +61,10 @@ export function ProfileTab({
       <div className="bg-background pb-4">
         <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
           <div className="w-11" />
-          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الإعدادات</h1>
+          <div className="text-center">
+            <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الإعدادات</h1>
+            <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">تخصيص تجربتك في خُطى</p>
+          </div>
           <button
             onClick={() => setView("root")}
             aria-label="رجوع"
@@ -90,8 +93,8 @@ export function ProfileTab({
                     <Icon className="h-4 w-4" strokeWidth={2} />
                   </div>
                   <div className="flex-1 text-right min-w-0">
-                    <p className="font-extrabold text-foreground text-[12px] tracking-tight truncate">{s.label}</p>
-                    <p className="text-[10px] text-muted-foreground truncate font-medium">{s.value}</p>
+                    <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{s.label}</p>
+                    <p className="text-[11px] text-muted-foreground truncate font-medium">{s.value}</p>
                   </div>
                   <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
                 </button>
@@ -132,7 +135,10 @@ export function ProfileTab({
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
         <div className="w-11" />
-        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
+        <div className="text-center">
+          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">ملفك الشخصي وإعداداتك</p>
+        </div>
         <button
           onClick={onOpenNotifications}
           aria-label="التنبيهات"
@@ -175,13 +181,13 @@ export function ProfileTab({
               onClick={() => toast("قريباً: تعديل الاسم")}
               className="flex items-center gap-1.5 w-full justify-start"
             >
-              <h2 className="text-[18px] font-black tracking-tight break-words min-w-0">{displayName}</h2>
+              <h2 className="text-[17px] font-extrabold tracking-tight break-words min-w-0">{displayName}</h2>
               <Edit className="h-3.5 w-3.5 text-mint shrink-0" strokeWidth={2} />
             </button>
-            <p className="text-[11.5px] text-white/70 mt-1 font-medium break-all text-start">
+            <p className="text-[11px] text-white/70 mt-1 font-medium break-all text-start">
               {user?.email ?? ""}
             </p>
-            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-start">
+            <p className="text-[11px] text-mint mt-2 font-medium tracking-tight text-start">
               مستقبلك المالي بين يديك
             </p>
           </div>
@@ -207,7 +213,7 @@ export function ProfileTab({
                 </div>
                 <div className="flex-1 text-right min-w-0">
                   <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{m.label}</p>
-                  <p className="text-[10.5px] text-muted-foreground truncate font-medium mt-0.5">{m.desc}</p>
+                  <p className="text-[11px] text-muted-foreground truncate font-medium mt-0.5">{m.desc}</p>
                 </div>
                 <ChevronLeft className="h-4 w-4 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
               </button>
@@ -220,7 +226,7 @@ export function ProfileTab({
             <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
-            <p className="font-extrabold text-foreground text-[13px] tracking-tight">أمان بياناتك أولويتنا</p>
+            <p className="font-extrabold text-foreground text-[14px] tracking-tight">أمان بياناتك أولويتنا</p>
             <p className="text-[11px] text-muted-foreground font-medium">تشفير كامل ومعايير حماية بنكية</p>
           </div>
         </div>
@@ -228,7 +234,7 @@ export function ProfileTab({
         <button
           onClick={signOut}
           dir="rtl"
-          className="w-full rounded-[20px] bg-destructive/10 border border-destructive/20 py-3.5 flex items-center justify-center gap-2 text-destructive font-extrabold text-[14px] tracking-tight active:scale-[0.99] transition"
+          className="w-full rounded-[20px] bg-destructive/10 border border-destructive/20 py-3.5 flex items-center justify-center gap-2 text-destructive font-extrabold text-[13px] tracking-tight active:scale-[0.99] transition"
         >
           <LogOut className="h-4 w-4" strokeWidth={2.4} />
           <span>تسجيل الخروج</span>

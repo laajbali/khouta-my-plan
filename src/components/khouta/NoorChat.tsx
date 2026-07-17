@@ -100,8 +100,8 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
         </button>
         <div className="flex items-center gap-2">
           <div>
-            <p className="text-sm font-bold text-foreground text-right">نور</p>
-            <p className="text-[10px] text-mint text-right flex items-center gap-1 justify-end">
+            <p className="text-[15px] font-extrabold text-foreground text-right tracking-tight">نور</p>
+            <p className="text-[11px] text-mint text-right flex items-center gap-1 justify-end font-medium">
               <span className="w-1.5 h-1.5 bg-mint rounded-full" /> متصلة الآن
             </p>
           </div>
@@ -120,7 +120,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
             className={`flex ${m.role === "user" ? "justify-start" : "justify-end"}`}
           >
             <div
-              className={`max-w-[80%] px-4 py-2.5 text-sm leading-relaxed ${
+              className={`max-w-[80%] px-4 py-2.5 text-[13px] leading-relaxed font-medium ${
                 m.role === "user"
                   ? "bg-primary text-primary-foreground rounded-2xl rounded-bl-md"
                   : "bg-card border border-border text-foreground rounded-2xl rounded-br-md"
@@ -147,7 +147,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
           <button
             key={q}
             onClick={() => send(q)}
-            className="shrink-0 text-xs bg-accent text-primary font-bold px-3 py-2 rounded-full border border-mint/20 hover:bg-mint/10 transition"
+            className="shrink-0 text-[11px] bg-accent text-primary font-bold px-3 py-2 rounded-full border border-mint/20 hover:bg-mint/10 transition"
           >
             {q}
           </button>
@@ -173,7 +173,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="اكتب سؤالك لنور..."
-            className="flex-1 bg-transparent outline-none text-sm text-right"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-right"
           />
         </form>
       </div>

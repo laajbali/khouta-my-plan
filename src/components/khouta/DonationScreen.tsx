@@ -28,21 +28,21 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
       <div className="flex-1 overflow-y-auto px-5 pb-6 space-y-5">
         {/* Hero title */}
         <div className="text-right pt-2">
-          <h1 className="text-[24px] font-black text-foreground tracking-tight leading-snug">
-            العطاء... بابٌ من أبواب البركة. <span className="text-amber-500"></span>
-          </h1>
-          <p className="mt-3 text-[13px] text-muted-foreground font-medium leading-relaxed">
-            العطاء لا يوقف رحلتك نحو هدفك...<br />
-            فربما يكون سبباً في بركة ما تملك.
-          </p>
+        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight leading-snug">
+          العطاء... بابٌ من أبواب البركة.
+        </h1>
+        <p className="mt-3 text-[11px] text-muted-foreground font-medium leading-relaxed">
+          العطاء لا يوقف رحلتك نحو هدفك...<br />
+          فربما يكون سبباً في بركة ما تملك.
+        </p>
         </div>
 
         {/* Ayah card */}
         <div className="rounded-[20px] p-4 text-center bg-white border-[1.5px] border-mint/30">
-          <p className="text-[15px] font-black text-foreground leading-loose" dir="rtl">
+          <p className="text-[14px] font-extrabold text-foreground leading-loose tracking-tight" dir="rtl">
             ﴿ وَما تُقَدِّموا لِأَنفُسِكُم مِن خَيرٍ تَجِدوهُ عِندَ اللَّه ﴾
           </p>
-          <p className="mt-2 text-[11px] font-bold text-primary">
+          <p className="mt-2 text-[11px] font-medium text-primary">
             « البقرة: 110 »
           </p>
         </div>
@@ -53,11 +53,12 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
             <Wallet className="h-7 w-7 text-primary" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
-            <p className="text-[11px] text-muted-foreground font-semibold">الفائض المتاح</p>
-            <p className="text-[22px] font-black text-foreground mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
-              350 <span className="text-[13px] font-bold text-muted-foreground">ريال</span>
+            <p className="text-[11px] text-muted-foreground font-medium">الفائض المتاح</p>
+            <p className="text-[22px] font-bold text-foreground mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+              350
             </p>
-            <p className="text-[10.5px] text-muted-foreground font-medium mt-1">
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ريال</p>
+            <p className="text-[11px] text-muted-foreground font-medium mt-1">
               يمكنك تخصيص جزء بسيط إذا رغبت.
             </p>
           </div>
@@ -65,7 +66,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
 
         {/* Amount picker */}
         <div>
-          <h3 className="text-center text-[13px] font-extrabold text-foreground tracking-tight mb-3">
+          <h3 className="text-center text-[14px] font-extrabold text-foreground tracking-tight mb-3">
             اختر مبلغ التبرع
           </h3>
           <div className="grid grid-cols-5 gap-2" dir="ltr">
@@ -89,10 +90,10 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
                       : undefined
                   }
                 >
-                  <span className="text-[16px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-[16px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {v}
                   </span>
-                  <span className={`text-[10px] font-bold mt-0.5 ${active ? "text-white/80" : "text-muted-foreground"}`}>
+                  <span className={`text-[10px] font-medium mt-0.5 ${active ? "text-white/80" : "text-muted-foreground"}`}>
                     ريال
                   </span>
                 </button>
@@ -105,7 +106,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
               }`}
             >
               <Plus className="h-4 w-4" strokeWidth={2.5} />
-              <span className="text-[9.5px] font-bold mt-0.5">إضافة مبلغ</span>
+              <span className="text-[10px] font-medium mt-0.5">إضافة مبلغ</span>
             </button>
           </div>
 
@@ -119,7 +120,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
               }}
               inputMode="numeric"
               placeholder="أدخل المبلغ بالريال"
-              className="mt-3 w-full h-12 rounded-2xl bg-white border border-border px-4 text-[14px] font-bold text-right outline-none focus:border-primary/50"
+              className="mt-3 w-full h-12 rounded-2xl bg-white border border-border px-4 text-[13px] font-bold text-right outline-none focus:border-primary/50"
               style={{ fontVariantNumeric: "tabular-nums" }}
             />
           )}
@@ -130,7 +131,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
           onClick={() =>
             toast.success(`جارٍ تحويلك إلى منصة إحسان لتبرع ${amount} ريال`)
           }
-          className="w-full rounded-2xl text-white font-extrabold py-4 flex items-center justify-center gap-2 text-[14px] shadow-lg active:scale-[0.99] transition"
+          className="w-full rounded-2xl text-white font-extrabold py-4 flex items-center justify-center gap-2 text-[13px] shadow-lg active:scale-[0.99] transition"
           style={{ background: "oklch(0.24 0.05 155)" }}
         >
           <ExternalLink className="h-4 w-4" strokeWidth={2.5} />
@@ -140,7 +141,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
           سيتم تحويلك إلى منصة إحسان لإتمام التبرع بأمان.
         </p>
 
-        <div className="flex items-center justify-center gap-1.5 text-[10.5px] text-muted-foreground font-semibold">
+        <div className="flex items-center justify-center gap-1.5 text-[11px] text-muted-foreground font-medium">
           <Lock className="h-3 w-3" strokeWidth={2.5} />
           عملية آمنة ومشفرة
         </div>

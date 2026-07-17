@@ -115,18 +115,18 @@ export function NotificationsTab({
         >
           <div className="absolute -top-14 -right-14 w-44 h-44 bg-mint/20 rounded-full blur-3xl" />
           <div className="relative flex items-center justify-between mb-2">
-            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
+            <span className="text-[9px] font-extrabold tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
             <div className="h-9 w-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
               <ShieldCheck className="h-4 w-4 text-mint" strokeWidth={2} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[15px] text-right tracking-tight">الحماية المالية الفورية</h3>
+          <h3 className="font-extrabold text-[14px] text-right tracking-tight">الحماية المالية الفورية</h3>
           <p className="text-[11px] mt-1 text-right text-white/75 font-medium leading-relaxed">
             الذكاء الاصطناعي يحلل عملياتك قبل إتمامها لحماية خطتك.
           </p>
           <button
             onClick={() => setSimKey("SHEIN")}
-            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12.5px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
             افتح شي إن
@@ -147,7 +147,7 @@ export function NotificationsTab({
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
-            <p className="text-[12px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
             <div className="mt-1 flex items-center gap-1.5 flex-wrap">
               <Badge icon={<Zap className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اعتراض فوري" tint="text-primary bg-primary/10" />
               <Badge icon={<ShieldCheck className="h-2.5 w-2.5" strokeWidth={2.5} />} label="حماية الهدف" tint="text-mint bg-mint/15" />
@@ -190,7 +190,7 @@ function AlertRow({ a }: { a: Alert }) {
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
           <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{a.brand}</p>
         </div>
-        <p className="text-[12px] text-foreground/80 mt-1 font-medium">{a.text}</p>
+        <p className="text-[11px] text-foreground/80 mt-1 font-medium">{a.text}</p>
         <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>{a.time}</p>
       </div>
     </div>
@@ -229,7 +229,7 @@ function MerchantSim({
         <button onClick={onBack} className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <ChevronRight className="h-5 w-5" strokeWidth={2} />
         </button>
-        <span className={`${m.logoText} text-[22px] font-black tracking-tight ${cls}`}>{m.logoLabel}</span>
+        <span className={`${m.logoText} text-[17px] font-extrabold tracking-tight ${cls}`}>{m.logoLabel}</span>
         <button className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <Menu className="h-5 w-5" strokeWidth={2} />
         </button>
@@ -249,18 +249,19 @@ function MerchantSim({
       </div>
 
       <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-        <p className="text-[15px] font-bold leading-snug">{m.productTitle}</p>
-        <p className="text-[11px] text-neutral-500 mt-1">{m.productSubtitle}</p>
+        <p className="text-[14px] font-extrabold leading-snug tracking-tight">{m.productTitle}</p>
+        <p className="text-[11px] text-neutral-500 mt-1 font-medium">{m.productSubtitle}</p>
         <div className="flex items-center gap-1 mt-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <Star key={n} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
           ))}
-          <span className="text-[11px] text-neutral-500 mr-1">(1,284)</span>
+          <span className="text-[11px] text-neutral-500 mr-1 font-medium">(1,284)</span>
         </div>
         <div className="flex items-baseline gap-2 mt-3">
-          <span className="text-[22px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {m.price} ر.س
+          <span className="text-[22px] font-bold text-neutral-900 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+            {m.price}
           </span>
+          <span className="text-[10px] text-neutral-500 font-medium">ر.س</span>
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-neutral-200 pt-4">
@@ -280,7 +281,7 @@ function MerchantSim({
 
         <button
           onClick={() => onCheckout(total)}
-          className={`mt-5 w-full rounded-full ${m.ctaBg} ${m.ctaText} font-black py-4 text-[14px] flex items-center justify-center gap-2 active:scale-[0.99] transition shadow-lg`}
+          className={`mt-5 w-full rounded-full ${m.ctaBg} ${m.ctaText} font-extrabold py-4 text-[13px] flex items-center justify-center gap-2 active:scale-[0.99] transition shadow-lg`}
         >
           <ShoppingCart className="h-4 w-4" strokeWidth={2.5} />
           إضافة للسلة — {total} ريال

@@ -34,7 +34,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
     <div className="px-6 pt-5 pb-6 bg-card overflow-y-auto">
       {/* Language pill */}
       <div className="flex items-center justify-start">
-        <button className="flex items-center gap-1.5 rounded-full bg-mint/10 border border-mint/30 px-3 py-1.5 text-[11px] font-bold text-primary hover:bg-mint/15 transition">
+        <button className="flex items-center gap-1.5 rounded-full bg-mint/10 border border-mint/30 px-3 py-1.5 text-[11px] font-extrabold text-primary hover:bg-mint/15 transition">
           <Globe className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
           العربية
         </button>
@@ -43,8 +43,8 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
       {/* Brand */}
       <div className="flex flex-col items-center mt-6">
         <KhoutaLogo size={82} />
-        <h1 className="mt-8 text-[28px] font-black text-foreground tracking-tight leading-none">خُطى</h1>
-        <p className="mt-4 text-[12.5px] text-muted-foreground font-medium tracking-tight">
+        <h1 className="mt-8 text-[28px] font-extrabold text-foreground tracking-tight leading-none">خُطى</h1>
+        <p className="mt-4 text-[11px] text-muted-foreground font-medium tracking-tight">
           خطواتك نحو مستقبل مالي أفضل
         </p>
       </div>
@@ -90,12 +90,12 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
               if (error) toast.error(error.message);
               else toast.success("أرسلنا رابط إعادة التعيين إلى بريدك");
             }}
-            className="text-primary text-[11.5px] font-bold hover:underline"
+            className="text-primary text-[11px] font-bold hover:underline"
           >
             هل نسيت كلمة المرور؟
           </button>
           <label className="flex items-center gap-1.5 cursor-pointer select-none">
-            <span className="text-[11.5px] font-semibold text-muted-foreground">تذكرني</span>
+            <span className="text-[11px] font-medium text-muted-foreground">تذكرني</span>
             <button
               type="button"
               onClick={() => setRemember((v) => !v)}
@@ -111,7 +111,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-[18px] mt-3 shadow-[0_18px_36px_-16px_oklch(0.20_0.05_155/0.65)] disabled:opacity-60 active:scale-[0.97] hover:shadow-[0_22px_44px_-18px_oklch(0.20_0.05_155/0.75)] transition-all duration-200 text-[14px] tracking-tight"
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-[18px] mt-3 shadow-[0_18px_36px_-16px_oklch(0.20_0.05_155/0.65)] disabled:opacity-60 active:scale-[0.97] hover:shadow-[0_22px_44px_-18px_oklch(0.20_0.05_155/0.75)] transition-all duration-200 text-[13px] tracking-tight"
         >
           {loading ? "جارٍ تسجيل الدخول..." : "تسجيل الدخول"}
         </button>
