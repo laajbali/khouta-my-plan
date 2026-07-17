@@ -89,7 +89,7 @@ export function InterceptModal({
             </div>
             <div className="mt-3 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-mint animate-pulse" />
-              <p className="text-[10px] font-bold text-mint tracking-[0.2em] uppercase">
+              <p className="text-[10px] font-medium text-mint tracking-wide uppercase">
                 تدخل ذكي فوري
               </p>
             </div>
@@ -99,22 +99,25 @@ export function InterceptModal({
           </div>
 
           <div className="p-5">
-            <p className="text-[13px] text-foreground leading-relaxed text-right font-medium">
-              أنت الآن على وشك شراء منتجات بقيمة{" "}
-              <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <p className="text-[13px] text-foreground leading-snug text-right font-medium">
+              أنت الآن على وشك شراء منتجات بقيمة
+              <span className="inline-block mx-1 font-extrabold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
-              </span>{" "}
-              من <span className="font-bold">{merchant}</span>.
+              </span>
+              من
+              <span className="inline-block mx-1 font-extrabold" dir="ltr">
+                {merchant}
+              </span>
             </p>
             <p className="text-[11px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
               إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
             {/* Delay badge */}
-            <div className="mt-3 rounded-2xl bg-destructive/10 border border-destructive/25 p-3 flex items-center justify-between">
-              <span className="text-[11px] font-bold text-destructive">تأخير متوقع</span>
+            <div className="mt-3 rounded-2xl bg-rose-50 border border-rose-100 p-3 flex items-center justify-between">
+              <span className="text-[11px] font-medium text-rose-500">تأخير متوقع</span>
               <span
-                className="text-[22px] font-bold text-destructive tracking-tight"
+                className="text-[22px] font-extrabold text-rose-500 tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {delayDays} يوماً
@@ -124,9 +127,9 @@ export function InterceptModal({
             {/* Goal progress preview */}
             <div className="mt-4 rounded-2xl bg-secondary/60 border border-border p-3.5">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-muted-foreground">
+                <span className="text-[11px] font-medium text-muted-foreground">
                   متبقٍ{" "}
-                  <span className="text-foreground font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-foreground font-extrabold" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
@@ -138,7 +141,7 @@ export function InterceptModal({
                   style={{ width: `${Math.round((savedBase / target) * 100)}%` }}
                 />
               </div>
-              <p className="mt-1.5 text-[10px] font-bold text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <p className="mt-1.5 text-[10px] font-medium text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {Math.round((savedBase / target) * 100)}% من الهدف
               </p>
             </div>
@@ -166,7 +169,7 @@ export function InterceptModal({
             className="relative px-5 pt-6 pb-8 text-center overflow-hidden"
             style={{
               background:
-                "linear-gradient(180deg, oklch(0.96 0.04 155) 0%, oklch(0.99 0.01 155) 100%)",
+                "linear-gradient(180deg, oklch(0.985 0.02 155) 0%, oklch(0.995 0.005 155) 100%)",
             }}
           >
             <div className="absolute top-3 left-6 text-lg animate-bounce"></div>
@@ -174,13 +177,13 @@ export function InterceptModal({
             <div className="absolute top-5 right-16 text-lg"></div>
             <div className="absolute top-10 left-16 text-base animate-pulse">⭐</div>
 
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/20 flex items-center justify-center relative">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/15 flex items-center justify-center relative">
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[17px] font-extrabold text-foreground tracking-tight">
               أحسنت{firstName ? " يا " + firstName : ""}!
             </h2>
-            <p className="mt-1.5 text-[11px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
+            <p className="mt-1.5 text-[11px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-snug">
               قرارك الذكي اليوم يصنع مستقبلك غداً
             </p>
           </div>
@@ -188,15 +191,15 @@ export function InterceptModal({
           <div className="p-5 -mt-3">
             <div className="grid grid-cols-2 gap-2.5">
               <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
-              <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-700 bg-amber-50" />
+              <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-600 bg-amber-50" />
             </div>
 
             <div className="mt-3 rounded-2xl border-2 border-dashed border-primary/40 bg-mint/5 p-3.5">
               <div className="flex items-center gap-2 justify-end">
-                <p className="text-[11px] font-bold text-foreground">تمت إضافة مكافأة جديدة</p>
+                <p className="text-[11px] font-medium text-foreground">تمت إضافة مكافأة جديدة</p>
                 <Sparkles className="h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
               </div>
-              <p className="text-center text-[16px] font-extrabold text-primary mt-1.5 tracking-tight">
+              <p className="text-center text-[16px] font-extrabold text-primary mt-1.5 tracking-tight leading-snug">
                 كوبون خصم 20%
               </p>
               <div className="mt-2.5 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2">
@@ -209,7 +212,7 @@ export function InterceptModal({
                 </button>
                 <span
                   dir="ltr"
-                  className="flex-1 text-center font-bold text-foreground tracking-tight text-[13px]"
+                  className="flex-1 text-center font-extrabold text-foreground tracking-tight text-[13px]"
                 >
                   {code}
                 </span>
@@ -225,7 +228,7 @@ export function InterceptModal({
                 onCancel();
                 onComplete?.();
               }}
-              className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px]"
+              className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px] leading-snug"
             >
               <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
               رائع، أكمل
@@ -250,10 +253,10 @@ function RewardStat({
 }) {
   return (
     <div className={`rounded-2xl p-3 text-right ${tone}`}>
-      <p className="text-[10px] font-bold opacity-80">{label}</p>
-      <p className="text-[18px] font-bold mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="text-[10px] font-medium opacity-90 leading-snug">{label}</p>
+      <p className="text-[18px] font-extrabold mt-1 tracking-tight leading-snug" style={{ fontVariantNumeric: "tabular-nums" }}>
         {value}
-        {suffix && <span className="text-[10px] font-bold mr-1">{suffix}</span>}
+        {suffix && <span className="text-[10px] font-medium mr-1">{suffix}</span>}
       </p>
     </div>
   );
