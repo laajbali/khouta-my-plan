@@ -125,13 +125,6 @@ export function ProfileTab({
       tint: "bg-primary/10 text-primary",
       onClick: () => toast("فتح مركز المساعدة"),
     },
-    {
-      icon: LogOut,
-      label: "تسجيل الخروج",
-      desc: "إنهاء الجلسة الحالية",
-      tint: "bg-destructive/10 text-destructive",
-      onClick: signOut,
-    },
   ];
 
   return (
