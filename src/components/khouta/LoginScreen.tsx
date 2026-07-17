@@ -130,7 +130,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
         onClick={() => toast("قريباً: الدخول بالبصمة")}
         className="mt-5 w-full rounded-2xl border border-border bg-card py-3.5 text-[13px] font-extrabold text-foreground flex items-center justify-between px-5 shadow-sm active:scale-[0.99] transition hover:border-mint/40"
       >
-        <span className="h-9 w-9 rounded-xl bg-mint/10 text-primary flex items-center justify-center">
+        <span className="h-9 w-9 rounded-xl bg-secondary text-primary flex items-center justify-center">
           <Fingerprint className="h-5 w-5" strokeWidth={2} />
         </span>
         <span className="flex-1 text-center tracking-tight">دخول بالبصمة</span>

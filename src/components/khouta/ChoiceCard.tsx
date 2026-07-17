@@ -29,7 +29,7 @@ export function ChoiceCard({
           <Check className="h-3 w-3" strokeWidth={3} />
         </span>
       )}
-      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${active ? "bg-primary/10 text-primary" : "bg-secondary text-muted-foreground"}`}>
+      <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${active ? "bg-secondary text-primary" : "bg-secondary text-muted-foreground"}`}>
         {icon}
       </div>
       <span className={`text-[11px] font-semibold tracking-tight ${active ? "text-foreground" : "text-foreground/80"}`}>
