@@ -28,13 +28,13 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
       <div className="flex-1 overflow-y-auto px-5 pb-6 space-y-5">
         {/* Hero title */}
         <div className="text-right pt-2">
-          <h1 className="text-[24px] font-black text-foreground tracking-tight leading-snug">
-            العطاء... بابٌ من أبواب البركة. <span className="text-amber-500"></span>
-          </h1>
-          <p className="mt-3 text-[13px] text-muted-foreground font-medium leading-relaxed">
-            العطاء لا يوقف رحلتك نحو هدفك...<br />
-            فربما يكون سبباً في بركة ما تملك.
-          </p>
+        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight leading-snug">
+          العطاء... بابٌ من أبواب البركة.
+        </h1>
+        <p className="mt-3 text-[11px] text-muted-foreground font-medium leading-relaxed">
+          العطاء لا يوقف رحلتك نحو هدفك...<br />
+          فربما يكون سبباً في بركة ما تملك.
+        </p>
         </div>
 
         {/* Ayah card */}
