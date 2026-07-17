@@ -973,7 +973,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
       {screen === "loading" && (
         <div className="absolute inset-0 z-40 bg-background/95 backdrop-blur-sm flex flex-col items-center justify-center gap-4">
           <div className="h-14 w-14 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-          <p className="text-[13px] font-bold text-foreground">جارٍ تحليل تأثير المناسبة...</p>
+          <p className="text-[13px] font-medium text-foreground">جارٍ تحليل تأثير المناسبة...</p>
         </div>
       )}
 
