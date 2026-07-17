@@ -135,7 +135,10 @@ export function ProfileTab({
       {/* Header */}
       <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
         <div className="w-11" />
-        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
+        <div className="text-center">
+          <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الحساب</h1>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">ملفك الشخصي وإعداداتك</p>
+        </div>
         <button
           onClick={onOpenNotifications}
           aria-label="التنبيهات"
