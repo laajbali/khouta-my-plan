@@ -249,18 +249,19 @@ function MerchantSim({
       </div>
 
       <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-        <p className="text-[15px] font-bold leading-snug">{m.productTitle}</p>
-        <p className="text-[11px] text-neutral-500 mt-1">{m.productSubtitle}</p>
+        <p className="text-[14px] font-extrabold leading-snug tracking-tight">{m.productTitle}</p>
+        <p className="text-[11px] text-neutral-500 mt-1 font-medium">{m.productSubtitle}</p>
         <div className="flex items-center gap-1 mt-2">
           {[1, 2, 3, 4, 5].map((n) => (
             <Star key={n} className="h-3.5 w-3.5 text-yellow-400 fill-yellow-400" />
           ))}
-          <span className="text-[11px] text-neutral-500 mr-1">(1,284)</span>
+          <span className="text-[11px] text-neutral-500 mr-1 font-medium">(1,284)</span>
         </div>
         <div className="flex items-baseline gap-2 mt-3">
-          <span className="text-[22px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-            {m.price} ر.س
+          <span className="text-[22px] font-bold text-neutral-900 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+            {m.price}
           </span>
+          <span className="text-[10px] text-neutral-500 font-medium">ر.س</span>
         </div>
 
         <div className="mt-4 flex items-center justify-between border-t border-neutral-200 pt-4">
