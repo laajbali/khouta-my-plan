@@ -471,14 +471,14 @@ function SummaryStat({
       <div className={`inline-flex items-center gap-1 ${tone}`}>
         {icon}
         <span
-          className="text-[22px] font-black leading-none"
+          className="text-[22px] font-bold leading-none tracking-tight"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {value}
         </span>
       </div>
-      {suffix && <p className="text-[9px] text-muted-foreground font-bold mt-1">{suffix}</p>}
-      <p className="text-[10px] text-muted-foreground font-semibold mt-0.5 tracking-tight">{label}</p>
+      {suffix && <p className="text-[10px] text-muted-foreground font-medium mt-1">{suffix}</p>}
+      <p className="text-[10px] text-muted-foreground font-medium mt-0.5">{label}</p>
     </div>
   );
 }
