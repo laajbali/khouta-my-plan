@@ -25,14 +25,14 @@ import { toast } from "sonner";
 
 
 const PREFERENCES = [
-  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-mint/15 text-primary", action: "فتح إعدادات التنبيهات" },
-  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-mint/15 text-primary", action: "تغيير لغة التطبيق قريباً" },
-  { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-mint/15 text-primary", action: "فتح إعدادات الأمان" },
-  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-mint/15 text-primary", action: "العملة الحالية: ريال سعودي" },
-  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-mint/15 text-primary", action: "تبديل الوضع الليلي قريباً" },
-  { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-mint/15 text-primary", action: "خُطى — رفيقتك المالية الذكية" },
-  { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-mint/15 text-primary", action: "تم نسخ رابط الدعوة" },
-  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-mint/15 text-primary", action: "فتح مركز المساعدة" },
+  { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-secondary text-primary", action: "فتح إعدادات التنبيهات" },
+  { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-secondary text-primary", action: "تغيير لغة التطبيق قريباً" },
+  { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-secondary text-primary", action: "فتح إعدادات الأمان" },
+  { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-secondary text-primary", action: "العملة الحالية: ريال سعودي" },
+  { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-secondary text-primary", action: "تبديل الوضع الليلي قريباً" },
+  { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-secondary text-primary", action: "خُطى — رفيقتك المالية الذكية" },
+  { icon: Share2, label: "شارك التطبيق", value: "ادعي أصدقاءك", tint: "bg-secondary text-primary", action: "تم نسخ رابط الدعوة" },
+  { icon: HelpCircle, label: "المساعدة", value: "الأسئلة الشائعة", tint: "bg-secondary text-primary", action: "فتح مركز المساعدة" },
 ];
 
 export function ProfileTab({
@@ -169,7 +169,7 @@ export function ProfileTab({
             </div>
             <button
               onClick={() => toast("قريباً: تغيير صورة الملف الشخصي")}
-              className="absolute bottom-0 end-0 h-7 w-7 rounded-full bg-mint text-primary border-[3px] border-[oklch(0.20_0.05_155)] flex items-center justify-center shadow-md active:scale-95 transition"
+              className="absolute bottom-0 end-0 h-7 w-7 rounded-full bg-secondary text-primary border-[3px] border-[oklch(0.20_0.05_155)] flex items-center justify-center shadow-md active:scale-95 transition"
               aria-label="تغيير الصورة"
             >
               <Camera className="h-3 w-3" strokeWidth={2.4} />
@@ -222,7 +222,7 @@ export function ProfileTab({
         </div>
 
         <div className="rounded-[20px] bg-mint/10 border border-mint/25 p-4 flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-mint/20 text-primary flex items-center justify-center shrink-0">
+          <div className="h-10 w-10 rounded-xl bg-secondary text-primary flex items-center justify-center shrink-0">
             <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">

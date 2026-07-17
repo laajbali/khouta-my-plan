@@ -67,7 +67,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
       <div className="px-5 pt-4 space-y-4">
         {/* Achievement card */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-mint/15 text-primary flex items-center justify-center shrink-0">
+          <div className="h-12 w-12 rounded-2xl bg-secondary text-primary flex items-center justify-center shrink-0">
             <Gift className="h-6 w-6" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
@@ -102,7 +102,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 filter === f
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "bg-mint/25 text-primary"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {f}
@@ -172,7 +172,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                             <button
                               onClick={() => setActiveCoupon(c)}
                               className={`mt-2 rounded-lg px-2 py-1 text-[9px] font-bold active:scale-95 transition ${
-                                inUse ? "bg-mint/20 text-primary" : "bg-primary text-primary-foreground"
+                                inUse ? "bg-secondary text-primary" : "bg-primary text-primary-foreground"
                               }`}
                             >
                               {inUse ? "قيد الاستخدام" : "استخدم"}

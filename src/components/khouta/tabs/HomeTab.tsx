@@ -87,7 +87,7 @@ export function HomeTab({
         </div>
         <button
           onClick={onOpenNotifications}
-          className="w-11 h-11 rounded-2xl bg-mint/15 flex items-center justify-center border border-mint/25 text-primary relative active:scale-95 transition"
+          className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center border border-mint/25 text-primary relative active:scale-95 transition"
           aria-label="التنبيهات"
         >
           <Bell className="w-5 h-5" strokeWidth={2} />
@@ -125,7 +125,7 @@ export function HomeTab({
             onClick={onOpenNewGoal}
             className="w-full rounded-[26px] p-6 text-center border-2 border-dashed border-border bg-card hover:border-primary/40 transition"
           >
-            <div className="mx-auto h-12 w-12 rounded-2xl bg-mint/15 text-primary flex items-center justify-center mb-3">
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-secondary text-primary flex items-center justify-center mb-3">
               <Target className="h-6 w-6" strokeWidth={1.8} />
             </div>
             <p className="text-[14px] font-extrabold text-foreground tracking-tight">أنشئ هدفك الأول</p>
@@ -139,7 +139,7 @@ export function HomeTab({
         {/* Today's Financial Summary — dynamic */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <div className="h-9 w-9 rounded-xl bg-mint/15 text-primary flex items-center justify-center">
+            <div className="h-9 w-9 rounded-xl bg-secondary text-primary flex items-center justify-center">
               <Sparkles className="h-4 w-4" strokeWidth={2} />
             </div>
             <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">ملخص اليوم</h4>
@@ -193,14 +193,14 @@ export function HomeTab({
             icon={<Calendar className="h-5 w-5" strokeWidth={2} />}
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
-            tint="bg-mint/15 text-primary"
+            tint="bg-secondary text-primary"
             onClick={onOpenCalendar}
           />
           <FeatureCard
             icon={<Sparkles className="h-5 w-5" strokeWidth={2} />}
             title="المستشار المالي"
             desc="اسأل أي شيء"
-            tint="bg-mint/15 text-primary"
+            tint="bg-secondary text-primary"
             badge="AI"
             onClick={onOpenNoor}
           />
@@ -208,14 +208,14 @@ export function HomeTab({
             icon={<BarChart3 className="h-5 w-5" strokeWidth={2} />}
             title="التقارير"
             desc="أداء هذا الشهر"
-            tint="bg-mint/15 text-primary"
+            tint="bg-secondary text-primary"
             onClick={onOpenReports}
           />
           <FeatureCard
             icon={<Gift className="h-5 w-5" strokeWidth={2} />}
             title="المكافآت"
             desc="كوبون جديد بانتظارك"
-            tint="bg-mint/15 text-primary"
+            tint="bg-secondary text-primary"
             onClick={onOpenRewards}
           />
         </div>
@@ -226,7 +226,7 @@ export function HomeTab({
           dir="rtl"
           className="w-full rounded-[22px] p-4 bg-card border border-border shadow-sm flex items-center gap-3 text-right active:scale-[0.99] transition hover:border-primary/40"
         >
-          <div className="h-11 w-11 rounded-2xl bg-mint/15 text-primary flex items-center justify-center shrink-0">
+          <div className="h-11 w-11 rounded-2xl bg-secondary text-primary flex items-center justify-center shrink-0">
             <Users className="h-5 w-5" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
@@ -374,7 +374,7 @@ function GoalCarouselCard({
           <button
             onClick={onOpenGoal}
             aria-label="عرض التفاصيل"
-            className="h-[52px] w-[52px] rounded-xl bg-mint text-primary flex items-center justify-center shadow-md active:scale-95 transition"
+            className="h-[52px] w-[52px] rounded-xl bg-secondary text-primary flex items-center justify-center shadow-md active:scale-95 transition"
           >
             <ChevronLeft className="h-5 w-5" strokeWidth={2.5} />
           </button>

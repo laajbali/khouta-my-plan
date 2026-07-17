@@ -31,10 +31,10 @@ type Alert = {
   time: string;
 };
 
-const GREEN_TONE = "text-primary bg-mint/15";
-const GREEN_ICON = "bg-mint/15 text-primary";
+const GREEN_TONE = "text-primary bg-secondary";
+const GREEN_ICON = "bg-secondary text-primary";
 const WARN_TONE = "text-white bg-[#EF4444]";
-const WARN_ICON = "bg-mint/15 text-primary";
+const WARN_ICON = "bg-secondary text-primary";
 
 const ALERTS: Alert[] = [
   { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
@@ -114,7 +114,7 @@ export function NotificationsTab({
             <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
               حماية
             </span>
-            <div className="h-7 w-7 rounded-full bg-mint/15 flex items-center justify-center">
+            <div className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center">
               <ShieldCheck className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
             </div>
           </div>
@@ -137,7 +137,7 @@ export function NotificationsTab({
           dir="rtl"
           className="w-full rounded-2xl border border-border bg-white px-3 py-3 flex items-center gap-3 active:scale-[0.99] transition"
         >
-          <div className="h-9 w-9 rounded-full bg-mint/15 flex items-center justify-center shrink-0">
+          <div className="h-9 w-9 rounded-full bg-secondary flex items-center justify-center shrink-0">
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
@@ -170,7 +170,7 @@ export function NotificationsTab({
 
 function AlertRow({ a }: { a: Alert }) {
   const isWarning = a.tag === "تنبيه";
-  const iconBg = isWarning ? "bg-destructive/10" : "bg-mint/15";
+  const iconBg = isWarning ? "bg-destructive/10" : "bg-secondary";
   const iconColor = isWarning ? "text-destructive" : "text-primary";
 
   return (
@@ -285,7 +285,7 @@ function MerchantSim({
 /* --------------------------- All alerts screen --------------------------- */
 function AllAlertRow({ a }: { a: Alert }) {
   const isWarning = a.tag === "تنبيه";
-  const iconBg = isWarning ? "bg-destructive/10" : "bg-mint/15";
+  const iconBg = isWarning ? "bg-destructive/10" : "bg-secondary";
   const iconColor = isWarning ? "text-destructive" : "text-primary";
 
   return (

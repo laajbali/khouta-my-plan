@@ -49,7 +49,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
 
         {/* Available balance */}
         <div className="rounded-[20px] bg-white border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-14 w-14 rounded-full bg-mint/15 flex items-center justify-center shrink-0">
+          <div className="h-14 w-14 rounded-full bg-secondary flex items-center justify-center shrink-0">
             <Wallet className="h-7 w-7 text-primary" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">

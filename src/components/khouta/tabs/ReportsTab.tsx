@@ -139,7 +139,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 range === r
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "bg-mint/25 text-primary"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {r}
@@ -153,7 +153,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الدخل"
             value={fmt(stats.income)}
             icon={<ArrowUp className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-mint/15 text-primary"
+            iconBg="bg-secondary text-primary"
             valueColor="text-foreground"
           />
           <StatCard
@@ -167,7 +167,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الادخار"
             value={fmt(stats.saving)}
             icon={<PiggyBank className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-mint/15 text-primary"
+            iconBg="bg-secondary text-primary"
             valueColor="text-mint"
           />
           <div className="rounded-[20px] bg-card border border-border p-3 shadow-sm">
@@ -236,21 +236,21 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
         <div className="grid grid-cols-3 gap-2">
           <SummaryTile
             icon={<Target className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="هدفك"
             main={stats.goalsTotal > 0 ? `${fmt(stats.goalsTotal)} ر.س` : "لا يوجد"}
             note={stats.goalsTotal > 0 ? `وفَّرتِ ${fmt(stats.goalsSaved)} (${stats.goalProgress}%)` : "أضيفي هدفاً"}
           />
           <SummaryTile
             icon={<Sparkles className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="أعلى صرف"
             main="التسوق"
             note="32% من الفترة"
           />
           <SummaryTile
             icon={<TrendingUp className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="أكثر تحكم"
             main="الترفيه"
             note="-12% عن السابق"

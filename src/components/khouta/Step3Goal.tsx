@@ -157,7 +157,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
                   onClick={() => update({ goalMonths: d.key })}
                   className={`rounded-xl py-2 text-[11px] font-bold transition ${
                     data.goalMonths === d.key
-                      ? "bg-mint text-primary"
+                      ? "bg-secondary text-primary"
                       : "bg-white/10 text-white/70 border border-white/10"
                   }`}
                 >
@@ -178,7 +178,7 @@ export function Step3Goal({ onFinish, onBack }: { onFinish: () => void; onBack: 
           </div>
 
           <div className="relative mt-3 bg-mint/15 border border-mint/25 rounded-2xl p-3 flex items-center gap-3">
-            <div className="h-9 w-9 rounded-xl bg-mint text-primary flex items-center justify-center shrink-0">
+            <div className="h-9 w-9 rounded-xl bg-secondary text-primary flex items-center justify-center shrink-0">
               <Target className="h-4 w-4" strokeWidth={2} />
             </div>
             <div className="flex-1 text-right">

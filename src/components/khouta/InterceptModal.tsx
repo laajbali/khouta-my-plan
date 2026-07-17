@@ -178,7 +178,7 @@ export function InterceptModal({
             <div className="absolute top-5 right-16 text-lg"></div>
             <div className="absolute top-10 left-16 text-base animate-pulse">⭐</div>
 
-            <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/15 flex items-center justify-center relative">
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center relative">
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
             <h2 className="mt-4 text-[17px] font-extrabold text-foreground tracking-tight">
@@ -191,7 +191,7 @@ export function InterceptModal({
 
           <div className="p-5 -mt-3">
             <div className="grid grid-cols-2 gap-2.5">
-              <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-mint/15" />
+              <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-secondary" />
               <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-600 bg-amber-50" />
             </div>
 
