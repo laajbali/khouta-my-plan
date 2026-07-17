@@ -1479,21 +1479,21 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
             background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
           }}
         >
-          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-black shrink-0 lowercase">
+          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-extrabold shrink-0 lowercase">
             noon
           </div>
           <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center gap-1.5 justify-start">
-              <p className="text-[11.5px] font-black text-foreground tracking-tight leading-tight">ميزة التجميد</p>
-              <span className="text-[8.5px] font-black text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
+              <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">ميزة التجميد</p>
+              <span className="text-[9px] font-bold text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
             </div>
-            <p className="text-[9.5px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
+            <p className="text-[10px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
               محاكاة نون — جرّب تدخّل خُطى قبل شراء اندفاعي
             </p>
           </div>
           <button
             onClick={() => setFreezeStage("noon")}
-            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[10.5px] active:scale-95 transition"
+            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[11px] active:scale-95 transition"
           >
             ابدأ
           </button>
