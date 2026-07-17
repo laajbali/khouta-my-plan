@@ -120,7 +120,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
             className={`flex ${m.role === "user" ? "justify-start" : "justify-end"}`}
           >
             <div
-              className={`max-w-[80%] px-4 py-2.5 text-sm leading-relaxed ${
+              className={`max-w-[80%] px-4 py-2.5 text-[13px] leading-relaxed font-medium ${
                 m.role === "user"
                   ? "bg-primary text-primary-foreground rounded-2xl rounded-bl-md"
                   : "bg-card border border-border text-foreground rounded-2xl rounded-br-md"
