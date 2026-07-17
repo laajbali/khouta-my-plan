@@ -193,14 +193,14 @@ export function HomeTab({
             icon={<Calendar className="h-5 w-5" strokeWidth={2} />}
             title="التقويم المالي"
             desc="مناسبة بعد 5 أيام"
-            tint="bg-primary/10 text-primary"
+            tint="bg-mint/15 text-primary"
             onClick={onOpenCalendar}
           />
           <FeatureCard
             icon={<Sparkles className="h-5 w-5" strokeWidth={2} />}
             title="المستشار المالي"
             desc="اسأل أي شيء"
-            tint="bg-primary/10 text-primary"
+            tint="bg-mint/15 text-primary"
             badge="AI"
             onClick={onOpenNoor}
           />
@@ -208,14 +208,14 @@ export function HomeTab({
             icon={<BarChart3 className="h-5 w-5" strokeWidth={2} />}
             title="التقارير"
             desc="أداء هذا الشهر"
-            tint="bg-primary/10 text-primary"
+            tint="bg-mint/15 text-primary"
             onClick={onOpenReports}
           />
           <FeatureCard
             icon={<Gift className="h-5 w-5" strokeWidth={2} />}
             title="المكافآت"
             desc="كوبون جديد بانتظارك"
-            tint="bg-primary/10 text-primary"
+            tint="bg-mint/15 text-primary"
             onClick={onOpenRewards}
           />
         </div>
