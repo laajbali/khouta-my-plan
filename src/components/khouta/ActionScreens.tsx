@@ -1740,16 +1740,16 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
       <div ref={scrollRef} className="flex-1 overflow-y-auto p-5 space-y-3">
         {reason && (
           <div className="rounded-[22px] bg-card border border-border p-4 shadow-sm text-center">
-            <p className="text-[10.5px] font-bold text-muted-foreground tracking-wider uppercase">
+            <p className="text-[10px] font-medium text-muted-foreground tracking-wider uppercase">
               {finished ? "انتهى الوقت!" : "الجلسة ستنتهي خلال"}
             </p>
             <p
-              className="text-[38px] font-black text-primary mt-1 leading-none"
+              className="text-[28px] font-bold text-primary mt-1 leading-none tracking-tight"
               style={{ fontVariantNumeric: "tabular-nums" }}
             >
               {mm}:{ss}
             </p>
-            <p className="text-[10.5px] font-semibold text-muted-foreground mt-1">
+            <p className="text-[10px] font-medium text-muted-foreground mt-1">
               {finished ? "القرار النهائي لك" : "دقائق متبقية"}
             </p>
             <div className="mt-3 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
