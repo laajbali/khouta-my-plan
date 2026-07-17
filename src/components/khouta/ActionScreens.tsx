@@ -286,7 +286,7 @@ export function QrPayScreen({ onBack }: { onBack: () => void }) {
           <QrCode className="h-20 w-20 text-primary/70" strokeWidth={1.2} />
           <div className="absolute inset-x-6 h-0.5 bg-primary shadow-[0_0_12px_hsl(var(--primary))] animate-pulse" />
         </div>
-        <p className="text-sm text-center text-muted-foreground max-w-xs leading-relaxed">
+        <p className="text-[13px] text-center text-muted-foreground max-w-xs leading-relaxed font-medium">
           وجّهي الكاميرا نحو رمز QR الخاص بالمتجر ليتم إتمام العملية
         </p>
         <div className="w-full max-w-xs space-y-2">
@@ -296,13 +296,13 @@ export function QrPayScreen({ onBack }: { onBack: () => void }) {
               setTimeout(onBack, 700);
             }}
           >
-            <span className="inline-flex items-center gap-2">
+            <span className="inline-flex items-center gap-2 text-[13px] font-extrabold">
               <Camera className="h-4 w-4" /> فتح الكاميرا
             </span>
           </PrimaryButton>
           <button
             onClick={onBack}
-            className="w-full text-xs font-semibold text-muted-foreground py-2"
+            className="w-full text-[11px] font-medium text-muted-foreground py-2"
           >
             إلغاء
           </button>
