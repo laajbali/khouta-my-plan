@@ -83,7 +83,7 @@ export function InterceptModal({
                 <X className="h-4 w-4" strokeWidth={2.2} />
               </button>
               <div className="flex items-center gap-2">
-                <span className="text-[13px] font-black tracking-tight">خُطى</span>
+                <span className="text-[13px] font-extrabold tracking-tight">خُطى</span>
                 <KhoutaLogo size={26} className="!rounded-lg" />
               </div>
             </div>
@@ -93,7 +93,7 @@ export function InterceptModal({
                 تدخل ذكي فوري
               </p>
             </div>
-            <h2 className="mt-1 text-[22px] font-black tracking-tight">
+            <h2 className="mt-1 text-[17px] font-extrabold tracking-tight">
               لحظة{firstName ? " يا " + firstName : ""}!
             </h2>
           </div>
