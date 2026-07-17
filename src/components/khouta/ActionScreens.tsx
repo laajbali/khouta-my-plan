@@ -1847,7 +1847,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               toast("متابعة الشراء — القرار لك");
               onExit();
             }}
-            className="w-full rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[13px] active:scale-[0.99] transition"
+            className="w-full rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.99] transition"
           >
             متابعة الشراء
           </button>
