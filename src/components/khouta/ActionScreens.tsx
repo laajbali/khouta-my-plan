@@ -841,7 +841,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
 
         <button
           onClick={openAdd}
-          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[12.5px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
+          className="w-full rounded-2xl bg-primary text-primary-foreground py-3 text-[13px] font-extrabold flex items-center justify-center gap-1.5 shadow-md shadow-primary/20 active:scale-[0.99] transition"
         >
           <Plus className="h-4 w-4" strokeWidth={2.5} />
           إضافة مناسبة
