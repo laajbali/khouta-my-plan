@@ -173,7 +173,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="اكتب سؤالك لنور..."
-            className="flex-1 bg-transparent outline-none text-sm text-right"
+            className="flex-1 bg-transparent outline-none text-[13px] font-medium text-right"
           />
         </form>
       </div>
