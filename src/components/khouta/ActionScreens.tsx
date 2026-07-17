@@ -1157,7 +1157,7 @@ function AddEventScreen({
                   }`}
                 >
                   <span className="text-xl">{k.icon}</span>
-                  <span className="text-[11px] font-bold">{k.label}</span>
+                  <span className="text-[11px] font-medium">{k.label}</span>
                 </button>
               );
             })}
