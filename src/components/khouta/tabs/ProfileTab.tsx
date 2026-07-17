@@ -225,6 +225,15 @@ export function ProfileTab({
           </div>
         </div>
 
+        <button
+          onClick={signOut}
+          dir="rtl"
+          className="w-full rounded-[20px] bg-destructive/10 border border-destructive/20 py-3.5 flex items-center justify-center gap-2 text-destructive font-extrabold text-[14px] tracking-tight active:scale-[0.99] transition"
+        >
+          <LogOut className="h-4 w-4" strokeWidth={2.4} />
+          <span>تسجيل الخروج</span>
+        </button>
+
       </div>
     </div>
   );
