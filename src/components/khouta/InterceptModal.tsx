@@ -251,7 +251,7 @@ function RewardStat({
   return (
     <div className={`rounded-2xl p-3 text-right ${tone}`}>
       <p className="text-[10px] font-bold opacity-80">{label}</p>
-      <p className="text-[18px] font-black mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="text-[18px] font-bold mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
         {value}
         {suffix && <span className="text-[10px] font-bold mr-1">{suffix}</span>}
       </p>
