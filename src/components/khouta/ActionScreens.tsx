@@ -524,7 +524,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               <Icon className="h-6 w-6" />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white/70 text-xs">هدفك</p>
+              <p className="text-white/70 text-[11px] font-medium">هدفك</p>
               {editing ? (
                 <input
                   value={editTitle}
@@ -533,13 +533,13 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
                   placeholder="اسم الهدف"
                 />
               ) : (
-                <h3 className="font-bold text-lg truncate">{goal.title}</h3>
+                <h3 className="font-extrabold text-[17px] tracking-tight truncate">{goal.title}</h3>
               )}
             </div>
             <button
               onClick={editing ? saveEdit : startEdit}
               disabled={savingEdit}
-              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-black active:scale-95 transition disabled:opacity-60"
+              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-extrabold active:scale-95 transition disabled:opacity-60"
             >
               {editing ? (savingEdit ? "..." : "حفظ") : "تعديل"}
             </button>
