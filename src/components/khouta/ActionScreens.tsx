@@ -866,7 +866,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
 
           <div className="grid grid-cols-7 gap-1 mb-2" dir="rtl">
             {WEEK_DAYS.map((d) => (
-              <div key={d} className="text-center text-[9.5px] font-bold text-muted-foreground py-1">
+              <div key={d} className="text-center text-[10px] font-bold text-muted-foreground py-1">
                 {d.slice(0, 3)}
               </div>
             ))}
