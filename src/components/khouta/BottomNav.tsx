@@ -49,7 +49,7 @@ export function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab
                   </span>
                 )}
               </div>
-              <span className={`text-[10px] transition-colors ${isActive ? "text-primary font-black" : "text-muted-foreground font-bold"}`}>
+              <span className={`text-[10px] transition-colors ${isActive ? "text-primary font-extrabold" : "text-muted-foreground font-medium"}`}>
                 {t.label}
               </span>
             </button>
