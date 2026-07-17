@@ -37,7 +37,7 @@ export function BankConnect({
         <button onClick={onBack} className="h-10 w-10 rounded-2xl bg-secondary flex items-center justify-center">
           <ChevronRight className="h-5 w-5 text-foreground" />
         </button>
-        <h1 className="text-lg font-bold text-foreground">الربط البنكي</h1>
+        <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الربط البنكي</h1>
         <div className="w-10" />
       </div>
 
