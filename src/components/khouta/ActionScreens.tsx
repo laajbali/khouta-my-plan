@@ -1415,7 +1415,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
               <Sparkles className="h-8 w-8" strokeWidth={2} />
             </div>
           </div>
-          <p className="text-[11px] font-medium text-mint tracking-[0.2em] uppercase">
+          <p className="text-[12px] font-semibold text-foreground tracking-tight">
             الرادار يعمل الآن
           </p>
           <h3 className="text-[17px] font-extrabold text-foreground tracking-tight">
@@ -1449,8 +1449,8 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           className="rounded-[24px] p-4 text-right shadow-sm border"
           style={{
             background:
-              "linear-gradient(140deg, oklch(0.97 0.06 85) 0%, oklch(0.99 0.02 85) 100%)",
-            borderColor: "oklch(0.85 0.10 85 / 0.5)",
+              "linear-gradient(140deg, oklch(0.985 0.025 85) 0%, oklch(0.995 0.01 85) 100%)",
+            borderColor: "oklch(0.91 0.05 85 / 0.4)",
           }}
         >
           <div className="flex items-center gap-2 justify-end mb-2">
@@ -1481,11 +1481,11 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           <div className="h-9 w-9 rounded-xl bg-yellow-400 text-neutral-900 flex items-center justify-center text-[10px] font-extrabold shrink-0 lowercase">
             noon
           </div>
-          <div className="flex-1 min-w-0 text-right">
+          <div className="flex-1 min-w-0 text-right flex flex-col justify-center">
             <p className="text-[14px] font-extrabold text-foreground tracking-tight leading-tight">
               ميزة التجميد
             </p>
-            <p className="text-[11px] text-muted-foreground font-medium mt-1 leading-relaxed">
+            <p className="text-[11px] text-muted-foreground font-medium mt-1 leading-snug">
               محاكاة نون — جرّب تدخّل خُطى قبل شراء اندفاعي
             </p>
           </div>
@@ -1513,8 +1513,8 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
         <div className="w-9" />
       </div>
       <div className="bg-yellow-400 px-4 pb-4 shrink-0">
-        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2.5 h-10">
-          <span className="text-[12px] text-neutral-500 font-medium leading-none">ابحث في نون</span>
+        <div className="flex items-center gap-2 bg-white rounded-full px-4 h-10">
+          <span className="text-[12px] text-neutral-500 font-medium flex items-center h-full">ابحث في نون</span>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
@@ -1535,7 +1535,7 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
           </div>
           <button
             onClick={onBuy}
-            className="mt-6 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold py-4 text-[13px] active:scale-[0.99] transition shadow-lg"
+            className="mt-6 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold text-[13px] tracking-tight h-13 flex items-center justify-center active:scale-[0.99] transition shadow-lg"
           >
             شراء الآن
           </button>
