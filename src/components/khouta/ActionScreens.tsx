@@ -215,7 +215,7 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="سداد الفواتير" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-4">
-        <p className="text-xs text-muted-foreground text-right">اختر نوع الفاتورة</p>
+        <p className="text-[11px] text-muted-foreground text-right font-medium">اختر نوع الفاتورة</p>
         <div className="grid grid-cols-2 gap-3">
           {BILLS.map((b) => {
             const Icon = b.icon;
@@ -233,9 +233,9 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center ${b.tint} mb-3`}>
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
                 </div>
-                <p className="text-sm font-bold text-foreground">{b.label}</p>
+                <p className="text-[13px] font-extrabold text-foreground tracking-tight">{b.label}</p>
                 <p
-                  className="text-[11px] text-muted-foreground mt-0.5"
+                  className="text-[11px] text-muted-foreground mt-0.5 font-medium"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
                   المستحق: {b.amount} ر.س
@@ -248,13 +248,16 @@ export function PayBillsScreen({ onBack }: { onBack: () => void }) {
         {bill && (
           <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
             <div className="flex justify-between items-center">
-              <span
-                className="text-lg font-bold text-foreground"
-                style={{ fontVariantNumeric: "tabular-nums" }}
-              >
-                {bill.amount} ر.س
-              </span>
-              <span className="text-sm font-semibold text-foreground">{bill.label}</span>
+              <div className="text-right">
+                <p
+                  className="text-[22px] font-bold text-foreground tracking-tight leading-none"
+                  style={{ fontVariantNumeric: "tabular-nums" }}
+                >
+                  {bill.amount}
+                </p>
+                <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س</p>
+              </div>
+              <span className="text-[13px] font-extrabold text-foreground tracking-tight">{bill.label}</span>
             </div>
             <PrimaryButton
               onClick={() => {
