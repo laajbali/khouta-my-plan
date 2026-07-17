@@ -830,10 +830,10 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
             <CalIcon className="h-5 w-5" strokeWidth={2} style={{ color: "oklch(0.45 0.15 85)" }} />
           </div>
           <div className="flex-1 text-right min-w-0">
-            <p className="text-[12.5px] font-extrabold text-foreground tracking-tight">
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">
               لديك مناسبة بعد 5 أيام
             </p>
-            <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">
+            <p className="text-[11px] text-muted-foreground font-medium mt-0.5">
               تم تعديل خطة الادخار تلقائياً • وفّرنا لك 250 ر.س قبل المناسبة
             </p>
           </div>
