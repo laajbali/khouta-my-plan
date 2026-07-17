@@ -1342,7 +1342,7 @@ export function GoalsListScreen({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{g.title}</p>
-                    <p className="text-[10.5px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                    <p className="text-[11px] text-muted-foreground mt-0.5 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
                       {saved.toLocaleString()} / {target.toLocaleString()} ر.س • {percent}%
                     </p>
                   </div>
