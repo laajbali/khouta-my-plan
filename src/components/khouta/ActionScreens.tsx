@@ -1187,7 +1187,7 @@ function AddEventScreen({
             <button
               type="button"
               onClick={() => setCashFlow("out")}
-              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+              className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                 cashFlow === "out"
                   ? "bg-destructive/10 text-destructive border-destructive/30"
                   : "bg-card border-border text-muted-foreground"
@@ -1198,7 +1198,7 @@ function AddEventScreen({
             <button
               type="button"
               onClick={() => setCashFlow("in")}
-              className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+              className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                 cashFlow === "in"
                   ? "bg-mint/10 text-primary border-mint/30"
                   : "bg-card border-border text-muted-foreground"
