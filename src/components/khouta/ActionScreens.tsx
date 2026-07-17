@@ -1883,10 +1883,31 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
   return (
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="محادثة ريما المالية" onBack={onBack} />
-      <div className="bg-card border-b border-border px-5 pt-1 pb-2 text-center">
-        <p className="text-[11px] font-medium text-muted-foreground" dir="rtl">
-          أنت: 68%  •  ريما: 45%
-        </p>
+      <div className="bg-card border-b border-border px-4 py-1.5" dir="rtl">
+        <div className="space-y-0.5">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-semibold text-foreground min-w-[3.5rem] text-right leading-none">
+              أنت (ساره)
+            </span>
+            <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+              <div className="h-full bg-mint rounded-full" style={{ width: "68%" }} />
+            </div>
+            <span className="text-[10px] font-bold text-mint min-w-[1.5rem] text-left leading-none">
+              68%
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-semibold text-foreground min-w-[3.5rem] text-right leading-none">
+              ريما (الصديق)
+            </span>
+            <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+              <div className="h-full bg-gold rounded-full" style={{ width: "45%" }} />
+            </div>
+            <span className="text-[10px] font-bold text-gold min-w-[1.5rem] text-left leading-none">
+              45%
+            </span>
+          </div>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto">
