@@ -817,8 +817,8 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
           <ChevronRight className="h-5 w-5 text-foreground" />
         </button>
         <div className="text-center">
-          <h2 className="text-[16px] font-extrabold text-foreground tracking-tight">التقويم المالي</h2>
-          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">خطّطي اليوم لمستقبل أفضل</p>
+          <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">التقويم المالي</h2>
+          <p className="text-[11px] text-muted-foreground font-medium mt-0.5">خطّطي اليوم لمستقبل أفضل</p>
         </div>
         <div className="w-10" />
       </div>
