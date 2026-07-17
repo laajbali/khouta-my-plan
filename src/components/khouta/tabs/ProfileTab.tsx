@@ -226,7 +226,7 @@ export function ProfileTab({
             <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
-            <p className="font-extrabold text-foreground text-[13px] tracking-tight">أمان بياناتك أولويتنا</p>
+            <p className="font-extrabold text-foreground text-[14px] tracking-tight">أمان بياناتك أولويتنا</p>
             <p className="text-[11px] text-muted-foreground font-medium">تشفير كامل ومعايير حماية بنكية</p>
           </div>
         </div>
@@ -234,7 +234,7 @@ export function ProfileTab({
         <button
           onClick={signOut}
           dir="rtl"
-          className="w-full rounded-[20px] bg-destructive/10 border border-destructive/20 py-3.5 flex items-center justify-center gap-2 text-destructive font-extrabold text-[14px] tracking-tight active:scale-[0.99] transition"
+          className="w-full rounded-[20px] bg-destructive/10 border border-destructive/20 py-3.5 flex items-center justify-center gap-2 text-destructive font-extrabold text-[13px] tracking-tight active:scale-[0.99] transition"
         >
           <LogOut className="h-4 w-4" strokeWidth={2.4} />
           <span>تسجيل الخروج</span>
