@@ -11,7 +11,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
   const [customOpen, setCustomOpen] = useState(false);
 
   return (
-    <div className="flex flex-col h-full bg-[oklch(0.99_0.005_90)]">
+    <div className="flex flex-col h-full bg-white">
       {/* Header */}
       <div className="px-5 pt-5 pb-3 flex items-center justify-between shrink-0">
         <button
