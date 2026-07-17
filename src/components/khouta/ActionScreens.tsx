@@ -1070,13 +1070,13 @@ function MiniStat({
       } ${clickable ? "active:scale-[0.98]" : ""}`}
     >
       <p
-        className={`text-[15px] font-black ${active ? "text-primary-foreground" : "text-primary"}`}
+        className={`text-[15px] font-bold tracking-tight ${active ? "text-primary-foreground" : "text-primary"}`}
         style={{ fontVariantNumeric: "tabular-nums" }}
       >
         {value}
-        {suffix && <span className="text-[9px] mr-1 font-bold">{suffix}</span>}
+        {suffix && <span className="text-[9px] mr-1 font-medium">{suffix}</span>}
       </p>
-      <p className={`text-[9px] font-bold mt-0.5 ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+      <p className={`text-[9px] font-medium mt-0.5 ${active ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
         {label}
       </p>
     </button>
