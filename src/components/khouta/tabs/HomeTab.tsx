@@ -447,7 +447,7 @@ function FeatureCard({
         )}
       </div>
       <h4 className="font-extrabold text-foreground text-[14px] tracking-tight">{title}</h4>
-      <p className="text-[10.5px] text-muted-foreground mt-1 font-medium">{desc}</p>
+      <p className="text-[11px] text-muted-foreground mt-1 font-medium">{desc}</p>
       <ChevronLeft className="h-3 w-3 text-muted-foreground/70 absolute bottom-3 left-3" strokeWidth={2.5} />
     </button>
   );
