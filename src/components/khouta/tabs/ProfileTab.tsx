@@ -27,7 +27,7 @@ import { toast } from "sonner";
 const PREFERENCES = [
   { icon: Bell, label: "الإشعارات", value: "إدارة التنبيهات", tint: "bg-primary/10 text-primary", action: "فتح إعدادات التنبيهات" },
   { icon: Globe, label: "اللغة", value: "العربية", tint: "bg-primary/10 text-primary", action: "تغيير لغة التطبيق قريباً" },
-  { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-destructive/10 text-destructive", action: "فتح إعدادات الأمان" },
+  { icon: Lock, label: "الأمان", value: "إعدادات الحماية", tint: "bg-secondary text-muted-foreground", action: "فتح إعدادات الأمان" },
   { icon: DollarSign, label: "العملة", value: "ريال سعودي", tint: "bg-primary/10 text-primary", action: "العملة الحالية: ريال سعودي" },
   { icon: Sun, label: "طريقة العرض", value: "الوضع الفاتح", tint: "bg-primary/10 text-primary", action: "تبديل الوضع الليلي قريباً" },
   { icon: Info, label: "عن خُطى", value: "الإصدار 1.0.0", tint: "bg-primary/10 text-primary", action: "خُطى — رفيقتك المالية الذكية" },
@@ -115,7 +115,7 @@ export function ProfileTab({
       icon: ShieldAlert,
       label: "الخصوصية والأمان",
       desc: "إدارة كلمة المرور والحماية",
-      tint: "bg-destructive/10 text-destructive",
+      tint: "bg-secondary text-muted-foreground",
       onClick: () => toast("فتح إعدادات الخصوصية والأمان"),
     },
     {
