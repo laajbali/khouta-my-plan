@@ -944,12 +944,12 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                   <div className="flex-1 text-right min-w-0">
                     <div className="flex items-center justify-end gap-1.5">
                       {e.status === "new" && (
-                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-primary text-primary-foreground">
                           جديد
                         </span>
                       )}
                       {e.status === "today" && (
-                        <span className="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
                           اليوم
                         </span>
                       )}
@@ -957,7 +957,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                         {e.title}
                       </p>
                     </div>
-                    <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
+                    <p className="text-[11px] text-muted-foreground font-medium mt-0.5">{e.subtitle}</p>
                   </div>
                   <div className="h-11 w-11 rounded-2xl bg-secondary flex items-center justify-center text-xl shrink-0">
                     {e.icon}
