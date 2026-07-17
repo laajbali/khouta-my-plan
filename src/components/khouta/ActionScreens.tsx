@@ -1933,10 +1933,10 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                 className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed font-medium ${
                     m.from === "me"
-                      ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
-                      : "bg-secondary text-foreground rounded-bl-sm font-medium border border-border"
+                      ? "bg-primary text-primary-foreground rounded-br-sm"
+                      : "bg-secondary text-foreground rounded-bl-sm border border-border"
                   }`}
                 >
                   {m.text} {m.emoji ?? ""}
