@@ -258,10 +258,10 @@ export function HomeTab({
             className="h-9 w-9 rounded-xl object-contain bg-white/60 p-0.5 shrink-0"
           />
           <div className="flex-1 min-w-0 text-right">
-            <p className="text-[11.5px] font-black text-foreground tracking-tight leading-tight truncate">
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight truncate">
               العطاء لا يوقف رحلتك نحو هدفك..
             </p>
-            <p className="text-[9.5px] text-foreground/70 font-medium mt-0.5 leading-tight truncate">
+            <p className="text-[11px] text-foreground/70 font-medium mt-0.5 leading-tight truncate">
               فربما يكون سبباً في بركة ما تملك.
             </p>
           </div>
