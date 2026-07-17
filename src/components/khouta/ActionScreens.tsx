@@ -1424,14 +1424,9 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Insight */}
-        <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm text-right space-y-2">
-          <div className="flex items-center gap-2 justify-end">
-            <p className="text-[14px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
-            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-primary bg-mint/15 rounded-lg px-2 py-0.5">
-              رادار
-            </span>
-          </div>
-          <p className="text-[11px] text-foreground/85 leading-relaxed font-medium">
+        <div dir="rtl" className="rounded-[24px] bg-card border border-border p-4 shadow-sm text-right space-y-2">
+          <p className="text-[14px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
+          <p className="text-[11px] text-foreground/85 leading-relaxed font-medium text-right">
             تم ملاحظة زيادة بنسبة{" "}
             <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
               85%
