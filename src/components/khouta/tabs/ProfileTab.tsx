@@ -108,7 +108,7 @@ export function ProfileTab({
       icon: SettingsIcon,
       label: "الإعدادات",
       desc: "التنبيهات، اللغة، العملة والمزيد",
-      tint: "bg-primary/10 text-primary",
+      tint: "bg-secondary text-muted-foreground",
       onClick: () => setView("settings"),
     },
     {
@@ -122,7 +122,7 @@ export function ProfileTab({
       icon: LifeBuoy,
       label: "المساعدة",
       desc: "الأسئلة الشائعة وتواصل معنا",
-      tint: "bg-primary/10 text-primary",
+      tint: "bg-secondary text-muted-foreground",
       onClick: () => toast("فتح مركز المساعدة"),
     },
   ];

@@ -73,9 +73,9 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
           <div className="flex-1 text-right">
             <p className="text-[11px] text-muted-foreground font-medium">إجمالي ما وفرتِه</p>
             <p className="text-[22px] font-bold text-foreground mt-0.5 leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {totalSaved.toLocaleString()}<span className="text-[13px] font-semibold text-mint mr-2">ر.س</span>
+              {totalSaved.toLocaleString()}<span className="text-[13px] font-semibold text-foreground mr-2">ر.س</span>
             </p>
-            <p className="text-[11px] text-mint font-semibold mt-1.5 flex items-center gap-1 justify-end">
+            <p className="text-[11px] text-muted-foreground font-semibold mt-1.5 flex items-center gap-1">
               {rewardsCount} مكافآت متاحة
               <Gift className="h-3 w-3" strokeWidth={2} />
             </p>
@@ -182,7 +182,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                           <p className={`font-extrabold text-[12px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
                             خصم على {c.target} في {c.brand}
                           </p>
-                          <p className="text-[11px] text-mint font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className="text-[11px] text-muted-foreground font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
                             حد أدنى {c.min} ر.س
                           </p>
                           <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
