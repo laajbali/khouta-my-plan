@@ -358,17 +358,17 @@ function GoalCarouselCard({
 
         <div className="mt-3 flex items-center gap-2">
           <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">تبقى</p>
-            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <p className="text-[10px] text-white/60 font-medium tracking-wider">تبقى</p>
+            <p className="text-[13px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
               {remaining.toLocaleString()}
-              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+              <span className="text-[9px] text-white/60 font-medium mr-1">ر.س</span>
             </p>
           </div>
           <div className="flex-1 rounded-xl bg-white/8 border border-white/10 px-3 py-2 text-right">
-            <p className="text-[9px] text-white/60 font-bold uppercase tracking-wider">الهدف</p>
-            <p className="text-[13px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <p className="text-[10px] text-white/60 font-medium tracking-wider">الهدف</p>
+            <p className="text-[13px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
               {target.toLocaleString()}
-              <span className="text-[9px] text-white/60 font-bold mr-1">ر.س</span>
+              <span className="text-[9px] text-white/60 font-medium mr-1">ر.س</span>
             </p>
           </div>
           <button
