@@ -383,7 +383,7 @@ export function StatementScreen({ onBack }: { onBack: () => void }) {
           <button
             key={f.k}
             onClick={() => setFilter(f.k as typeof filter)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold ${
+            className={`px-4 py-1.5 rounded-full text-[11px] font-extrabold ${
               filter === f.k
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-muted-foreground"
