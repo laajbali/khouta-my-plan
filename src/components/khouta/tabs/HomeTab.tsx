@@ -72,7 +72,7 @@ export function HomeTab({
       <div className="pt-6 px-5 pb-3 flex justify-between items-center bg-card" dir="rtl">
         <button
           onClick={onOpenProfile}
-          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-base shadow-sm active:scale-95 transition"
+          className="w-11 h-11 rounded-2xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center text-primary-foreground font-extrabold text-[13px] shadow-sm active:scale-95 transition"
           aria-label="الحساب"
         >
           {initial}
