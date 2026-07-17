@@ -281,7 +281,7 @@ function MerchantSim({
 
         <button
           onClick={() => onCheckout(total)}
-          className={`mt-5 w-full rounded-full ${m.ctaBg} ${m.ctaText} font-black py-4 text-[14px] flex items-center justify-center gap-2 active:scale-[0.99] transition shadow-lg`}
+          className={`mt-5 w-full rounded-full ${m.ctaBg} ${m.ctaText} font-extrabold py-4 text-[13px] flex items-center justify-center gap-2 active:scale-[0.99] transition shadow-lg`}
         >
           <ShoppingCart className="h-4 w-4" strokeWidth={2.5} />
           إضافة للسلة — {total} ريال
