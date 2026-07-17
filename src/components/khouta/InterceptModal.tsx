@@ -89,7 +89,7 @@ export function InterceptModal({
             </div>
             <div className="mt-3 flex items-center gap-2">
               <span className="h-2 w-2 rounded-full bg-mint animate-pulse" />
-              <p className="text-[10px] font-bold text-mint tracking-[0.2em] uppercase">
+              <p className="text-[10px] font-medium text-mint tracking-wide uppercase">
                 تدخل ذكي فوري
               </p>
             </div>
@@ -127,9 +127,9 @@ export function InterceptModal({
             {/* Goal progress preview */}
             <div className="mt-4 rounded-2xl bg-secondary/60 border border-border p-3.5">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold text-muted-foreground">
+                <span className="text-[11px] font-medium text-muted-foreground">
                   متبقٍ{" "}
-                  <span className="text-foreground font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-foreground font-extrabold" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
@@ -141,7 +141,7 @@ export function InterceptModal({
                   style={{ width: `${Math.round((savedBase / target) * 100)}%` }}
                 />
               </div>
-              <p className="mt-1.5 text-[10px] font-bold text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <p className="mt-1.5 text-[10px] font-medium text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {Math.round((savedBase / target) * 100)}% من الهدف
               </p>
             </div>
