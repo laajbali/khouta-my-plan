@@ -69,7 +69,7 @@ function Field({
 }
 
 const inputCls =
-  "w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 focus:bg-card outline-none px-4 text-sm text-right transition";
+  "w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 focus:bg-card outline-none px-4 text-[13px] font-medium text-right transition";
 
 function PrimaryButton({
   children,
