@@ -93,8 +93,8 @@ export function ProfileTab({
                     <Icon className="h-4 w-4" strokeWidth={2} />
                   </div>
                   <div className="flex-1 text-right min-w-0">
-                    <p className="font-extrabold text-foreground text-[12px] tracking-tight truncate">{s.label}</p>
-                    <p className="text-[10px] text-muted-foreground truncate font-medium">{s.value}</p>
+                    <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{s.label}</p>
+                    <p className="text-[11px] text-muted-foreground truncate font-medium">{s.value}</p>
                   </div>
                   <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
                 </button>
