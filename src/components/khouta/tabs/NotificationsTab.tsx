@@ -147,7 +147,7 @@ export function NotificationsTab({
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
-            <p className="text-[12px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
             <div className="mt-1 flex items-center gap-1.5 flex-wrap">
               <Badge icon={<Zap className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اعتراض فوري" tint="text-primary bg-primary/10" />
               <Badge icon={<ShieldCheck className="h-2.5 w-2.5" strokeWidth={2.5} />} label="حماية الهدف" tint="text-mint bg-mint/15" />
