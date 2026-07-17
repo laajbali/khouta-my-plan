@@ -90,12 +90,12 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
               if (error) toast.error(error.message);
               else toast.success("أرسلنا رابط إعادة التعيين إلى بريدك");
             }}
-            className="text-primary text-[11.5px] font-bold hover:underline"
+            className="text-primary text-[11px] font-bold hover:underline"
           >
             هل نسيت كلمة المرور؟
           </button>
           <label className="flex items-center gap-1.5 cursor-pointer select-none">
-            <span className="text-[11.5px] font-semibold text-muted-foreground">تذكرني</span>
+            <span className="text-[11px] font-medium text-muted-foreground">تذكرني</span>
             <button
               type="button"
               onClick={() => setRemember((v) => !v)}
