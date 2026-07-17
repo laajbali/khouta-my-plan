@@ -181,13 +181,13 @@ export function ProfileTab({
               onClick={() => toast("قريباً: تعديل الاسم")}
               className="flex items-center gap-1.5 w-full justify-start"
             >
-              <h2 className="text-[18px] font-black tracking-tight break-words min-w-0">{displayName}</h2>
+              <h2 className="text-[17px] font-extrabold tracking-tight break-words min-w-0">{displayName}</h2>
               <Edit className="h-3.5 w-3.5 text-mint shrink-0" strokeWidth={2} />
             </button>
-            <p className="text-[11.5px] text-white/70 mt-1 font-medium break-all text-start">
+            <p className="text-[11px] text-white/70 mt-1 font-medium break-all text-start">
               {user?.email ?? ""}
             </p>
-            <p className="text-[11px] text-mint mt-2 font-semibold tracking-tight text-start">
+            <p className="text-[11px] text-mint mt-2 font-medium tracking-tight text-start">
               مستقبلك المالي بين يديك
             </p>
           </div>
