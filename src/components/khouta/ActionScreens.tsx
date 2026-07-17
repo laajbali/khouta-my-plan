@@ -136,7 +136,7 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
                 }}
                 className="shrink-0 flex flex-col items-center gap-1.5 w-16"
               >
-                <div className="h-14 w-14 rounded-2xl bg-secondary text-primary flex items-center justify-center font-extrabold text-[14px]">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-extrabold text-[14px]">
                   {r.name[0]}
                 </div>
                 <span className="text-[10px] text-foreground truncate w-full text-center font-medium">
@@ -469,7 +469,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
       <div className="flex flex-col h-full bg-background">
         <ScreenHeader title="تفاصيل الهدف" onBack={onBack} />
         <div className="flex-1 flex flex-col items-center justify-center gap-3 p-8 text-center">
-          <div className="h-16 w-16 rounded-2xl bg-secondary flex items-center justify-center">
+          <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
             <Target className="h-7 w-7 text-primary" />
           </div>
           <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا يوجد هدف حالياً</p>
@@ -1306,7 +1306,7 @@ export function GoalsListScreen({
 
         {!loading && goals.length === 0 && (
           <div className="rounded-2xl border border-dashed border-border bg-card p-6 text-center space-y-3">
-            <div className="mx-auto h-14 w-14 rounded-2xl bg-secondary flex items-center justify-center">
+            <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
               <Target className="h-6 w-6 text-primary" />
             </div>
             <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا توجد أهداف بعد</p>
@@ -1340,7 +1340,7 @@ export function GoalsListScreen({
                   onClick={() => onOpenGoal(g.id)}
                   className="flex-1 flex items-center gap-3 text-right min-w-0 active:scale-[0.99] transition"
                 >
-                  <div className="h-11 w-11 rounded-2xl bg-secondary text-primary flex items-center justify-center shrink-0">
+                  <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
                     <Icon className="h-5 w-5" strokeWidth={1.8} />
                   </div>
                   <div className="flex-1 min-w-0">

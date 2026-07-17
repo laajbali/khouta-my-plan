@@ -34,7 +34,7 @@ type Alert = {
 const GREEN_TONE = "text-primary bg-secondary";
 const GREEN_ICON = "bg-secondary text-primary";
 const WARN_TONE = "text-white bg-[#EF4444]";
-const WARN_ICON = "bg-destructive/10 text-destructive";
+const WARN_ICON = "bg-secondary text-primary";
 
 const ALERTS: Alert[] = [
   { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },

@@ -149,13 +149,13 @@ export function InterceptModal({
             <div className="mt-4 flex gap-2">
               <button
                 onClick={onProceed}
-                className="flex-1 rounded-xl bg-secondary text-foreground font-extrabold h-10 text-[10.5px] active:scale-[0.98] transition whitespace-nowrap flex items-center justify-center"
+                className="flex-1 rounded-xl bg-secondary text-foreground font-extrabold py-2.5 text-[11.5px] active:scale-[0.98] transition whitespace-nowrap"
               >
                 المتابعة رغم ذلك
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-xl bg-foreground text-background font-extrabold h-10 text-[10.5px] shadow-lg active:scale-[0.98] transition whitespace-nowrap flex items-center justify-center"
+                className="flex-1 rounded-xl bg-foreground text-background font-extrabold py-2.5 text-[11.5px] shadow-lg active:scale-[0.98] transition whitespace-nowrap"
               >
                 إلغاء وتوفير {amount} ر.س
               </button>
@@ -164,51 +164,56 @@ export function InterceptModal({
         </div>
 
       ) : (
-        <div className="relative w-full max-w-[320px] bg-card rounded-[22px] shadow-2xl animate-scale-in overflow-hidden">
-          {/* Soft mint top */}
+        <div className="relative w-full bg-card rounded-[28px] shadow-2xl animate-scale-in overflow-hidden">
+          {/* Confetti-ish top */}
           <div
-            className="relative px-4 pt-4 pb-5 text-center overflow-hidden"
+            className="relative px-5 pt-6 pb-8 text-center overflow-hidden"
             style={{
               background:
                 "linear-gradient(180deg, oklch(0.985 0.02 155) 0%, oklch(0.995 0.005 155) 100%)",
             }}
           >
-            <div className="mx-auto w-12 h-12 rounded-2xl bg-secondary flex items-center justify-center relative">
-              <Gift className="h-6 w-6 text-primary" strokeWidth={2} />
+            <div className="absolute top-3 left-6 text-lg animate-bounce"></div>
+            <div className="absolute top-8 right-5 text-base animate-pulse"></div>
+            <div className="absolute top-5 right-16 text-lg"></div>
+            <div className="absolute top-10 left-16 text-base animate-pulse">⭐</div>
+
+            <div className="mx-auto w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center relative">
+              <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
-            <h2 className="mt-2.5 text-[14px] font-extrabold text-foreground tracking-tight">
+            <h2 className="mt-4 text-[17px] font-extrabold text-foreground tracking-tight">
               أحسنت{firstName ? " يا " + firstName : ""}!
             </h2>
-            <p className="mt-1 text-[10px] text-muted-foreground font-medium max-w-[220px] mx-auto leading-snug">
+            <p className="mt-1.5 text-[11px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-snug">
               قرارك الذكي اليوم يصنع مستقبلك غداً
             </p>
           </div>
 
-          <div className="p-3.5 -mt-2">
-            <div className="grid grid-cols-2 gap-2">
+          <div className="p-5 -mt-3">
+            <div className="grid grid-cols-2 gap-2.5">
               <RewardStat label="وفّرت اليوم" value={`${amount}`} suffix="ر.س" tone="text-primary bg-secondary" />
               <RewardStat label="اقتربت من هدفك" value={`${percentAfter}%`} tone="text-amber-600 bg-amber-50" />
             </div>
 
-            <div className="mt-2 rounded-2xl border-2 border-dashed border-primary/40 bg-mint/5 p-2.5">
+            <div className="mt-3 rounded-2xl border-2 border-dashed border-primary/40 bg-mint/5 p-3.5">
               <div className="flex items-center gap-2 justify-end">
-                <p className="text-[9.5px] font-medium text-foreground">تمت إضافة مكافأة جديدة</p>
-                <Sparkles className="h-3 w-3 text-primary" strokeWidth={2.2} />
+                <p className="text-[11px] font-medium text-foreground">تمت إضافة مكافأة جديدة</p>
+                <Sparkles className="h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
               </div>
-              <p className="text-center text-[13px] font-extrabold text-primary mt-1 tracking-tight leading-snug">
+              <p className="text-center text-[16px] font-extrabold text-primary mt-1.5 tracking-tight leading-snug">
                 كوبون خصم 20%
               </p>
-              <div className="mt-1.5 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-1.5">
+              <div className="mt-2.5 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2">
                 <button
                   onClick={copyCode}
-                  className="h-6 w-6 rounded-lg bg-secondary text-primary flex items-center justify-center active:scale-95 transition"
+                  className="h-7 w-7 rounded-lg bg-primary/10 text-primary flex items-center justify-center active:scale-95 transition"
                   aria-label="نسخ الكود"
                 >
-                  {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                  {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 </button>
                 <span
                   dir="ltr"
-                  className="flex-1 text-center font-extrabold text-foreground tracking-tight text-[11px]"
+                  className="flex-1 text-center font-extrabold text-foreground tracking-tight text-[13px]"
                 >
                   {code}
                 </span>
@@ -224,9 +229,9 @@ export function InterceptModal({
                 onCancel();
                 onComplete?.();
               }}
-              className="mt-2.5 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold h-10 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[11.5px] leading-snug"
+              className="mt-4 w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 shadow-lg shadow-primary/30 active:scale-[0.98] transition flex items-center justify-center gap-2 text-[13px] leading-snug"
             >
-              <ShieldCheck className="h-3.5 w-3.5" strokeWidth={2.2} />
+              <ShieldCheck className="h-4 w-4" strokeWidth={2.2} />
               رائع، أكمل
             </button>
           </div>
@@ -248,11 +253,11 @@ function RewardStat({
   tone: string;
 }) {
   return (
-    <div className={`rounded-2xl p-2.5 text-right ${tone}`}>
-      <p className="text-[9.5px] font-medium opacity-90 leading-snug">{label}</p>
-      <p className="text-[16px] font-extrabold mt-1 tracking-tight leading-snug" style={{ fontVariantNumeric: "tabular-nums" }}>
+    <div className={`rounded-2xl p-3 text-right ${tone}`}>
+      <p className="text-[10px] font-medium opacity-90 leading-snug">{label}</p>
+      <p className="text-[18px] font-extrabold mt-1 tracking-tight leading-snug" style={{ fontVariantNumeric: "tabular-nums" }}>
         {value}
-        {suffix && <span className="text-[9px] font-medium mr-1">{suffix}</span>}
+        {suffix && <span className="text-[10px] font-medium mr-1">{suffix}</span>}
       </p>
     </div>
   );
