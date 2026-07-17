@@ -664,7 +664,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
       <ScreenHeader title="هدف جديد" onBack={onBack} />
       <form onSubmit={save} className="flex-1 overflow-y-auto p-5 space-y-5">
         <div>
-          <p className="text-xs font-semibold text-muted-foreground mb-2 text-right">نوع الهدف</p>
+          <p className="text-[11px] font-medium text-muted-foreground mb-2 text-right">نوع الهدف</p>
           <div className="grid grid-cols-3 gap-2">
             {GOAL_TYPES.map((g) => {
               const Icon = g.icon;
@@ -681,7 +681,7 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
                   }`}
                 >
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
-                  <span className="text-[11px] font-semibold">{g.label}</span>
+                  <span className="text-[11px] font-medium">{g.label}</span>
                 </button>
               );
             })}
