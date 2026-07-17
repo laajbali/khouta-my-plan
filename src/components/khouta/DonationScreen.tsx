@@ -38,25 +38,19 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Ayah card */}
-        <div
-          className="rounded-[20px] p-4 text-center"
-          style={{
-            background: "oklch(0.99 0.01 90)",
-            border: "1.5px solid oklch(0.82 0.12 80 / 0.45)",
-          }}
-        >
+        <div className="rounded-[20px] p-4 text-center bg-mint/5 border-[1.5px] border-mint/30">
           <p className="text-[15px] font-black text-foreground leading-loose" dir="rtl">
             ﴿ وَما تُقَدِّموا لِأَنفُسِكُم مِن خَيرٍ تَجِدوهُ عِندَ اللَّه ﴾
           </p>
-          <p className="mt-2 text-[11px] font-bold" style={{ color: "oklch(0.65 0.15 70)" }}>
+          <p className="mt-2 text-[11px] font-bold text-primary">
             « البقرة: 110 »
           </p>
         </div>
 
         {/* Available balance */}
         <div className="rounded-[20px] bg-white border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-14 w-14 rounded-full bg-amber-50 flex items-center justify-center shrink-0">
-            <Wallet className="h-7 w-7" strokeWidth={1.8} style={{ color: "oklch(0.65 0.15 70)" }} />
+          <div className="h-14 w-14 rounded-full bg-mint/15 flex items-center justify-center shrink-0">
+            <Wallet className="h-7 w-7 text-primary" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
             <p className="text-[11px] text-muted-foreground font-semibold">الفائض المتاح</p>
