@@ -180,10 +180,10 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                           )}
                         </div>
                         <div className="flex-1 text-right min-w-0">
-                          <p className={`font-extrabold text-[12px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
+                          <p className={`font-extrabold text-[13px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
                             خصم على {c.target} في {c.brand}
                           </p>
-                          <p className="text-[11px] text-muted-foreground font-semibold mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className="text-[11px] text-muted-foreground font-medium mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
                             حد أدنى {c.min} ر.س
                           </p>
                           <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
