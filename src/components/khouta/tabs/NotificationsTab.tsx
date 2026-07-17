@@ -31,24 +31,24 @@ type Alert = {
   time: string;
 };
 
-const GRAY_TONE = "text-muted-foreground bg-muted";
-const GRAY_ICON = "bg-muted text-muted-foreground";
-const WARN_TONE = "text-destructive bg-destructive/10";
-const WARN_ICON = "bg-destructive/10 text-destructive";
+const GREEN_TONE = "text-primary bg-mint/15";
+const GREEN_ICON = "bg-mint/15 text-primary";
+const WARN_TONE = "text-white bg-[#EF4444]";
+const WARN_ICON = "bg-mint/15 text-primary";
 
 const ALERTS: Alert[] = [
-  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
+  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
   { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
-  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "اقتراح", tagTone: GRAY_TONE, text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
-  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "استثمار", tagTone: GRAY_TONE, text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
+  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "اقتراح", tagTone: GREEN_TONE, text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
+  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "استثمار", tagTone: GREEN_TONE, text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
 
 const ALL_ALERTS: Alert[] = [
   ...ALERTS,
-  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
+  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
   { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
-  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "معلومة", tagTone: GRAY_TONE, text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
-  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "إنجاز", tagTone: GRAY_TONE, text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
+  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "معلومة", tagTone: GREEN_TONE, text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
+  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "إنجاز", tagTone: GREEN_TONE, text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
 ];
 
 type MerchantConfig = {
@@ -137,7 +137,7 @@ export function NotificationsTab({
           dir="rtl"
           className="w-full rounded-2xl border border-border bg-white px-3 py-3 flex items-center gap-3 active:scale-[0.99] transition"
         >
-          <div className="h-9 w-9 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
+          <div className="h-9 w-9 rounded-full bg-mint/15 flex items-center justify-center shrink-0">
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
@@ -170,16 +170,13 @@ export function NotificationsTab({
 
 function AlertRow({ a }: { a: Alert }) {
   return (
-    <div className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
+    <div dir="rtl" className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
       <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${a.iconTint}`}>
         {a.icon}
       </div>
       <div className="flex-1 text-right min-w-0">
-        <div className="flex items-center justify-between gap-2">
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
-          <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{a.brand}</p>
-        </div>
-        <p className="text-[11px] text-foreground/80 mt-1 font-medium">{a.text}</p>
+        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
+        <p className="text-[12.5px] font-extrabold text-foreground mt-1.5 tracking-tight leading-snug">{a.text}</p>
         <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>{a.time}</p>
       </div>
     </div>
