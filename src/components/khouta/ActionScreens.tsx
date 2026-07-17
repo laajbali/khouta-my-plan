@@ -1888,22 +1888,23 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
 
       <div className="flex-1 overflow-y-auto">
         {/* Top: add friend + progress bars */}
-        <div className="p-5 space-y-4 bg-card border-b border-border">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => setShowAdd(true)}
-              className="text-primary text-[12px] font-extrabold flex items-center gap-1 active:scale-95 transition"
-            >
-              <Plus className="h-4 w-4" strokeWidth={2.5} />
-              إضافة صديق آخر
-            </button>
-            <h3 className="text-[14px] font-extrabold text-foreground tracking-tight">
-              {firstName} وريما في تحدٍّ واحد
-            </h3>
+        <div className="p-4 bg-card border-b border-border space-y-3">
+          <h3 className="text-[13px] font-bold text-foreground tracking-tight text-right">
+            {firstName} وريما في تحدٍّ واحد
+          </h3>
+
+          <div className="space-y-2">
+            <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
+            <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
           </div>
 
-          <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
-          <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
+          <button
+            onClick={() => setShowAdd(true)}
+            className="text-primary text-[11px] font-bold flex items-center gap-1 active:scale-95 transition pt-0.5"
+          >
+            <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
+            إضافة صديق آخر
+          </button>
         </div>
 
         {/* Motivational reminder */}
