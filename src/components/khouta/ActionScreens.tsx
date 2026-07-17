@@ -1796,7 +1796,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               <button
                 key={r}
                 onClick={() => pickReason(r)}
-                className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-bold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
+                className="rounded-2xl border border-border bg-card px-3 py-2.5 text-[12px] font-extrabold text-foreground text-right active:scale-[0.98] transition hover:border-primary/40"
               >
                 {r}
               </button>
