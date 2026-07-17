@@ -1451,10 +1451,10 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
           }}
         >
           <div className="flex items-center gap-2 justify-end mb-2">
-            <p className="text-[13px] font-black text-amber-900 tracking-tight">تحدي الليلة</p>
+            <p className="text-[14px] font-extrabold text-amber-900 tracking-tight">تحدي الليلة</p>
             <span className="text-lg"></span>
           </div>
-          <p className="text-[12px] text-amber-950/90 leading-relaxed font-medium">
+          <p className="text-[11px] text-amber-950/90 leading-relaxed font-medium">
             متبقي ساعتان على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب كود توفير حصري من نون لدعم هدفك الحالي!
           </p>
         </div>
