@@ -270,6 +270,34 @@ function MerchantSim({
 }
 
 /* --------------------------- All alerts screen --------------------------- */
+function AllAlertRow({ a }: { a: Alert }) {
+  const isWarning = a.tag === "تنبيه";
+  const iconBg = isWarning ? "bg-destructive/10" : "bg-mint/15";
+  const iconColor = isWarning ? "text-destructive" : "text-primary";
+
+  return (
+    <div dir="rtl" className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
+      <div
+        className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 ${iconBg} ${iconColor}`}
+      >
+        {a.icon}
+      </div>
+      <div className="flex-1 text-right min-w-0">
+        <span className="block text-[10px] font-bold text-foreground">{a.tag}</span>
+        <p className="text-[12.5px] font-extrabold text-foreground mt-1 tracking-tight leading-snug">
+          {a.text}
+        </p>
+        <p
+          className="text-[10px] text-muted-foreground mt-1 font-medium"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {a.time}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 function AllAlerts({ onBack }: { onBack: () => void }) {
   return (
     <div className="bg-background pb-6 min-h-full">
@@ -287,7 +315,7 @@ function AllAlerts({ onBack }: { onBack: () => void }) {
       <div className="px-5 pt-4">
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm divide-y divide-border">
           {ALL_ALERTS.map((a, i) => (
-            <AlertRow key={i} a={a} />
+            <AllAlertRow key={i} a={a} />
           ))}
         </div>
       </div>
