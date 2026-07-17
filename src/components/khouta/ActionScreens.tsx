@@ -1357,7 +1357,7 @@ export function GoalsListScreen({
 
         <button
           onClick={onOpenNewGoal}
-          className="w-full py-3 rounded-2xl border border-dashed border-border text-[12px] font-bold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
+          className="w-full py-3 rounded-2xl border border-dashed border-border text-[13px] font-extrabold text-muted-foreground flex items-center justify-center gap-1.5 hover:border-primary/40 hover:text-primary transition"
         >
           <Plus className="h-4 w-4" /> إضافة هدف جديد
         </button>
