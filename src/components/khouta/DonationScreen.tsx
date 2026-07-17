@@ -120,7 +120,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
               }}
               inputMode="numeric"
               placeholder="أدخل المبلغ بالريال"
-              className="mt-3 w-full h-12 rounded-2xl bg-white border border-border px-4 text-[14px] font-bold text-right outline-none focus:border-primary/50"
+              className="mt-3 w-full h-12 rounded-2xl bg-white border border-border px-4 text-[13px] font-bold text-right outline-none focus:border-primary/50"
               style={{ fontVariantNumeric: "tabular-nums" }}
             />
           )}
