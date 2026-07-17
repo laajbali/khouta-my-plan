@@ -123,7 +123,7 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
       <ScreenHeader title="تحويل مالي" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-5">
         <div>
-          <p className="text-xs font-semibold text-muted-foreground mb-2 text-right">
+          <p className="text-[11px] font-medium text-muted-foreground mb-2 text-right">
             المستفيدون الأخيرون
           </p>
           <div className="flex gap-3 overflow-x-auto pb-1" dir="rtl">
@@ -136,10 +136,10 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
                 }}
                 className="shrink-0 flex flex-col items-center gap-1.5 w-16"
               >
-                <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold">
+                <div className="h-14 w-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-extrabold text-[14px]">
                   {r.name[0]}
                 </div>
-                <span className="text-[10px] text-foreground truncate w-full text-center">
+                <span className="text-[10px] text-foreground truncate w-full text-center font-medium">
                   {r.name.split(" ")[0]}
                 </span>
               </button>
@@ -148,7 +148,7 @@ export function TransferScreen({ onBack }: { onBack: () => void }) {
               <div className="h-14 w-14 rounded-2xl bg-secondary border-2 border-dashed border-border flex items-center justify-center">
                 <Plus className="h-5 w-5 text-muted-foreground" />
               </div>
-              <span className="text-[10px] text-muted-foreground">جديد</span>
+              <span className="text-[10px] text-muted-foreground font-medium">جديد</span>
             </button>
           </div>
         </div>
