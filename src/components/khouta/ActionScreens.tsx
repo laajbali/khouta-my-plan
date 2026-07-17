@@ -1441,6 +1441,7 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
 
         {/* Challenge */}
         <div
+          dir="rtl"
           className="rounded-[24px] p-4 text-right shadow-sm border"
           style={{
             background:
@@ -1448,11 +1449,8 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
             borderColor: "oklch(0.91 0.05 85 / 0.4)",
           }}
         >
-          <div className="flex items-center gap-2 justify-end mb-2">
-            <p className="text-[14px] font-extrabold text-amber-900 tracking-tight">تحدي الليلة</p>
-            <span className="text-lg"></span>
-          </div>
-          <p className="text-[11px] text-amber-950/90 leading-relaxed font-medium">
+          <p className="text-[14px] font-extrabold text-amber-900 tracking-tight text-right mb-2">تحدي الليلة</p>
+          <p className="text-[11px] text-amber-950/90 leading-relaxed font-medium text-right">
             متبقي ساعتان على وقت الإغراء المعتاد. قاوم فتح تطبيقات التسوق الليلة واكسب كود توفير حصري من نون لدعم هدفك الحالي!
           </p>
         </div>
