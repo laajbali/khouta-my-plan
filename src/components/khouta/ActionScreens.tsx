@@ -1987,7 +1987,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             onClick={() => setShowAdd(false)}
           />
           <div className="relative w-full rounded-3xl bg-card shadow-2xl p-5 space-y-3 animate-scale-in">
-            <h4 className="text-[15px] font-extrabold text-foreground text-right tracking-tight">
+            <h4 className="text-[17px] font-extrabold text-foreground text-right tracking-tight">
               إضافة صديق للتحدي
             </h4>
             <input
@@ -2002,7 +2002,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             <div className="flex gap-2 pt-1">
               <button
                 onClick={() => setShowAdd(false)}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3 text-[12px]"
+                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3 text-[13px]"
               >
                 إلغاء
               </button>
@@ -2016,7 +2016,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                   setNewFriend("");
                   setShowAdd(false);
                 }}
-                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[12px]"
+                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[13px]"
               >
                 إرسال الدعوة
               </button>
