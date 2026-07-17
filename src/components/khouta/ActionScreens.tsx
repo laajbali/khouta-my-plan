@@ -409,12 +409,12 @@ export function StatementScreen({ onBack }: { onBack: () => void }) {
                     <Icon className="w-5 h-5" strokeWidth={1.7} />
                   </div>
                   <div className="text-right">
-                    <p className="text-xs font-semibold text-foreground">{t.title}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{t.time}</p>
+                    <p className="text-[12px] font-semibold text-foreground">{t.title}</p>
+                    <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">{t.time}</p>
                   </div>
                 </div>
                 <span
-                  className={`text-sm font-semibold ${positive ? "text-mint" : "text-foreground"}`}
+                  className={`text-[13px] font-bold ${positive ? "text-mint" : "text-foreground"}`}
                   dir="ltr"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
