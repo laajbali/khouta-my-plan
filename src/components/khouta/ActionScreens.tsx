@@ -1920,8 +1920,8 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         {/* Chat */}
         <div className="px-5 pt-4 pb-4 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold text-muted-foreground">مباشر</span>
-            <h4 className="text-[13px] font-extrabold text-foreground tracking-tight">
+            <span className="text-[10px] font-medium text-muted-foreground">مباشر</span>
+            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">
               محادثة ريما المالية
             </h4>
           </div>
