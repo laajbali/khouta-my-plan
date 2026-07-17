@@ -1476,27 +1476,22 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         {/* NEW — Freeze feature card (compact) */}
         <div
           dir="rtl"
-          className="rounded-2xl px-3 py-2.5 border border-dashed flex items-center gap-2.5"
-          style={{
-            borderColor: "oklch(0.82 0.08 155 / 0.55)",
-            background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
-          }}
+          className="rounded-2xl px-4 py-3.5 border border-dashed border-border bg-white flex items-center gap-3"
         >
-          <div className="h-8 w-8 rounded-lg bg-yellow-400 text-neutral-900 flex items-center justify-center text-[9px] font-extrabold shrink-0 lowercase">
+          <div className="h-9 w-9 rounded-xl bg-yellow-400 text-neutral-900 flex items-center justify-center text-[10px] font-extrabold shrink-0 lowercase">
             noon
           </div>
           <div className="flex-1 min-w-0 text-right">
-            <div className="flex items-center gap-1.5 justify-start">
-              <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">ميزة التجميد</p>
-              <span className="text-[9px] font-bold text-primary bg-mint/20 border border-mint/40 rounded px-1 py-px leading-none">جديد</span>
-            </div>
-            <p className="text-[10px] text-muted-foreground font-medium mt-0.5 leading-tight truncate">
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight leading-tight">
+              ميزة التجميد
+            </p>
+            <p className="text-[11px] text-muted-foreground font-medium mt-1 leading-relaxed">
               محاكاة نون — جرّب تدخّل خُطى قبل شراء اندفاعي
             </p>
           </div>
           <button
             onClick={() => setFreezeStage("noon")}
-            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3 py-1.5 text-[11px] active:scale-95 transition"
+            className="shrink-0 rounded-full bg-primary text-primary-foreground font-extrabold px-3.5 py-2 text-[12px] active:scale-95 transition"
           >
             ابدأ
           </button>
@@ -1518,8 +1513,8 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
         <div className="w-9" />
       </div>
       <div className="bg-yellow-400 px-4 pb-4 shrink-0">
-        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
-          <span className="text-[11px] text-neutral-500 font-medium">ابحث في نون</span>
+        <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2.5 h-10">
+          <span className="text-[12px] text-neutral-500 font-medium leading-none">ابحث في نون</span>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
@@ -1529,18 +1524,18 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
             <div className="absolute -right-8 top-1/2 -translate-y-1/2 h-24 w-24 rounded-full bg-neutral-900 border-8 border-neutral-800" />
           </div>
         </div>
-        <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-          <p className="text-[14px] font-extrabold leading-snug tracking-tight">سماعة سوني اللاسلكية — عزل ضوضاء</p>
-          <p className="text-[11px] text-neutral-500 mt-1 font-medium">Sony Wireless Headphones</p>
-          <div className="flex items-baseline gap-2 mt-3">
-            <span className="text-[22px] font-bold text-neutral-900 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+        <div className="px-4 pt-5 text-foreground" dir="rtl">
+          <h2 className="text-[16px] font-extrabold tracking-tight leading-snug">سماعة سوني اللاسلكية — عزل ضوضاء</h2>
+          <p className="text-[13px] text-muted-foreground mt-2 font-medium leading-relaxed">Sony Wireless Headphones</p>
+          <div className="flex items-baseline gap-1.5 mt-4">
+            <span className="text-[20px] font-bold text-foreground tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
               400
             </span>
-            <span className="text-[10px] text-neutral-500 font-medium">ر.س</span>
+            <span className="text-[12px] text-muted-foreground font-medium">ر.س</span>
           </div>
           <button
             onClick={onBuy}
-            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold py-4 text-[13px] active:scale-[0.99] transition shadow-lg"
+            className="mt-6 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold py-4 text-[13px] active:scale-[0.99] transition shadow-lg"
           >
             شراء الآن
           </button>
