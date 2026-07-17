@@ -153,7 +153,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الدخل"
             value={fmt(stats.income)}
             icon={<ArrowUp className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-primary/10 text-primary"
+            iconBg="bg-mint/15 text-primary"
             valueColor="text-foreground"
           />
           <StatCard
@@ -167,7 +167,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الادخار"
             value={fmt(stats.saving)}
             icon={<PiggyBank className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-primary/10 text-primary"
+            iconBg="bg-mint/15 text-primary"
             valueColor="text-mint"
           />
           <div className="rounded-[20px] bg-card border border-border p-3 shadow-sm">

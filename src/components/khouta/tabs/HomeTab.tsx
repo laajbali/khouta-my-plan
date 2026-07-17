@@ -125,7 +125,7 @@ export function HomeTab({
             onClick={onOpenNewGoal}
             className="w-full rounded-[26px] p-6 text-center border-2 border-dashed border-border bg-card hover:border-primary/40 transition"
           >
-            <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
+            <div className="mx-auto h-12 w-12 rounded-2xl bg-mint/15 text-primary flex items-center justify-center mb-3">
               <Target className="h-6 w-6" strokeWidth={1.8} />
             </div>
             <p className="text-[14px] font-extrabold text-foreground tracking-tight">أنشئ هدفك الأول</p>
@@ -139,7 +139,7 @@ export function HomeTab({
         {/* Today's Financial Summary — dynamic */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <div className="h-9 w-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+            <div className="h-9 w-9 rounded-xl bg-mint/15 text-primary flex items-center justify-center">
               <Sparkles className="h-4 w-4" strokeWidth={2} />
             </div>
             <h4 className="text-[14px] font-extrabold text-foreground tracking-tight">ملخص اليوم</h4>
@@ -226,7 +226,7 @@ export function HomeTab({
           dir="rtl"
           className="w-full rounded-[22px] p-4 bg-card border border-border shadow-sm flex items-center gap-3 text-right active:scale-[0.99] transition hover:border-primary/40"
         >
-          <div className="h-11 w-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+          <div className="h-11 w-11 rounded-2xl bg-mint/15 text-primary flex items-center justify-center shrink-0">
             <Users className="h-5 w-5" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
