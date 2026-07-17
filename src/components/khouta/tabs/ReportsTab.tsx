@@ -100,7 +100,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
           <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">التقارير</h1>
           <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">تحليل شامل لوضعك المالي</p>
         </div>
-        <button onClick={onOpenNotifications} aria-label="التنبيهات" className="relative h-11 w-11 rounded-2xl bg-mint/15 border border-mint/25 flex items-center justify-center text-primary active:scale-95 transition">
+        <button onClick={onOpenNotifications} aria-label="التنبيهات" className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center text-primary active:scale-95 transition">
           <Bell className="h-5 w-5" strokeWidth={2} />
           <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
             3
@@ -139,7 +139,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 range === r
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "bg-mint/25 text-primary"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {r}
@@ -153,7 +153,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الدخل"
             value={fmt(stats.income)}
             icon={<ArrowUp className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-mint/15 text-primary"
+            iconBg="bg-secondary text-primary"
             valueColor="text-foreground"
           />
           <StatCard
@@ -167,7 +167,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             label="إجمالي الادخار"
             value={fmt(stats.saving)}
             icon={<PiggyBank className="h-4 w-4" strokeWidth={2} />}
-            iconBg="bg-mint/15 text-primary"
+            iconBg="bg-secondary text-primary"
             valueColor="text-mint"
           />
           <div className="rounded-[20px] bg-card border border-border p-3 shadow-sm">
@@ -236,21 +236,21 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
         <div className="grid grid-cols-3 gap-2">
           <SummaryTile
             icon={<Target className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="هدفك"
             main={stats.goalsTotal > 0 ? `${fmt(stats.goalsTotal)} ر.س` : "لا يوجد"}
             note={stats.goalsTotal > 0 ? `وفَّرتِ ${fmt(stats.goalsSaved)} (${stats.goalProgress}%)` : "أضيفي هدفاً"}
           />
           <SummaryTile
             icon={<Sparkles className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="أعلى صرف"
             main="التسوق"
             note="32% من الفترة"
           />
           <SummaryTile
             icon={<TrendingUp className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-mint/15 text-primary"
+            iconTint="bg-secondary text-primary"
             title="أكثر تحكم"
             main="الترفيه"
             note="-12% عن السابق"

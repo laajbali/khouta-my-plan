@@ -542,7 +542,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
             <button
               onClick={editing ? saveEdit : startEdit}
               disabled={savingEdit}
-              className="h-9 px-3 rounded-xl bg-mint text-primary text-[11px] font-extrabold active:scale-95 transition disabled:opacity-60"
+              className="h-9 px-3 rounded-xl bg-secondary text-primary text-[11px] font-extrabold active:scale-95 transition disabled:opacity-60"
             >
               {editing ? (savingEdit ? "..." : "حفظ") : "تعديل"}
             </button>
@@ -952,7 +952,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                         </span>
                       )}
                       {e.status === "today" && (
-                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-mint/20 text-primary">
+                        <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-secondary text-primary">
                           اليوم
                         </span>
                       )}
@@ -993,7 +993,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               }}
             >
               <div className="flex items-center gap-2 justify-end">
-                <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
+                <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-secondary text-primary tracking-wider">AI</span>
                 <p className="text-[13px] font-extrabold tracking-tight">المستشار المالي</p>
               </div>
               <h2 className="mt-2 text-[17px] font-extrabold tracking-tight text-right">
@@ -1928,7 +1928,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
                     </>
                   ) : (
                     <>
-                      <div className="h-8 w-8 rounded-full bg-mint/15 text-primary flex items-center justify-center text-[11px] font-extrabold shrink-0">
+                      <div className="h-8 w-8 rounded-full bg-secondary text-primary flex items-center justify-center text-[11px] font-extrabold shrink-0">
                         R
                       </div>
                       <div
@@ -1953,7 +1953,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             <button
               key={t}
               onClick={() => send(t)}
-              className="text-[11px] font-bold text-primary bg-mint/15 rounded-full px-3 py-1.5 active:scale-95 transition"
+              className="text-[11px] font-bold text-primary bg-secondary rounded-full px-3 py-1.5 active:scale-95 transition"
             >
               {t}
             </button>

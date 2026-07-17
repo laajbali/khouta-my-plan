@@ -132,7 +132,7 @@ export function Step4Card({ onBack, onNext }: { onBack: () => void; onNext: () =
 
         {/* Safety row */}
         <div className="rounded-2xl bg-mint/15 border border-mint/25 p-3 flex items-center gap-3">
-          <div className="h-9 w-9 rounded-xl bg-mint text-primary flex items-center justify-center shrink-0">
+          <div className="h-9 w-9 rounded-xl bg-secondary text-primary flex items-center justify-center shrink-0">
             <ShieldCheck className="h-4 w-4" strokeWidth={2.5} />
           </div>
           <div className="flex-1 text-right">

@@ -67,7 +67,7 @@ export function PlanGenerating({ onDone }: { onDone: () => void }) {
         {ready ? (
           <>
             <div className="relative">
-              <div className="h-24 w-24 rounded-full bg-mint/15 flex items-center justify-center ring-8 ring-mint/10">
+              <div className="h-24 w-24 rounded-full bg-secondary flex items-center justify-center ring-8 ring-secondary">
                 <Target className="h-11 w-11 text-primary" strokeWidth={2} />
               </div>
             </div>
@@ -103,7 +103,7 @@ export function PlanGenerating({ onDone }: { onDone: () => void }) {
               >
                 <div className="flex items-center gap-2">
                   {done ? (
-                    <span className="h-6 w-6 rounded-full bg-mint text-mint-foreground flex items-center justify-center">
+                    <span className="h-6 w-6 rounded-full bg-secondary text-primary flex items-center justify-center">
                       <Check className="h-3.5 w-3.5" strokeWidth={3} />
                     </span>
                   ) : active ? (

@@ -56,7 +56,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
           <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">المكافآت</h1>
           <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">كل مكافأة خطوة نحو هدفك</p>
         </div>
-        <button onClick={onOpenNotifications} aria-label="التنبيهات" className="relative h-11 w-11 rounded-2xl bg-mint/15 border border-mint/25 flex items-center justify-center text-primary active:scale-95 transition">
+        <button onClick={onOpenNotifications} aria-label="التنبيهات" className="relative h-11 w-11 rounded-2xl bg-secondary border border-border flex items-center justify-center text-primary active:scale-95 transition">
           <Bell className="h-5 w-5" strokeWidth={2} />
           <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-destructive border-2 border-card text-white text-[9px] font-bold flex items-center justify-center" style={{ fontVariantNumeric: "tabular-nums" }}>
             3
@@ -67,7 +67,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
       <div className="px-5 pt-4 space-y-4">
         {/* Achievement card */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm flex items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-mint/15 text-primary flex items-center justify-center shrink-0">
+          <div className="h-12 w-12 rounded-2xl bg-secondary text-primary flex items-center justify-center shrink-0">
             <Gift className="h-6 w-6" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
@@ -102,7 +102,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 filter === f
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "bg-mint/25 text-primary"
+                  : "bg-secondary text-muted-foreground"
               }`}
             >
               {f}
@@ -172,7 +172,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                             <button
                               onClick={() => setActiveCoupon(c)}
                               className={`mt-2 rounded-lg px-2 py-1 text-[9px] font-bold active:scale-95 transition ${
-                                inUse ? "bg-mint/20 text-primary" : "bg-primary text-primary-foreground"
+                                inUse ? "bg-secondary text-primary" : "bg-primary text-primary-foreground"
                               }`}
                             >
                               {inUse ? "قيد الاستخدام" : "استخدم"}
