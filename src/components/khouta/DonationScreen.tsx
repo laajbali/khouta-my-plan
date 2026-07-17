@@ -66,7 +66,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
 
         {/* Amount picker */}
         <div>
-          <h3 className="text-center text-[13px] font-extrabold text-foreground tracking-tight mb-3">
+          <h3 className="text-center text-[14px] font-extrabold text-foreground tracking-tight mb-3">
             اختر مبلغ التبرع
           </h3>
           <div className="grid grid-cols-5 gap-2" dir="ltr">
