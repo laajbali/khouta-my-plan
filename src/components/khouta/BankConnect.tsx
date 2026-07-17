@@ -87,8 +87,8 @@ export function BankConnect({
             <div className="rounded-2xl bg-secondary p-4 flex items-start gap-3">
               <ShieldCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
               <div className="text-right flex-1">
-                <p className="text-xs font-bold text-foreground">تشفير من طرف لطرف</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
+                <p className="text-[11px] font-bold text-foreground">تشفير من طرف لطرف</p>
+                <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">
                   نستخدم معايير Open Banking المعتمدة. بياناتك لا تُخزّن ولا تُشارك.
                 </p>
               </div>
