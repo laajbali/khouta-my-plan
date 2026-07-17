@@ -106,7 +106,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
               }`}
             >
               <Plus className="h-4 w-4" strokeWidth={2.5} />
-              <span className="text-[9.5px] font-bold mt-0.5">إضافة مبلغ</span>
+              <span className="text-[10px] font-medium mt-0.5">إضافة مبلغ</span>
             </button>
           </div>
 
