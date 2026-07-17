@@ -147,7 +147,7 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
           <button
             key={q}
             onClick={() => send(q)}
-            className="shrink-0 text-xs bg-accent text-primary font-bold px-3 py-2 rounded-full border border-mint/20 hover:bg-mint/10 transition"
+            className="shrink-0 text-[11px] bg-accent text-primary font-bold px-3 py-2 rounded-full border border-mint/20 hover:bg-mint/10 transition"
           >
             {q}
           </button>
