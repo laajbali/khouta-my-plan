@@ -65,10 +65,10 @@ export function InterceptModal({
       <div className="absolute inset-0 bg-foreground/70 backdrop-blur-md" onClick={onCancel} />
 
       {stage === "warn" ? (
-        <div className="relative w-full bg-card rounded-[28px] shadow-2xl animate-scale-in overflow-hidden">
+        <div className="relative w-full max-w-[340px] bg-card rounded-[24px] shadow-2xl animate-scale-in overflow-hidden">
           {/* Header — خُطى brand */}
           <div
-            className="px-5 pt-5 pb-4 text-white relative"
+            className="px-4 pt-4 pb-3 text-white relative"
             style={{
               background:
                 "linear-gradient(140deg, oklch(0.32 0.06 155) 0%, oklch(0.20 0.05 155) 100%)",
@@ -77,29 +77,29 @@ export function InterceptModal({
             <div className="flex items-center justify-between">
               <button
                 onClick={onCancel}
-                className="h-8 w-8 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center"
+                className="h-7 w-7 rounded-full bg-white/10 hover:bg-white/15 flex items-center justify-center"
                 aria-label="إغلاق"
               >
-                <X className="h-4 w-4" strokeWidth={2.2} />
+                <X className="h-3.5 w-3.5" strokeWidth={2.2} />
               </button>
-              <div className="flex items-center gap-2">
-                <span className="text-[13px] font-extrabold tracking-tight">خُطى</span>
-                <KhoutaLogo size={26} className="!rounded-lg" />
+              <div className="flex items-center gap-1.5">
+                <span className="text-[12px] font-extrabold tracking-tight">خُطى</span>
+                <KhoutaLogo size={22} className="!rounded-lg" />
               </div>
             </div>
-            <div className="mt-3 flex items-center gap-2">
-              <span className="h-2 w-2 rounded-full bg-mint animate-pulse" />
-              <p className="text-[10px] font-medium text-mint tracking-wide uppercase">
+            <div className="mt-2.5 flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-mint animate-pulse" />
+              <p className="text-[9px] font-medium text-mint tracking-wide uppercase">
                 تدخل ذكي فوري
               </p>
             </div>
-            <h2 className="mt-1 text-[17px] font-extrabold tracking-tight">
+            <h2 className="mt-0.5 text-[15px] font-extrabold tracking-tight">
               لحظة{firstName ? " يا " + firstName : ""}!
             </h2>
           </div>
 
-          <div className="p-5">
-            <p className="text-[13px] text-foreground leading-snug text-right font-medium">
+          <div className="p-4">
+            <p className="text-[12px] text-foreground leading-snug text-right font-medium">
               أنت الآن على وشك شراء منتجات بقيمة
               <span className="inline-block mx-1 font-extrabold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
@@ -109,59 +109,60 @@ export function InterceptModal({
                 {merchant}
               </span>
             </p>
-            <p className="text-[11px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
+            <p className="text-[10.5px] text-muted-foreground mt-1.5 text-right font-medium leading-relaxed">
               إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
             {/* Delay badge */}
-            <div className="mt-3 rounded-2xl bg-rose-50 border border-rose-100 p-3 flex items-center justify-between">
-              <span className="text-[11px] font-medium text-rose-500">تأخير متوقع</span>
+            <div className="mt-2.5 rounded-xl bg-rose-50 border border-rose-100 px-3 py-2 flex items-center justify-between">
+              <span className="text-[10.5px] font-medium text-rose-500">تأخير متوقع</span>
               <span
-                className="text-[22px] font-extrabold text-rose-500 tracking-tight"
+                className="text-[18px] font-extrabold text-rose-500 tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {delayDays} يوماً
               </span>
             </div>
 
-            {/* Goal progress preview */}
-            <div className="mt-4 rounded-2xl bg-secondary/60 border border-border p-3.5">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-medium text-muted-foreground">
+            {/* Goal progress preview — thin & minimalist */}
+            <div className="mt-3 rounded-xl bg-secondary/60 border border-border px-3 py-2.5">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[10px] font-medium text-muted-foreground">
                   متبقٍ{" "}
                   <span className="text-foreground font-extrabold" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[13px] font-extrabold text-foreground tracking-tight"> {goalTitle}</span>
+                <span className="text-[11.5px] font-extrabold text-foreground tracking-tight">{goalTitle}</span>
               </div>
-              <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
+              <div className="h-1 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
                   className="h-full rounded-full bg-gradient-to-l from-mint to-primary transition-all"
                   style={{ width: `${Math.round((savedBase / target) * 100)}%` }}
                 />
               </div>
-              <p className="mt-1.5 text-[10px] font-medium text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <p className="mt-1 text-[9.5px] font-medium text-primary text-right" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {Math.round((savedBase / target) * 100)}% من الهدف
               </p>
             </div>
 
-            <div className="mt-5 flex gap-2.5">
+            <div className="mt-4 flex gap-2">
               <button
                 onClick={onProceed}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.98] transition"
+                className="flex-1 rounded-xl bg-secondary text-foreground font-extrabold py-2.5 text-[11.5px] active:scale-[0.98] transition whitespace-nowrap"
               >
                 المتابعة رغم ذلك
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[13px] shadow-lg active:scale-[0.98] transition"
+                className="flex-1 rounded-xl bg-foreground text-background font-extrabold py-2.5 text-[11.5px] shadow-lg active:scale-[0.98] transition whitespace-nowrap"
               >
-                إلغاء الطلب وتوفير {amount} ر.س
+                إلغاء وتوفير {amount} ر.س
               </button>
             </div>
           </div>
         </div>
+
       ) : (
         <div className="relative w-full bg-card rounded-[28px] shadow-2xl animate-scale-in overflow-hidden">
           {/* Confetti-ish top */}
