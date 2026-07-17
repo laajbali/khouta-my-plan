@@ -1412,10 +1412,10 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
               <Sparkles className="h-8 w-8" strokeWidth={2} />
             </div>
           </div>
-          <p className="text-[11px] font-bold text-mint tracking-[0.2em] uppercase">
+          <p className="text-[11px] font-medium text-mint tracking-[0.2em] uppercase">
             الرادار يعمل الآن
           </p>
-          <h3 className="text-[18px] font-black text-foreground tracking-tight">
+          <h3 className="text-[17px] font-extrabold text-foreground tracking-tight">
             تحليل السلوك الاندفاعي
           </h3>
         </div>
