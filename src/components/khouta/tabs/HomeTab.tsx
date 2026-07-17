@@ -441,7 +441,7 @@ function FeatureCard({
           {icon}
         </div>
         {badge && (
-          <span className="text-[9px] font-black px-2 py-1 rounded-lg bg-primary text-primary-foreground tracking-wider">
+          <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-primary text-primary-foreground tracking-wider">
             {badge}
           </span>
         )}
