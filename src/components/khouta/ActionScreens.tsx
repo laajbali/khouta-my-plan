@@ -1423,18 +1423,18 @@ export function RadarScreen({ onBack }: { onBack: () => void }) {
         {/* Insight */}
         <div className="rounded-[24px] bg-card border border-border p-4 shadow-sm text-right space-y-2">
           <div className="flex items-center gap-2 justify-end">
-            <p className="text-[13px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
-            <span className="inline-flex items-center gap-1 text-[10px] font-black text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-0.5">
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">نمط تم رصده</p>
+            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-2 py-0.5">
               رادار
             </span>
           </div>
-          <p className="text-[12px] text-foreground/85 leading-relaxed font-medium">
+          <p className="text-[11px] text-foreground/85 leading-relaxed font-medium">
             تم ملاحظة زيادة بنسبة{" "}
-            <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
               85%
             </span>{" "}
             في محاولات التسوق الاندفاعي يوم{" "}
-            <span className="font-black" style={{ fontVariantNumeric: "tabular-nums" }}>27</span>{" "}
+            <span className="font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>27</span>{" "}
             من كل شهر (يوم المكافأة) بين{" "}
             <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>11:00 PM</span> و{" "}
             <span dir="ltr" style={{ fontVariantNumeric: "tabular-nums" }}>1:00 AM</span>.
