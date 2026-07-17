@@ -177,10 +177,10 @@ export function InterceptModal({
             <div className="mx-auto w-16 h-16 rounded-2xl bg-mint/20 flex items-center justify-center relative">
               <Gift className="h-8 w-8 text-primary" strokeWidth={2} />
             </div>
-            <h2 className="mt-4 text-[22px] font-black text-foreground tracking-tight">
+            <h2 className="mt-4 text-[17px] font-extrabold text-foreground tracking-tight">
               أحسنت{firstName ? " يا " + firstName : ""}!
             </h2>
-            <p className="mt-1.5 text-[12px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
+            <p className="mt-1.5 text-[11px] text-muted-foreground font-medium max-w-[260px] mx-auto leading-relaxed">
               قرارك الذكي اليوم يصنع مستقبلك غداً
             </p>
           </div>
@@ -196,7 +196,7 @@ export function InterceptModal({
                 <p className="text-[11px] font-bold text-foreground">تمت إضافة مكافأة جديدة</p>
                 <Sparkles className="h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
               </div>
-              <p className="text-center text-[20px] font-black text-primary mt-1.5 tracking-tight">
+              <p className="text-center text-[16px] font-extrabold text-primary mt-1.5 tracking-tight">
                 كوبون خصم 20%
               </p>
               <div className="mt-2.5 flex items-center gap-2 rounded-xl bg-card border border-border px-3 py-2">
