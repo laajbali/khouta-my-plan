@@ -2045,12 +2045,12 @@ function ProgressBar({
     <div className="text-right">
       <div className="flex items-center justify-between mb-1.5">
         <span
-          className="text-[11px] font-black text-foreground"
+          className="text-[11px] font-bold text-foreground"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {percent}%
         </span>
-        <span className="text-[12px] font-extrabold text-foreground tracking-tight">{name}</span>
+        <span className="text-[13px] font-extrabold text-foreground tracking-tight">{name}</span>
       </div>
       <div className="h-2.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
         <div
