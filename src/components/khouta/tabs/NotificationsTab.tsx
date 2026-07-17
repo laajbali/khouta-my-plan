@@ -131,11 +131,7 @@ export function NotificationsTab({
         <button
           onClick={onOpenRadar}
           dir="rtl"
-          className="w-full rounded-2xl border px-3 py-2.5 flex items-center gap-2 active:scale-[0.99] transition"
-          style={{
-            background: "linear-gradient(140deg, oklch(0.98 0.02 155) 0%, oklch(0.95 0.05 155) 100%)",
-            borderColor: "oklch(0.82 0.08 155 / 0.45)",
-          }}
+          className="w-full rounded-2xl border border-border bg-white px-3 py-2.5 flex items-center gap-2 active:scale-[0.99] transition"
         >
           <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
