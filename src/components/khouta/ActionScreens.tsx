@@ -1861,8 +1861,6 @@ type ChatMsg = { from: "me" | "her" | "system"; text: string; emoji?: string };
 
 export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
   const firstName = (userName || "").trim().split(" ")[0] || "أنت";
-  const [showAdd, setShowAdd] = useState(false);
-  const [newFriend, setNewFriend] = useState("");
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<ChatMsg[]>([
     { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "" },
@@ -1962,50 +1960,6 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         </div>
       </div>
 
-      {showAdd && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center px-6">
-          <div
-            className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
-            onClick={() => setShowAdd(false)}
-          />
-          <div className="relative w-full rounded-3xl bg-card shadow-2xl p-5 space-y-3 animate-scale-in">
-            <h4 className="text-[17px] font-extrabold text-foreground text-right tracking-tight">
-              إضافة صديق للتحدي
-            </h4>
-            <input
-              value={newFriend}
-              onChange={(e) => setNewFriend(e.target.value.replace(/[^\d]/g, "").slice(0, 10))}
-              placeholder="05XXXXXXXX"
-              inputMode="numeric"
-              dir="ltr"
-              className="w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-bold text-right"
-              style={{ fontVariantNumeric: "tabular-nums" }}
-            />
-            <div className="flex gap-2 pt-1">
-              <button
-                onClick={() => setShowAdd(false)}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3 text-[13px]"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={() => {
-                  if (!/^05\d{8}$/.test(newFriend)) {
-                    toast.error("رقم الجوال يجب أن يتكون من 10 خانات ويبدأ بـ 05");
-                    return;
-                  }
-                  toast.success("تمت دعوة صديقتك للتحدي ");
-                  setNewFriend("");
-                  setShowAdd(false);
-                }}
-                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[13px]"
-              >
-                إرسال الدعوة
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
