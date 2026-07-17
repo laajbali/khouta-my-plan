@@ -170,16 +170,16 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             iconBg="bg-primary/10 text-primary"
             valueColor="text-mint"
           />
-          <div className="rounded-[20px] bg-card border border-border p-4 shadow-sm">
-            <p className="text-right text-[11px] font-medium text-muted-foreground">نسبة الادخار</p>
-            <div className="flex items-center justify-center mt-2">
-              <div className="relative h-16 w-16">
+          <div className="rounded-[20px] bg-card border border-border p-3 shadow-sm">
+            <p className="text-right text-[10px] font-medium text-muted-foreground">نسبة الادخار</p>
+            <div className="flex items-center justify-center mt-1.5">
+              <div className="relative h-14 w-14">
                 <svg viewBox="0 0 40 40" className="-rotate-90">
                   <circle cx="20" cy="20" r="16" fill="none" stroke="var(--border)" strokeWidth="4" />
                   <circle cx="20" cy="20" r="16" fill="none" stroke="var(--mint)" strokeWidth="4" strokeLinecap="round" strokeDasharray={`${stats.savingRate} 100`} pathLength={100} />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-sm font-bold text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>{stats.savingRate}%</span>
+                  <span className="text-[13px] font-bold text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>{stats.savingRate}%</span>
                 </div>
               </div>
             </div>
@@ -275,18 +275,18 @@ function StatCard({
   valueColor: string;
 }) {
   return (
-    <div className="rounded-[20px] bg-card border border-border p-4 shadow-sm">
+    <div className="rounded-[20px] bg-card border border-border p-3 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="text-right flex-1 min-w-0">
-          <p className="text-[11px] font-medium text-muted-foreground">{label}</p>
+          <p className="text-[10px] font-medium text-muted-foreground">{label}</p>
           <div className="flex items-baseline justify-end gap-1 mt-1" dir="rtl">
-            <span className={`text-[22px] font-bold ${valueColor} tracking-tight leading-none`} style={{ fontVariantNumeric: "tabular-nums" }}>
+            <span className={`text-[18px] font-bold ${valueColor} tracking-tight leading-none`} style={{ fontVariantNumeric: "tabular-nums" }}>
               {value}
             </span>
-            <span className="text-[11px] text-muted-foreground font-medium leading-none">ر.س</span>
+            <span className="text-[10px] text-muted-foreground font-medium leading-none">ر.س</span>
           </div>
         </div>
-        <div className={`h-9 w-9 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
+        <div className={`h-8 w-8 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
           {icon}
         </div>
       </div>
