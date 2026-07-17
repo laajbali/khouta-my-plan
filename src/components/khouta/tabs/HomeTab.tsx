@@ -325,7 +325,7 @@ function GoalCarouselCard({
           <p className="text-[9.5px] font-bold text-white/60 tracking-[0.15em] uppercase">
             هدف {index + 1} من {total}
           </p>
-          <span className="inline-flex items-center gap-1 text-[9.5px] font-black px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
+          <span className="inline-flex items-center gap-1 text-[9.5px] font-extrabold px-2 py-0.5 rounded-lg bg-mint/20 text-mint border border-mint/30">
             <Target className="h-3 w-3" strokeWidth={2.5} />
             هدفك
           </span>
