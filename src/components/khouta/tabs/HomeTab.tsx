@@ -336,8 +336,8 @@ function GoalCarouselCard({
             <GoalIcon className="h-6 w-6 text-white" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right pr-3 min-w-0">
-            <h3 className="text-[19px] font-black tracking-tight leading-tight truncate">{title}</h3>
-            <p className="text-[10.5px] text-white/60 font-semibold mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
+            <h3 className="text-[17px] font-extrabold tracking-tight leading-tight truncate">{title}</h3>
+            <p className="text-[11px] text-white/60 font-medium mt-0.5" style={{ fontVariantNumeric: "tabular-nums" }}>
               {percent}% مكتمل
             </p>
           </div>
