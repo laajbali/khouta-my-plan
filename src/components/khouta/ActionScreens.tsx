@@ -1884,47 +1884,11 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <ScreenHeader title="التحدي الجماعي" onBack={onBack} />
+      <ScreenHeader title="محادثة ريما المالية" onBack={onBack} />
 
       <div className="flex-1 overflow-y-auto">
-        {/* Top: add friend + progress bars */}
-        <div className="p-4 bg-card border-b border-border space-y-3">
-          <h3 className="text-[13px] font-bold text-foreground tracking-tight text-right">
-            {firstName} وريما في تحدٍّ واحد
-          </h3>
-
-          <div className="space-y-2">
-            <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
-            <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
-          </div>
-
-          <button
-            onClick={() => setShowAdd(true)}
-            className="text-primary text-[11px] font-bold flex items-center gap-1 active:scale-95 transition pt-0.5"
-          >
-            <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
-            إضافة صديق آخر
-          </button>
-        </div>
-
-        {/* Motivational reminder */}
-        <div className="px-5 pt-4">
-          <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
-            <p className="text-[11px] text-foreground font-medium leading-relaxed">
-              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟
-            </p>
-          </div>
-        </div>
-
         {/* Chat */}
         <div className="px-5 pt-4 pb-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-medium text-muted-foreground">مباشر</span>
-            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight text-right">
-              محادثة ريما المالية
-            </h4>
-          </div>
-
           <div dir="ltr" className="space-y-2.5">
             {msgs.map((m, i) => {
               const isMe = m.from === "me";
