@@ -209,7 +209,7 @@ export function InterceptModal({
                 </button>
                 <span
                   dir="ltr"
-                  className="flex-1 text-center font-mono font-bold text-foreground tracking-widest text-[13px]"
+                  className="flex-1 text-center font-bold text-foreground tracking-tight text-[13px]"
                 >
                   {code}
                 </span>
