@@ -342,7 +342,7 @@ export function MoreServicesScreen({ onBack }: { onBack: () => void }) {
                 <div className={`h-12 w-12 rounded-2xl flex items-center justify-center ${s.tint}`}>
                   <Icon className="h-5 w-5" strokeWidth={1.8} />
                 </div>
-                <span className="text-[11px] font-semibold text-foreground text-center leading-tight">
+                <span className="text-[11px] font-medium text-foreground text-center leading-tight">
                   {s.label}
                 </span>
               </button>
