@@ -553,16 +553,16 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
                   inputMode="numeric"
                   className="w-24 bg-transparent text-white text-[13px] font-bold outline-none text-right"
                 />
-                <span className="text-[11px] text-white/70">ر.س</span>
+                <span className="text-[11px] text-white/70 font-medium">ر.س</span>
               </div>
             ) : (
-              <span className="text-xs text-white/60">
+              <span className="text-[11px] text-white/60 font-medium">
                 من {Number(goal.target_amount).toLocaleString()} ر.س
               </span>
             )}
-            <span className="text-2xl font-bold">
-              {Number(goal.saved_amount).toLocaleString()}{" "}
-              <span className="text-sm text-white/70">ر.س</span>
+            <span className="text-[22px] font-bold tracking-tight">
+              {Number(goal.saved_amount).toLocaleString()}
+              <span className="text-[10px] text-white/70 font-medium mr-1">ر.س</span>
             </span>
           </div>
           <div className="h-2 bg-white/15 rounded-full overflow-hidden" dir="ltr">
@@ -571,7 +571,7 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
               style={{ width: `${percent}%` }}
             />
           </div>
-          <p className="mt-2 text-xs text-white/70 text-right">أنجزت {percent}% من الهدف</p>
+          <p className="mt-2 text-[11px] text-white/70 text-right font-medium">أنجزت {percent}% من الهدف</p>
         </div>
 
         <div className="bg-card rounded-2xl border border-border p-4 space-y-3">
