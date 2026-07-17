@@ -1764,14 +1764,14 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         {msgs.map((m, i) => (
           <div key={i} className={`flex ${m.from === "me" ? "justify-start" : "justify-end"}`}>
             <div
-              className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-[12.5px] leading-relaxed ${
+              className={`max-w-[82%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed ${
                 m.from === "me"
-                  ? "bg-primary text-primary-foreground rounded-br-sm font-semibold"
+                  ? "bg-primary text-primary-foreground rounded-br-sm font-medium"
                   : "bg-card border border-border text-foreground rounded-bl-sm font-medium"
               }`}
             >
               <div className="flex items-center gap-1.5 mb-1 justify-end">
-                <span className="text-[9.5px] font-black text-muted-foreground">
+                <span className="text-[9px] font-bold text-muted-foreground">
                   {m.from === "me" ? (firstName || "أنت") : "خُطى"}
                 </span>
               </div>
