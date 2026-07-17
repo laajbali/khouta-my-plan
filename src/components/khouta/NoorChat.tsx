@@ -100,8 +100,8 @@ export function NoorChat({ onBack, userName = "" }: { onBack: () => void; userNa
         </button>
         <div className="flex items-center gap-2">
           <div>
-            <p className="text-sm font-bold text-foreground text-right">نور</p>
-            <p className="text-[10px] text-mint text-right flex items-center gap-1 justify-end">
+            <p className="text-[15px] font-extrabold text-foreground text-right tracking-tight">نور</p>
+            <p className="text-[11px] text-mint text-right flex items-center gap-1 justify-end font-medium">
               <span className="w-1.5 h-1.5 bg-mint rounded-full" /> متصلة الآن
             </p>
           </div>
