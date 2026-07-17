@@ -248,11 +248,11 @@ function RewardStat({
   tone: string;
 }) {
   return (
-    <div className={`rounded-2xl p-3 text-right ${tone}`}>
-      <p className="text-[10px] font-medium opacity-90 leading-snug">{label}</p>
-      <p className="text-[18px] font-extrabold mt-1 tracking-tight leading-snug" style={{ fontVariantNumeric: "tabular-nums" }}>
+    <div className={`rounded-2xl p-2.5 text-right ${tone}`}>
+      <p className="text-[9.5px] font-medium opacity-90 leading-snug">{label}</p>
+      <p className="text-[16px] font-extrabold mt-1 tracking-tight leading-snug" style={{ fontVariantNumeric: "tabular-nums" }}>
         {value}
-        {suffix && <span className="text-[10px] font-medium mr-1">{suffix}</span>}
+        {suffix && <span className="text-[9px] font-medium mr-1">{suffix}</span>}
       </p>
     </div>
   );
