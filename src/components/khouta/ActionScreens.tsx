@@ -1711,7 +1711,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
                 onExit();
               }
             }}
-            className="h-10 px-3 rounded-2xl bg-primary/10 text-primary text-[11.5px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
+            className="h-10 px-3 rounded-2xl bg-primary/10 text-primary text-[11px] font-extrabold flex items-center gap-1 border border-rose-200 active:scale-[0.98] transition"
             aria-label="خروج طارئ"
           >
             <Shield className="h-3.5 w-3.5" strokeWidth={2.5} />
@@ -1729,9 +1729,9 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
         <div className="text-center">
           <div className="flex items-center gap-1.5 justify-center">
             <Shield className="h-4 w-4 text-primary" strokeWidth={2} />
-            <h2 className="text-[15px] font-extrabold text-foreground tracking-tight">وضع التجميد</h2>
+            <h2 className="text-[17px] font-extrabold text-foreground tracking-tight">وضع التجميد</h2>
           </div>
-          <p className="text-[10.5px] text-muted-foreground font-medium mt-0.5">نساعدك تتخذ قرارك بهدوء</p>
+          <p className="text-[11px] text-muted-foreground font-medium mt-0.5">نساعدك تتخذ قرارك بهدوء</p>
         </div>
         <div className="w-10" />
       </div>
