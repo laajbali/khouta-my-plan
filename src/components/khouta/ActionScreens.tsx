@@ -1861,8 +1861,6 @@ type ChatMsg = { from: "me" | "her" | "system"; text: string; emoji?: string };
 
 export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => void; userName?: string }) {
   const firstName = (userName || "").trim().split(" ")[0] || "أنت";
-  const [showAdd, setShowAdd] = useState(false);
-  const [newFriend, setNewFriend] = useState("");
   const [draft, setDraft] = useState("");
   const [msgs, setMsgs] = useState<ChatMsg[]>([
     { from: "me", text: "أنا وفّرت اليوم 240 ريال من شي إن، وين وصلت؟", emoji: "" },
@@ -1884,47 +1882,11 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
 
   return (
     <div className="flex flex-col h-full bg-background">
-      <ScreenHeader title="التحدي الجماعي" onBack={onBack} />
+      <ScreenHeader title="محادثة ريما المالية" onBack={onBack} />
 
       <div className="flex-1 overflow-y-auto">
-        {/* Top: add friend + progress bars */}
-        <div className="p-4 bg-card border-b border-border space-y-3">
-          <h3 className="text-[13px] font-bold text-foreground tracking-tight text-right">
-            {firstName} وريما في تحدٍّ واحد
-          </h3>
-
-          <div className="space-y-2">
-            <ProgressBar name={`أنت (${firstName})`} percent={68} tone="primary" />
-            <ProgressBar name="الصديق (ريما)" percent={45} tone="amber" />
-          </div>
-
-          <button
-            onClick={() => setShowAdd(true)}
-            className="text-primary text-[11px] font-bold flex items-center gap-1 active:scale-95 transition pt-0.5"
-          >
-            <Plus className="h-3.5 w-3.5" strokeWidth={2.5} />
-            إضافة صديق آخر
-          </button>
-        </div>
-
-        {/* Motivational reminder */}
-        <div className="px-5 pt-4">
-          <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
-            <p className="text-[11px] text-foreground font-medium leading-relaxed">
-              ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟
-            </p>
-          </div>
-        </div>
-
         {/* Chat */}
         <div className="px-5 pt-4 pb-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-medium text-muted-foreground">مباشر</span>
-            <h4 className="text-[14px] font-extrabold text-foreground tracking-tight text-right">
-              محادثة ريما المالية
-            </h4>
-          </div>
-
           <div dir="ltr" className="space-y-2.5">
             {msgs.map((m, i) => {
               const isMe = m.from === "me";
@@ -1998,84 +1960,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         </div>
       </div>
 
-      {showAdd && (
-        <div className="absolute inset-0 z-50 flex items-center justify-center px-6">
-          <div
-            className="absolute inset-0 bg-foreground/60 backdrop-blur-sm"
-            onClick={() => setShowAdd(false)}
-          />
-          <div className="relative w-full rounded-3xl bg-card shadow-2xl p-5 space-y-3 animate-scale-in">
-            <h4 className="text-[17px] font-extrabold text-foreground text-right tracking-tight">
-              إضافة صديق للتحدي
-            </h4>
-            <input
-              value={newFriend}
-              onChange={(e) => setNewFriend(e.target.value.replace(/[^\d]/g, "").slice(0, 10))}
-              placeholder="05XXXXXXXX"
-              inputMode="numeric"
-              dir="ltr"
-              className="w-full h-12 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-bold text-right"
-              style={{ fontVariantNumeric: "tabular-nums" }}
-            />
-            <div className="flex gap-2 pt-1">
-              <button
-                onClick={() => setShowAdd(false)}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3 text-[13px]"
-              >
-                إلغاء
-              </button>
-              <button
-                onClick={() => {
-                  if (!/^05\d{8}$/.test(newFriend)) {
-                    toast.error("رقم الجوال يجب أن يتكون من 10 خانات ويبدأ بـ 05");
-                    return;
-                  }
-                  toast.success("تمت دعوة صديقتك للتحدي ");
-                  setNewFriend("");
-                  setShowAdd(false);
-                }}
-                className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3 text-[13px]"
-              >
-                إرسال الدعوة
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
-function ProgressBar({
-  name,
-  percent,
-  tone,
-}: {
-  name: string;
-  percent: number;
-  tone: "primary" | "amber";
-}) {
-  const barColor =
-    tone === "primary"
-      ? "linear-gradient(to left, oklch(0.55 0.14 155), oklch(0.32 0.06 155))"
-      : "linear-gradient(to left, oklch(0.93 0.06 80), oklch(0.88 0.08 75))";
-  return (
-    <div className="flex items-center gap-2" dir="rtl">
-      <span className="text-[11px] font-bold text-foreground shrink-0 min-w-[4.5rem] text-right leading-none">
-        {name}
-      </span>
-      <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
-        <div
-          className="h-full rounded-full transition-all"
-          style={{ width: `${percent}%`, background: barColor }}
-        />
-      </div>
-      <span
-        className="text-[11px] font-bold text-muted-foreground shrink-0 min-w-[2rem] text-left leading-none"
-        style={{ fontVariantNumeric: "tabular-nums" }}
-      >
-        {percent}%
-      </span>
-    </div>
-  );
-}
