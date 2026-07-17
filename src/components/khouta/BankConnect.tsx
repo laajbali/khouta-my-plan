@@ -53,11 +53,11 @@ export function BankConnect({
               </div>
               <div className="text-right flex-1">
                 <p className="text-[10px] text-mint font-bold tracking-widest">SAMA APPROVED</p>
-                <p className="text-sm font-bold">معتمد من البنك المركزي السعودي</p>
+                <p className="text-[13px] font-extrabold tracking-tight">معتمد من البنك المركزي السعودي</p>
               </div>
             </div>
-            <h2 className="text-lg font-bold mt-2">الربط عبر Open Banking</h2>
-            <p className="text-xs text-white/80 mt-1 leading-relaxed">
+            <h2 className="text-[17px] font-extrabold mt-2 tracking-tight">الربط عبر Open Banking</h2>
+            <p className="text-[11px] text-white/80 mt-1 leading-relaxed font-medium">
               اسحبي بياناتك المالية تلقائياً بأمان تام — لا يتم مشاركة كلمة سرك، ويمكنكِ فصل الربط في أي وقت.
             </p>
           </div>
