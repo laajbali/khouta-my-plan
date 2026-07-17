@@ -243,16 +243,16 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             >
               <div className="absolute -top-12 -right-12 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
               <div className="relative flex items-center justify-between">
-                <span className="text-[11px] font-bold opacity-70">خصم على {activeCoupon.target}</span>
-                <span className="text-[16px] font-black tracking-tight">{activeCoupon.brand}</span>
+                <span className="text-[11px] font-medium opacity-80">خصم على {activeCoupon.target}</span>
+                <span className="text-[14px] font-extrabold tracking-tight">{activeCoupon.brand}</span>
               </div>
               <p
-                className="relative mt-3 text-[52px] font-black leading-none text-center"
+                className="relative mt-3 text-[28px] font-black leading-none text-center tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {activeCoupon.pct}%
               </p>
-              <p className="relative text-center text-[11px] font-semibold opacity-80 mt-1">
+              <p className="relative text-center text-[11px] font-medium opacity-80 mt-1">
                 حد أدنى {activeCoupon.min} ر.س • صالح {activeCoupon.days} أيام
               </p>
             </div>
