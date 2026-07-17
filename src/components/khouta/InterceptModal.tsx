@@ -124,13 +124,13 @@ export function InterceptModal({
             {/* Goal progress preview */}
             <div className="mt-4 rounded-2xl bg-secondary/60 border border-border p-3.5">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10.5px] font-bold text-muted-foreground">
+                <span className="text-[11px] font-bold text-muted-foreground">
                   متبقٍ{" "}
-                  <span className="text-foreground" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-foreground font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {(target - savedBase).toLocaleString()} ر.س
                   </span>
                 </span>
-                <span className="text-[12px] font-black text-foreground"> {goalTitle}</span>
+                <span className="text-[13px] font-extrabold text-foreground tracking-tight"> {goalTitle}</span>
               </div>
               <div className="h-2 bg-card rounded-full overflow-hidden" dir="ltr">
                 <div
@@ -146,13 +146,13 @@ export function InterceptModal({
             <div className="mt-5 flex gap-2.5">
               <button
                 onClick={onProceed}
-                className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[12.5px] active:scale-[0.98] transition"
+                className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.98] transition"
               >
                 المتابعة رغم ذلك
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[12px] shadow-lg active:scale-[0.98] transition"
+                className="flex-1 rounded-2xl bg-foreground text-background font-extrabold py-3.5 text-[13px] shadow-lg active:scale-[0.98] transition"
               >
                 إلغاء الطلب وتوفير {amount} ر.س
               </button>
