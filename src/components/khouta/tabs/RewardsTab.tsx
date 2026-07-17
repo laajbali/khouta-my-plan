@@ -73,9 +73,10 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
           <div className="flex-1 text-right">
             <p className="text-[11px] text-muted-foreground font-medium">إجمالي ما وفرتِه</p>
             <p className="text-[22px] font-bold text-foreground mt-0.5 leading-none tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
-              {totalSaved.toLocaleString()}<span className="text-[13px] font-semibold text-foreground mr-2">ر.س</span>
+              {totalSaved.toLocaleString()}
             </p>
-            <p className="text-[11px] text-muted-foreground font-semibold mt-1.5 flex items-center gap-1">
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س</p>
+            <p className="text-[11px] text-muted-foreground font-medium mt-1.5 flex items-center gap-1">
               {rewardsCount} مكافآت متاحة
               <Gift className="h-3 w-3" strokeWidth={2} />
             </p>
