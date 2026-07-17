@@ -62,6 +62,7 @@ export function ProfileTab({
         <div className="flex items-center justify-between px-5 pt-6 pb-3 bg-card">
           <div className="w-11" />
           <h1 className="text-[17px] font-extrabold text-foreground tracking-tight">الإعدادات</h1>
+          <p className="text-[11px] text-muted-foreground mt-0.5 font-medium">تخصيص تجربتك في خُطى</p>
           <button
             onClick={() => setView("root")}
             aria-label="رجوع"
