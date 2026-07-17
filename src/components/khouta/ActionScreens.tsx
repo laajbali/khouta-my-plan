@@ -1511,12 +1511,12 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
         <button onClick={onBack} className="h-9 w-9 rounded-full bg-white/40 flex items-center justify-center text-neutral-900">
           <ChevronRight className="h-5 w-5" strokeWidth={2} />
         </button>
-        <span className="text-neutral-900 text-[22px] font-black tracking-tight lowercase">noon</span>
+        <span className="text-neutral-900 text-[17px] font-extrabold tracking-tight lowercase">noon</span>
         <div className="w-9" />
       </div>
       <div className="bg-yellow-400 px-4 pb-4 shrink-0">
         <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2">
-          <span className="text-[12px] text-neutral-500 font-medium">ابحث في نون</span>
+          <span className="text-[11px] text-neutral-500 font-medium">ابحث في نون</span>
         </div>
       </div>
       <div className="flex-1 overflow-y-auto">
@@ -1527,16 +1527,17 @@ function NoonFreezeSim({ onBack, onBuy }: { onBack: () => void; onBuy: () => voi
           </div>
         </div>
         <div className="px-4 pt-4 text-neutral-900" dir="rtl">
-          <p className="text-[15px] font-bold leading-snug">سماعة سوني اللاسلكية — عزل ضوضاء</p>
-          <p className="text-[11px] text-neutral-500 mt-1">Sony Wireless Headphones</p>
+          <p className="text-[14px] font-extrabold leading-snug tracking-tight">سماعة سوني اللاسلكية — عزل ضوضاء</p>
+          <p className="text-[11px] text-neutral-500 mt-1 font-medium">Sony Wireless Headphones</p>
           <div className="flex items-baseline gap-2 mt-3">
-            <span className="text-[26px] font-black text-neutral-900" style={{ fontVariantNumeric: "tabular-nums" }}>
-              400 ر.س
+            <span className="text-[22px] font-bold text-neutral-900 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+              400
             </span>
+            <span className="text-[10px] text-neutral-500 font-medium">ر.س</span>
           </div>
           <button
             onClick={onBuy}
-            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-black py-4 text-[14px] active:scale-[0.99] transition shadow-lg"
+            className="mt-5 mb-6 w-full rounded-full bg-yellow-400 text-neutral-900 font-extrabold py-4 text-[13px] active:scale-[0.99] transition shadow-lg"
           >
             شراء الآن
           </button>
