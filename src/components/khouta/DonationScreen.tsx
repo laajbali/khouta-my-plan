@@ -90,10 +90,10 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
                       : undefined
                   }
                 >
-                  <span className="text-[16px] font-black" style={{ fontVariantNumeric: "tabular-nums" }}>
+                  <span className="text-[16px] font-bold tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
                     {v}
                   </span>
-                  <span className={`text-[10px] font-bold mt-0.5 ${active ? "text-white/80" : "text-muted-foreground"}`}>
+                  <span className={`text-[10px] font-medium mt-0.5 ${active ? "text-white/80" : "text-muted-foreground"}`}>
                     ريال
                   </span>
                 </button>
