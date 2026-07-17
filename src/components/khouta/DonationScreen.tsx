@@ -38,7 +38,7 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
         </div>
 
         {/* Ayah card */}
-        <div className="rounded-[20px] p-4 text-center bg-mint/5 border-[1.5px] border-mint/30">
+        <div className="rounded-[20px] p-4 text-center bg-white border-[1.5px] border-mint/30">
           <p className="text-[15px] font-black text-foreground leading-loose" dir="rtl">
             ﴿ وَما تُقَدِّموا لِأَنفُسِكُم مِن خَيرٍ تَجِدوهُ عِندَ اللَّه ﴾
           </p>
