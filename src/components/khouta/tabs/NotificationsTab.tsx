@@ -186,14 +186,6 @@ function AlertRow({ a }: { a: Alert }) {
   );
 }
 
-function Badge({ icon, label, tint }: { icon: React.ReactNode; label: string; tint: string }) {
-  return (
-    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-bold ${tint}`}>
-      {icon}
-      {label}
-    </span>
-  );
-}
 
 
 
