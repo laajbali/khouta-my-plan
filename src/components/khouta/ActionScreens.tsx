@@ -854,7 +854,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               <ChevronRight className="h-4 w-4 text-foreground rotate-180" strokeWidth={2.5} />
             </button>
             <div className="flex items-center gap-2">
-              <span className="text-[13px] font-extrabold text-foreground tracking-tight">يوليو 2026</span>
+              <span className="text-[14px] font-extrabold text-foreground tracking-tight">يوليو 2026</span>
               <button className="text-[10px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
                 اليوم
               </button>
