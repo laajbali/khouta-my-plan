@@ -99,14 +99,14 @@ export function InterceptModal({
           </div>
 
           <div className="p-5">
-            <p className="text-[13px] text-foreground leading-relaxed text-right">
+            <p className="text-[13px] text-foreground leading-relaxed text-right font-medium">
               أنت الآن على وشك شراء منتجات بقيمة{" "}
-              <span className="font-black text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <span className="font-bold text-primary" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {amount} ر.س
               </span>{" "}
               من <span className="font-bold">{merchant}</span>.
             </p>
-            <p className="text-[12.5px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
+            <p className="text-[11px] text-muted-foreground mt-2 text-right font-medium leading-relaxed">
               إذا أكملت هذه العملية، ستتأخر عن هدفك المالي لمدة:
             </p>
 
@@ -114,7 +114,7 @@ export function InterceptModal({
             <div className="mt-3 rounded-2xl bg-destructive/10 border border-destructive/25 p-3 flex items-center justify-between">
               <span className="text-[11px] font-bold text-destructive">تأخير متوقع</span>
               <span
-                className="text-[18px] font-black text-destructive"
+                className="text-[22px] font-bold text-destructive tracking-tight"
                 style={{ fontVariantNumeric: "tabular-nums" }}
               >
                 {delayDays} يوماً
