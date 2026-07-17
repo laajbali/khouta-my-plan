@@ -121,13 +121,9 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
             </h3>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               نسبة ادخارك خلال {range}{" "}
-              <span className="text-foreground font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
+              <span className="text-mint font-bold" style={{ fontVariantNumeric: "tabular-nums" }}>
                 {stats.savingRate}%
               </span>
-            </p>
-            <p className="text-[11px] text-foreground font-semibold mt-1 flex items-center gap-1 justify-start text-right">
-              استمري على الطريق!
-              <TrendingUp className="h-3 w-3" strokeWidth={2} />
             </p>
           </div>
         </div>
