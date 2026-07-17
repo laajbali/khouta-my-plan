@@ -1883,6 +1883,11 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
   return (
     <div className="flex flex-col h-full bg-background">
       <ScreenHeader title="محادثة ريما المالية" onBack={onBack} />
+      <div className="bg-card border-b border-border px-5 pt-1 pb-2 text-center">
+        <p className="text-[11px] font-medium text-muted-foreground" dir="rtl">
+          أنت: 68%  •  ريما: 45%
+        </p>
+      </div>
 
       <div className="flex-1 overflow-y-auto">
         {/* Chat */}
