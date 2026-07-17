@@ -719,13 +719,14 @@ export function NewGoalScreen({ onBack }: { onBack: () => void }) {
         </Field>
         {amount && months && (
           <div className="rounded-2xl bg-primary/5 border border-primary/20 p-4 text-right">
-            <p className="text-xs text-muted-foreground">للوصول للهدف تحتاجين لادخار</p>
+            <p className="text-[11px] text-muted-foreground font-medium">للوصول للهدف تحتاجين لادخار</p>
             <p
-              className="text-lg font-bold text-primary mt-1"
+              className="text-[22px] font-bold text-primary mt-1 tracking-tight"
               style={{ fontVariantNumeric: "tabular-nums" }}
             >
-              {Math.ceil(Number(amount) / Number(months)).toLocaleString()} ر.س/شهر
+              {Math.ceil(Number(amount) / Number(months)).toLocaleString()}
             </p>
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ر.س/شهر</p>
           </div>
         )}
         <PrimaryButton type="submit" disabled={saving}>
