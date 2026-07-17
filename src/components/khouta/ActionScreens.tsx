@@ -1233,7 +1233,7 @@ function AddEventScreen({
                   type="button"
                   key={p.k}
                   onClick={() => setPriority(p.k as typeof priority)}
-                  className={`rounded-xl py-2.5 text-[12px] font-bold border transition ${
+                  className={`rounded-xl py-2.5 text-[12px] font-extrabold border transition ${
                     active ? p.tone : "bg-card border-border text-muted-foreground"
                   }`}
                 >
