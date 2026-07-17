@@ -137,7 +137,7 @@ export function NotificationsTab({
           dir="rtl"
           className="w-full rounded-2xl border border-border bg-white px-3 py-3 flex items-center gap-3 active:scale-[0.99] transition"
         >
-          <div className="h-9 w-9 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
+          <div className="h-9 w-9 rounded-full bg-mint/15 flex items-center justify-center shrink-0">
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
