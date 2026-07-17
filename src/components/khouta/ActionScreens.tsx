@@ -882,7 +882,7 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
                 <button
                   key={i}
                   onClick={() => setSelected(day)}
-                  className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-[12px] font-bold transition ${
+                  className={`relative aspect-square rounded-xl flex flex-col items-center justify-center text-[12px] font-extrabold transition ${
                     isSelected
                       ? "bg-primary text-primary-foreground shadow-md shadow-primary/25"
                       : isToday
