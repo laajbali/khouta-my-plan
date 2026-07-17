@@ -236,21 +236,21 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
         <div className="grid grid-cols-3 gap-2">
           <SummaryTile
             icon={<Target className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-primary/10 text-primary"
+            iconTint="bg-mint/15 text-primary"
             title="هدفك"
             main={stats.goalsTotal > 0 ? `${fmt(stats.goalsTotal)} ر.س` : "لا يوجد"}
             note={stats.goalsTotal > 0 ? `وفَّرتِ ${fmt(stats.goalsSaved)} (${stats.goalProgress}%)` : "أضيفي هدفاً"}
           />
           <SummaryTile
             icon={<Sparkles className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-primary/10 text-primary"
+            iconTint="bg-mint/15 text-primary"
             title="أعلى صرف"
             main="التسوق"
             note="32% من الفترة"
           />
           <SummaryTile
             icon={<TrendingUp className="h-4 w-4" strokeWidth={2} />}
-            iconTint="bg-primary/10 text-primary"
+            iconTint="bg-mint/15 text-primary"
             title="أكثر تحكم"
             main="الترفيه"
             note="-12% عن السابق"
