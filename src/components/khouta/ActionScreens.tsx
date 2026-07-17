@@ -999,11 +999,11 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
             </div>
 
             <div className="p-5">
-              <p className="text-[12.5px] text-foreground/85 text-right font-medium leading-relaxed">
+              <p className="text-[11px] text-foreground/85 text-right font-medium leading-relaxed">
                 قمنا بإعادة توزيع خطة الادخار تلقائياً حتى لا تتأثر ميزانيتك.
               </p>
 
-              <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-semibold">
+              <p className="text-[10px] text-muted-foreground text-right mt-4 mb-1 font-medium">
                 اختر خطة الادخار المناسبة
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -1015,13 +1015,13 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               <div className="mt-4 flex gap-2.5">
                 <button
                   onClick={() => setScreen("main")}
-                  className="flex-1 rounded-2xl bg-secondary text-foreground font-bold py-3.5 text-[12.5px] active:scale-[0.98] transition"
+                  className="flex-1 rounded-2xl bg-secondary text-foreground font-extrabold py-3.5 text-[13px] active:scale-[0.98] transition"
                 >
                   إغلاق
                 </button>
                 <button
                   onClick={() => setScreen("main")}
-                  className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[12.5px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
+                  className="flex-1 rounded-2xl bg-primary text-primary-foreground font-extrabold py-3.5 text-[13px] shadow-lg shadow-primary/30 active:scale-[0.98] transition"
                 >
                   عرض الخطة الجديدة
                 </button>
