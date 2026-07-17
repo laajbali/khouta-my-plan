@@ -120,13 +120,13 @@ export function NotificationsTab({
               <ShieldCheck className="h-4 w-4 text-mint" strokeWidth={2} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[15px] text-right tracking-tight">الحماية المالية الفورية</h3>
+          <h3 className="font-extrabold text-[14px] text-right tracking-tight">الحماية المالية الفورية</h3>
           <p className="text-[11px] mt-1 text-right text-white/75 font-medium leading-relaxed">
             الذكاء الاصطناعي يحلل عملياتك قبل إتمامها لحماية خطتك.
           </p>
           <button
             onClick={() => setSimKey("SHEIN")}
-            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12.5px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
             افتح شي إن
