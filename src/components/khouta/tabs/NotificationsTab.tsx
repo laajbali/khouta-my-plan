@@ -114,7 +114,7 @@ export function NotificationsTab({
             <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
               حماية
             </span>
-            <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="h-7 w-7 rounded-full bg-mint/15 flex items-center justify-center">
               <ShieldCheck className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
             </div>
           </div>
