@@ -213,7 +213,7 @@ export function ProfileTab({
                 </div>
                 <div className="flex-1 text-right min-w-0">
                   <p className="font-extrabold text-foreground text-[13px] tracking-tight truncate">{m.label}</p>
-                  <p className="text-[10.5px] text-muted-foreground truncate font-medium mt-0.5">{m.desc}</p>
+                  <p className="text-[11px] text-muted-foreground truncate font-medium mt-0.5">{m.desc}</p>
                 </div>
                 <ChevronLeft className="h-4 w-4 text-muted-foreground/70 shrink-0" strokeWidth={2.5} />
               </button>
