@@ -66,7 +66,7 @@ export function BankConnect({
         {state === "select" && (
           <>
             <div>
-              <p className="text-sm font-bold text-foreground mb-3 text-right">اختر بنكك</p>
+              <p className="text-[14px] font-extrabold text-foreground mb-3 text-right tracking-tight">اختر بنكك</p>
               <div className="grid grid-cols-2 gap-3">
                 {BANKS.map((b) => (
                   <button
@@ -74,11 +74,11 @@ export function BankConnect({
                     onClick={() => connect(b.key)}
                     className="rounded-2xl bg-card border border-border p-4 flex flex-col items-center gap-2 hover:border-primary/40 active:scale-[0.98] transition"
                   >
-                    <div className={`h-12 w-12 rounded-xl ${b.color} flex items-center justify-center font-bold`}>
+                    <div className={`h-12 w-12 rounded-xl ${b.color} flex items-center justify-center font-extrabold text-[14px]`}>
                       {b.short}
                     </div>
-                    <span className="text-sm font-bold text-foreground">{b.name}</span>
-                    <span className="text-[10px] text-mint"> متاح</span>
+                    <span className="text-[13px] font-extrabold text-foreground tracking-tight">{b.name}</span>
+                    <span className="text-[10px] text-mint font-medium"> متاح</span>
                   </button>
                 ))}
               </div>
