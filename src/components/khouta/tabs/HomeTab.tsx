@@ -128,7 +128,7 @@ export function HomeTab({
             <div className="mx-auto h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-3">
               <Target className="h-6 w-6" strokeWidth={1.8} />
             </div>
-            <p className="text-[14px] font-extrabold text-foreground">أنشئ هدفك الأول</p>
+            <p className="text-[14px] font-extrabold text-foreground tracking-tight">أنشئ هدفك الأول</p>
             <p className="text-[11px] text-muted-foreground mt-1 font-medium">
               ابدأ رحلة الادخار الآن
             </p>
