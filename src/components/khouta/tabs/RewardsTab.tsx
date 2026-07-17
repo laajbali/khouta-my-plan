@@ -154,7 +154,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                       key={i}
                       className={`rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex ${expired ? "opacity-70" : ""}`}
                     >
-                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[12px] font-extrabold tracking-tight`}>
+                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[13px] font-extrabold tracking-tight`}>
                         <span>{c.brand}</span>
                       </div>
                       <div className="flex-1 p-3 flex justify-between items-center gap-3">
