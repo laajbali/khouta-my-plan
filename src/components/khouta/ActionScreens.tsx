@@ -2046,36 +2046,3 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
   );
 }
 
-function ProgressBar({
-  name,
-  percent,
-  tone,
-}: {
-  name: string;
-  percent: number;
-  tone: "primary" | "amber";
-}) {
-  const barColor =
-    tone === "primary"
-      ? "linear-gradient(to left, oklch(0.55 0.14 155), oklch(0.32 0.06 155))"
-      : "linear-gradient(to left, oklch(0.93 0.06 80), oklch(0.88 0.08 75))";
-  return (
-    <div className="flex items-center gap-2" dir="rtl">
-      <span className="text-[11px] font-bold text-foreground shrink-0 min-w-[4.5rem] text-right leading-none">
-        {name}
-      </span>
-      <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden" dir="ltr">
-        <div
-          className="h-full rounded-full transition-all"
-          style={{ width: `${percent}%`, background: barColor }}
-        />
-      </div>
-      <span
-        className="text-[11px] font-bold text-muted-foreground shrink-0 min-w-[2rem] text-left leading-none"
-        style={{ fontVariantNumeric: "tabular-nums" }}
-      >
-        {percent}%
-      </span>
-    </div>
-  );
-}
