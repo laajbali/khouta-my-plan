@@ -190,7 +190,7 @@ function AlertRow({ a }: { a: Alert }) {
           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
           <p className="text-[13px] font-extrabold text-foreground truncate tracking-tight">{a.brand}</p>
         </div>
-        <p className="text-[12px] text-foreground/80 mt-1 font-medium">{a.text}</p>
+        <p className="text-[11px] text-foreground/80 mt-1 font-medium">{a.text}</p>
         <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>{a.time}</p>
       </div>
     </div>
