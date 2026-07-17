@@ -258,11 +258,11 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             </div>
 
             <div className="mt-4 rounded-2xl border-2 border-dashed border-border bg-secondary/40 p-4">
-              <p className="text-[10px] font-bold text-muted-foreground text-right mb-2">كود الخصم</p>
+              <p className="text-[10px] font-medium text-muted-foreground text-right mb-2">كود الخصم</p>
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => copyCode(activeCoupon.code)}
-                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-bold text-[12px] flex items-center gap-1.5 shrink-0"
+                  className="h-11 px-4 rounded-xl bg-primary text-primary-foreground font-extrabold text-[12px] flex items-center gap-1.5 shrink-0"
                 >
                   {copied ? (
                     <>
@@ -275,7 +275,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                   )}
                 </button>
                 <span
-                  className="flex-1 text-center text-[18px] font-black text-foreground tracking-[0.2em] font-mono"
+                  className="flex-1 text-center text-[16px] font-bold text-foreground tracking-tight"
                   style={{ fontVariantNumeric: "tabular-nums" }}
                 >
                   {activeCoupon.code}
