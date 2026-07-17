@@ -111,7 +111,7 @@ export function LoginScreen({ onCreate, onLogin }: { onCreate: () => void; onLog
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-[18px] mt-3 shadow-[0_18px_36px_-16px_oklch(0.20_0.05_155/0.65)] disabled:opacity-60 active:scale-[0.97] hover:shadow-[0_22px_44px_-18px_oklch(0.20_0.05_155/0.75)] transition-all duration-200 text-[14px] tracking-tight"
+          className="w-full rounded-2xl bg-primary text-primary-foreground font-extrabold py-[18px] mt-3 shadow-[0_18px_36px_-16px_oklch(0.20_0.05_155/0.65)] disabled:opacity-60 active:scale-[0.97] hover:shadow-[0_22px_44px_-18px_oklch(0.20_0.05_155/0.75)] transition-all duration-200 text-[13px] tracking-tight"
         >
           {loading ? "جارٍ تسجيل الدخول..." : "تسجيل الدخول"}
         </button>
