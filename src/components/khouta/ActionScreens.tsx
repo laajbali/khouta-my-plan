@@ -990,10 +990,10 @@ export function CalendarScreen({ onBack }: { onBack: () => void }) {
               }}
             >
               <div className="flex items-center gap-2 justify-end">
-                <span className="text-[9px] font-black px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
-                <p className="text-[13px] font-black tracking-tight">المستشار المالي</p>
+                <span className="text-[9px] font-extrabold px-2 py-1 rounded-lg bg-mint text-primary tracking-wider">AI</span>
+                <p className="text-[13px] font-extrabold tracking-tight">المستشار المالي</p>
               </div>
-              <h2 className="mt-2 text-[18px] font-black tracking-tight text-right">
+              <h2 className="mt-2 text-[17px] font-extrabold tracking-tight text-right">
                 تمت إضافة المناسبة بنجاح
               </h2>
             </div>
