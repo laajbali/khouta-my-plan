@@ -276,16 +276,16 @@ function StatCard({
 }) {
   return (
     <div className="rounded-[20px] bg-card border border-border p-4 shadow-sm">
-      <p className="text-right text-[11px] font-medium text-muted-foreground">{label}</p>
-      <div className="flex items-center justify-between mt-2">
-        <div className={`h-9 w-9 rounded-xl ${iconBg} flex items-center justify-center`}>
-          {icon}
-        </div>
-        <div className="text-right">
-          <p className={`text-[22px] font-bold ${valueColor} tracking-tight leading-none`} style={{ fontVariantNumeric: "tabular-nums" }}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="text-right flex-1 min-w-0">
+          <p className="text-[11px] font-medium text-muted-foreground">{label}</p>
+          <p className={`text-[22px] font-bold ${valueColor} tracking-tight leading-none mt-1`} style={{ fontVariantNumeric: "tabular-nums" }}>
             {value}
           </p>
-          <p className="text-[10px] text-muted-foreground mt-1 font-medium">ر.س</p>
+          <p className="text-[10px] text-muted-foreground mt-0.5 font-medium">ر.س</p>
+        </div>
+        <div className={`h-9 w-9 rounded-xl ${iconBg} flex items-center justify-center shrink-0`}>
+          {icon}
         </div>
       </div>
     </div>
