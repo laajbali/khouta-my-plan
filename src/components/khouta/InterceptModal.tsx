@@ -149,13 +149,13 @@ export function InterceptModal({
             <div className="mt-4 flex gap-2">
               <button
                 onClick={onProceed}
-                className="flex-1 rounded-xl bg-secondary text-foreground font-extrabold py-2.5 text-[11.5px] active:scale-[0.98] transition whitespace-nowrap"
+                className="flex-1 rounded-xl bg-secondary text-foreground font-extrabold h-10 text-[10.5px] active:scale-[0.98] transition whitespace-nowrap flex items-center justify-center"
               >
                 المتابعة رغم ذلك
               </button>
               <button
                 onClick={() => setStage("reward")}
-                className="flex-1 rounded-xl bg-foreground text-background font-extrabold py-2.5 text-[11.5px] shadow-lg active:scale-[0.98] transition whitespace-nowrap"
+                className="flex-1 rounded-xl bg-foreground text-background font-extrabold h-10 text-[10.5px] shadow-lg active:scale-[0.98] transition whitespace-nowrap flex items-center justify-center"
               >
                 إلغاء وتوفير {amount} ر.س
               </button>
