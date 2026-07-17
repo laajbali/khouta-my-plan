@@ -139,7 +139,7 @@ export function ReportsTab({ onOpenNotifications }: { onOpenNotifications?: () =
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 range === r
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "text-muted-foreground"
+                  : "bg-mint/25 text-primary"
               }`}
             >
               {r}

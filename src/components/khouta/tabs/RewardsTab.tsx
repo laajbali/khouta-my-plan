@@ -102,7 +102,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold whitespace-nowrap transition ${
                 filter === f
                   ? "bg-card text-foreground shadow-sm border border-border"
-                  : "text-muted-foreground"
+                  : "bg-mint/25 text-primary"
               }`}
             >
               {f}
