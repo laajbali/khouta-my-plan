@@ -175,7 +175,7 @@ export function HomeTab({
             />
           </div>
           <p
-            className={`mt-2 text-[10.5px] text-right font-medium ${
+            className={`mt-2 text-[11px] text-right font-medium ${
               isOverBudget ? "text-red-500 font-bold" : "text-muted-foreground"
             }`}
           >
