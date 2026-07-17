@@ -1924,17 +1924,18 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             </h4>
           </div>
 
-          <div className="space-y-2">
+          <div dir="ltr" className="space-y-2.5">
             {msgs.map((m, i) => (
               <div
                 key={i}
                 className={`flex ${m.from === "me" ? "justify-end" : "justify-start"}`}
               >
                 <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed font-medium ${
+                  dir="rtl"
+                  className={`max-w-[78%] px-4 py-2.5 text-[12px] leading-relaxed font-medium shadow-sm ${
                     m.from === "me"
-                      ? "bg-primary text-primary-foreground rounded-br-sm"
-                      : "bg-secondary text-foreground rounded-bl-sm border border-border"
+                      ? "bg-primary text-primary-foreground rounded-[18px] rounded-br-md text-right"
+                      : "bg-mint/10 text-foreground rounded-[18px] rounded-bl-md text-right"
                   }`}
                 >
                   {m.text} {m.emoji ?? ""}
@@ -1942,40 +1943,40 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
               </div>
             ))}
           </div>
-
-          {/* Quick tap bubbles */}
-          <div className="flex flex-wrap gap-2 justify-end pt-1">
-            {["يلا نكمّل! ", "توفيري اليوم مبسوط فيه ", "قربت من هدفك "].map((t) => (
-              <button
-                key={t}
-                onClick={() => send(t)}
-                className="text-[11px] font-bold text-primary bg-mint/10 border border-mint/30 rounded-full px-3 py-1.5 active:scale-95 transition"
-              >
-                {t}
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 
-      {/* Composer */}
-      <div className="border-t border-border bg-card px-4 py-3 flex items-center gap-2">
-        <button
-          onClick={() => send()}
-          aria-label="إرسال"
-          className="h-10 w-10 rounded-2xl bg-primary text-primary-foreground flex items-center justify-center shadow-md active:scale-95 transition"
-        >
-          <ChevronRight className="h-5 w-5 rotate-180" strokeWidth={2.5} />
-        </button>
-        <input
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") send();
-          }}
-          placeholder="اكتب رسالة تحفيزية..."
-          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-medium text-right"
-        />
+      {/* Quick reply chips + Composer */}
+      <div className="border-t border-border bg-card">
+        <div dir="rtl" className="px-4 pt-3 pb-2 flex flex-wrap gap-2 justify-start">
+          {["يلا نكمّل!", "توفيري اليوم مبسوط فيه", "قربت من هدفك"].map((t) => (
+            <button
+              key={t}
+              onClick={() => send(t)}
+              className="text-[11px] font-bold text-primary bg-mint/15 rounded-full px-3 py-1.5 active:scale-95 transition"
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        <div dir="rtl" className="px-4 pb-3 pt-1 flex items-center gap-2">
+          <input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") send();
+            }}
+            placeholder="اكتب رسالة تحفيزية..."
+            className="flex-1 h-11 rounded-full bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-medium text-right placeholder:text-muted-foreground"
+          />
+          <button
+            onClick={() => send()}
+            aria-label="إرسال"
+            className="h-11 w-11 rounded-full bg-primary text-primary-foreground flex items-center justify-center shadow-md active:scale-95 transition shrink-0"
+          >
+            <ChevronRight className="h-5 w-5 rotate-180" strokeWidth={2.5} />
+          </button>
+        </div>
       </div>
 
       {showAdd && (
@@ -2038,7 +2039,7 @@ function ProgressBar({
   const barColor =
     tone === "primary"
       ? "linear-gradient(to left, oklch(0.55 0.14 155), oklch(0.32 0.06 155))"
-      : "linear-gradient(to left, oklch(0.85 0.14 85), oklch(0.72 0.16 65))";
+      : "linear-gradient(to left, oklch(0.93 0.06 80), oklch(0.88 0.08 75))";
   return (
     <div className="text-right">
       <div className="flex items-center justify-between mb-1.5">
