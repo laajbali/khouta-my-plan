@@ -105,28 +105,22 @@ export function NotificationsTab({
 
       <div className="px-5 pt-4 space-y-4">
         {/* Hero — الحماية المالية الفورية (compact) */}
-        <div
-          className="rounded-[24px] px-4 py-4 text-primary-foreground relative overflow-hidden"
-          style={{
-            background:
-              "linear-gradient(140deg, oklch(0.34 0.07 155) 0%, oklch(0.20 0.05 155) 55%, oklch(0.12 0.03 155) 100%)",
-            boxShadow: "0 20px 40px -22px oklch(0.20 0.05 155 / 0.6)",
-          }}
-        >
-          <div className="absolute -top-14 -right-14 w-44 h-44 bg-mint/20 rounded-full blur-3xl" />
+        <div className="rounded-[24px] px-4 py-4 bg-muted relative overflow-hidden">
           <div className="relative flex items-center justify-between mb-2">
-            <span className="text-[9px] font-extrabold tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
-            <div className="h-9 w-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
-              <ShieldCheck className="h-4 w-4 text-mint" strokeWidth={2} />
+            <span className="text-[10px] font-extrabold px-2.5 py-1 rounded-full bg-primary/10 text-primary">
+              حماية
+            </span>
+            <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center">
+              <ShieldCheck className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
             </div>
           </div>
-          <h3 className="font-extrabold text-[14px] text-right tracking-tight">الحماية المالية الفورية</h3>
-          <p className="text-[11px] mt-1 text-right text-white/75 font-medium leading-relaxed">
+          <h3 className="font-extrabold text-[14px] text-right tracking-tight text-foreground">الحماية المالية الفورية</h3>
+          <p className="text-[11px] mt-1 text-right text-muted-foreground font-medium leading-relaxed">
             الذكاء الاصطناعي يحلل عملياتك قبل إتمامها لحماية خطتك.
           </p>
           <button
             onClick={() => setSimKey("SHEIN")}
-            className="mt-3 w-full rounded-xl bg-mint text-primary font-extrabold py-2.5 text-[12px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
+            className="mt-3 w-full rounded-xl bg-primary text-white font-extrabold py-2.5 text-[12px] flex items-center justify-center gap-2 shadow-md active:scale-[0.98] transition"
           >
             <ShoppingBag className="h-4 w-4" strokeWidth={2.2} />
             افتح شي إن
