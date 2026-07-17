@@ -1825,7 +1825,7 @@ function FreezeModeScreen({ onBack, onExit }: { onBack: () => void; onExit: () =
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="اكتب ردك..."
-              className="flex-1 bg-transparent outline-none text-sm text-right"
+              className="flex-1 bg-transparent outline-none text-[13px] font-medium text-right"
             />
           </form>
         </div>
