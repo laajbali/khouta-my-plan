@@ -231,11 +231,11 @@ export function HomeTab({
           </div>
           <div className="flex-1 min-w-0 text-right">
             <div className="flex items-center gap-2 justify-start">
-              <p className="text-[13.5px] font-black text-foreground tracking-tight leading-tight">
+              <p className="text-[14px] font-extrabold text-foreground tracking-tight leading-tight">
                 التحدي الجماعي
               </p>
             </div>
-            <p className="text-[10.5px] text-muted-foreground font-semibold mt-1 leading-tight text-right">
+            <p className="text-[11px] text-muted-foreground font-medium mt-1 leading-tight text-right">
               تحدَّ أصدقاءك وادّخروا سوياً — أنت 68% • ريما 45%
             </p>
           </div>
