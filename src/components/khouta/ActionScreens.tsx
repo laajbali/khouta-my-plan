@@ -1911,7 +1911,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
         {/* Motivational reminder */}
         <div className="px-5 pt-4">
           <div className="rounded-2xl bg-mint/10 border border-mint/30 p-3.5 text-right">
-            <p className="text-[12.5px] text-foreground font-semibold leading-relaxed">
+            <p className="text-[11px] text-foreground font-medium leading-relaxed">
               ريما قريبة منك! باقي لها تكة وتوصل لهدفها، وش رأيك تحمّسها الحين؟
             </p>
           </div>
