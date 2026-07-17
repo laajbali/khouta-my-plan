@@ -78,10 +78,10 @@ export function HomeTab({
           {initial}
         </button>
         <div className="text-center flex-1 mx-3">
-          <p className="text-foreground text-[15px] font-extrabold tracking-tight leading-tight">
+          <p className="text-foreground text-[17px] font-extrabold tracking-tight leading-tight">
             {firstName ? `مرحباً، ${firstName}` : "مرحباً"}
           </p>
-          <p className="text-muted-foreground text-[10.5px] mt-0.5 font-medium">
+          <p className="text-muted-foreground text-[11px] mt-0.5 font-medium">
             كل خطوة ذكية تقرّبك من هدفك
           </p>
         </div>
