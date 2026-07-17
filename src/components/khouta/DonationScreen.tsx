@@ -53,11 +53,12 @@ export function DonationScreen({ onBack }: { onBack: () => void }) {
             <Wallet className="h-7 w-7 text-primary" strokeWidth={1.8} />
           </div>
           <div className="flex-1 text-right">
-            <p className="text-[11px] text-muted-foreground font-semibold">الفائض المتاح</p>
-            <p className="text-[22px] font-black text-foreground mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
-              350 <span className="text-[13px] font-bold text-muted-foreground">ريال</span>
+            <p className="text-[11px] text-muted-foreground font-medium">الفائض المتاح</p>
+            <p className="text-[22px] font-bold text-foreground mt-1 tracking-tight" style={{ fontVariantNumeric: "tabular-nums" }}>
+              350
             </p>
-            <p className="text-[10.5px] text-muted-foreground font-medium mt-1">
+            <p className="text-[10px] text-muted-foreground font-medium mt-1">ريال</p>
+            <p className="text-[11px] text-muted-foreground font-medium mt-1">
               يمكنك تخصيص جزء بسيط إذا رغبت.
             </p>
           </div>
