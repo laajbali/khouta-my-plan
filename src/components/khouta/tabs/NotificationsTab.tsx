@@ -15,7 +15,6 @@ import {
   Coins,
   TrendingDown,
   Radar,
-  Zap,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -32,19 +31,24 @@ type Alert = {
   time: string;
 };
 
+const GRAY_TONE = "text-muted-foreground bg-muted";
+const GRAY_ICON = "bg-muted text-muted-foreground";
+const WARN_TONE = "text-destructive bg-destructive/10";
+const WARN_ICON = "bg-destructive/10 text-destructive";
+
 const ALERTS: Alert[] = [
-  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
-  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
-  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "اقتراح", tagTone: "text-primary bg-primary/10", text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
-  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "استثمار", tagTone: "text-amber-800 bg-amber-50", text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
+  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
+  { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
+  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "اقتراح", tagTone: GRAY_TONE, text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
+  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "استثمار", tagTone: GRAY_TONE, text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
 
 const ALL_ALERTS: Alert[] = [
   ...ALERTS,
-  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "توفير", tagTone: "text-mint bg-mint/10", text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
-  { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-orange-50 text-orange-700", tag: "تنبيه", tagTone: "text-destructive bg-destructive/10", text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
-  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "معلومة", tagTone: "text-blue-700 bg-blue-50", text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
-  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: "bg-primary/10 text-primary", tag: "إنجاز", tagTone: "text-mint bg-mint/10", text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
+  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
+  { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
+  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "معلومة", tagTone: GRAY_TONE, text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
+  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "إنجاز", tagTone: GRAY_TONE, text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
 ];
 
 type MerchantConfig = {
@@ -131,18 +135,13 @@ export function NotificationsTab({
         <button
           onClick={onOpenRadar}
           dir="rtl"
-          className="w-full rounded-2xl border border-border bg-white px-3 py-2.5 flex items-center gap-2 active:scale-[0.99] transition"
+          className="w-full rounded-2xl border border-border bg-white px-3 py-3 flex items-center gap-3 active:scale-[0.99] transition"
         >
-          <div className="h-8 w-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
+          <div className="h-9 w-9 rounded-full bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
             <Radar className="h-4 w-4 text-primary" strokeWidth={2} />
           </div>
           <div className="flex-1 min-w-0 text-right">
             <p className="text-[13px] font-extrabold text-foreground tracking-tight leading-tight">رادار خُطى الذكي</p>
-            <div className="mt-1 flex items-center gap-1.5 flex-wrap">
-              <Badge icon={<Zap className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اعتراض فوري" tint="text-primary bg-primary/10" />
-              <Badge icon={<ShieldCheck className="h-2.5 w-2.5" strokeWidth={2.5} />} label="حماية الهدف" tint="text-mint bg-mint/15" />
-              <Badge icon={<Sparkles className="h-2.5 w-2.5" strokeWidth={2.5} />} label="اقتراحات" tint="text-amber-700 bg-amber-50" />
-            </div>
           </div>
           <ChevronLeft className="h-3.5 w-3.5 text-muted-foreground shrink-0" strokeWidth={2.5} />
         </button>
@@ -187,14 +186,6 @@ function AlertRow({ a }: { a: Alert }) {
   );
 }
 
-function Badge({ icon, label, tint }: { icon: React.ReactNode; label: string; tint: string }) {
-  return (
-    <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-[9px] font-bold ${tint}`}>
-      {icon}
-      {label}
-    </span>
-  );
-}
 
 
 
