@@ -229,7 +229,7 @@ function MerchantSim({
         <button onClick={onBack} className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <ChevronRight className="h-5 w-5" strokeWidth={2} />
         </button>
-        <span className={`${m.logoText} text-[22px] font-black tracking-tight ${cls}`}>{m.logoLabel}</span>
+        <span className={`${m.logoText} text-[17px] font-extrabold tracking-tight ${cls}`}>{m.logoLabel}</span>
         <button className={`h-9 w-9 rounded-full bg-white/10 flex items-center justify-center ${m.headerText}`}>
           <Menu className="h-5 w-5" strokeWidth={2} />
         </button>
