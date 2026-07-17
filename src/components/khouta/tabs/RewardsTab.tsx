@@ -213,7 +213,7 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
             <ShieldCheck className="h-5 w-5 text-mint" strokeWidth={1.8} />
           </div>
           <div className="relative flex-1 text-right">
-            <p className="font-extrabold text-[13px] tracking-tight">كل قرار ذكي يقرّبك من هدفك</p>
+            <p className="font-extrabold text-[14px] tracking-tight">كل قرار ذكي يقرّبك من هدفك</p>
             <p className="text-[11px] text-white/70 mt-1 font-medium">استمري للحصول على مكافآت حصرية</p>
           </div>
           <ChevronLeft className="relative h-4 w-4 text-white/70 shrink-0" strokeWidth={2.5} />
