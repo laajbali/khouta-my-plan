@@ -115,7 +115,7 @@ export function NotificationsTab({
         >
           <div className="absolute -top-14 -right-14 w-44 h-44 bg-mint/20 rounded-full blur-3xl" />
           <div className="relative flex items-center justify-between mb-2">
-            <span className="text-[9px] font-black tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
+            <span className="text-[9px] font-extrabold tracking-[0.2em] uppercase px-2 py-0.5 rounded-md bg-mint text-primary">AI</span>
             <div className="h-9 w-9 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center">
               <ShieldCheck className="h-4 w-4 text-mint" strokeWidth={2} />
             </div>
