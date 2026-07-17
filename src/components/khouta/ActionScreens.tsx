@@ -1298,7 +1298,7 @@ export function GoalsListScreen({
       <ScreenHeader title="أهدافي" onBack={onBack} />
       <div className="flex-1 overflow-y-auto p-5 space-y-3">
         {loading && (
-          <p className="text-center text-sm text-muted-foreground py-10">جارٍ التحميل...</p>
+          <p className="text-center text-[13px] text-muted-foreground py-10 font-medium">جارٍ التحميل...</p>
         )}
 
         {!loading && goals.length === 0 && (
@@ -1306,8 +1306,8 @@ export function GoalsListScreen({
             <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 flex items-center justify-center">
               <Target className="h-6 w-6 text-primary" />
             </div>
-            <p className="text-sm font-bold text-foreground">لا توجد أهداف بعد</p>
-            <p className="text-xs text-muted-foreground">ابدأ بإضافة هدفك الأول من الأسفل</p>
+            <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا توجد أهداف بعد</p>
+            <p className="text-[11px] text-muted-foreground font-medium">ابدأ بإضافة هدفك الأول من الأسفل</p>
           </div>
         )}
 
