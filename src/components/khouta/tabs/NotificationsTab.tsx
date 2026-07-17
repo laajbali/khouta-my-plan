@@ -31,24 +31,24 @@ type Alert = {
   time: string;
 };
 
-const GRAY_TONE = "text-muted-foreground bg-muted";
-const GRAY_ICON = "bg-muted text-muted-foreground";
-const WARN_TONE = "text-destructive bg-destructive/10";
-const WARN_ICON = "bg-destructive/10 text-destructive";
+const GREEN_TONE = "text-primary bg-mint/15";
+const GREEN_ICON = "bg-mint/15 text-primary";
+const WARN_TONE = "text-white bg-[#EF4444]";
+const WARN_ICON = "bg-mint/15 text-primary";
 
 const ALERTS: Alert[] = [
-  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
+  { brand: "شي إن", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 240 ر.س بنجاح", time: "منذ 12 دقيقة" },
   { brand: "تنبيه ميزانية", icon: <UtensilsCrossed className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "اقتربت من الحد الأسبوعي للمطاعم", time: "منذ 3 ساعات" },
-  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "اقتراح", tagTone: GRAY_TONE, text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
-  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "استثمار", tagTone: GRAY_TONE, text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
+  { brand: "اقتراح ذكي", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "اقتراح", tagTone: GREEN_TONE, text: "يمكنك توفير 200 ر.س هذا الأسبوع", time: "منذ 5 ساعات" },
+  { brand: "تنبيه استثماري", icon: <Coins className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "استثمار", tagTone: GREEN_TONE, text: "انخفض سعر الذهب اليوم 1.4% — فرصة شراء", time: "منذ يوم" },
 ];
 
 const ALL_ALERTS: Alert[] = [
   ...ALERTS,
-  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "توفير", tagTone: GRAY_TONE, text: "تم إلغاء عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
+  { brand: "شي إن", icon: <ShoppingBag className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "توقف", tagTone: GREEN_TONE, text: "تم إيقاف عملية شراء بقيمة 450 ر.س بنجاح", time: "منذ يومين" },
   { brand: "تنبيه", icon: <TrendingDown className="h-5 w-5" strokeWidth={1.8} />, iconTint: WARN_ICON, tag: "تنبيه", tagTone: WARN_TONE, text: "تجاوز ميزانية التسوق الشهرية", time: "منذ 4 أيام" },
-  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "معلومة", tagTone: GRAY_TONE, text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
-  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GRAY_ICON, tag: "إنجاز", tagTone: GRAY_TONE, text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
+  { brand: "معلومة", icon: <ShieldCheck className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "معلومة", tagTone: GREEN_TONE, text: "تم استلام راتبك الشهري", time: "منذ 5 أيام" },
+  { brand: "إنجاز", icon: <Sparkles className="h-5 w-5" strokeWidth={1.8} />, iconTint: GREEN_ICON, tag: "إنجاز", tagTone: GREEN_TONE, text: "وصلتِ إلى 30% من هدف السيارة", time: "منذ أسبوع" },
 ];
 
 type MerchantConfig = {
