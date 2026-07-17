@@ -469,8 +469,8 @@ export function GoalDetailScreen({ onBack }: { onBack: () => void }) {
           <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center">
             <Target className="h-7 w-7 text-primary" />
           </div>
-          <p className="text-sm font-bold text-foreground">لا يوجد هدف حالياً</p>
-          <p className="text-xs text-muted-foreground">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
+          <p className="text-[13px] font-extrabold text-foreground tracking-tight">لا يوجد هدف حالياً</p>
+          <p className="text-[11px] text-muted-foreground font-medium">ابدأ بإنشاء هدف جديد من الشاشة الرئيسية</p>
         </div>
       </div>
     );
