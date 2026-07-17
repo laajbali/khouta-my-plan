@@ -60,7 +60,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="block text-xs font-semibold text-muted-foreground mb-1.5 text-right">
+      <span className="block text-[11px] font-medium text-muted-foreground mb-1.5 text-right">
         {label}
       </span>
       {children}
