@@ -154,24 +154,24 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                       key={i}
                       className={`rounded-[20px] bg-card border border-border shadow-sm overflow-hidden flex ${expired ? "opacity-70" : ""}`}
                     >
-                      <div className={`w-20 ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[13px] font-extrabold tracking-tight`}>
+                      <div className={`w-[72px] ${c.accent} ${c.accentText} flex flex-col items-center justify-center text-[11px] font-bold tracking-tight`}>
                         <span>{c.brand}</span>
                       </div>
                       <div className="flex-1 p-3 flex justify-between items-center gap-3">
                         <div className="text-center shrink-0">
-                          <p className={`text-[24px] font-bold leading-none tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`} style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className={`text-[20px] font-bold leading-none tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`} style={{ fontVariantNumeric: "tabular-nums" }}>
                             {c.pct}%
                           </p>
-                          <p className="text-[10px] text-muted-foreground font-medium mt-0.5">خصم</p>
+                          <p className="text-[9px] text-muted-foreground font-medium mt-0.5">خصم</p>
                           {expired ? (
-                            <div className="mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold bg-secondary text-muted-foreground flex items-center gap-1">
+                            <div className="mt-2 rounded-lg px-2 py-1 text-[9px] font-bold bg-secondary text-muted-foreground flex items-center gap-1">
                               <CheckCircle2 className="h-3 w-3" strokeWidth={2} />
                               منتهي
                             </div>
                           ) : (
                             <button
                               onClick={() => setActiveCoupon(c)}
-                              className={`mt-2 rounded-lg px-2.5 py-1 text-[10px] font-bold active:scale-95 transition ${
+                              className={`mt-2 rounded-lg px-2 py-1 text-[9px] font-bold active:scale-95 transition ${
                                 inUse ? "bg-mint/20 text-primary" : "bg-primary text-primary-foreground"
                               }`}
                             >
@@ -180,13 +180,13 @@ export function RewardsTab({ onOpenNotifications, onCompleteReward }: { onOpenNo
                           )}
                         </div>
                         <div className="flex-1 text-right min-w-0">
-                          <p className={`font-extrabold text-[13px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
+                          <p className={`font-bold text-[12px] tracking-tight ${expired ? "text-muted-foreground" : "text-foreground"}`}>
                             خصم على {c.target} في {c.brand}
                           </p>
-                          <p className="text-[11px] text-muted-foreground font-medium mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className="text-[10px] text-muted-foreground font-medium mt-1" style={{ fontVariantNumeric: "tabular-nums" }}>
                             حد أدنى {c.min} ر.س
                           </p>
-                          <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
+                          <p className="text-[9px] text-muted-foreground mt-1 flex items-center gap-1 justify-end font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>
                             {expired ? (c.usedOn ?? "منتهي الصلاحية") : `صالح ${c.days} أيام`}
                             <Clock className="h-3 w-3" strokeWidth={2} />
                           </p>
