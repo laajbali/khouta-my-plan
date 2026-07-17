@@ -1976,7 +1976,7 @@ export function GroupChallengeScreen({ onBack, userName = "" }: { onBack: () => 
             if (e.key === "Enter") send();
           }}
           placeholder="اكتب رسالة تحفيزية..."
-          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[12.5px] font-medium text-right"
+          className="flex-1 h-10 rounded-2xl bg-secondary border border-transparent focus:border-primary/40 outline-none px-4 text-[13px] font-medium text-right"
         />
       </div>
 
