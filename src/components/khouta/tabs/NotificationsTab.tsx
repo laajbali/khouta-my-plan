@@ -169,15 +169,28 @@ export function NotificationsTab({
 }
 
 function AlertRow({ a }: { a: Alert }) {
+  const isWarning = a.tag === "تنبيه";
+  const iconBg = isWarning ? "bg-destructive/10" : "bg-mint/15";
+  const iconColor = isWarning ? "text-destructive" : "text-primary";
+
   return (
     <div dir="rtl" className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
-      <div className={`h-10 w-10 rounded-xl flex items-center justify-center shrink-0 ${a.iconTint}`}>
+      <div
+        className={`h-10 w-10 rounded-full flex items-center justify-center shrink-0 ${iconBg} ${iconColor}`}
+      >
         {a.icon}
       </div>
       <div className="flex-1 text-right min-w-0">
-        <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded-lg ${a.tagTone}`}>{a.tag}</span>
-        <p className="text-[12.5px] font-extrabold text-foreground mt-1.5 tracking-tight leading-snug">{a.text}</p>
-        <p className="text-[10px] text-muted-foreground mt-1 font-medium" style={{ fontVariantNumeric: "tabular-nums" }}>{a.time}</p>
+        <span className="block text-[13px] font-extrabold text-foreground">{a.tag}</span>
+        <p className="text-[12px] font-medium text-foreground mt-1 tracking-tight leading-snug">
+          {a.text}
+        </p>
+        <p
+          className="text-[10px] text-muted-foreground mt-0.5 font-medium"
+          style={{ fontVariantNumeric: "tabular-nums" }}
+        >
+          {a.time}
+        </p>
       </div>
     </div>
   );
@@ -283,12 +296,12 @@ function AllAlertRow({ a }: { a: Alert }) {
         {a.icon}
       </div>
       <div className="flex-1 text-right min-w-0">
-        <span className="block text-[10px] font-bold text-foreground">{a.tag}</span>
-        <p className="text-[12.5px] font-extrabold text-foreground mt-1 tracking-tight leading-snug">
+        <span className="block text-[13px] font-extrabold text-foreground">{a.tag}</span>
+        <p className="text-[12px] font-medium text-foreground mt-1 tracking-tight leading-snug">
           {a.text}
         </p>
         <p
-          className="text-[10px] text-muted-foreground mt-1 font-medium"
+          className="text-[10px] text-muted-foreground mt-0.5 font-medium"
           style={{ fontVariantNumeric: "tabular-nums" }}
         >
           {a.time}
