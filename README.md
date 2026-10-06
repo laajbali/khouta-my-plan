@@ -1,139 +1,113 @@
-# Khouta (خُطى) 💚
+# Khouta (خُطى)
 
 > Your Financial Compass — an AI-powered FinTech application designed to help young users manage their money and build healthier financial habits.
 
-## 🚀 Overview
+## Overview
 
-**خُطى (Khouta)** is an Arabic-first FinTech application that helps users understand their financial behavior, organize their expenses, set financial goals, and build personalized financial plans.
+**Khouta (خُطى)** is an Arabic-first FinTech application designed to help young users understand their financial behavior, organize their expenses, set financial goals, and build personalized financial plans.
 
-The app combines financial management, behavioral insights, AI-powered guidance, and gamification to create a simple and personalized financial experience.
+The concept combines financial management, behavioral insights, AI-powered guidance, and gamification to create a simple and personalized financial experience.
 
-## ✨ Key Features
+## Key Features
 
-### 👤 Smart Onboarding
+### Smart Onboarding
 
-A personalized onboarding journey that collects:
+A personalized onboarding experience that collects essential financial information, including:
 
 - Basic user information
-- Income sources
-- Monthly income
-- Fixed expenses
-- Variable expenses
-- Savings goals
-- Financial objectives
+- Income sources and monthly income
+- Fixed and variable expenses
+- Financial goals and objectives
 
-### 💰 Financial Profile
+### Financial Profile
 
-Users can organize their financial information, including:
+Users can organize and review their financial information, including income sources and recurring spending categories such as housing, transportation, food, shopping, and entertainment.
 
-- Monthly salary and income sources
-- Housing expenses
-- Transportation
-- Internet
-- Restaurants
-- Shopping
-- Entertainment
-- Other expenses
+### Financial Goals
 
-### 🎯 Financial Goals
+Users can create and customize goals such as:
 
-Users can choose and customize financial goals such as:
+- Buying a car
+- Buying a laptop
+- Traveling
+- Education
+- Marriage
+- Buying a home
+- Emergency savings
+- Custom goals
 
-- 🚗 Buying a car
-- 💻 Buying a laptop
-- ✈️ Traveling
-- 💍 Marriage
-- 🎓 Education
-- 🏠 Buying a home
-- 🚨 Emergency fund
-- ✨ Custom goals
+The application generates a suggested saving plan based on the selected goal and timeline.
 
-The application calculates a suggested saving plan based on the selected goal and timeline.
+### Personalized Financial Planning
 
-### 📊 Personalized Financial Plan
-
-Khouta analyzes the user's financial information to generate a personalized plan, including:
+Khouta analyzes the user's financial information to generate a personalized plan covering:
 
 - Income analysis
 - Expense analysis
-- Budget calculation
+- Budget allocation
 - Financial calendar
 - Savings recommendations
-- Smart financial guidance
+- Personalized financial guidance
 
-### 🏦 Bank & Payment Integration
+### AI Financial Advisor
+
+The AI advisor is designed to provide personalized guidance based on spending behavior and financial goals.
+
+It helps users understand their spending patterns, reduce unnecessary expenses, make better financial decisions, and stay on track with their goals.
+
+### Banking Integration Concept
 
 The application includes a concept for connecting payment cards and banking data to provide a more complete view of the user's financial activity.
 
-### 🤖 AI Financial Advisor
+## Design & UX
 
-Khouta is designed to provide personalized financial guidance based on the user's spending behavior and financial goals.
-
-The AI aims to help users:
-
-- Understand their spending patterns
-- Make better financial decisions
-- Control unnecessary spending
-- Stay on track with their goals
-- Build healthier financial habits
-
-## 🎨 Design & UX
-
-Khouta was designed as an **Arabic-first FinTech experience**, focusing on:
+Khouta follows an Arabic-first design approach focused on:
 
 - Modern Arabic typography
 - Dark financial green visual identity
 - Clean and minimal interfaces
-- Interactive onboarding
 - Mobile-first experience
+- Interactive onboarding
 - Simple financial visualizations
-- Clear and accessible navigation
+- Accessible navigation
 
-## 🧠 Core Concept
+## Product Concept
 
-Traditional budgeting applications mainly tell users **where their money went**.
+Traditional budgeting applications mainly tell users where their money went.
 
-Khouta aims to go further by helping users understand:
+**Khouta aims to go further by helping users understand why they spend, how they can improve, and how they can reach their financial goals.**
 
-> **Why they spend, how they can improve, and how they can reach their financial goals.**
-
-## 🛠️ Built With
+## Built With
 
 - Lovable
-- AI
-- FinTech concepts
-- Open Banking concept
+- AI-powered product concepts
+- FinTech and Open Banking concepts
 - Responsive UI/UX
 - Arabic-first design
 
-## 🏆 Project
+## Project
 
-Khouta was developed as a **FinTech project during a hackathon**, focusing on creating an innovative solution for improving financial awareness and spending behavior among young users.
+Khouta was developed as a FinTech hackathon project focused on improving financial awareness and spending behavior among young users.
 
-## 👩🏻‍💻 My Contribution
+## My Contribution
 
-- Contributed to the product concept
-- Worked on the UI/UX design
-- Developed the application prototype using Lovable
-- Worked on the onboarding experience
-- Contributed to the financial planning flow
-- Worked on the AI financial advisor concept
-- Contributed to the overall user experience
+- Product concept and ideation
+- UI/UX design
+- Application prototyping using Lovable
+- Onboarding and financial planning flow
+- AI financial advisor concept
+- Overall user experience
 
-## 🚀 Future Improvements
+## Future Improvements
 
 - Real Open Banking integration
 - Advanced transaction analysis
-- More accurate spending predictions
+- Spending prediction
 - AI-powered financial coaching
 - Personalized financial recommendations
 - Advanced financial analytics
 - Expanded rewards and gamification
 
-## 🔗 Live Demo
+## Live Demo
 
 [Khouta – Live App](https://khouta-my-plan.lovable.app)
-
----
-
-### 💚 Khouta — Your Financial Compass
